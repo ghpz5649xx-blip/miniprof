@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# exports de progression des enfants : données personnelles, ne pas committer
+exports/
+*.export.json

@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "miniprof/module.schema.json",
+  "title": "Module miniprof",
+  "description": "Un module = une leçon pas à pas + une banque de questions sur un chapitre. Tous les textes acceptent **gras** et les retours à la ligne (\\n). Aucun HTML.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "version", "title", "subject", "level", "description", "skills", "lesson", "questions"],
+  "properties": {
+    "schema_version": { "const": 1, "description": "Toujours 1." },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Identifiant stable du module : matiere-niveau-sujet, minuscules sans accents, mots séparés par des tirets. Ex. maths-cm2-division-euclidienne."
+    },
+    "version": { "type": "integer", "minimum": 1, "description": "Numéro de version, augmenté à chaque correction." },
+    "title": { "$ref": "#/$defs/texte", "description": "Titre court du chapitre." },
+    "subject": {
+      "enum": ["maths", "francais", "histoire-geo", "sciences", "anglais", "emc", "autre"],
+      "description": "Matière."
+    },
+    "level": {
+      "enum": ["CP", "CE1", "CE2", "CM1", "CM2", "6e", "5e", "4e", "3e"],
+      "description": "Classe."
+    },
+    "description": { "$ref": "#/$defs/texte", "description": "Une ou deux phrases pour l'enfant : ce qu'il va apprendre." },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Compétences travaillées (2 à 6 conseillées).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label"],
+        "properties": {
+          "id": { "$ref": "#/$defs/identifiant", "description": "Identifiant stable de la compétence." },
+          "label": { "$ref": "#/$defs/texte", "description": "Libellé court, à l'infinitif (ex. « Poser la division »)." }
+        }
+      }
+    },
+    "lesson": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Leçon « Apprendre », dans l'ordre d'affichage. Au moins un bloc par compétence.",
+      "items": { "$ref": "#/$defs/bloc" }
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Banque de questions.",
+      "items": { "$ref": "#/$defs/question" }
+    },
+    "source_note": {
+      "type": "string",
+      "description": "Facultatif : ce qui a été lu sur les photos, ce qui était illisible ou absent."
+    }
+  },
+
+  "$defs": {
+    "texte": { "type": "string", "minLength": 1 },
+    "identifiant": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+    "reponse_simple": {
+      "description": "Un nombre (ex. 43, 3.5, -2) ou un texte court.",
+      "anyOf": [{ "type": "number" }, { "type": "string", "minLength": 1 }]
+    },
+
+    "bloc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "skill", "title"],
+      "properties": {
+        "type": {
+          "enum": ["text", "worked_example", "guided_steps"],
+          "description": "text = explication ; worked_example = exemple résolu commenté ; guided_steps = mini-étapes que l'enfant complète."
+        },
+        "skill": { "$ref": "#/$defs/identifiant", "description": "Compétence concernée (id présent dans skills)." },
+        "title": { "$ref": "#/$defs/texte" },
+        "body": { "$ref": "#/$defs/texte", "description": "Texte de l'explication (bloc text)." },
+        "intro": { "$ref": "#/$defs/texte", "description": "Mise en situation avant les étapes." },
+        "conclusion": { "$ref": "#/$defs/texte", "description": "Ce qu'il faut retenir à la fin des étapes." },
+        "steps": { "type": "array", "minItems": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "text" } }, "required": ["type"] },
+          "then": {
+            "required": ["body"],
+            "properties": { "intro": false, "conclusion": false, "steps": false }
+          }
+        },
+        {
+          "if": { "properties": { "type": { "const": "worked_example" } }, "required": ["type"] },
+          "then": {
+            "required": ["steps"],
+            "properties": {
+              "body": false,
+              "steps": {
+                "description": "Le cheminement de pensée, étape par étape.",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["thought", "why"],
+                  "properties": {
+                    "thought": { "$ref": "#/$defs/texte", "description": "Ce que je fais ou pense (« Je cherche le plus grand multiple de 8… »)." },
+                    "why": { "$ref": "#/$defs/texte", "description": "Pourquoi je le fais." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "type": { "const": "guided_steps" } }, "required": ["type"] },
+          "then": {
+            "required": ["steps"],
+            "properties": {
+              "body": false,
+              "steps": {
+                "description": "Phrases à trous complétées une par une par l'enfant.",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["prompt", "answer", "hint"],
+                  "properties": {
+                    "prompt": { "$ref": "#/$defs/texte", "description": "Phrase avec ▢ à l'endroit de la réponse (ex. « 10 × 19 = ▢ »)." },
+                    "answer": { "$ref": "#/$defs/reponse_simple" },
+                    "hint": { "$ref": "#/$defs/texte", "description": "Aide affichée si la réponse est fausse." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "skill", "difficulty", "type", "prompt", "hint", "explanation"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifiant", "description": "Identifiant stable et unique dans le module (q001, q002…). Ne jamais le changer lors d'une correction." },
+        "skill": { "$ref": "#/$defs/identifiant", "description": "Compétence évaluée (id présent dans skills)." },
+        "difficulty": { "type": "integer", "minimum": 1, "maximum": 4, "description": "1 = facile … 4 = difficile." },
+        "type": { "enum": ["number", "choice", "text"], "description": "number = un ou plusieurs nombres ; choice = QCM ; text = réponse courte." },
+        "prompt": { "$ref": "#/$defs/texte", "description": "Énoncé." },
+        "hint": { "$ref": "#/$defs/texte", "description": "Indice (entraînement seulement) : guide sans donner la réponse." },
+        "explanation": { "$ref": "#/$defs/texte", "description": "Correction courte, pas à pas." },
+        "fields": { "type": "array", "minItems": 1, "maxItems": 4 },
+        "choices": { "type": "array", "minItems": 2, "maxItems": 6 },
+        "answer": {},
+        "accepted": { "type": "array", "minItems": 1 },
+        "common_errors": {
+          "type": "array",
+          "description": "Facultatif : erreurs fréquentes et message ciblé à afficher.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["when", "message"],
+            "properties": {
+              "when": {},
+              "message": { "$ref": "#/$defs/texte", "description": "Message affiché si la réponse correspond à cette erreur." }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "number" } }, "required": ["type"] },
+          "then": {
+            "required": ["fields"],
+            "properties": {
+              "choices": false,
+              "answer": false,
+              "accepted": false,
+              "fields": {
+                "description": "Les cases à remplir (ex. quotient et reste).",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["key", "label", "answer"],
+                  "properties": {
+                    "key": { "$ref": "#/$defs/identifiant", "description": "Nom technique de la case (q, r…)." },
+                    "label": { "$ref": "#/$defs/texte", "description": "Libellé affiché (« quotient »)." },
+                    "answer": { "type": "number", "description": "Bonne réponse (nombre, décimal avec un point)." },
+                    "unit": { "$ref": "#/$defs/texte", "description": "Facultatif : unité affichée après la case (cm, €…)." }
+                  }
+                }
+              },
+              "common_errors": {
+                "items": {
+                  "properties": {
+                    "when": {
+                      "type": "object",
+                      "minProperties": 1,
+                      "additionalProperties": { "type": "number" },
+                      "description": "Valeurs de cases qui caractérisent l'erreur, ex. {\"r\": 27}."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "type": { "const": "choice" } }, "required": ["type"] },
+          "then": {
+            "required": ["choices", "answer"],
+            "properties": {
+              "fields": false,
+              "accepted": false,
+              "choices": {
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["id", "label"],
+                  "properties": {
+                    "id": { "$ref": "#/$defs/identifiant", "description": "a, b, c…" },
+                    "label": { "$ref": "#/$defs/texte" }
+                  }
+                }
+              },
+              "answer": { "$ref": "#/$defs/identifiant", "description": "id du bon choix." },
+              "common_errors": {
+                "items": {
+                  "properties": {
+                    "when": { "$ref": "#/$defs/identifiant", "description": "id du choix erroné." }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "type": { "const": "text" } }, "required": ["type"] },
+          "then": {
+            "required": ["accepted"],
+            "properties": {
+              "fields": false,
+              "choices": false,
+              "answer": false,
+              "accepted": {
+                "description": "Réponses acceptées (casse, accents et espaces ignorés).",
+                "items": { "$ref": "#/$defs/texte" }
+              },
+              "common_errors": {
+                "items": {
+                  "properties": {
+                    "when": { "$ref": "#/$defs/texte", "description": "Réponse erronée fréquente." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

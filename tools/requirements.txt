@@ -1,0 +1,3 @@
+# Dépendances des outils en ligne de commande (l'app web n'en dépend pas).
+# pandas et matplotlib seront ajoutés à l'étape 7 (analyse.py).
+jsonschema>=4.20

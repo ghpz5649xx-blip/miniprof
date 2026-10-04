@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "id": "minimal",
+  "version": 1,
+  "title": "Module minimal de test",
+  "subject": "maths",
+  "level": "CM1",
+  "description": "Le plus petit module valide, base des tests.",
+  "skills": [{ "id": "add", "label": "Additionner" }],
+  "lesson": [
+    { "type": "worked_example", "skill": "add", "title": "2 + 3",
+      "steps": [{ "thought": "Je compte 3 après 2.", "why": "Ajouter, c'est avancer." }] },
+    { "type": "guided_steps", "skill": "add", "title": "À toi",
+      "steps": [{ "prompt": "1 + 1 = ▢", "answer": 2, "hint": "Compte sur tes doigts." }] }
+  ],
+  "questions": [
+    { "id": "q1", "skill": "add", "difficulty": 1, "type": "number",
+      "prompt": "Calcule 2 + 3.", "fields": [{ "key": "s", "label": "somme", "answer": 5 }],
+      "hint": "Avance de 3.", "explanation": "2 + 3 = **5**",
+      "common_errors": [{ "when": { "s": 6 }, "message": "Tu as avancé d'un de trop." }] },
+    { "id": "q2", "skill": "add", "difficulty": 2, "type": "choice",
+      "prompt": "Combien font 10 + 5 ?",
+      "choices": [{ "id": "a", "label": "15" }, { "id": "b", "label": "105" }],
+      "answer": "a", "hint": "Ce n'est pas une écriture côte à côte.", "explanation": "10 + 5 = 15" },
+    { "id": "q3", "skill": "add", "difficulty": 3, "type": "text",
+      "prompt": "Comment s'appelle le résultat d'une addition ?", "accepted": ["somme", "la somme"],
+      "hint": "Ça commence par s.", "explanation": "C'est la **somme**." }
+  ]
+}

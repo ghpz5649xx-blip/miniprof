@@ -1,0 +1,1264 @@
+{
+  "schema_version": 1,
+  "id": "maths-cm2-division-euclidienne",
+  "version": 1,
+  "title": "Division euclidienne",
+  "subject": "maths",
+  "level": "CM2",
+  "description": "Partager en parts égales, trouver le quotient et le reste, vérifier avec la preuve et résoudre des problèmes.",
+  "skills": [
+    {
+      "id": "vocabulaire",
+      "label": "Connaître le vocabulaire"
+    },
+    {
+      "id": "multiples",
+      "label": "Trouver le bon multiple"
+    },
+    {
+      "id": "calcul",
+      "label": "Poser la division"
+    },
+    {
+      "id": "preuve",
+      "label": "Retrouver le dividende"
+    },
+    {
+      "id": "verifier",
+      "label": "Repérer l'erreur"
+    },
+    {
+      "id": "probleme",
+      "label": "Résoudre un problème"
+    }
+  ],
+  "lesson": [
+    {
+      "type": "text",
+      "skill": "vocabulaire",
+      "title": "L'histoire de Nolan",
+      "body": "Nolan est le capitaine de son équipe de rugby. Lui et ses 19 coéquipiers ont reçu **341** cartes de joueurs.\nIl propose : « Partagez-vous équitablement ces 341 cartes entre vous 19. Je prendrai le reste. »\nC'est une **division euclidienne** : on partage en parts égales, et ce qui ne peut pas être partagé s'appelle le reste.\n\n**Dividende** : 341, les cartes à partager.\n**Diviseur** : 19, le nombre de parts.\n**Quotient** : le nombre de cartes de chaque part.\n**Reste** : les cartes qui restent."
+    },
+    {
+      "type": "worked_example",
+      "skill": "vocabulaire",
+      "title": "Lire une division euclidienne",
+      "intro": "On lit l'égalité **347 = 8 × 43 + 3**, qui vient de la division euclidienne de 347 par 8.",
+      "steps": [
+        {
+          "thought": "347 est le nombre que je partage : c'est le **dividende**.",
+          "why": "Il est seul, à gauche du signe =."
+        },
+        {
+          "thought": "8 est le nombre par lequel je divise : c'est le **diviseur**.",
+          "why": "C'est le nombre de parts (ou la taille d'une part)."
+        },
+        {
+          "thought": "43 est le **quotient**.",
+          "why": "C'est le nombre de fois que 8 « rentre » dans 347."
+        },
+        {
+          "thought": "3 est le **reste**.",
+          "why": "On ne peut plus faire de part avec 3, car 3 < 8."
+        }
+      ],
+      "conclusion": "dividende = diviseur × quotient + reste"
+    },
+    {
+      "type": "guided_steps",
+      "skill": "multiples",
+      "title": "La table de 19",
+      "intro": "Pour chercher combien de fois 19 « rentre » dans 341, il faut connaître la table de 19. D'une ligne à la suivante, on ajoute 19.",
+      "steps": [
+        {
+          "prompt": "2 × 19 = ▢",
+          "answer": 38,
+          "hint": "1 × 19 = 19 ; ensuite on ajoute 19 à chaque ligne."
+        },
+        {
+          "prompt": "3 × 19 = ▢",
+          "answer": 57,
+          "hint": "Ajoute 19 au résultat précédent : 38 + 19."
+        },
+        {
+          "prompt": "4 × 19 = ▢",
+          "answer": 76,
+          "hint": "Ajoute 19 au résultat précédent : 57 + 19."
+        },
+        {
+          "prompt": "5 × 19 = ▢",
+          "answer": 95,
+          "hint": "Ajoute 19 au résultat précédent : 76 + 19."
+        },
+        {
+          "prompt": "6 × 19 = ▢",
+          "answer": 114,
+          "hint": "Ajoute 19 au résultat précédent : 95 + 19."
+        },
+        {
+          "prompt": "7 × 19 = ▢",
+          "answer": 133,
+          "hint": "Ajoute 19 au résultat précédent : 114 + 19."
+        },
+        {
+          "prompt": "8 × 19 = ▢",
+          "answer": 152,
+          "hint": "Ajoute 19 au résultat précédent : 133 + 19."
+        },
+        {
+          "prompt": "9 × 19 = ▢",
+          "answer": 171,
+          "hint": "Ajoute 19 au résultat précédent : 152 + 19."
+        }
+      ],
+      "conclusion": "Tu connais maintenant la table de 19 : 19, 38, 57, 76, 95, 114, 133, 152, 171."
+    },
+    {
+      "type": "worked_example",
+      "skill": "multiples",
+      "title": "Trouver le plus grand multiple",
+      "intro": "Quel est le plus grand multiple de **8** qui ne dépasse pas **59** ?",
+      "steps": [
+        {
+          "thought": "Je récite la table de 8 : 8, 16, 24, 32, 40, 48, 56, 64…",
+          "why": "Un multiple de 8 est un nombre de la table de 8."
+        },
+        {
+          "thought": "56 ne dépasse pas 59, mais 64 dépasse 59.",
+          "why": "Je m'arrête juste avant de dépasser."
+        },
+        {
+          "thought": "La réponse est **56 = 8 × 7**.",
+          "why": "C'est le dernier multiple avant de dépasser 59."
+        }
+      ],
+      "conclusion": "Le plus grand multiple est celui qui est juste avant de dépasser le nombre."
+    },
+    {
+      "type": "guided_steps",
+      "skill": "calcul",
+      "title": "Trouver le quotient",
+      "intro": "Nolan partage **341** cartes entre **19** coéquipiers. On cherche combien de fois 19 « rentre » dans 341.",
+      "steps": [
+        {
+          "prompt": "10 × 19 = ▢",
+          "answer": 190,
+          "hint": "Multiplier par 10, c'est ajouter un zéro à droite : 19 devient 190."
+        },
+        {
+          "prompt": "Il reste 341 − 190 = ▢ cartes à partager.",
+          "answer": 151,
+          "hint": "341 − 190 : on enlève 190 à 341."
+        },
+        {
+          "prompt": "Dans 151, on peut mettre au plus ▢ fois 19.",
+          "answer": 7,
+          "hint": "Regarde la table de 19 : 7 × 19 = 133 et 8 × 19 = 152 (trop grand)."
+        },
+        {
+          "prompt": "7 × 19 = ▢",
+          "answer": 133,
+          "hint": "7 × 20 = 140, puis on enlève 7."
+        },
+        {
+          "prompt": "Il reste 151 − 133 = ▢. C'est le reste.",
+          "answer": 18,
+          "hint": "151 − 133 : on enlève 133 à 151."
+        },
+        {
+          "prompt": "Le quotient est 10 + 7 = ▢",
+          "answer": 17,
+          "hint": "On additionne les deux parts trouvées : 10 et 7."
+        }
+      ],
+      "conclusion": "Chaque joueur reçoit **17** cartes et il en reste **18** : 341 = 19 × 17 + 18."
+    },
+    {
+      "type": "worked_example",
+      "skill": "calcul",
+      "title": "Poser la division de 347 par 8",
+      "steps": [
+        {
+          "thought": "Je cherche le plus grand multiple de 8 qui ne dépasse pas 347.",
+          "why": "Le quotient, c'est le nombre de fois que 8 « rentre » dans 347."
+        },
+        {
+          "thought": "10 × 8 = 80, 40 × 8 = 320 et 50 × 8 = 400 : le quotient est entre 40 et 50.",
+          "why": "Commencer par des dizaines évite de réciter toute la table."
+        },
+        {
+          "thought": "320 + 8 + 8 + 8 = 344 : c'est 43 × 8. Avec 44 × 8 = 352, je dépasse.",
+          "why": "J'avance de 8 en 8 jusqu'à juste avant 347."
+        },
+        {
+          "thought": "Le reste est 347 − 344 = **3**, et le quotient est **43**.",
+          "why": "Le reste est ce qui n'a pas pu être partagé."
+        },
+        {
+          "thought": "Je vérifie : 3 < 8 ✓",
+          "why": "Si le reste était plus grand que 8, on pourrait encore faire un partage."
+        }
+      ],
+      "conclusion": "347 = 8 × 43 + 3"
+    },
+    {
+      "type": "guided_steps",
+      "skill": "preuve",
+      "title": "La preuve",
+      "intro": "Pour être sûr, on vérifie avec la preuve : **diviseur × quotient + reste** doit redonner le dividende.",
+      "steps": [
+        {
+          "prompt": "19 × 17 = ▢",
+          "answer": 323,
+          "hint": "10 × 19 = 190 et 7 × 19 = 133. Additionne-les."
+        },
+        {
+          "prompt": "323 + 18 = ▢",
+          "answer": 341,
+          "hint": "On ajoute le reste au résultat précédent."
+        }
+      ],
+      "conclusion": "On retrouve bien 341 ✓ Et le reste (18) est plus petit que le diviseur (19) ✓"
+    },
+    {
+      "type": "worked_example",
+      "skill": "preuve",
+      "title": "Retrouver le dividende",
+      "intro": "Le diviseur est **7**, le quotient **12** et le reste **5**. Quel est le dividende ?",
+      "steps": [
+        {
+          "thought": "J'écris la règle : dividende = diviseur × quotient + reste.",
+          "why": "Cette égalité est toujours vraie dans une division euclidienne."
+        },
+        {
+          "thought": "7 × 12 = 84.",
+          "why": "Je fais d'abord la multiplication."
+        },
+        {
+          "thought": "84 + 5 = **89**.",
+          "why": "Puis j'ajoute le reste, sans l'oublier."
+        }
+      ],
+      "conclusion": "Le dividende est 89 : 89 = 7 × 12 + 5."
+    },
+    {
+      "type": "worked_example",
+      "skill": "verifier",
+      "title": "Repérer l'erreur",
+      "intro": "Un élève écrit : « 100 = 7 × 13 + 9 ». A-t-il juste ?",
+      "steps": [
+        {
+          "thought": "Je vérifie le calcul : 7 × 13 = 91, et 91 + 9 = 100.",
+          "why": "La preuve doit redonner le dividende."
+        },
+        {
+          "thought": "Le calcul est juste. Je regarde le reste : 9 est-il plus petit que 7 ? Non.",
+          "why": "Le reste doit toujours être plus petit que le diviseur."
+        },
+        {
+          "thought": "On peut encore faire un partage : 100 = 7 × 14 + 2.",
+          "why": "Quand le reste est trop grand, le quotient est trop petit."
+        }
+      ],
+      "conclusion": "Deux vérifications : le calcul, puis reste < diviseur."
+    },
+    {
+      "type": "guided_steps",
+      "skill": "probleme",
+      "title": "Nolan a de la ruse",
+      "intro": "Finalement, il y avait **342** cartes et non 341 ! Nolan n'est plus d'accord avec son partage. Pourquoi ? Refais la division.",
+      "steps": [
+        {
+          "prompt": "19 × 18 = ▢",
+          "answer": 342,
+          "hint": "19 × 17 = 323, et il faut encore ajouter un 19."
+        },
+        {
+          "prompt": "Avec 342 cartes, le reste est ▢.",
+          "answer": 0,
+          "hint": "342 − 342 = ?"
+        }
+      ],
+      "conclusion": "Avec 341 cartes, le reste était **18** : c'est le plus grand reste possible (19 − 1). Nolan gardait 18 cartes pour lui !\nAvec une carte de plus, tout se partage exactement : **il ne reste rien pour Nolan**. Il avait bien de la ruse."
+    },
+    {
+      "type": "worked_example",
+      "skill": "probleme",
+      "title": "Que faire du reste ?",
+      "intro": "J'ai **50** œufs à ranger dans des boîtes de **6**. Combien de boîtes me faut-il ?",
+      "steps": [
+        {
+          "thought": "Je fais la division euclidienne : 50 = 6 × 8 + 2.",
+          "why": "Je cherche combien de boîtes pleines je peux remplir."
+        },
+        {
+          "thought": "8 boîtes sont pleines, et il reste 2 œufs.",
+          "why": "Le reste, ce sont les œufs qui ne remplissent pas une boîte entière."
+        },
+        {
+          "thought": "Ces 2 œufs doivent aussi être rangés : il faut une boîte de plus, donc **9 boîtes**.",
+          "why": "La question demande de tout ranger, pas de remplir des boîtes pleines."
+        }
+      ],
+      "conclusion": "Toujours relire la question : selon le problème, la réponse est le quotient, le quotient + 1, ou le reste."
+    },
+    {
+      "type": "text",
+      "skill": "calcul",
+      "title": "À retenir",
+      "body": "Dans une division euclidienne, tu cherches le **plus grand multiple du diviseur** qui ne dépasse pas le dividende. Ce qui reste, c'est le reste.\n\n**dividende = diviseur × quotient + reste**\n**reste < diviseur**\n\nSi le reste n'est pas plus petit que le diviseur, tu peux encore faire un partage : ton quotient est trop petit."
+    }
+  ],
+  "questions": [
+    {
+      "id": "q001",
+      "skill": "calcul",
+      "difficulty": 1,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **23** par **4**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 5
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 3
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 4 qui ne dépasse pas 23.\nTable de 4 : 1 × 4 = 4, 2 × 4 = 8, 3 × 4 = 12, 4 × 4 = 16, 5 × 4 = 20, 6 × 4 = 24, 7 × 4 = 28, 8 × 4 = 32, 9 × 4 = 36.",
+      "explanation": "Le plus grand multiple de 4 qui ne dépasse pas 23 est **4 × 5 = 20**.\nReste : 23 − 20 = **3**.\nPreuve : 4 × 5 + 3 = 23 et 3 < 4 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 4,
+            "r": 7
+          },
+          "message": "Ton reste (7) n'est pas plus petit que le diviseur (4) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q002",
+      "skill": "calcul",
+      "difficulty": 1,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **17** par **3**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 5
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 2
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 3 qui ne dépasse pas 17.\nTable de 3 : 1 × 3 = 3, 2 × 3 = 6, 3 × 3 = 9, 4 × 3 = 12, 5 × 3 = 15, 6 × 3 = 18, 7 × 3 = 21, 8 × 3 = 24, 9 × 3 = 27.",
+      "explanation": "Le plus grand multiple de 3 qui ne dépasse pas 17 est **3 × 5 = 15**.\nReste : 17 − 15 = **2**.\nPreuve : 3 × 5 + 2 = 17 et 2 < 3 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 4,
+            "r": 5
+          },
+          "message": "Ton reste (5) n'est pas plus petit que le diviseur (3) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q003",
+      "skill": "calcul",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **59** par **7**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 8
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 3
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 7 qui ne dépasse pas 59.\nTable de 7 : 1 × 7 = 7, 2 × 7 = 14, 3 × 7 = 21, 4 × 7 = 28, 5 × 7 = 35, 6 × 7 = 42, 7 × 7 = 49, 8 × 7 = 56, 9 × 7 = 63.",
+      "explanation": "Le plus grand multiple de 7 qui ne dépasse pas 59 est **7 × 8 = 56**.\nReste : 59 − 56 = **3**.\nPreuve : 7 × 8 + 3 = 59 et 3 < 7 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 7,
+            "r": 10
+          },
+          "message": "Ton reste (10) n'est pas plus petit que le diviseur (7) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q004",
+      "skill": "calcul",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **83** par **9**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 9
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 2
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 9 qui ne dépasse pas 83.\nTable de 9 : 1 × 9 = 9, 2 × 9 = 18, 3 × 9 = 27, 4 × 9 = 36, 5 × 9 = 45, 6 × 9 = 54, 7 × 9 = 63, 8 × 9 = 72, 9 × 9 = 81.",
+      "explanation": "Le plus grand multiple de 9 qui ne dépasse pas 83 est **9 × 9 = 81**.\nReste : 83 − 81 = **2**.\nPreuve : 9 × 9 + 2 = 83 et 2 < 9 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 8,
+            "r": 11
+          },
+          "message": "Ton reste (11) n'est pas plus petit que le diviseur (9) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q005",
+      "skill": "calcul",
+      "difficulty": 3,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **250** par **13**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 19
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 3
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 13 qui ne dépasse pas 250.\nAstuce : commence par 10 × 13 = 130, puis continue avec ce qui reste.",
+      "explanation": "Le plus grand multiple de 13 qui ne dépasse pas 250 est **13 × 19 = 247**.\nReste : 250 − 247 = **3**.\nPreuve : 13 × 19 + 3 = 250 et 3 < 13 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 18,
+            "r": 16
+          },
+          "message": "Ton reste (16) n'est pas plus petit que le diviseur (13) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q006",
+      "skill": "calcul",
+      "difficulty": 3,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **400** par **17**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 23
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 9
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 17 qui ne dépasse pas 400.\nAstuce : commence par 10 × 17 = 170, puis continue avec ce qui reste.",
+      "explanation": "Le plus grand multiple de 17 qui ne dépasse pas 400 est **17 × 23 = 391**.\nReste : 400 − 391 = **9**.\nPreuve : 17 × 23 + 9 = 400 et 9 < 17 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 22,
+            "r": 26
+          },
+          "message": "Ton reste (26) n'est pas plus petit que le diviseur (17) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q007",
+      "skill": "calcul",
+      "difficulty": 4,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **2 437** par **25**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 97
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 12
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 25 qui ne dépasse pas 2 437.\nAstuce : commence par 10 × 25 = 250, puis continue avec ce qui reste.",
+      "explanation": "Le plus grand multiple de 25 qui ne dépasse pas 2 437 est **25 × 97 = 2 425**.\nReste : 2 437 − 2 425 = **12**.\nPreuve : 25 × 97 + 12 = 2 437 et 12 < 25 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 96,
+            "r": 37
+          },
+          "message": "Ton reste (37) n'est pas plus petit que le diviseur (25) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q008",
+      "skill": "calcul",
+      "difficulty": 4,
+      "type": "number",
+      "prompt": "Effectue la division euclidienne de **5 000** par **48**.",
+      "fields": [
+        {
+          "key": "q",
+          "label": "quotient",
+          "answer": 104
+        },
+        {
+          "key": "r",
+          "label": "reste",
+          "answer": 8
+        }
+      ],
+      "hint": "Cherche le plus grand multiple de 48 qui ne dépasse pas 5 000.\nAstuce : commence par 10 × 48 = 480, ou 100 × 48 = 4 800, puis continue avec ce qui reste.",
+      "explanation": "Le plus grand multiple de 48 qui ne dépasse pas 5 000 est **48 × 104 = 4 992**.\nReste : 5 000 − 4 992 = **8**.\nPreuve : 48 × 104 + 8 = 5 000 et 8 < 48 ✓",
+      "common_errors": [
+        {
+          "when": {
+            "q": 103,
+            "r": 56
+          },
+          "message": "Ton reste (56) n'est pas plus petit que le diviseur (48) : on peut encore faire un partage de plus. Augmente le quotient."
+        }
+      ]
+    },
+    {
+      "id": "q009",
+      "skill": "multiples",
+      "difficulty": 1,
+      "type": "number",
+      "prompt": "Quel est le plus grand multiple de **4** qui ne dépasse pas **23** ?",
+      "fields": [
+        {
+          "key": "m",
+          "label": "ce multiple",
+          "answer": 20
+        }
+      ],
+      "hint": "Un multiple de 4 est un nombre de la table de 4.\nTable de 4 : 1 × 4 = 4, 2 × 4 = 8, 3 × 4 = 12, 4 × 4 = 16, 5 × 4 = 20, 6 × 4 = 24, 7 × 4 = 28, 8 × 4 = 32, 9 × 4 = 36.",
+      "explanation": "4 × 5 = **20** ne dépasse pas 23.\nLe multiple suivant, 4 × 6 = 24, est trop grand.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 24
+          },
+          "message": "24 dépasse 23. Il faut un multiple plus petit."
+        }
+      ]
+    },
+    {
+      "id": "q010",
+      "skill": "multiples",
+      "difficulty": 1,
+      "type": "number",
+      "prompt": "Quel est le plus grand multiple de **5** qui ne dépasse pas **33** ?",
+      "fields": [
+        {
+          "key": "m",
+          "label": "ce multiple",
+          "answer": 30
+        }
+      ],
+      "hint": "Un multiple de 5 est un nombre de la table de 5.\nTable de 5 : 1 × 5 = 5, 2 × 5 = 10, 3 × 5 = 15, 4 × 5 = 20, 5 × 5 = 25, 6 × 5 = 30, 7 × 5 = 35, 8 × 5 = 40, 9 × 5 = 45.",
+      "explanation": "5 × 6 = **30** ne dépasse pas 33.\nLe multiple suivant, 5 × 7 = 35, est trop grand.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 35
+          },
+          "message": "35 dépasse 33. Il faut un multiple plus petit."
+        }
+      ]
+    },
+    {
+      "id": "q011",
+      "skill": "multiples",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Quel est le plus grand multiple de **7** qui ne dépasse pas **60** ?",
+      "fields": [
+        {
+          "key": "m",
+          "label": "ce multiple",
+          "answer": 56
+        }
+      ],
+      "hint": "Un multiple de 7 est un nombre de la table de 7.\nTable de 7 : 1 × 7 = 7, 2 × 7 = 14, 3 × 7 = 21, 4 × 7 = 28, 5 × 7 = 35, 6 × 7 = 42, 7 × 7 = 49, 8 × 7 = 56, 9 × 7 = 63.",
+      "explanation": "7 × 8 = **56** ne dépasse pas 60.\nLe multiple suivant, 7 × 9 = 63, est trop grand.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 63
+          },
+          "message": "63 dépasse 60. Il faut un multiple plus petit."
+        }
+      ]
+    },
+    {
+      "id": "q012",
+      "skill": "multiples",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Quel est le plus grand multiple de **8** qui ne dépasse pas **75** ?",
+      "fields": [
+        {
+          "key": "m",
+          "label": "ce multiple",
+          "answer": 72
+        }
+      ],
+      "hint": "Un multiple de 8 est un nombre de la table de 8.\nTable de 8 : 1 × 8 = 8, 2 × 8 = 16, 3 × 8 = 24, 4 × 8 = 32, 5 × 8 = 40, 6 × 8 = 48, 7 × 8 = 56, 8 × 8 = 64, 9 × 8 = 72.",
+      "explanation": "8 × 9 = **72** ne dépasse pas 75.\nLe multiple suivant, 8 × 10 = 80, est trop grand.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 80
+          },
+          "message": "80 dépasse 75. Il faut un multiple plus petit."
+        }
+      ]
+    },
+    {
+      "id": "q013",
+      "skill": "multiples",
+      "difficulty": 3,
+      "type": "number",
+      "prompt": "Quel est le plus grand multiple de **15** qui ne dépasse pas **200** ?",
+      "fields": [
+        {
+          "key": "m",
+          "label": "ce multiple",
+          "answer": 195
+        }
+      ],
+      "hint": "Un multiple de 15 est un nombre de la table de 15.\nCommence par 10 × 15 = 150, puis avance.",
+      "explanation": "15 × 13 = **195** ne dépasse pas 200.\nLe multiple suivant, 15 × 14 = 210, est trop grand.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 210
+          },
+          "message": "210 dépasse 200. Il faut un multiple plus petit."
+        }
+      ]
+    },
+    {
+      "id": "q014",
+      "skill": "multiples",
+      "difficulty": 4,
+      "type": "number",
+      "prompt": "Quel est le plus grand multiple de **24** qui ne dépasse pas **1 000** ?",
+      "fields": [
+        {
+          "key": "m",
+          "label": "ce multiple",
+          "answer": 984
+        }
+      ],
+      "hint": "Un multiple de 24 est un nombre de la table de 24.\nCommence par 10 × 24 = 240, puis avance.",
+      "explanation": "24 × 41 = **984** ne dépasse pas 1 000.\nLe multiple suivant, 24 × 42 = 1 008, est trop grand.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 1008
+          },
+          "message": "1 008 dépasse 1 000. Il faut un multiple plus petit."
+        }
+      ]
+    },
+    {
+      "id": "q015",
+      "skill": "preuve",
+      "difficulty": 1,
+      "type": "number",
+      "prompt": "Dans une division euclidienne, le diviseur est **3**, le quotient est **6** et le reste est **2**. Quel est le dividende ?",
+      "fields": [
+        {
+          "key": "a",
+          "label": "dividende",
+          "answer": 20
+        }
+      ],
+      "hint": "Utilise la preuve : dividende = diviseur × quotient + reste.",
+      "explanation": "dividende = diviseur × quotient + reste\n= 3 × 6 + 2 = 18 + 2 = **20**",
+      "common_errors": [
+        {
+          "when": {
+            "a": 18
+          },
+          "message": "3 × 6 = 18. N'oublie pas d'ajouter le reste !"
+        }
+      ]
+    },
+    {
+      "id": "q016",
+      "skill": "preuve",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Dans une division euclidienne, le diviseur est **8**, le quotient est **9** et le reste est **5**. Quel est le dividende ?",
+      "fields": [
+        {
+          "key": "a",
+          "label": "dividende",
+          "answer": 77
+        }
+      ],
+      "hint": "Utilise la preuve : dividende = diviseur × quotient + reste.",
+      "explanation": "dividende = diviseur × quotient + reste\n= 8 × 9 + 5 = 72 + 5 = **77**",
+      "common_errors": [
+        {
+          "when": {
+            "a": 72
+          },
+          "message": "8 × 9 = 72. N'oublie pas d'ajouter le reste !"
+        }
+      ]
+    },
+    {
+      "id": "q017",
+      "skill": "preuve",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Dans une division euclidienne, le diviseur est **6**, le quotient est **12** et le reste est **0**. Quel est le dividende ?",
+      "fields": [
+        {
+          "key": "a",
+          "label": "dividende",
+          "answer": 72
+        }
+      ],
+      "hint": "Utilise la preuve : dividende = diviseur × quotient + reste.",
+      "explanation": "dividende = diviseur × quotient + reste\n= 6 × 12 + 0 = 72 + 0 = **72**"
+    },
+    {
+      "id": "q018",
+      "skill": "preuve",
+      "difficulty": 3,
+      "type": "number",
+      "prompt": "Dans une division euclidienne, le diviseur est **14**, le quotient est **21** et le reste est **9**. Quel est le dividende ?",
+      "fields": [
+        {
+          "key": "a",
+          "label": "dividende",
+          "answer": 303
+        }
+      ],
+      "hint": "Utilise la preuve : dividende = diviseur × quotient + reste.",
+      "explanation": "dividende = diviseur × quotient + reste\n= 14 × 21 + 9 = 294 + 9 = **303**",
+      "common_errors": [
+        {
+          "when": {
+            "a": 294
+          },
+          "message": "14 × 21 = 294. N'oublie pas d'ajouter le reste !"
+        }
+      ]
+    },
+    {
+      "id": "q019",
+      "skill": "preuve",
+      "difficulty": 4,
+      "type": "number",
+      "prompt": "Dans une division euclidienne, le diviseur est **32**, le quotient est **145** et le reste est **17**. Quel est le dividende ?",
+      "fields": [
+        {
+          "key": "a",
+          "label": "dividende",
+          "answer": 4657
+        }
+      ],
+      "hint": "Utilise la preuve : dividende = diviseur × quotient + reste.",
+      "explanation": "dividende = diviseur × quotient + reste\n= 32 × 145 + 17 = 4 640 + 17 = **4 657**",
+      "common_errors": [
+        {
+          "when": {
+            "a": 4640
+          },
+          "message": "32 × 145 = 4 640. N'oublie pas d'ajouter le reste !"
+        }
+      ]
+    },
+    {
+      "id": "q020",
+      "skill": "verifier",
+      "difficulty": 1,
+      "type": "choice",
+      "prompt": "Un élève écrit : **« 26 = 4 × 6 + 2 »**.\nA-t-il bien fait la division euclidienne de **26** par **4** ?",
+      "choices": [
+        {
+          "id": "a",
+          "label": "Oui, c'est correct"
+        },
+        {
+          "id": "b",
+          "label": "Non : le calcul est faux"
+        },
+        {
+          "id": "c",
+          "label": "Non : le reste est trop grand"
+        }
+      ],
+      "answer": "a",
+      "hint": "Vérifie deux choses :\n1. Le reste est-il plus petit que le diviseur ?\n2. 4 × 6 + 2 donne-t-il bien 26 ?",
+      "explanation": "Oui : 4 × 6 + 2 = 26 et 2 < 4. C'est correct."
+    },
+    {
+      "id": "q021",
+      "skill": "verifier",
+      "difficulty": 1,
+      "type": "choice",
+      "prompt": "Un élève écrit : **« 19 = 3 × 5 + 4 »**.\nA-t-il bien fait la division euclidienne de **19** par **3** ?",
+      "choices": [
+        {
+          "id": "a",
+          "label": "Oui, c'est correct"
+        },
+        {
+          "id": "b",
+          "label": "Non : le calcul est faux"
+        },
+        {
+          "id": "c",
+          "label": "Non : le reste est trop grand"
+        }
+      ],
+      "answer": "c",
+      "hint": "Vérifie deux choses :\n1. Le reste est-il plus petit que le diviseur ?\n2. 3 × 5 + 4 donne-t-il bien 19 ?",
+      "explanation": "Le calcul 3 × 5 + 4 = 19 est juste, mais le reste 4 n'est pas plus petit que le diviseur 3 : on peut encore faire un partage.\nLa bonne réponse : quotient 6, reste 1.",
+      "common_errors": [
+        {
+          "when": "a",
+          "message": "Vérifie les deux conditions : le reste est-il plus petit que 3 ? Et 3 × 5 + 4 donne-t-il bien 19 ?"
+        }
+      ]
+    },
+    {
+      "id": "q022",
+      "skill": "verifier",
+      "difficulty": 2,
+      "type": "choice",
+      "prompt": "Un élève écrit : **« 65 = 7 × 9 + 3 »**.\nA-t-il bien fait la division euclidienne de **65** par **7** ?",
+      "choices": [
+        {
+          "id": "a",
+          "label": "Oui, c'est correct"
+        },
+        {
+          "id": "b",
+          "label": "Non : le calcul est faux"
+        },
+        {
+          "id": "c",
+          "label": "Non : le reste est trop grand"
+        }
+      ],
+      "answer": "b",
+      "hint": "Vérifie deux choses :\n1. Le reste est-il plus petit que le diviseur ?\n2. 7 × 9 + 3 donne-t-il bien 65 ?",
+      "explanation": "Non, le calcul est faux : 7 × 9 + 3 = 66, et pas 65.\nLa bonne réponse : quotient 9, reste 2.",
+      "common_errors": [
+        {
+          "when": "a",
+          "message": "Vérifie les deux conditions : le reste est-il plus petit que 7 ? Et 7 × 9 + 3 donne-t-il bien 65 ?"
+        }
+      ]
+    },
+    {
+      "id": "q023",
+      "skill": "verifier",
+      "difficulty": 3,
+      "type": "choice",
+      "prompt": "Un élève écrit : **« 300 = 16 × 18 + 12 »**.\nA-t-il bien fait la division euclidienne de **300** par **16** ?",
+      "choices": [
+        {
+          "id": "a",
+          "label": "Oui, c'est correct"
+        },
+        {
+          "id": "b",
+          "label": "Non : le calcul est faux"
+        },
+        {
+          "id": "c",
+          "label": "Non : le reste est trop grand"
+        }
+      ],
+      "answer": "a",
+      "hint": "Vérifie deux choses :\n1. Le reste est-il plus petit que le diviseur ?\n2. 16 × 18 + 12 donne-t-il bien 300 ?",
+      "explanation": "Oui : 16 × 18 + 12 = 300 et 12 < 16. C'est correct."
+    },
+    {
+      "id": "q024",
+      "skill": "verifier",
+      "difficulty": 3,
+      "type": "choice",
+      "prompt": "Un élève écrit : **« 250 = 12 × 19 + 22 »**.\nA-t-il bien fait la division euclidienne de **250** par **12** ?",
+      "choices": [
+        {
+          "id": "a",
+          "label": "Oui, c'est correct"
+        },
+        {
+          "id": "b",
+          "label": "Non : le calcul est faux"
+        },
+        {
+          "id": "c",
+          "label": "Non : le reste est trop grand"
+        }
+      ],
+      "answer": "c",
+      "hint": "Vérifie deux choses :\n1. Le reste est-il plus petit que le diviseur ?\n2. 12 × 19 + 22 donne-t-il bien 250 ?",
+      "explanation": "Le calcul 12 × 19 + 22 = 250 est juste, mais le reste 22 n'est pas plus petit que le diviseur 12 : on peut encore faire un partage.\nLa bonne réponse : quotient 20, reste 10.",
+      "common_errors": [
+        {
+          "when": "a",
+          "message": "Vérifie les deux conditions : le reste est-il plus petit que 12 ? Et 12 × 19 + 22 donne-t-il bien 250 ?"
+        }
+      ]
+    },
+    {
+      "id": "q025",
+      "skill": "verifier",
+      "difficulty": 4,
+      "type": "choice",
+      "prompt": "Un élève écrit : **« 1 000 = 27 × 36 + 18 »**.\nA-t-il bien fait la division euclidienne de **1 000** par **27** ?",
+      "choices": [
+        {
+          "id": "a",
+          "label": "Oui, c'est correct"
+        },
+        {
+          "id": "b",
+          "label": "Non : le calcul est faux"
+        },
+        {
+          "id": "c",
+          "label": "Non : le reste est trop grand"
+        }
+      ],
+      "answer": "b",
+      "hint": "Vérifie deux choses :\n1. Le reste est-il plus petit que le diviseur ?\n2. 27 × 36 + 18 donne-t-il bien 1 000 ?",
+      "explanation": "Non, le calcul est faux : 27 × 36 + 18 = 990, et pas 1 000.\nLa bonne réponse : quotient 37, reste 1.",
+      "common_errors": [
+        {
+          "when": "a",
+          "message": "Vérifie les deux conditions : le reste est-il plus petit que 27 ? Et 27 × 36 + 18 donne-t-il bien 1 000 ?"
+        }
+      ]
+    },
+    {
+      "id": "q026",
+      "skill": "probleme",
+      "difficulty": 1,
+      "type": "number",
+      "prompt": "J'ai **22** œufs à ranger dans des boîtes de **6** œufs. Combien de boîtes dois-je prévoir pour tous les ranger ?",
+      "fields": [
+        {
+          "key": "x",
+          "label": "boîtes",
+          "answer": 4
+        }
+      ],
+      "hint": "Fais la division euclidienne de 22 par 6. Que faire du reste ?",
+      "explanation": "22 = 6 × 3 + 4.\nIl reste 4 : il faut une boîte de plus, soit **3 + 1 = 4**.",
+      "common_errors": [
+        {
+          "when": {
+            "x": 3
+          },
+          "message": "Ton quotient est bon, mais il reste 4 : il faut aussi les ranger. Il faut une boîte de plus."
+        }
+      ]
+    },
+    {
+      "id": "q027",
+      "skill": "probleme",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "On partage équitablement **75** billes entre **8** enfants. Combien de billes chaque enfant reçoit-il ? Combien de billes reste-t-il ?",
+      "fields": [
+        {
+          "key": "q",
+          "label": "billes par enfant",
+          "answer": 9
+        },
+        {
+          "key": "r",
+          "label": "billes restantes",
+          "answer": 3
+        }
+      ],
+      "hint": "Fais la division euclidienne de 75 par 8.",
+      "explanation": "75 = 8 × 9 + 3, et 3 < 8.\nChacun reçoit **9**, il en reste **3**.",
+      "common_errors": [
+        {
+          "when": {
+            "q": 8,
+            "r": 11
+          },
+          "message": "Il reste 11, c'est plus que 8 : on peut encore donner un de plus à chacun."
+        }
+      ]
+    },
+    {
+      "id": "q028",
+      "skill": "probleme",
+      "difficulty": 2,
+      "type": "number",
+      "prompt": "Avec **50** perles, combien de bracelets de **7** perles peut-on faire ? Combien manque-t-il de perles pour faire un bracelet de plus ?",
+      "fields": [
+        {
+          "key": "q",
+          "label": "bracelets",
+          "answer": 7
+        },
+        {
+          "key": "m",
+          "label": "perles manquantes",
+          "answer": 6
+        }
+      ],
+      "hint": "Fais la division euclidienne de 50 par 7. Pour compléter un lot, combien faut-il ajouter au reste ?",
+      "explanation": "50 = 7 × 7 + 1.\nOn peut en faire **7**. Il en reste 1 et il en faut 7, donc il en manque 7 − 1 = **6**.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 1
+          },
+          "message": "1, c'est ce qu'il reste. Combien faut-il ajouter à 1 pour arriver à 7 ?"
+        }
+      ]
+    },
+    {
+      "id": "q029",
+      "skill": "probleme",
+      "difficulty": 3,
+      "type": "number",
+      "prompt": "Un libraire doit ranger **230** livres sur des étagères. Chaque étagère contient **24** livres. Combien d'étagères lui faut-il ?",
+      "fields": [
+        {
+          "key": "x",
+          "label": "étagères",
+          "answer": 10
+        }
+      ],
+      "hint": "Fais la division euclidienne de 230 par 24. Que faire du reste ?",
+      "explanation": "230 = 24 × 9 + 14.\nIl reste 14 : il faut une étagère de plus, soit **9 + 1 = 10**.",
+      "common_errors": [
+        {
+          "when": {
+            "x": 9
+          },
+          "message": "Ton quotient est bon, mais il reste 14 : il faut aussi les ranger. Il faut une étagère de plus."
+        }
+      ]
+    },
+    {
+      "id": "q030",
+      "skill": "probleme",
+      "difficulty": 3,
+      "type": "number",
+      "prompt": "**287** cartes de joueurs sont partagées équitablement entre **15** coéquipiers. Combien de cartes chacun reçoit-il ? Combien de cartes reste-t-il ?",
+      "fields": [
+        {
+          "key": "q",
+          "label": "cartes par joueur",
+          "answer": 19
+        },
+        {
+          "key": "r",
+          "label": "cartes restantes",
+          "answer": 2
+        }
+      ],
+      "hint": "Fais la division euclidienne de 287 par 15.",
+      "explanation": "287 = 15 × 19 + 2, et 2 < 15.\nChacun reçoit **19**, il en reste **2**.",
+      "common_errors": [
+        {
+          "when": {
+            "q": 18,
+            "r": 17
+          },
+          "message": "Il reste 17, c'est plus que 15 : on peut encore donner un de plus à chacun."
+        }
+      ]
+    },
+    {
+      "id": "q031",
+      "skill": "probleme",
+      "difficulty": 4,
+      "type": "number",
+      "prompt": "Sami colle ses **1 250** vignettes dans un album. Chaque page contient **36** vignettes. Combien de pages doit-il utiliser ?",
+      "fields": [
+        {
+          "key": "x",
+          "label": "pages",
+          "answer": 35
+        }
+      ],
+      "hint": "Fais la division euclidienne de 1 250 par 36. Que faire du reste ?",
+      "explanation": "1 250 = 36 × 34 + 26.\nIl reste 26 : il faut une page de plus, soit **34 + 1 = 35**.",
+      "common_errors": [
+        {
+          "when": {
+            "x": 34
+          },
+          "message": "Ton quotient est bon, mais il reste 26 : il faut aussi les ranger. Il faut une page de plus."
+        }
+      ]
+    },
+    {
+      "id": "q032",
+      "skill": "probleme",
+      "difficulty": 4,
+      "type": "number",
+      "prompt": "Avec **2 000** bonbons, combien de sachets de **45** bonbons peut-on remplir ? Combien manque-t-il de bonbons pour remplir un sachet de plus ?",
+      "fields": [
+        {
+          "key": "q",
+          "label": "sachets",
+          "answer": 44
+        },
+        {
+          "key": "m",
+          "label": "bonbons manquants",
+          "answer": 25
+        }
+      ],
+      "hint": "Fais la division euclidienne de 2 000 par 45. Pour compléter un lot, combien faut-il ajouter au reste ?",
+      "explanation": "2 000 = 45 × 44 + 20.\nOn peut en faire **44**. Il en reste 20 et il en faut 45, donc il en manque 45 − 20 = **25**.",
+      "common_errors": [
+        {
+          "when": {
+            "m": 20
+          },
+          "message": "20, c'est ce qu'il reste. Combien faut-il ajouter à 20 pour arriver à 45 ?"
+        }
+      ]
+    },
+    {
+      "id": "q033",
+      "skill": "vocabulaire",
+      "difficulty": 1,
+      "type": "text",
+      "prompt": "Dans l'égalité **347 = 8 × 43 + 3** (division euclidienne de 347 par 8), comment s'appelle le nombre **43** ?",
+      "accepted": [
+        "quotient",
+        "le quotient"
+      ],
+      "hint": "C'est le nombre de fois que 8 « rentre » dans 347.",
+      "explanation": "43 est le **quotient** : c'est le nombre de parts que l'on peut faire (ou la taille de chaque part).",
+      "common_errors": [
+        {
+          "when": "reste",
+          "message": "Le reste, c'est ce qu'il reste à la fin : ici 3."
+        }
+      ]
+    },
+    {
+      "id": "q034",
+      "skill": "vocabulaire",
+      "difficulty": 1,
+      "type": "text",
+      "prompt": "Dans l'égalité **347 = 8 × 43 + 3** (division euclidienne de 347 par 8), comment s'appelle le nombre **3** ?",
+      "accepted": [
+        "reste",
+        "le reste"
+      ],
+      "hint": "C'est ce qui ne peut pas être partagé.",
+      "explanation": "3 est le **reste** : ce qui ne peut plus être partagé, car 3 < 8.",
+      "common_errors": [
+        {
+          "when": "quotient",
+          "message": "Le quotient est 43. Le nombre 3 est ce qui reste à la fin."
+        }
+      ]
+    },
+    {
+      "id": "q035",
+      "skill": "vocabulaire",
+      "difficulty": 2,
+      "type": "text",
+      "prompt": "Dans la division euclidienne de **59** par **7**, comment s'appelle le nombre **59** ?",
+      "accepted": [
+        "dividende",
+        "le dividende"
+      ],
+      "hint": "C'est le nombre que l'on partage.",
+      "explanation": "59 est le **dividende** : c'est le nombre que l'on partage.",
+      "common_errors": [
+        {
+          "when": "diviseur",
+          "message": "Le diviseur est 7 : c'est le nombre de parts. 59 est le nombre que l'on partage."
+        }
+      ]
+    },
+    {
+      "id": "q036",
+      "skill": "vocabulaire",
+      "difficulty": 2,
+      "type": "text",
+      "prompt": "Dans la division euclidienne de **59** par **7**, comment s'appelle le nombre **7** ?",
+      "accepted": [
+        "diviseur",
+        "le diviseur"
+      ],
+      "hint": "C'est le nombre par lequel on divise.",
+      "explanation": "7 est le **diviseur** : c'est le nombre par lequel on divise.",
+      "common_errors": [
+        {
+          "when": "dividende",
+          "message": "Le dividende est 59 : c'est le nombre que l'on partage. 7 est le nombre par lequel on divise."
+        }
+      ]
+    },
+    {
+      "id": "q037",
+      "skill": "vocabulaire",
+      "difficulty": 3,
+      "type": "text",
+      "prompt": "Complète avec un mot : dans une division euclidienne, le reste est toujours plus ▢ que le diviseur.",
+      "accepted": [
+        "petit",
+        "plus petit"
+      ],
+      "hint": "Si le reste était trop grand, on pourrait encore faire un partage.",
+      "explanation": "Le reste est toujours plus **petit** que le diviseur. Sinon, on peut encore faire un partage : le quotient est trop petit.",
+      "common_errors": [
+        {
+          "when": "grand",
+          "message": "Si le reste était plus grand que le diviseur, on pourrait encore faire une part de plus."
+        }
+      ]
+    }
+  ],
+  "source_note": "Module d'exemple converti depuis le prototype reference/division-euclidienne.html (questions fixées, réponses calculées par script)."
+}
