@@ -262,3 +262,35 @@ input.field-input-wide { flex: 1 1 12em; text-align: left; }
 .is-ok { border-color: var(--ok-border) !important; background: var(--ok-bg) !important; }
 .is-ko { border-color: var(--err-border) !important; background: var(--err-bg) !important; }
 input:disabled { opacity: 1; color: var(--text); }
+
+/* --- Évaluation ------------------------------------------------------------ */
+
+/* Barre de progression : une pastille par question */
+.exam-dots { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0 0 12px; }
+.dot { flex: 1; height: 10px; border-radius: 999px; background: var(--border); }
+.dot-done { background: var(--primary); }
+.dot-current { background: var(--primary); opacity: 0.45; }
+
+/* Résultat */
+.exam-score { font-size: 3rem; font-weight: 800; margin: 8px 0 !important; }
+.skill-score { margin: 8px 0 14px; }
+.bar { height: 12px; margin-top: 4px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 999px; }
+.bar-ko  { background: var(--err-border); }
+.bar-mid { background: var(--hint-border); }
+.bar-ok  { background: var(--ok-border); }
+
+/* Corrections dépliables (<details>) : la ligne cliquable fait ≥ 48 px */
+.correction { padding: 0 16px; }
+.correction summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.correction summary::before { content: "▸"; margin-right: 6px; }
+.correction[open] summary::before { content: "▾"; }
+.correction summary::-webkit-details-marker { display: none; }
+.correction summary:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }

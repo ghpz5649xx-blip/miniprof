@@ -7,6 +7,8 @@
 //   #/module/<id>/apprendre[/<compétence>]   leçon (voir screens/lesson.js)
 //   #/module/<id>/entrainement               réglage de l'entraînement
 //   #/module/<id>/entrainement/<niveau>[/<compétence>]   questions (screens/practice.js)
+//   #/module/<id>/evaluation                 réglage de l'évaluation
+//   #/module/<id>/evaluation/<mixte|1..4>    évaluation puis résultat (screens/exam.js)
 // Pourquoi : changer d'écran = changer d'adresse. Le bouton « retour » du
 // navigateur ou du téléphone marche tout seul, et recharger la page garde
 // l'écran courant. Aucun serveur n'est nécessaire (GitHub Pages ignore le #).
@@ -18,6 +20,8 @@ import { showModuleHome } from "./screens/module-home.js";
 import { showLesson } from "./screens/lesson.js";
 import { showPracticeSetup } from "./screens/practice-setup.js";
 import { showPractice } from "./screens/practice.js";
+import { showExamSetup } from "./screens/exam-setup.js";
+import { showExam } from "./screens/exam.js";
 
 function route() {
   const hash = location.hash;
@@ -46,8 +50,12 @@ function route() {
     showPractice(decodeURIComponent(parties[1]), parties[3], parties[4] ? decodeURIComponent(parties[4]) : null);
   } else if (parties[0] === "module" && parties[1] && parties[2] === "entrainement") {
     showPracticeSetup(decodeURIComponent(parties[1]));
+  } else if (parties[0] === "module" && parties[1] && parties[2] === "evaluation" && parties[3]) {
+    showExam(decodeURIComponent(parties[1]), parties[3]);
+  } else if (parties[0] === "module" && parties[1] && parties[2] === "evaluation") {
+    showExamSetup(decodeURIComponent(parties[1]));
   } else if (parties[0] === "module" && parties[1] && parties[2]) {
-    // Activité pas encore construite (ex. « evaluation ») : accueil du module.
+    // Activité pas encore construite (ex. « bilan ») : accueil du module.
     location.replace("#/module/" + parties[1]);
   } else if (parties[0] === "module" && parties[1]) {
     showModuleHome(decodeURIComponent(parties[1]));

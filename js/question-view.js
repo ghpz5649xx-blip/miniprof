@@ -1,6 +1,6 @@
 // Affichage d'une question de la banque et correction de la réponse.
 //
-// Utilisé par l'entraînement, et le sera par l'évaluation (étape 5) : les deux
+// Utilisé par l'entraînement et par l'évaluation : les deux
 // affichent les questions de la même façon, seuls les boutons autour changent.
 //
 // Trois types de questions (voir "question" dans schema/module.schema.json) :
@@ -74,14 +74,28 @@ function correspond(q, when, reponse) {
 
 // Bonne réponse en texte, pour l'encadré de correction.
 export function correctAnswerText(q) {
-  if (q.type === "number") {
-    return q.fields.map((f) => f.label + " = " + nombreEnTexte(f.answer) + (f.unit ? " " + f.unit : "")).join(", ");
-  }
-  if (q.type === "choice") {
-    const bon = q.choices.find((c) => String(c.id) === String(q.answer));
-    return bon ? bon.label : String(q.answer);
-  }
+  if (q.type === "number") return casesEnTexte(q, (f) => f.answer);
+  if (q.type === "choice") return libelleChoix(q, q.answer);
   return String(q.accepted[0]);
+}
+
+// Réponse de l'enfant (lue par lire()) en texte, pour les corrections de
+// l'évaluation : même présentation que la bonne réponse, pour comparer.
+export function answerText(q, reponse) {
+  if (q.type === "number") return casesEnTexte(q, (f) => reponse[f.key]);
+  if (q.type === "choice") return libelleChoix(q, reponse);
+  return String(reponse);
+}
+
+// « quotient = 5, reste = 3 » ; `valeur(f)` donne le nombre de la case f.
+function casesEnTexte(q, valeur) {
+  return q.fields.map((f) => f.label + " = " + nombreEnTexte(valeur(f)) + (f.unit ? " " + f.unit : "")).join(", ");
+}
+
+// Libellé du choix d'id `id` (l'id lui-même si on ne le trouve pas).
+function libelleChoix(q, id) {
+  const choix = q.choices.find((c) => String(c.id) === String(id));
+  return choix ? choix.label : String(id);
 }
 
 // 3.5 -> « 3,5 » : l'écriture française qu'apprend l'enfant.

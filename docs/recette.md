@@ -100,7 +100,7 @@ Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profi
 
 | # | Scénario | Résultat attendu | OK |
 |---|---|---|---|
-| 4.1 | Ouvrir le module | Cartes « Apprendre » et « S'entraîner » actives ; les 2 autres grisées. | ☐ |
+| 4.1 | Ouvrir le module | Cartes « Apprendre » et « S'entraîner » actives (depuis l'étape 5 : « Évaluation » aussi) ; « Bilan » grisée. | ☐ |
 | 4.2 | « S'entraîner » | Puces « Niveau 1 » à « Niveau 4 » avec sous-titre et nombre de questions (10, 11, 9, 7) ; puces « Tout mélangé » + les 6 compétences ; « Niveau 1 » et « Tout mélangé » surlignées ; bouton « Commencer ». | ☐ |
 | 4.3 | Choisir « Connaître le vocabulaire » puis « Niveau 4 » | Le niveau 4 indique « 0 question » ; encadré bleu « Pas de question de ce niveau… », pas de bouton « Commencer ». | ☐ |
 | 4.4 | « Poser la division », « Niveau 1 », « Commencer » | Adresse `…/entrainement/1/calcul`. « Niveau 1 : 0 réussie du premier coup sur 0 », « Poser la division », énoncé avec nombres en gras, cases « quotient » et « reste », curseur dans la 1re case (clavier numérique sur téléphone). Boutons « Valider », « Un indice », lien « Revoir la méthode ». | ☐ |
@@ -123,5 +123,31 @@ Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profi
 | 4.21 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
 
 Pas encore fait (étape 6) : les réponses ne sont pas enregistrées (recharger la page remet le compteur à 0) et le signalement des questions n'existe pas.
+
+Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
+
+## Étape 5 — Évaluation
+
+Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profil créé).
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 5.1 | Ouvrir le module | Cartes « Apprendre », « S'entraîner », « Évaluation » actives ; « Bilan » grisée « Bientôt (étape 6) ». | ☐ |
+| 5.2 | « Évaluation » | Encadré « Prête ou prêt pour l'évaluation ? 10 questions, sans indice… ». Puces « Mixte » (surlignée), « Niveau 1 » à « Niveau 4 » avec le nombre de questions (10, 10, 10, 9, 7). Bouton « Lancer l'évaluation » (Entrée). | ☐ |
+| 5.3 | « Mixte », « Lancer l'évaluation » | Adresse `…/evaluation/mixte`. 10 pastilles (la 1re en cours), « Question 1 sur 10 », pas de bouton « Un indice » ni « Revoir la méthode ». Bouton « Valider et continuer ». | ☐ |
+| 5.4 | « Valider et continuer » sans rien ; puis « abc » | « Remplis toutes les cases. » / « Écris un nombre dans chaque case. » (orange), on reste sur la question. QCM sans choix : « Choisis une réponse. » | ☐ |
+| 5.5 | Répondre aux 10 questions (certaines fausses), Entrée dans une case = valider | Aucune correction pendant l'évaluation ; les pastilles se remplissent. Les questions vont du facile au difficile (niveaux 2, 2, 2, 3, 3, 3, 3, 4, 4, 4) et couvrent les 6 compétences (1 ou 2 questions chacune). Dernière question : « Valider et terminer ». | ☐ |
+| 5.6 | Résultat | Grande note « n / 10 », message selon la note, « Temps : … min … s ». « Par compétence » : une barre par compétence (rouge < 50 %, orange < 80 %, vert sinon) et « x/y ». | ☐ |
+| 5.7 | « Les corrections » | Une ligne « ✓/✗ n. compétence » par question ; un clic la déplie : énoncé, « Ta réponse », « Bonne réponse » (si faux), explication. | ☐ |
+| 5.8 | « Travailler : <compétence> » | Entraînement de la compétence la plus faible, au niveau d'une question ratée (pas d'écran vide). | ☐ |
+| 5.9 | Retour à l'évaluation : « Recommencer » ; puis « Accueil » | Nouvelle évaluation (« Question 1 sur 10 », autre tirage) ; « Accueil » → accueil du module. Avec 10/10 : pas de bouton « Travailler ». | ☐ |
+| 5.10 | « Niveau 4 » | « Question 1 sur 7 » : seulement des questions de niveau 4, note sur 7. | ☐ |
+| 5.11 | Pendant l'évaluation : « ← Retour », puis relancer et bouton retour du navigateur | Les deux abandonnent et ramènent au réglage, niveau en cours surligné. Recharger (F5) pendant l'évaluation : nouvelle évaluation. | ☐ |
+| 5.12 | Adresses abîmées : `…/evaluation/9`, `…/evaluation/abc` | Retour au réglage. | ☐ |
+| 5.13 | Sécurité : copie de test du module (comme 2.9), mettre `"prompt": "<b>23</b> par 4"` dans `q001` et `"difficulty": 2`, `build_index.py`, faire des évaluations mixtes jusqu'à la tomber | « <b>23</b> par 4 » s'affiche avec les chevrons, dans la question et dans sa correction. Ensuite : `rm modules/maths-cm2-test.json && python tools/build_index.py`. | ☐ |
+| 5.14 | 360 px de large, thème sombre | Pastilles, cases, barres et corrections sans défilement horizontal ; couleurs lisibles. | ☐ |
+| 5.15 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
+
+Pas encore fait (étape 6) : l'évaluation n'est pas enregistrée (pas de dernière note sur l'accueil du module, pas de bilan), et les questions signalées ne sont pas écartées.
 
 Après la recette : `git status` doit être propre (sinon `git checkout modules/`).

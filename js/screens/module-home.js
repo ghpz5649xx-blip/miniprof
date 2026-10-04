@@ -9,7 +9,7 @@ import { openModule } from "../open-module.js";
 const ACTIVITES = [
   { titre: "Apprendre", texte: "La leçon, pas à pas", page: "apprendre" },
   { titre: "S'entraîner", texte: "Des questions à volonté, avec indices et corrections", page: "entrainement" },
-  { titre: "Évaluation", texte: "10 questions, sans aide, avec une note à la fin", page: null, etape: 5 },
+  { titre: "Évaluation", texte: "10 questions, sans aide, avec une note à la fin", page: "evaluation" },
   { titre: "Bilan", texte: "Ce qui est réussi, ce qu'il reste à travailler", page: null, etape: 6 },
 ];
 

@@ -4,7 +4,7 @@
 // « Commencer » mène à #/module/<id>/entrainement/<niveau>[/<compétence>]
 // (voir screens/practice.js). Sans compétence dans l'adresse : tout mélangé.
 
-import { el, clear, topBar, message, richText } from "../ui.js";
+import { el, clear, topBar, message, richText, chip } from "../ui.js";
 import { openModule } from "../open-module.js";
 
 // Les 4 niveaux = la "difficulty" des questions du module.
@@ -58,35 +58,22 @@ export function showPracticeSetup(id) {
       }
     }
 
-    function puce(cle, choisi, titre, texte, auClic) {
-      return el("button", {
-        type: "button",
-        class: "btn chip",
-        "aria-pressed": String(choisi),
-        "data-cle": cle,
-        onclick: auClic,
-      },
-        el("span", { class: "chip-title" }, titre),
-        texte ? el("span", { class: "chip-text" }, texte) : null,
-      );
-    }
-
     function contenu() {
       const niveaux = el("div", { class: "chips", role: "group", "aria-label": "Niveau" });
       for (const nv of NIVEAUX) {
         const nombre = questionsDuNiveau(module, nv.n, skill).length;
-        niveaux.append(puce("niveau-" + nv.n, nv.n === niveau, "Niveau " + nv.n,
+        niveaux.append(chip("niveau-" + nv.n, nv.n === niveau, "Niveau " + nv.n,
           nv.texte + " · " + nombre + " question" + (nombre > 1 ? "s" : ""),
           () => { niveau = nv.n; afficher("niveau-" + nv.n); }));
       }
 
       const competences = el("div", { class: "chips", role: "group", "aria-label": "Compétence" },
-        puce("tout", skill === null, "Tout mélangé", null, () => { skill = null; afficher("tout"); }));
+        chip("tout", skill === null, "Tout mélangé", null, () => { skill = null; afficher("tout"); }));
       // Clé = position dans la liste, pas l'id : un id mal écrit dans le module
       // ne peut pas casser la recherche du bouton (querySelector).
       module.skills.forEach((s, i) => {
         if (!s || typeof s.id !== "string") return;
-        competences.append(puce("skill-" + i, skill === s.id, richText(String(s.label)), null,
+        competences.append(chip("skill-" + i, skill === s.id, richText(String(s.label)), null,
           () => { skill = s.id; afficher("skill-" + i); }));
       });
 

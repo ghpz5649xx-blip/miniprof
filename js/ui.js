@@ -77,3 +77,20 @@ export function topBar(titre, retour, aDroite) {
 export function message(type, texte) {
   return el("div", { class: "msg msg-" + type, role: "alert" }, richText(texte));
 }
+
+// Puce de choix (niveau, compétence…) : la puce choisie a aria-pressed="true",
+// ce qui la surligne (css/style.css) et l'annonce aux lecteurs d'écran.
+// `cle` sert à retrouver le bouton pour lui rendre le focus après un réaffichage.
+// Utilisée par les réglages de l'entraînement et de l'évaluation.
+export function chip(cle, choisi, titre, texte, auClic) {
+  return el("button", {
+    type: "button",
+    class: "btn chip",
+    "aria-pressed": String(choisi),
+    "data-cle": cle,
+    onclick: auClic,
+  },
+    el("span", { class: "chip-title" }, titre),
+    texte ? el("span", { class: "chip-text" }, texte) : null,
+  );
+}
