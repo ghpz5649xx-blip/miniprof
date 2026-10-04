@@ -4,8 +4,8 @@ App de révision pour les enfants : apprendre une leçon pas à pas, s'entraîne
 et corrections, passer des évaluations, suivre sa progression. 100 % statique, hébergée sur
 GitHub Pages, sans compte ni serveur ; la progression reste dans le navigateur de l'appareil.
 
-> État : **étape 1** livrée (format de module, validateur, module d'exemple). L'app arrive à
-> l'étape 2.
+> État : **étape 2** livrée (profils, bibliothèque, ouverture d'un module). Les activités
+> Apprendre, S'entraîner, Évaluation et Bilan arrivent aux étapes 3 à 6.
 
 ## Installation des outils (une fois)
 
@@ -31,9 +31,11 @@ pip install -r tools/requirements.txt
 5. **Relire quelques questions** : le LLM peut se tromper dans une réponse.
 6. Renommer en `modules/<id>.json` (l'`id` est dans le fichier), puis :
    ```bash
+   python tools/build_index.py      # met à jour la liste des modules lue par l'app
    git add modules/ && git commit -m "Module : <titre>" && git push
    ```
-   *(À partir de l'étape 2 : lancer `python tools/build_index.py` avant le commit.)*
+   `build_index.py` n'indexe que les modules valides et bien nommés ; les autres sont
+   listés comme « écartés » avec la raison.
 
 Compléter un module (lots de 40 à 60 questions) : `tools/merge.py` (étape 7).
 
@@ -53,8 +55,11 @@ Référence complète : `schema/module.schema.json`. Exemple : `modules/maths-cm
 ## Tester
 
 ```bash
-python -m unittest discover tools/tests -v
+python -m unittest discover tools/tests -v   # tests automatiques
+python3 -m http.server 8000                  # puis ouvrir http://localhost:8000
 ```
+L'app doit être servie par un serveur (même local) : ouvrir `index.html` directement
+(`file://`) ne marche pas, le navigateur refusant alors de lire les fichiers de modules.
 
 ## Sauvegarder et analyser la progression
 

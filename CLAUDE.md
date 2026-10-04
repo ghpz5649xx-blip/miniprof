@@ -20,7 +20,9 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
 - `modules/` : un fichier JSON par module ; `index.json` généré par `tools/build_index.py`.
 - `tools/` : outils Python (validate, merge, prompt, analyse, build_index) ; `common.py` partagé.
 - `tools/tests/` : unittest + `fixtures/`.
-- `js/`, `css/`, `index.html` : l'app (à partir de l'étape 2).
+- `index.html`, `css/style.css`, `js/` : l'app. `js/app.js` (routage par hash), `ui.js`
+  (`el()`, `richText()`), `storage.js` (localStorage protégé), `profiles.js`, `loader.js`,
+  `check-module.js`, `screens/` (un fichier par écran).
 - `docs/` : `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`.
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
 
@@ -28,13 +30,15 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
 ```bash
 source .venv/bin/activate                     # venv local (pip install -r tools/requirements.txt)
 python tools/validate.py modules/<id>.json    # --llm : texte pour le LLM ; --nettoyer
+python tools/build_index.py                   # régénère modules/index.json (modules valides)
 python -m unittest discover tools/tests -v    # tests
 python3 -m http.server 8000                   # tester l'app (file:// ne marche pas)
 ```
 
 ## Règles à garder synchronisées
 - `normalize_text()` (`tools/common.py`) ≡ `normalizeText()` (`js/answers.js`).
-- Champs obligatoires du schéma ≡ liste `REQUIRED` de `js/check-module.js` (test automatique).
+- Champs obligatoires du schéma ≡ `REQUIRED`, `REQUIRED_QUESTION`, `TYPES_CONNUS` de
+  `js/check-module.js` (test automatique `test_sync.py`, qui interdit aussi `innerHTML`).
 - La validation complète est dans `validate.py` ; l'app ne fait qu'un contrôle défensif.
 
 ## Conventions

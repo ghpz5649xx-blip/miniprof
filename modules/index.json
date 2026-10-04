@@ -1,0 +1,14 @@
+{
+  "modules": [
+    {
+      "id": "maths-cm2-division-euclidienne",
+      "file": "maths-cm2-division-euclidienne.json",
+      "version": 1,
+      "title": "Division euclidienne",
+      "subject": "maths",
+      "level": "CM2",
+      "description": "Partager en parts égales, trouver le quotient et le reste, vérifier avec la preuve et résoudre des problèmes.",
+      "questions": 37
+    }
+  ]
+}

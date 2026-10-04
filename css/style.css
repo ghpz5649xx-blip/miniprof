@@ -1,0 +1,199 @@
+/* Styles de miniprof.
+   Mobile d'abord : une colonne étroite, de gros boutons (≥ 48 px de haut).
+   Thème clair par défaut, thème sombre automatique selon le réglage de l'appareil.
+   Toutes les couleurs sont des variables : on les change à un seul endroit. */
+
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #1d2330;
+  --muted: #5b6475;
+  --border: #d6dae3;
+  --primary: #2f5bd3;
+  --primary-text: #ffffff;
+  --danger: #b3261e;
+  /* Encadrés de feedback : fond / bordure */
+  --ok-bg: #e5f5ea;   --ok-border: #2e7d4f;
+  --err-bg: #fdeaea;  --err-border: #b3261e;
+  --info-bg: #e7effd; --info-border: #2f5bd3;
+  --hint-bg: #fff3e0; --hint-border: #c25e00;
+  --radius: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151c;
+    --surface: #1d222c;
+    --text: #e8ebf2;
+    --muted: #a3abbb;
+    --border: #353c4a;
+    --primary: #7ea2ff;
+    --primary-text: #0d1220;
+    --danger: #ff8a80;
+    --ok-bg: #173323;   --ok-border: #5cc58a;
+    --err-bg: #3a1a1a;  --err-border: #ff8a80;
+    --info-bg: #182640; --info-border: #7ea2ff;
+    --hint-bg: #3a2a12; --hint-border: #ffb260;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+#app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h1, h2 { line-height: 1.2; }
+.muted { color: var(--muted); }
+
+/* --- Barre du haut et bandeau ------------------------------------------ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.topbar-title {
+  flex: 1;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.hero { text-align: center; margin: 8px 0 24px; }
+.hero h1 { font-size: 2rem; margin: 16px 0 8px; }
+.hero h2 { font-size: 1.6rem; margin: 8px 0; }
+.hero p { margin: 4px 0; }
+
+.section-title { font-size: 1.15rem; margin: 24px 0 8px; color: var(--muted); }
+
+/* --- Boutons -------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--text);
+  background: var(--surface);
+}
+.btn:focus-visible, .card-link:focus-visible, input:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+.btn-primary { background: var(--primary); color: var(--primary-text); }
+.btn-secondary { border-color: var(--border); }
+.btn-danger { background: var(--danger); color: var(--surface); }
+.btn-back { border-color: var(--border); padding: 8px 12px; }
+.btn-small { font-size: 0.95rem; padding: 8px 12px; }
+.btn-link {
+  display: block;
+  margin: 16px auto;
+  background: none;
+  color: var(--primary);
+  text-decoration: underline;
+}
+.btn-big {
+  width: 100%;
+  min-height: 72px;
+  font-size: 1.4rem;
+  border-color: var(--border);
+}
+
+/* --- Cartes --------------------------------------------------------------- */
+
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; align-items: center; gap: 8px; }
+.grow { flex: 1; }
+
+.card {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+}
+.stack > .card { margin-bottom: 0; }
+.card-link { text-decoration: none; cursor: pointer; }
+.card-link:hover { border-color: var(--primary); }
+.card-title { display: block; font-weight: 700; font-size: 1.15rem; }
+.card-text { display: block; color: var(--muted); margin-top: 4px; }
+.card-activity:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--info-bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* --- Formulaire ----------------------------------------------------------- */
+
+.add-profile { margin-top: 24px; }
+.add-profile label { display: block; font-weight: 600; margin-bottom: 8px; }
+input[type="text"] {
+  flex: 1;
+  min-width: 0;          /* évite de déborder sur un écran de 360 px */
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+.manage-row { padding: 8px 8px 8px 16px; }
+
+/* --- Encadrés de feedback ------------------------------------------------- */
+
+.msg {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border-left: 6px solid;
+  border-radius: var(--radius);
+  animation: fondu 0.25s ease-out;
+}
+.msg-ok    { background: var(--ok-bg);   border-color: var(--ok-border); }
+.msg-error { background: var(--err-bg);  border-color: var(--err-border); }
+.msg-info  { background: var(--info-bg); border-color: var(--info-border); }
+.msg-hint  { background: var(--hint-bg); border-color: var(--hint-border); }
+
+@keyframes fondu {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Animations coupées si l'utilisateur l'a demandé dans les réglages de l'appareil. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
