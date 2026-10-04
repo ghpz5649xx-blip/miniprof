@@ -47,6 +47,9 @@ export function showProfiles(erreur, saisie) {
       onclick: () => { modeGestion = !modeGestion; aConfirmer = null; showProfiles(); },
     }, modeGestion ? "Terminé" : "Gérer les profils"));
   }
+  // Toujours visible, même sans profil : c'est ici qu'on restaure ses
+  // données sur un nouvel appareil.
+  app.append(el("a", { class: "btn btn-link", href: "#/sauvegarde" }, "Sauvegarder ou restaurer les données"));
 }
 
 function choisir(id) {

@@ -11,6 +11,7 @@
 
 import { readKey, writeKey } from "./storage.js";
 import { maintenant } from "./events.js";
+import { APERCU } from "./open-module.js";
 
 function lignes() {
   const tout = readKey("flags", []);
@@ -31,10 +32,20 @@ export function withoutFlagged(moduleId, questions) {
 
 // Renvoie true si c'est enregistré.
 export function flagQuestion(moduleId, questionId, profilId) {
+  if (moduleId === APERCU) return true; // module en aperçu : rien n'est enregistré
   if (flaggedIds(moduleId).includes(questionId)) return true; // déjà signalée
   return writeKey("flags", lignes().concat([[moduleId, questionId, maintenant(), profilId]]));
 }
 
 export function unflagQuestion(moduleId, questionId) {
   return writeKey("flags", lignes().filter((l) => !(l[0] === moduleId && l[1] === questionId)));
+}
+
+// Pour la sauvegarde (js/backup.js).
+export function allFlags() {
+  return lignes();
+}
+
+export function replaceFlags(nouvellesLignes) {
+  return writeKey("flags", nouvellesLignes);
 }

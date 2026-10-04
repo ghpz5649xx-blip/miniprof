@@ -5,3 +5,5 @@ __pycache__/
 # exports de progression des enfants : données personnelles, ne pas committer
 exports/
 *.export.json
+# prompts « lot » : régénérés à chaque fois depuis le module (tools/prompt.py --mode lot)
+docs/prompt-lot-*.md

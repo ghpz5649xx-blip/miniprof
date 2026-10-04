@@ -156,17 +156,9 @@ def verifier_text(q, ou, err, warn):
 # Rapport
 # ---------------------------------------------------------------------------
 
-def valider_fichier(path):
-    rapport = Rapport()
-    try:
-        data, rapport.extrait = read_module(path)
-    except ModuleIllisible as e:
-        rapport.erreurs.append(f"fichier illisible : {e}")
-        return rapport
-    except OSError as e:
-        rapport.erreurs.append(f"impossible d'ouvrir le fichier : {e.strerror}")
-        return rapport
-
+def valider_donnees(data, rapport=None):
+    """Valide un module déjà chargé en mémoire (utilisé aussi par merge.py)."""
+    rapport = rapport or Rapport()
     rapport.data = data
     if not isinstance(data, dict):
         rapport.erreurs.append("(racine) : le module doit être un objet { … }")
@@ -179,6 +171,23 @@ def valider_fichier(path):
 
     rapport.structure_ok = True
     verifier_semantique(data, rapport)
+    return rapport
+
+
+def valider_fichier(path):
+    rapport = Rapport()
+    try:
+        data, rapport.extrait = read_module(path)
+    except ModuleIllisible as e:
+        rapport.erreurs.append(f"fichier illisible : {e}")
+        return rapport
+    except OSError as e:
+        rapport.erreurs.append(f"impossible d'ouvrir le fichier : {e.strerror}")
+        return rapport
+
+    valider_donnees(data, rapport)
+    if not rapport.structure_ok:
+        return rapport
     if rapport.extrait:
         rapport.erreurs.append(ERREUR_TEXTE_AUTOUR)
     if Path(path).stem != data["id"]:

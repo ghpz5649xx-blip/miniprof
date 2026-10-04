@@ -47,3 +47,21 @@ export function removeKey(cle) {
     return false;
   }
 }
+
+// Nombre de caractères occupés par les clés de l'app (noms + valeurs).
+// Sert au rappel « stockage presque plein » (js/backup.js). Le navigateur ne
+// donne pas le quota de localStorage de façon synchrone : on compte nous-mêmes.
+export function usedChars() {
+  let total = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const nom = localStorage.key(i);
+      if (nom && nom.startsWith(PREFIXE)) {
+        total = total + nom.length + (localStorage.getItem(nom) || "").length;
+      }
+    }
+  } catch (e) {
+    console.warn("Mesure du stockage impossible :", e);
+  }
+  return total;
+}

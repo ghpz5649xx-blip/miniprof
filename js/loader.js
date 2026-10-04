@@ -1,8 +1,20 @@
-// Chargement des fichiers JSON (index des modules, modules).
+// Lecture des fichiers JSON : ceux du site (index des modules, modules) et
+// ceux choisis sur l'appareil (sauvegarde à restaurer, module en aperçu).
 //
-// C'est la SEULE fonction asynchrone de l'app : un navigateur ne peut lire un
-// fichier du site qu'avec fetch(), qui est forcément asynchrone. Tout le reste
-// du code est synchrone et ne dépend pas de ce fichier.
+// Ce sont les SEULES fonctions asynchrones de l'app : un navigateur ne peut
+// lire un fichier qu'avec fetch() ou file.text(), qui sont forcément
+// asynchrones. Tout le reste du code (stockage, calculs, affichage) est
+// synchrone ; les appelants utilisent .then() / .catch().
+
+// Transforme un texte en données JSON. Synchrone. Lève une Error au message
+// affichable tel quel. `nom` : nom du fichier, pour le message.
+function parseOuErreur(texte, nom) {
+  try {
+    return JSON.parse(texte);
+  } catch (e) {
+    throw new Error(`Le fichier « ${nom} » n'est pas un JSON valide : lance validate.py dessus.`);
+  }
+}
 
 // Lit un fichier JSON du site. Renvoie les données, ou lève une Error dont le
 // message (en français) peut être affiché tel quel.
@@ -19,9 +31,17 @@ export async function readJson(url) {
   if (!reponse.ok) {
     throw new Error(`Fichier « ${url} » introuvable (erreur ${reponse.status}).`);
   }
+  return parseOuErreur(await reponse.text(), url);
+}
+
+// Lit un fichier choisi par l'utilisateur (<input type="file">). Rien n'est
+// envoyé sur Internet : le fichier est lu dans la page. Même contrat que readJson.
+export async function readJsonFile(file) {
+  let texte;
   try {
-    return await reponse.json();
+    texte = await file.text();
   } catch (e) {
-    throw new Error(`Le fichier « ${url} » n'est pas un JSON valide : lance validate.py dessus.`);
+    throw new Error(`Impossible de lire le fichier « ${file.name} ».`);
   }
+  return parseOuErreur(texte, file.name);
 }

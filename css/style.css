@@ -304,3 +304,18 @@ input:disabled { opacity: 1; color: var(--text); }
 .report-module { font-size: 1.1rem; margin: 12px 0 4px; }
 .report-exam { padding: 8px 0; border-bottom: 1px solid var(--border); }
 .report-exam:last-child { border-bottom: none; }
+
+/* --- Sauvegarde et aperçu (étape 7) ------------------------------------- */
+
+.parent-zone { margin-top: 32px; }
+.parent-zone label, section.card label { display: block; font-weight: 600; margin: 8px 0; }
+input[type="file"] { max-width: 100%; min-height: 48px; margin-bottom: 12px; font: inherit; }
+.preview-banner {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border: 2px dashed var(--hint-border);
+  border-radius: var(--radius);
+  background: var(--hint-bg);
+  font-weight: 700;
+  text-align: center;
+}

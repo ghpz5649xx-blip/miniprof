@@ -1,0 +1,17 @@
+Voici le lot demandé :
+```json
+{
+  "questions": [
+    { "id": "q4", "skill": "add", "difficulty": 1, "type": "number",
+      "prompt": "Calcule 4 + 4.", "fields": [{ "key": "s", "label": "somme", "answer": 8 }],
+      "hint": "Double de 4.", "explanation": "4 + 4 = **8**" },
+    { "id": "q5", "skill": "add", "difficulty": 1, "type": "number",
+      "prompt": "Calcule 2 + 3 !", "fields": [{ "key": "s", "label": "somme", "answer": 5 }],
+      "hint": "Avance de 3.", "explanation": "2 + 3 = **5**" },
+    { "id": "q2", "skill": "add", "difficulty": 2, "type": "choice",
+      "prompt": "Combien font 10 + 6 ?",
+      "choices": [{ "id": "a", "label": "16" }, { "id": "b", "label": "106" }],
+      "answer": "a", "hint": "Ce n'est pas une écriture côte à côte.", "explanation": "10 + 6 = 16" }
+  ]
+}
+```

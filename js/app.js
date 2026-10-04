@@ -11,6 +11,8 @@
 //   #/module/<id>/evaluation/<mixte|1..4>    évaluation puis résultat (screens/exam.js)
 //   #/module/<id>/bilan                      bilan d'un module (screens/report.js)
 //   #/bilan                                  bilan de tous les modules
+//   #/sauvegarde                             export / restauration (screens/backup.js)
+//   #/module/_apercu/...                     module en aperçu (voir open-module.js)
 // Pourquoi : changer d'écran = changer d'adresse. Le bouton « retour » du
 // navigateur ou du téléphone marche tout seul, et recharger la page garde
 // l'écran courant. Aucun serveur n'est nécessaire (GitHub Pages ignore le #).
@@ -25,6 +27,7 @@ import { showPractice } from "./screens/practice.js";
 import { showExamSetup } from "./screens/exam-setup.js";
 import { showExam } from "./screens/exam.js";
 import { showReport } from "./screens/report.js";
+import { showBackup } from "./screens/backup.js";
 
 function route() {
   const hash = location.hash;
@@ -34,6 +37,13 @@ function route() {
   if (hash === "" || hash === "#") {
     location.replace(currentProfile() ? "#/biblio" : "#/");
     return; // replace() redéclenche route() via l'événement hashchange
+  }
+
+  // La sauvegarde n'a pas besoin de profil : sur un nouvel appareil, on
+  // restaure avant d'en avoir créé un.
+  if (hash === "#/sauvegarde") {
+    showBackup();
+    return;
   }
 
   // Les écrans suivants ont besoin d'un profil : sinon, retour au choix.

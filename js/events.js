@@ -22,6 +22,7 @@
 // depuisLigne() connaissent l'ordre des cases.
 
 import { readKey, writeKey, removeKey } from "./storage.js";
+import { APERCU } from "./open-module.js";
 
 // Une réponse tapée très longue ne doit pas remplir le stockage.
 const MAX_TEXTE = 100;
@@ -68,10 +69,22 @@ export function listEvents(profilId) {
 // pour l'évaluation : une seule écriture, donc tout ou rien.
 // Renvoie true si c'est enregistré ; sinon l'appelant prévient l'enfant.
 export function addEvents(profilId, evenements) {
+  // Module en aperçu (js/open-module.js) : on joue, mais on n'enregistre rien.
+  if (evenements.every((e) => e.module === APERCU)) return true;
   const tout = lignes(profilId).concat(evenements.map(versLigne));
   return writeKey(cle(profilId), tout);
 }
 
 export function deleteEvents(profilId) {
   return removeKey(cle(profilId));
+}
+
+// Pour la sauvegarde (js/backup.js) : les lignes telles que stockées, et leur
+// remplacement complet lors d'une restauration.
+export function rawLines(profilId) {
+  return lignes(profilId);
+}
+
+export function replaceLines(profilId, nouvellesLignes) {
+  return writeKey(cle(profilId), nouvellesLignes);
 }

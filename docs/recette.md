@@ -179,3 +179,43 @@ privée, deux profils « Léa » et « Tom »). Pour voir le stockage : outils d
 | 6.17 | 360 px de large, thème sombre | Bilan, signalées et badge sans défilement horizontal ; barres lisibles. | ☐ |
 | 6.18 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
 
+
+## Étape 7 — Sauvegarde, aperçu, prompt, fusion, analyse
+
+Préparation : `source .venv/bin/activate && pip install -r tools/requirements.txt` (ajoute
+pandas et matplotlib), serveur sur **http://localhost:8000**, fenêtre de navigation privée.
+
+### Côté app
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 7.1 | Premier lancement (aucun profil) | Sous le formulaire, lien « Sauvegarder ou restaurer les données ». | ☐ |
+| 7.2 | Ce lien | Écran « Sauvegarde » : « Dernier export : jamais · stockage utilisé : 0 % », bouton « Exporter mes données », bloc « Restaurer une sauvegarde » avec un champ fichier. « ← Retour » → choix du profil. | ☐ |
+| 7.3 | Restaurer : choisir `tools/tests/fixtures/export.json` | Encadré bleu : « Sauvegarde du … », « Léa : 34 réponse(s) », « Tom : 1 réponse(s) », « 1 question(s) signalée(s) » ; encadré orange « …seront **remplacées** » ; boutons « Confirmer : remplacer les données » (rouge) et « Annuler ». Rien n'a encore changé. | ☐ |
+| 7.4 | « Annuler », puis rechoisir le fichier et « Confirmer » | Annuler : retour au champ fichier. Confirmer : « Sauvegarde restaurée. » ; ← Retour : profils Léa et Tom. | ☐ |
+| 7.5 | Léa > « Mon bilan » | 34 questions traitées ; « Poser la division » 81 % en baisse ; « Retrouver le dividende » 33 %. (Mêmes chiffres que 7.16.) | ☐ |
+| 7.6 | Restaurer un mauvais fichier : `modules/index.json`, puis un fichier texte quelconque renommé en `.json` | « Ce fichier n'est pas une sauvegarde miniprof. » ; « Le fichier « … » n'est pas un JSON valide… ». Données intactes. | ☐ |
+| 7.7 | Bibliothèque de Léa | Encadré orange « Pas de sauvegarde depuis N jours… » : la fixture date de septembre 2026 (le rappel repart de la date de la sauvegarde restaurée). | ☐ |
+| 7.8 | Rappel 14 jours : console `localStorage.setItem("miniprof.v1.last_export", String(Math.round(Date.now()/1000) - 20*86400))`, recharger | Encadré orange « Pas de sauvegarde depuis 20 jours… » + lien « Sauvegarder ». | ☐ |
+| 7.9 | « Sauvegarder » > « Exporter mes données » | Le navigateur télécharge `miniprof-AAAA-MM-JJ.export.json` (ou demande où l'enregistrer) ; « Fichier téléchargé… » ; « Dernier export : <aujourd'hui> ». Bibliothèque : plus de rappel. Ouvrir le fichier : `"format": "miniprof-sauvegarde"`. | ☐ |
+| 7.10 | Rappel quota : console `localStorage.setItem("miniprof.v1.gros", "x".repeat(3600000))`, recharger la bibliothèque | « Le stockage de cet appareil est presque plein… » ; l'écran Sauvegarde indique ≈ 72 %. Ensuite : `localStorage.removeItem("miniprof.v1.gros")`. | ☐ |
+| 7.11 | Restaurer sur un autre navigateur (ou après avoir vidé les données du site) le fichier de 7.9 | Mêmes profils, mêmes bilans, même question signalée. | ☐ |
+| 7.12 | Aperçu : bibliothèque > « Pour les parents : aperçu d'un module » > choisir `tools/tests/fixtures/minimal.json` | Adresse `#/module/_apercu` ; bandeau orange en pointillés « Aperçu — non enregistré » ; « Module minimal de test », « CM1 · 3 questions ». | ☐ |
+| 7.13 | Dans l'aperçu : leçon, entraînement (réponses justes et fausses, « Cette question me semble fausse »), évaluation | Tout fonctionne, bandeau sur chaque écran. Dans Application > Local Storage : `events.<id>` et `flags` **inchangés**. Le bilan ne montre rien de l'aperçu. | ☐ |
+| 7.14 | Recharger la page (F5) dans l'aperçu | « Aperçu perdu (la page a été rechargée)… » + « Retour à la bibliothèque ». | ☐ |
+| 7.15 | Aperçu d'un fichier cassé (`tools/tests/fixtures/entoure.txt` copié en `.json`) | Sous le champ : « Le fichier « … » n'est pas un JSON valide : lance validate.py dessus. » | ☐ |
+| 7.16 | 360 px de large, thème sombre ; onglet Réseau pendant export, restauration et aperçu | Rien ne déborde ; aucune requête réseau pour lire les fichiers choisis (lecture locale). | ☐ |
+
+### Côté outils
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 7.17 | `python tools/prompt.py --mode nouveau` | « ✔ Prompt écrit dans docs/prompt-nouveau.md », « Copié dans le presse-papiers ». Le fichier contient la tâche, les règles (dont « VÉRIFIE CHAQUE CALCUL »), le schéma, un exemple court. | ☐ |
+| 7.18 | `python tools/prompt.py --mode lot modules/maths-cm2-division-euclidienne.json` | `docs/prompt-lot-maths-cm2-division-euclidienne.md` (ignoré par Git) : « à partir de q038 », les 6 compétences, la répartition, les 37 énoncés existants. Sans fichier : message d'usage. | ☐ |
+| 7.19 | `cp tools/tests/fixtures/minimal.json /tmp/minimal.json && python tools/merge.py /tmp/minimal.json tools/tests/fixtures/lot.json` | « Questions ajoutées : 2 », « remplacées (même id) : q2 », « doublon(s) probable(s) : q1 ≈ q5 », « ✔ VALIDE », « ✔ Module réécrit … (version 2) ». Code retour 0. | ☐ |
+| 7.20 | Lot invalide : dans une copie de `lot.json`, mettre `"skill": "inconnu"` dans `q4`, relancer sur une nouvelle copie de `minimal.json` | « ✘ INVALIDE », erreur sur la compétence, « Module NON modifié » + texte à renvoyer au LLM. Code retour 1, fichier inchangé. `--essai` sur un lot valide : rien n'est écrit. | ☐ |
+| 7.21 | `python tools/analyse.py tools/tests/fixtures/export.json` | Par enfant : tableau par compétence (Léa : calcul 81 %, en baisse), « À travailler », questions les plus ratées (q015 en tête), évaluations (2/3 mixte). « ✔ 5 graphique(s) dans exports/analyse/ » ; PNG lisibles. `git status` : rien sous `exports/`. | ☐ |
+| 7.22 | `python tools/analyse.py` sur l'export de 7.9 | Mêmes chiffres que le bilan de l'app. | ☐ |
+| 7.23 | `python -m unittest discover tools/tests -v` | 49 tests, tous « ok ». | ☐ |
+
+Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
