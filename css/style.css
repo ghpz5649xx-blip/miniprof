@@ -141,7 +141,6 @@ h1, h2 { line-height: 1.2; }
 .card-link:hover { border-color: var(--primary); }
 .card-title { display: block; font-weight: 700; font-size: 1.15rem; }
 .card-text { display: block; color: var(--muted); margin-top: 4px; }
-.card-activity:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .badge {
   display: inline-block;
@@ -294,3 +293,14 @@ input:disabled { opacity: 1; color: var(--text); }
 .correction[open] summary::before { content: "▾"; }
 .correction summary::-webkit-details-marker { display: none; }
 .correction summary:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+
+/* --- Signalement et bilan ------------------------------------------------- */
+
+.flagged { margin-top: 24px; }
+.flagged-row { border-top: 1px solid var(--border); padding: 8px 0 12px; }
+.flagged-row p { margin: 0 0 8px; }
+
+.report-summary { font-size: 1.1rem; font-weight: 600; }
+.report-module { font-size: 1.1rem; margin: 12px 0 4px; }
+.report-exam { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.report-exam:last-child { border-bottom: none; }

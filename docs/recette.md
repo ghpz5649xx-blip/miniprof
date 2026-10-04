@@ -122,7 +122,7 @@ Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profi
 | 4.20 | 360 px de large, thème sombre | Puces sur 2 colonnes, cases et boutons sans défilement horizontal ; vert/rouge/bleu lisibles. | ☐ |
 | 4.21 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
 
-Pas encore fait (étape 6) : les réponses ne sont pas enregistrées (recharger la page remet le compteur à 0) et le signalement des questions n'existe pas.
+Depuis l'étape 6 : le premier essai est enregistré et « Cette question me semble fausse » apparaît après la correction (voir étape 6).
 
 Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
 
@@ -132,7 +132,7 @@ Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profi
 
 | # | Scénario | Résultat attendu | OK |
 |---|---|---|---|
-| 5.1 | Ouvrir le module | Cartes « Apprendre », « S'entraîner », « Évaluation » actives ; « Bilan » grisée « Bientôt (étape 6) ». | ☐ |
+| 5.1 | Ouvrir le module | Cartes « Apprendre », « S'entraîner », « Évaluation » actives ; « Bilan » grisée « Bientôt (étape 6) » (depuis l'étape 6 : active). | ☐ |
 | 5.2 | « Évaluation » | Encadré « Prête ou prêt pour l'évaluation ? 10 questions, sans indice… ». Puces « Mixte » (surlignée), « Niveau 1 » à « Niveau 4 » avec le nombre de questions (10, 10, 10, 9, 7). Bouton « Lancer l'évaluation » (Entrée). | ☐ |
 | 5.3 | « Mixte », « Lancer l'évaluation » | Adresse `…/evaluation/mixte`. 10 pastilles (la 1re en cours), « Question 1 sur 10 », pas de bouton « Un indice » ni « Revoir la méthode ». Bouton « Valider et continuer ». | ☐ |
 | 5.4 | « Valider et continuer » sans rien ; puis « abc » | « Remplis toutes les cases. » / « Écris un nombre dans chaque case. » (orange), on reste sur la question. QCM sans choix : « Choisis une réponse. » | ☐ |
@@ -148,6 +148,34 @@ Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profi
 | 5.14 | 360 px de large, thème sombre | Pastilles, cases, barres et corrections sans défilement horizontal ; couleurs lisibles. | ☐ |
 | 5.15 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
 
-Pas encore fait (étape 6) : l'évaluation n'est pas enregistrée (pas de dernière note sur l'accueil du module, pas de bilan), et les questions signalées ne sont pas écartées.
+Depuis l'étape 6 : l'évaluation est enregistrée à la fin, et les questions signalées sont écartées (voir étape 6).
 
 Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
+
+## Étape 6 — Enregistrement, signalement, bilan
+
+Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, fenêtre de navigation
+privée, deux profils « Léa » et « Tom »). Pour voir le stockage : outils de développement
+(Cmd+Option+I) > Application > Local Storage > `http://localhost:8000`.
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 6.1 | `python tools/build_index.py` | `modules/index.json` contient pour le module une liste `skills` (id + libellé). `git status` propre (déjà commité). | ☐ |
+| 6.2 | Léa : ouvrir le module | Les 4 cartes sont actives (« Bilan » aussi) ; pas encore de « Dernière note ». | ☐ |
+| 6.3 | « S'entraîner », niveau 1, « Poser la division » : une réponse juste, puis une fausse suivie de « Réessayer » et d'une juste | Clé `miniprof.v1.events.<id de Léa>` : 2 lignes seulement (1er essai), la 2e avec `0` (faux), mode `"e"`, la réponse tapée (`{"q":…,"r":…}`). Recharger la page : les lignes restent. | ☐ |
+| 6.4 | Après une correction : « Cette question me semble fausse » | Le bouton devient « Merci ! Cette question ne te sera plus posée… ». Clé `miniprof.v1.flags` : une ligne `[module, id de question, date, id de Léa]`. | ☐ |
+| 6.5 | « ← Retour » au réglage | Le nombre de questions du niveau de la question signalée a baissé de 1. Une compétence dont toutes les questions d'un niveau sont signalées affiche « 0 question ». | ☐ |
+| 6.6 | Faire une évaluation « Mixte » jusqu'au bout | 10 lignes de plus, mode `"v"`, toutes avec la même clé `"<nombre>/mixte"` ; la question signalée n'est jamais posée. Dans chaque correction dépliée : « Cette question me semble fausse ». | ☐ |
+| 6.7 | Évaluation abandonnée (← Retour à la question 3) | Aucune ligne ajoutée. | ☐ |
+| 6.8 | Accueil du module | Badge « Dernière note : n / 10 » sous « Évaluation ». En bas, « Questions signalées (1) » : dépliée, l'id, l'énoncé et « Rétablir ». | ☐ |
+| 6.9 | « Rétablir » | Le bloc disparaît ; la question revient dans les tirages (compteur du réglage rétabli). | ☐ |
+| 6.10 | Carte « Bilan » | « Bilan de Léa », « N questions traitées, dont M réussies du premier coup (P %) » ; « À travailler » (compétences < 60 %) ; « Réussite par compétence » : une barre + « P % · x/y » par compétence travaillée, « pas encore travaillé » sinon ; « Dernières évaluations » : date, « Mixte », note. Mention « Les résultats sont enregistrés dans le navigateur de cet appareil. » ; ← Retour → accueil du module. | ☐ |
+| 6.11 | « Travailler ce point » | Entraînement de cette compétence, au niveau du dernier essai raté. | ☐ |
+| 6.12 | Bibliothèque : carte « Mon bilan » | Même bilan, tous modules : le titre du module sous chaque point à travailler et chaque évaluation ; ← Retour → bibliothèque. | ☐ |
+| 6.13 | Changer de profil : Tom, « Mon bilan » | « Pas encore de résultat… » : Tom ne voit pas les résultats de Léa. La question signalée par Léa n'est pas posée à Tom non plus (signalements communs à l'appareil). | ☐ |
+| 6.14 | « En baisse » : dans la console, `localStorage.setItem("miniprof.v1.events.<id de Tom>", JSON.stringify(Array.from({length:25}, (_, i) => [1791000000+i, "maths-cm2-division-euclidienne", "q001", "calcul", 2, "e", (i < 15 \|\| i % 2) ? 1 : 0, 5, {q:1,r:1}, null])))` puis recharger le bilan de Tom | « Poser la division » : « 80 % de réussite, en baisse » dans « À travailler » (100 % sur les 15 premiers essais, 50 % sur les 10 derniers). | ☐ |
+| 6.15 | Stockage plein simulé : dans la console `Storage.prototype.setItem = () => { throw new Error("plein") }`, puis répondre à une question d'entraînement | Encadré rouge « Sauvegarde impossible sur cet appareil… ». Recharger la page pour revenir à la normale. | ☐ |
+| 6.16 | « Gérer les profils » : supprimer Tom (deux clics) | La clé `miniprof.v1.events.<id de Tom>` disparaît. | ☐ |
+| 6.17 | 360 px de large, thème sombre | Bilan, signalées et badge sans défilement horizontal ; barres lisibles. | ☐ |
+| 6.18 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
+

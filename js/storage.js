@@ -36,3 +36,14 @@ export function writeKey(cle, valeur) {
 export const MESSAGE_ECHEC_SAUVEGARDE =
   "Sauvegarde impossible sur cet appareil (stockage plein ou désactivé). " +
   "Exporte tes données pour ne rien perdre.";
+
+// Supprime une clé (ex. les événements d'un profil supprimé).
+export function removeKey(cle) {
+  try {
+    localStorage.removeItem(PREFIXE + cle);
+    return true;
+  } catch (e) {
+    console.warn("Suppression impossible :", cle, e);
+    return false;
+  }
+}

@@ -9,6 +9,8 @@
 //   #/module/<id>/entrainement/<niveau>[/<compétence>]   questions (screens/practice.js)
 //   #/module/<id>/evaluation                 réglage de l'évaluation
 //   #/module/<id>/evaluation/<mixte|1..4>    évaluation puis résultat (screens/exam.js)
+//   #/module/<id>/bilan                      bilan d'un module (screens/report.js)
+//   #/bilan                                  bilan de tous les modules
 // Pourquoi : changer d'écran = changer d'adresse. Le bouton « retour » du
 // navigateur ou du téléphone marche tout seul, et recharger la page garde
 // l'écran courant. Aucun serveur n'est nécessaire (GitHub Pages ignore le #).
@@ -22,6 +24,7 @@ import { showPracticeSetup } from "./screens/practice-setup.js";
 import { showPractice } from "./screens/practice.js";
 import { showExamSetup } from "./screens/exam-setup.js";
 import { showExam } from "./screens/exam.js";
+import { showReport } from "./screens/report.js";
 
 function route() {
   const hash = location.hash;
@@ -44,6 +47,10 @@ function route() {
     showProfiles();
   } else if (parties[0] === "biblio") {
     showLibrary();
+  } else if (parties[0] === "bilan") {
+    showReport(null);
+  } else if (parties[0] === "module" && parties[1] && parties[2] === "bilan") {
+    showReport(decodeURIComponent(parties[1]));
   } else if (parties[0] === "module" && parties[1] && parties[2] === "apprendre") {
     showLesson(decodeURIComponent(parties[1]), parties[3] ? decodeURIComponent(parties[3]) : null);
   } else if (parties[0] === "module" && parties[1] && parties[2] === "entrainement" && parties[3]) {
@@ -55,7 +62,7 @@ function route() {
   } else if (parties[0] === "module" && parties[1] && parties[2] === "evaluation") {
     showExamSetup(decodeURIComponent(parties[1]));
   } else if (parties[0] === "module" && parties[1] && parties[2]) {
-    // Activité pas encore construite (ex. « bilan ») : accueil du module.
+    // Activité inconnue (lien abîmé) : accueil du module.
     location.replace("#/module/" + parties[1]);
   } else if (parties[0] === "module" && parties[1]) {
     showModuleHome(decodeURIComponent(parties[1]));

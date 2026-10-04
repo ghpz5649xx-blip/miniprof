@@ -4,8 +4,8 @@ Usage :
     python tools/build_index.py            # dossier modules/ du dépôt
     python tools/build_index.py autre/dossier
 
-Pourquoi un index : la bibliothèque de l'app affiche titre, matière et niveau sans
-télécharger chaque module (100 à 200 questions chacun). Le module complet n'est lu
+Pourquoi un index : la bibliothèque et le bilan de l'app affichent titre, matière, niveau
+et compétences sans télécharger chaque module (100 à 200 questions chacun). Le module complet n'est lu
 qu'à son ouverture.
 
 Seuls les modules VALIDES (validate.py) et bien nommés (<id>.json) sont indexés :
@@ -48,6 +48,9 @@ def construire_index(dossier):
             "level": data["level"],
             "description": data["description"],
             "questions": len(data["questions"]),
+            # Libellés des compétences : le bilan « tous modules » de l'app les
+            # affiche sans avoir à télécharger chaque module.
+            "skills": [{"id": s["id"], "label": s["label"]} for s in data["skills"]],
         })
     modules.sort(key=lambda m: (m["subject"], ORDRE_NIVEAUX.index(m["level"]), m["title"]))
     # Pas de date de génération : l'index ne change que si un module change,

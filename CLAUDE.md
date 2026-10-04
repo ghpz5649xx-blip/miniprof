@@ -24,9 +24,11 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
   (`el()`, `richText()`), `storage.js` (localStorage protégé), `profiles.js`, `loader.js`,
   `check-module.js`, `open-module.js` (chargement + contrôle d'un module pour un écran),
   `answers.js` (comparaison tolérante des réponses), `question-view.js` (affichage et correction
-  d'une question, partagé entraînement / évaluation), `screens/` (un fichier par écran :
-  `profiles`, `library`, `module-home`, `lesson`, `practice-setup`, `practice`, `exam-setup`
-  (réglage + composition de l'évaluation), `exam`, `exam-result`).
+  d'une question, partagé entraînement / évaluation, bouton « signaler »), `events.js` (journal
+  des tentatives par profil, format compact), `flags.js` (questions signalées), `stats.js`
+  (calculs du bilan), `screens/` (un fichier par écran : `profiles`, `library`, `module-home`,
+  `lesson`, `practice-setup`, `practice`, `exam-setup` (réglage + composition de l'évaluation),
+  `exam`, `exam-result`, `report` (bilan)).
 - `docs/` : `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`.
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
 

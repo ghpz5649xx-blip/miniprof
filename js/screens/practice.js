@@ -8,14 +8,20 @@
 //   1er essai faux           -> message ciblé (common_errors) ou générique,
 //                               puis Réessayer / Un indice / Voir la correction ;
 //   2e essai faux, ou « Voir la correction » -> correction, « Question suivante ».
-// Seul le 1er essai compte dans les statistiques de la séance.
-// Les statistiques et les questions déjà posées sont gardées en mémoire
-// seulement : recharger la page recommence une séance.
+// Seul le 1er essai compte : il est enregistré dans le journal de l'enfant
+// (js/events.js), qui sert au bilan. Le compteur affiché et les questions
+// déjà posées ne concernent que la séance en cours : recharger la page
+// recommence une séance (sans rien perdre du journal).
+// Après la correction, « Cette question me semble fausse » la signale
+// (js/flags.js) : elle n'est plus tirée.
 
 import { el, clear, topBar, message, richText } from "../ui.js";
 import { openModule } from "../open-module.js";
-import { renderQuestion, isCorrect, findCommonError, correctAnswerText } from "../question-view.js";
+import { renderQuestion, isCorrect, findCommonError, correctAnswerText, boutonSignaler } from "../question-view.js";
 import { questionsDuNiveau, retenirReglage } from "./practice-setup.js";
+import { currentProfile } from "../profiles.js";
+import { addEvents, maintenant } from "../events.js";
+import { MESSAGE_ECHEC_SAUVEGARDE } from "../storage.js";
 
 // Nombre de questions récentes qu'on évite de reposer.
 const SANS_REPETER = 10;
@@ -44,7 +50,7 @@ export function showPractice(id, niveauTexte, skill) {
       zone.replaceChildren(retourReglage("Cette compétence n'existe pas dans ce module.", reglage));
       return;
     }
-    const banque = questionsDuNiveau(module, niveau, skill);
+    let banque = questionsDuNiveau(id, module, niveau, skill);
     if (banque.length === 0) {
       zone.replaceChildren(retourReglage("Pas de question de ce niveau pour cette compétence.", reglage));
       return;
@@ -58,6 +64,13 @@ export function showPractice(id, niveauTexte, skill) {
     const recentes = []; // id des dernières questions posées, la plus récente à la fin
 
     function questionSuivante() {
+      // Recalculée à chaque question : une question qui vient d'être signalée
+      // ne doit plus sortir.
+      banque = questionsDuNiveau(id, module, niveau, skill);
+      if (banque.length === 0) {
+        zone.replaceChildren(retourReglage("Il n'y a plus de question pour ce réglage.", reglage));
+        return;
+      }
       const q = tirerQuestion(banque, recentes);
       recentes.push(q.id);
       if (recentes.length > SANS_REPETER) recentes.shift();
@@ -66,11 +79,14 @@ export function showPractice(id, niveauTexte, skill) {
 
     function afficherQuestion(q) {
       let essai = 1;
+      const affichee = Date.now(); // pour la durée enregistrée
       const vue = renderQuestion(q, valider);
       const entete = el("p", { class: "step-count" });
       const zoneIndice = el("div", {});
       const zoneRetour = el("div", {});
       const boutons = el("div", { class: "actions" });
+      const zoneSignaler = el("div", {});
+      const zoneAlerte = el("div", {}); // échec d'enregistrement
 
       function majEntete() {
         entete.textContent = "Niveau " + niveau + " : " + reussies + " réussie" + (reussies > 1 ? "s" : "")
@@ -84,12 +100,14 @@ export function showPractice(id, niveauTexte, skill) {
 
       majEntete();
       zone.replaceChildren(el("div", {},
+        zoneAlerte,
         entete,
         competence ? el("p", { class: "muted" }, richText(String(competence.label))) : null,
         el("div", { class: "card" }, vue.element),
         zoneIndice,
         zoneRetour,
         boutons,
+        zoneSignaler,
         aUneLecon
           ? el("a", { class: "btn btn-link", href: "#/module/" + id + "/apprendre/" + encodeURIComponent(q.skill) }, "Revoir la méthode")
           : null,
@@ -129,7 +147,7 @@ export function showPractice(id, niveauTexte, skill) {
           } else {
             serie = 0;
           }
-          // Étape 6 : enregistrer ici l'événement du premier essai.
+          enregistrer(lu.reponse, juste);
         }
         if (juste) {
           terminer(true);
@@ -138,6 +156,15 @@ export function showPractice(id, niveauTexte, skill) {
         } else {
           terminer(false);
         }
+      }
+
+      // Premier essai : un événement dans le journal de l'enfant.
+      function enregistrer(reponse, juste) {
+        const ok = addEvents(currentProfile().id, [{
+          date: maintenant(), module: id, question: q.id, skill: q.skill, difficulty: q.difficulty,
+          mode: "e", juste: juste, duree: Math.round((Date.now() - affichee) / 1000), reponse: reponse,
+        }]);
+        if (!ok) zoneAlerte.replaceChildren(message("error", MESSAGE_ECHEC_SAUVEGARDE));
       }
 
       // 1er essai faux : on bloque la saisie le temps de lire le message.
@@ -174,11 +201,12 @@ export function showPractice(id, niveauTexte, skill) {
 
         const suivante = el("button", { class: "btn btn-primary", onclick: questionSuivante }, "Question suivante");
         boutons.replaceChildren(suivante);
+        zoneSignaler.replaceChildren(boutonSignaler(id, q));
 
         // Montée de niveau proposée (jamais imposée), s'il y a des questions
         // au niveau suivant pour ce réglage.
         if (serie >= SERIE_NIVEAU_SUIVANT && niveau < 4
-            && questionsDuNiveau(module, niveau + 1, skill).length > 0) {
+            && questionsDuNiveau(id, module, niveau + 1, skill).length > 0) {
           zoneRetour.append(message("ok",
             "Tu enchaînes " + serie + " réussites du premier coup : tu peux passer au niveau suivant !"));
           boutons.append(el("a", {

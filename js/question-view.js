@@ -13,8 +13,11 @@
 //   choice : "b"             (id du choix)
 //   text   : "Paris"         (texte tapé)
 
-import { el, richText } from "./ui.js";
+import { el, richText, message } from "./ui.js";
 import { parseNumber, isCorrectSimple } from "./answers.js";
+import { flagQuestion } from "./flags.js";
+import { currentProfile } from "./profiles.js";
+import { MESSAGE_ECHEC_SAUVEGARDE } from "./storage.js";
 
 // Crée l'affichage de la question `q`. `auValider` est appelée quand
 // l'enfant appuie sur Entrée dans une case.
@@ -101,6 +104,23 @@ function libelleChoix(q, id) {
 // 3.5 -> « 3,5 » : l'écriture française qu'apprend l'enfant.
 function nombreEnTexte(n) {
   return String(n).replace(".", ",").replace("-", "−");
+}
+
+// « Cette question me semble fausse » : signale la question (elle ne sera plus
+// tirée) et se remplace par un remerciement. `id` : celui du module (adresse).
+export function boutonSignaler(id, q) {
+  const zone = el("div", {});
+  const bouton = el("button", {
+    class: "btn btn-link",
+    onclick: () => {
+      const ok = flagQuestion(id, q.id, currentProfile().id);
+      zone.replaceChildren(ok
+        ? message("info", "Merci ! Cette question ne te sera plus posée, un adulte va la vérifier.")
+        : message("error", MESSAGE_ECHEC_SAUVEGARDE));
+    },
+  }, "Cette question me semble fausse");
+  zone.append(bouton);
+  return zone;
 }
 
 // Entrée dans une case = bouton « Valider ».

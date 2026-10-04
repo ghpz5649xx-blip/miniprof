@@ -6,6 +6,7 @@
 
 import { el, clear, topBar, message, richText, chip } from "../ui.js";
 import { openModule } from "../open-module.js";
+import { withoutFlagged } from "../flags.js";
 
 // Les 4 niveaux = la "difficulty" des questions du module.
 const NIVEAUX = [
@@ -25,10 +26,10 @@ export function retenirReglage(id, niveau, skill) {
   dernier = { id: id, niveau: niveau, skill: skill };
 }
 
-// Questions de la banque pour un niveau et une compétence (null = toutes).
-// Étape 6 : il faudra aussi retirer ici les questions signalées.
-export function questionsDuNiveau(module, niveau, skill) {
-  return module.questions.filter((q) => q.difficulty === niveau && (!skill || q.skill === skill));
+// Questions de la banque pour un niveau et une compétence (null = toutes),
+// sans les questions signalées (js/flags.js). `id` : celui de l'adresse.
+export function questionsDuNiveau(id, module, niveau, skill) {
+  return withoutFlagged(id, module.questions).filter((q) => q.difficulty === niveau && (!skill || q.skill === skill));
 }
 
 export function showPracticeSetup(id) {
@@ -61,7 +62,7 @@ export function showPracticeSetup(id) {
     function contenu() {
       const niveaux = el("div", { class: "chips", role: "group", "aria-label": "Niveau" });
       for (const nv of NIVEAUX) {
-        const nombre = questionsDuNiveau(module, nv.n, skill).length;
+        const nombre = questionsDuNiveau(id, module, nv.n, skill).length;
         niveaux.append(chip("niveau-" + nv.n, nv.n === niveau, "Niveau " + nv.n,
           nv.texte + " · " + nombre + " question" + (nombre > 1 ? "s" : ""),
           () => { niveau = nv.n; afficher("niveau-" + nv.n); }));
@@ -78,7 +79,7 @@ export function showPracticeSetup(id) {
       });
 
       // Rien à proposer pour ce réglage : on le dit au lieu d'un écran vide.
-      const nombre = questionsDuNiveau(module, niveau, skill).length;
+      const nombre = questionsDuNiveau(id, module, niveau, skill).length;
       const adresse = "#/module/" + id + "/entrainement/" + niveau + (skill ? "/" + encodeURIComponent(skill) : "");
       const depart = nombre > 0
         ? el("div", { class: "actions" }, el("a", { class: "btn btn-primary", href: adresse }, "Commencer"))

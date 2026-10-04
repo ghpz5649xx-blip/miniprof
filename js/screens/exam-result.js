@@ -1,15 +1,17 @@
 // Résultat d'une évaluation : note, temps, réussite par compétence,
 // corrections dépliables et boutons pour la suite.
 //
-// Affiché par screens/exam.js à la fin de l'évaluation, à la même adresse.
-// Rien n'est enregistré pour l'instant (étape 6) : recharger la page relance
-// une nouvelle évaluation.
+// Affiché par screens/exam.js à la fin de l'évaluation, à la même adresse,
+// une fois les réponses enregistrées. Recharger la page relance une nouvelle
+// évaluation (le résultat reste visible dans le bilan).
 
-import { el, richText } from "../ui.js";
-import { correctAnswerText, answerText } from "../question-view.js";
+import { el, richText, message } from "../ui.js";
+import { correctAnswerText, answerText, boutonSignaler } from "../question-view.js";
+import { MESSAGE_ECHEC_SAUVEGARDE } from "../storage.js";
 
 // `evalFinie` : { id, module, reponses: [{ q, reponse, juste }], duree (ms),
-//                 recommencer: fonction qui relance une évaluation }
+//                 recommencer: fonction qui relance une évaluation,
+//                 enregistre: false si l'enregistrement a échoué }
 export function afficherResultat(zone, evalFinie) {
   const { id, module, reponses } = evalFinie;
   const total = reponses.length;
@@ -17,6 +19,7 @@ export function afficherResultat(zone, evalFinie) {
   const parCompetence = scoresParCompetence(module, reponses);
 
   zone.replaceChildren(el("div", {},
+    evalFinie.enregistre ? null : message("error", MESSAGE_ECHEC_SAUVEGARDE),
     el("header", { class: "hero" },
       el("p", { class: "exam-score" }, note + " / " + total),
       el("p", {}, appreciation(note / total)),
@@ -25,7 +28,7 @@ export function afficherResultat(zone, evalFinie) {
     el("h2", { class: "section-title" }, "Par compétence"),
     el("div", { class: "card" }, ...parCompetence.map(barreCompetence)),
     el("h2", { class: "section-title" }, "Les corrections"),
-    ...reponses.map((r, i) => correction(r, i, module)),
+    ...reponses.map((r, i) => correction(r, i, id, module)),
     boutons(evalFinie, parCompetence, note < total),
   ));
   window.scrollTo(0, 0);
@@ -69,7 +72,10 @@ function scoresParCompetence(module, reponses) {
   return lignes;
 }
 
-function barreCompetence(ligne) {
+// Barre de réussite d'une compétence. `ligne` : { label, justes, total },
+// et `detail` facultatif (texte à droite, « x/y » sinon).
+// Aussi utilisée par le bilan (screens/report.js).
+export function barreCompetence(ligne) {
   const taux = ligne.justes / ligne.total;
   const couleur = taux < 0.5 ? "bar-ko" : taux < 0.8 ? "bar-mid" : "bar-ok";
   const remplissage = el("div", { class: "bar-fill " + couleur });
@@ -79,14 +85,14 @@ function barreCompetence(ligne) {
   return el("div", { class: "skill-score" },
     el("div", { class: "row" },
       el("span", { class: "grow" }, richText(ligne.label)),
-      el("strong", {}, ligne.justes + "/" + ligne.total),
+      el("strong", {}, ligne.detail || ligne.justes + "/" + ligne.total),
     ),
     el("div", { class: "bar" }, remplissage),
   );
 }
 
 // Une correction dépliable (<details> : le navigateur gère l'ouverture seul).
-function correction(r, i, module) {
+function correction(r, i, id, module) {
   const competence = module.skills.find((s) => s && s.id === r.q.skill);
   return el("details", { class: "card correction" },
     el("summary", {},
@@ -97,6 +103,7 @@ function correction(r, i, module) {
     el("p", {}, el("strong", {}, "Ta réponse : "), richText(answerText(r.q, r.reponse))),
     r.juste ? null : el("p", {}, el("strong", {}, "Bonne réponse : "), richText(correctAnswerText(r.q))),
     el("p", { class: "muted" }, richText(r.q.explanation)),
+    boutonSignaler(id, r.q),
   );
 }
 

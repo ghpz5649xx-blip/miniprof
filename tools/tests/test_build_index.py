@@ -37,6 +37,8 @@ class TestBuildIndex(unittest.TestCase):
         self.assertEqual(m["questions"], len(source["questions"]))
         for champ in ("version", "subject", "level", "description"):
             self.assertIn(champ, m)
+        # Utilisé par le bilan de l'app (js/screens/report.js).
+        self.assertEqual(m["skills"], [{"id": s["id"], "label": s["label"]} for s in source["skills"]])
 
     def test_ecartes_avec_raison(self):
         noms = dict(self.ecartes)

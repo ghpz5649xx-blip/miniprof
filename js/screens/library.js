@@ -46,7 +46,13 @@ function listeModules(index) {
   if (modules.length === 0) {
     return message("info", "Aucun module pour l'instant.");
   }
-  const contenu = el("div", {});
+  // Le bilan, en tête : l'enfant voit d'abord ce qu'il a à travailler.
+  const contenu = el("div", {},
+    el("a", { class: "card card-link", href: "#/bilan" },
+      el("span", { class: "card-title" }, "Mon bilan"),
+      el("span", { class: "card-text" }, "Ce qui est réussi, ce qu'il reste à travailler"),
+    ),
+  );
   // L'index est déjà trié par matière puis niveau : on crée un titre à chaque
   // changement de matière.
   let matiereCourante = null;

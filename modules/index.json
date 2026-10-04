@@ -8,7 +8,33 @@
       "subject": "maths",
       "level": "CM2",
       "description": "Partager en parts égales, trouver le quotient et le reste, vérifier avec la preuve et résoudre des problèmes.",
-      "questions": 37
+      "questions": 37,
+      "skills": [
+        {
+          "id": "vocabulaire",
+          "label": "Connaître le vocabulaire"
+        },
+        {
+          "id": "multiples",
+          "label": "Trouver le bon multiple"
+        },
+        {
+          "id": "calcul",
+          "label": "Poser la division"
+        },
+        {
+          "id": "preuve",
+          "label": "Retrouver le dividende"
+        },
+        {
+          "id": "verifier",
+          "label": "Repérer l'erreur"
+        },
+        {
+          "id": "probleme",
+          "label": "Résoudre un problème"
+        }
+      ]
     }
   ]
 }

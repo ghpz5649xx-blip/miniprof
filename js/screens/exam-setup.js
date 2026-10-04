@@ -9,6 +9,7 @@
 
 import { el, clear, topBar, message, chip } from "../ui.js";
 import { openModule } from "../open-module.js";
+import { withoutFlagged } from "../flags.js";
 
 const NB_QUESTIONS = 10;
 // Mixte : difficulté croissante, pour mettre en confiance avant les questions dures.
@@ -36,9 +37,10 @@ export function retenirReglageEval(id, niveau) {
 // Niveau fixe : uniquement des questions de ce niveau ; s'il y en a moins de
 // 10, l'évaluation est plus courte (mélanger des niveaux fausserait la note).
 // Mixte : si une difficulté manque, on prend la plus proche.
-export function composerEvaluation(module, niveau) {
-  // Étape 6 : retirer ici les questions signalées.
-  const banque = module.questions;
+// Les questions signalées (js/flags.js) ne sont jamais prises.
+// `id` : celui du module, tiré de l'adresse.
+export function composerEvaluation(id, module, niveau) {
+  const banque = withoutFlagged(id, module.questions);
   const cibles = niveau === "mixte" ? MIXTE : Array(NB_QUESTIONS).fill(niveau);
   const prises = [];
   const parCompetence = {}; // id de compétence -> nombre de questions déjà prises
@@ -95,13 +97,13 @@ export function showExamSetup(id) {
     function contenu() {
       const niveaux = el("div", { class: "chips", role: "group", "aria-label": "Niveau" });
       for (const nv of NIVEAUX) {
-        const nombre = composerEvaluation(module, nv.n).length;
+        const nombre = composerEvaluation(id, module, nv.n).length;
         niveaux.append(chip("niveau-" + nv.n, nv.n === niveau, nv.titre,
           nv.texte + " · " + nombre + " question" + (nombre > 1 ? "s" : ""),
           () => { niveau = nv.n; afficher("niveau-" + nv.n); }));
       }
 
-      const depart = composerEvaluation(module, niveau).length > 0
+      const depart = composerEvaluation(id, module, niveau).length > 0
         ? el("div", { class: "actions" },
           el("a", { class: "btn btn-primary", href: "#/module/" + id + "/evaluation/" + niveau }, "Lancer l'évaluation"))
         : message("info", "Pas de question de ce niveau dans ce module : choisis un autre niveau.");

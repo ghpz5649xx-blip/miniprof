@@ -3,10 +3,11 @@
 // Stockage :
 //   miniprof.v1.profiles = [{ "id": "p1a2b3c", "name": "Léa" }, ...]
 //   miniprof.v1.current  = "p1a2b3c"   (profil choisi en dernier sur cet appareil)
-// L'id ne change jamais (on pourra renommer sans perdre l'historique, qui
-// sera rattaché à l'id à l'étape 6).
+// L'id ne change jamais : l'historique (js/events.js) y est rattaché, on
+// pourra donc renommer un profil sans le perdre.
 
 import { readKey, writeKey } from "./storage.js";
+import { deleteEvents } from "./events.js";
 
 export const MAX_NAME = 20;
 
@@ -53,9 +54,9 @@ export function createProfile(nomSaisi) {
   return { ok: true, profile: profile };
 }
 
-// Supprime un profil (pour l'instant : seulement la ligne du profil ; à
-// l'étape 6, il faudra aussi supprimer ses événements).
+// Supprime un profil et tout son historique.
 export function deleteProfile(id) {
   const profils = listProfiles().filter((p) => p.id !== id);
-  return writeKey("profiles", profils);
+  if (!writeKey("profiles", profils)) return false;
+  return deleteEvents(id);
 }
