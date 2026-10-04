@@ -1,7 +1,9 @@
 """Règles qui doivent rester synchronisées entre l'app (JS) et les outils (Python).
 
-- REQUIRED / REQUIRED_QUESTION de js/check-module.js ≡ champs obligatoires du schéma
+- REQUIRED / REQUIRED_QUESTION / TYPES_CONNUS / BLOCS_CONNUS de js/check-module.js ≡ schéma
   (risque R5 : dérive entre le contrôle de l'app et validate.py) ;
+- normalize_text() ≡ normalizeText() de js/answers.js : voir test_normalisation.py et les cas
+  partagés de fixtures/normalisation.json ;
 - aucun innerHTML dans le JS de l'app (risque R7 : injection de contenu de module).
 """
 
@@ -36,6 +38,10 @@ class TestSynchronisation(unittest.TestCase):
     def test_types_de_question(self):
         self.assertEqual(liste_js("TYPES_CONNUS"),
                          SCHEMA["$defs"]["question"]["properties"]["type"]["enum"])
+
+    def test_types_de_bloc(self):
+        self.assertEqual(liste_js("BLOCS_CONNUS"),
+                         SCHEMA["$defs"]["bloc"]["properties"]["type"]["enum"])
 
     def test_aucun_innerhtml(self):
         interdit = re.compile(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write")

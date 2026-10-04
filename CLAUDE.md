@@ -22,7 +22,9 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
 - `tools/tests/` : unittest + `fixtures/`.
 - `index.html`, `css/style.css`, `js/` : l'app. `js/app.js` (routage par hash), `ui.js`
   (`el()`, `richText()`), `storage.js` (localStorage protégé), `profiles.js`, `loader.js`,
-  `check-module.js`, `screens/` (un fichier par écran).
+  `check-module.js`, `open-module.js` (chargement + contrôle d'un module pour un écran),
+  `answers.js` (comparaison tolérante des réponses), `screens/` (un fichier par écran :
+  `profiles`, `library`, `module-home`, `lesson`).
 - `docs/` : `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`.
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
 
@@ -36,8 +38,9 @@ python3 -m http.server 8000                   # tester l'app (file:// ne marche 
 ```
 
 ## Règles à garder synchronisées
-- `normalize_text()` (`tools/common.py`) ≡ `normalizeText()` (`js/answers.js`).
-- Champs obligatoires du schéma ≡ `REQUIRED`, `REQUIRED_QUESTION`, `TYPES_CONNUS` de
+- `normalize_text()` (`tools/common.py`) ≡ `normalizeText()` (`js/answers.js`) : cas partagés
+  dans `tools/tests/fixtures/normalisation.json` (Python : `test_normalisation.py` ; JS : recette 3.15).
+- Champs obligatoires du schéma ≡ `REQUIRED`, `REQUIRED_QUESTION`, `TYPES_CONNUS`, `BLOCS_CONNUS` de
   `js/check-module.js` (test automatique `test_sync.py`, qui interdit aussi `innerHTML`).
 - La validation complète est dans `validate.py` ; l'app ne fait qu'un contrôle défensif.
 

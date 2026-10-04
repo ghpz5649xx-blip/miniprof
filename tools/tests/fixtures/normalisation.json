@@ -1,0 +1,30 @@
+{
+  "_commentaire": "Cas partagés entre normalize_text() (tools/common.py) et normalizeText() / parseNumber() (js/answers.js). Python teste 'texte' ; le JS est vérifié par l'extrait de console de docs/recette.md (étape 3).",
+  "texte": [
+    ["  Le   Quotient. ", "le quotient"],
+    ["ÉLÉPHANT !", "elephant"],
+    ["l’été", "l'ete"],
+    ["Ça va ?!", "ca va"],
+    ["mille deux", "mille deux"],
+    ["mille deux", "mille deux"],
+    ["Noël, ", "noel"],
+    ["a.b", "a.b"],
+    ["", ""]
+  ],
+  "nombres": [
+    ["43", 43],
+    [" 43 ", 43],
+    ["3,5", 3.5],
+    ["3.5", 3.5],
+    ["-2", -2],
+    ["−2", -2],
+    ["1 000", 1000],
+    ["0", 0],
+    [",5", 0.5],
+    ["abc", null],
+    ["12abc", null],
+    ["1.2.3", null],
+    ["", null],
+    ["-", null]
+  ]
+}

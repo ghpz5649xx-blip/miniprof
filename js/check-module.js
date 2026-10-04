@@ -5,7 +5,9 @@
 // et types de base. Recouvrement avec validate.py, volontairement minimal :
 //   - REQUIRED          ≡ "required" à la racine de schema/module.schema.json
 //   - REQUIRED_QUESTION ≡ "required" de $defs.question dans le schéma
-// Ces deux listes sont comparées au schéma par tools/tests/test_sync.py :
+//   - TYPES_CONNUS      ≡ types de question du schéma
+//   - BLOCS_CONNUS      ≡ types de bloc de leçon du schéma
+// Ces listes sont comparées au schéma par tools/tests/test_sync.py :
 // si on modifie le schéma sans les mettre à jour, le test échoue.
 
 const REQUIRED = ["schema_version", "id", "version", "title", "subject", "level", "description", "skills", "lesson", "questions"];
@@ -13,11 +15,13 @@ const REQUIRED_QUESTION = ["id", "skill", "difficulty", "type", "prompt", "hint"
 
 const SCHEMA_VERSION = 1;
 const TYPES_CONNUS = ["number", "choice", "text"];
+const BLOCS_CONNUS = ["text", "worked_example", "guided_steps"];
 
 // Renvoie { ok, module, errors, warnings }.
 // - ok = false : le module est inutilisable, `errors` dit pourquoi ;
-// - ok = true  : `module` est utilisable ; les questions mal formées ont été
-//   retirées (et comptées dans `warnings`) au lieu de faire planter l'écran.
+// - ok = true  : `module` est utilisable ; les questions et les blocs de leçon
+//   mal formés ont été retirés (et comptés dans `warnings`) au lieu de faire
+//   planter l'écran. La leçon peut donc être vide : l'écran Apprendre le dit.
 export function checkModule(data) {
   const errors = [];
   const warnings = [];
@@ -55,8 +59,15 @@ export function checkModule(data) {
     return { ok: false, module: null, errors, warnings };
   }
 
-  // Copie du module avec seulement les questions utilisables.
-  const module = Object.assign({}, data, { questions: questions });
+  // Leçon : même principe, mais une leçon abîmée n'empêche pas de s'entraîner.
+  const lesson = data.lesson.filter(blocUtilisable);
+  const blocsEcartes = data.lesson.length - lesson.length;
+  if (blocsEcartes > 0) {
+    warnings.push(`${blocsEcartes} bloc(s) de leçon mal formé(s) ignoré(s) : lance validate.py sur ce module.`);
+  }
+
+  // Copie du module avec seulement les questions et blocs utilisables.
+  const module = Object.assign({}, data, { questions: questions, lesson: lesson });
   return { ok: true, module, errors, warnings };
 }
 
@@ -71,4 +82,19 @@ function questionUtilisable(q) {
   if (q.type === "choice") return Array.isArray(q.choices) && q.choices.length >= 2 && "answer" in q;
   if (q.type === "text") return Array.isArray(q.accepted) && q.accepted.length > 0;
   return false;
+}
+
+// Vrai si le bloc de leçon a ce qu'il faut pour être affiché sans planter.
+function blocUtilisable(b) {
+  if (b === null || typeof b !== "object") return false;
+  if (typeof b.title !== "string" || !BLOCS_CONNUS.includes(b.type)) return false;
+  if (b.type === "text") return typeof b.body === "string";
+  if (!Array.isArray(b.steps) || b.steps.length === 0) return false;
+  if (b.type === "worked_example") {
+    return b.steps.every((e) => e !== null && typeof e === "object" && typeof e.thought === "string");
+  }
+  // guided_steps : la réponse doit être un nombre ou un texte, sinon on ne
+  // pourrait pas la comparer à la saisie.
+  return b.steps.every((e) => e !== null && typeof e === "object" && typeof e.prompt === "string"
+    && (typeof e.answer === "number" || typeof e.answer === "string"));
 }

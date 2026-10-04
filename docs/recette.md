@@ -53,3 +53,43 @@ permet de repartir de zéro).
 | 2.16 | `python -m unittest discover tools/tests -v` | 31 tests, tous « ok » (dont `test_sync` : listes de champs alignées avec le schéma, aucun `innerHTML`). | ☐ |
 
 Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
+
+## Étape 3 — Apprendre (la leçon)
+
+Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profil créé).
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 3.1 | Ouvrir le module | Carte « Apprendre » active (cliquable) ; les 3 autres grisées « Bientôt (étape n) ». | ☐ |
+| 3.2 | « Apprendre » | Barre « ← Retour / Apprendre », « Étape 1 sur 12 », titre « L'histoire de Nolan », texte avec mots en gras et retours à la ligne. Touche Entrée = « Continuer ». | ☐ |
+| 3.3 | « Continuer » → « Lire une division euclidienne » | Phrase d'intro, 4 cartes « pensée » chacune avec « Pourquoi : … » en gris, encadré vert « dividende = diviseur × quotient + reste ». | ☐ |
+| 3.4 | « Continuer » → « La table de 19 » | « 2 × 19 = [case] », curseur dans la case (clavier numérique sur téléphone). | ☐ |
+| 3.5 | Valider sans rien taper ; puis « abc » ; puis « 37 » | « Écris ta réponse. » ; « Écris un nombre. » ; « Pas encore. » + indice, saisie sélectionnée. Tous en orange. | ☐ |
+| 3.6 | Taper « 38 » + Entrée | La ligne « 2 × 19 = **38** ✓ » reste affichée, « 3 × 19 = [case] » apparaît avec le curseur dedans. | ☐ |
+| 3.7 | Finir la table (57, 76, 95, 114, 133, 152, 171) | 8 lignes cochées, encadré vert de conclusion, bouton « Continuer ». | ☐ |
+| 3.8 | Aller jusqu'à « Trouver le quotient » | La case est au milieu de la phrase : « Il reste 341 − 190 = [case] cartes à partager. » | ☐ |
+| 3.9 | « Nolan a de la ruse » : répondre 342 puis 0 | « 0 » est accepté ; conclusion sur deux lignes. | ☐ |
+| 3.10 | Dernier bloc « À retenir » → « Continuer » | « Bravo, tu as fini la leçon ! », boutons « Je m'entraîne » et « Accueil du module ». « Je m'entraîne » ramène pour l'instant à l'accueil du module. | ☐ |
+| 3.11 | Pendant la leçon : « ← Retour », puis bouton retour du navigateur | Les deux ramènent à l'accueil du module. Recharger (F5) pendant la leçon : elle reprend à l'étape 1. | ☐ |
+| 3.12 | Adresse `…/#/module/maths-cm2-division-euclidienne/apprendre/preuve` | « Revoir : Retrouver le dividende », « Étape 1 sur 2 ». Avec `…/apprendre/inconnu` : « Cette compétence n'existe pas dans ce module. » + « Accueil du module ». | ☐ |
+| 3.13 | Sécurité : copie de test du module (comme 2.9), mettre `"prompt": "<b>2</b> × 19 = ▢"` dans la 1re mini-étape, `build_index.py`, ouvrir sa leçon | « <b>2</b> × 19 = » s'affiche avec les chevrons. | ☐ |
+| 3.14 | Bloc cassé (avant de supprimer la copie de 3.13) : y supprimer le `"body"` du premier bloc, ouvrir l'adresse `…/#/module/maths-cm2-test` (le module, devenu invalide, n'est plus dans la bibliothèque après `build_index.py`, mais reste ouvrable par son adresse) | Accueil du module : encadré orange « 1 bloc(s) de leçon mal formé(s) ignoré(s) » ; la leçon commence au bloc suivant (« Étape 1 sur 11 »). Ensuite : `rm modules/maths-cm2-test.json && python tools/build_index.py`. | ☐ |
+| 3.15 | Règles de réponse côté JS : console du navigateur (Safari ⌥⌘C, Chrome ⌥⌘J) sur l'app, coller le code ci-dessous | Affiche `[]` (aucun cas en échec). | ☐ |
+| 3.16 | 360 px de large, thème sombre | La case reste dans la phrase ou passe à la ligne, pas de défilement horizontal ; textes lisibles. | ☐ |
+| 3.17 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok » (dont `test_normalisation` et `test_types_de_bloc`). | ☐ |
+
+Code pour 3.15 (compare `js/answers.js` aux cas partagés avec Python) :
+
+```js
+Promise.all([
+  import("/js/answers.js"),
+  fetch("/tools/tests/fixtures/normalisation.json").then(r => r.json()),
+]).then(([{ normalizeText, parseNumber }, cas]) => console.log(
+  cas.texte.filter(([e, a]) => normalizeText(e) !== a)
+    .concat(cas.nombres.filter(([e, a]) => parseNumber(e) !== a))
+));
+```
+
+Pas de `await` au niveau supérieur : la console de Safari ne l'accepte pas.
+
+Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
