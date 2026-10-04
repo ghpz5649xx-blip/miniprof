@@ -227,3 +227,38 @@ input.gap-input {
     transition: none !important;
   }
 }
+
+/* --- Entraînement : réglage ------------------------------------------------ */
+
+/* Puces de choix (niveau, compétence) : la puce choisie a aria-pressed="true". */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  flex: 1 1 140px;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  border-color: var(--border);
+}
+.chip[aria-pressed="true"] { border-color: var(--primary); background: var(--info-bg); }
+.chip-title { display: block; }
+.chip-text { display: block; color: var(--muted); font-weight: 400; font-size: 0.9rem; }
+
+/* --- Questions (entraînement, évaluation) --------------------------------- */
+
+.question-prompt { font-size: 1.2rem; margin-top: 0; }
+
+/* Une case numérique par ligne : « quotient [   ] » */
+.field-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.field-label { min-width: 6em; font-weight: 600; }
+input.field-input { flex: 0 1 8em; text-align: center; }
+input.field-input-wide { flex: 1 1 12em; text-align: left; }
+
+/* QCM : le choix sélectionné est surligné */
+.choice { justify-content: flex-start; text-align: left; border-color: var(--border); }
+.choice[aria-pressed="true"] { border-color: var(--primary); background: var(--info-bg); }
+.choice:disabled { cursor: default; }
+
+/* Après correction : juste en vert, faux en rouge (bordure épaisse + fond) */
+.is-ok { border-color: var(--ok-border) !important; background: var(--ok-bg) !important; }
+.is-ko { border-color: var(--err-border) !important; background: var(--err-bg) !important; }
+input:disabled { opacity: 1; color: var(--text); }

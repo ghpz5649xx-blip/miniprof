@@ -78,9 +78,23 @@ function questionUtilisable(q) {
     if (!(champ in q)) return false;
   }
   if (typeof q.prompt !== "string" || !TYPES_CONNUS.includes(q.type)) return false;
-  if (q.type === "number") return Array.isArray(q.fields) && q.fields.length > 0;
-  if (q.type === "choice") return Array.isArray(q.choices) && q.choices.length >= 2 && "answer" in q;
-  if (q.type === "text") return Array.isArray(q.accepted) && q.accepted.length > 0;
+  if (typeof q.hint !== "string" || typeof q.explanation !== "string") return false;
+  // Chaque case, choix ou réponse acceptée doit pouvoir être comparé à la
+  // saisie : sinon la question serait impossible à réussir.
+  if (q.type === "number") {
+    return Array.isArray(q.fields) && q.fields.length > 0 && q.fields.every((f) => f !== null
+      && typeof f === "object" && typeof f.key === "string" && typeof f.label === "string"
+      && typeof f.answer === "number");
+  }
+  if (q.type === "choice") {
+    return Array.isArray(q.choices) && q.choices.length >= 2
+      && q.choices.every((c) => c !== null && typeof c === "object" && typeof c.label === "string")
+      && q.choices.some((c) => c.id === q.answer);
+  }
+  if (q.type === "text") {
+    return Array.isArray(q.accepted) && q.accepted.length > 0
+      && q.accepted.every((a) => typeof a === "string" || typeof a === "number");
+  }
   return false;
 }
 

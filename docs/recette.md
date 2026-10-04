@@ -69,7 +69,7 @@ Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profi
 | 3.7 | Finir la table (57, 76, 95, 114, 133, 152, 171) | 8 lignes cochées, encadré vert de conclusion, bouton « Continuer ». | ☐ |
 | 3.8 | Aller jusqu'à « Trouver le quotient » | La case est au milieu de la phrase : « Il reste 341 − 190 = [case] cartes à partager. » | ☐ |
 | 3.9 | « Nolan a de la ruse » : répondre 342 puis 0 | « 0 » est accepté ; conclusion sur deux lignes. | ☐ |
-| 3.10 | Dernier bloc « À retenir » → « Continuer » | « Bravo, tu as fini la leçon ! », boutons « Je m'entraîne » et « Accueil du module ». « Je m'entraîne » ramène pour l'instant à l'accueil du module. | ☐ |
+| 3.10 | Dernier bloc « À retenir » → « Continuer » | « Bravo, tu as fini la leçon ! », boutons « Je m'entraîne » et « Accueil du module ». « Je m'entraîne » ouvre le réglage de l'entraînement (depuis l'étape 4). | ☐ |
 | 3.11 | Pendant la leçon : « ← Retour », puis bouton retour du navigateur | Les deux ramènent à l'accueil du module. Recharger (F5) pendant la leçon : elle reprend à l'étape 1. | ☐ |
 | 3.12 | Adresse `…/#/module/maths-cm2-division-euclidienne/apprendre/preuve` | « Revoir : Retrouver le dividende », « Étape 1 sur 2 ». Avec `…/apprendre/inconnu` : « Cette compétence n'existe pas dans ce module. » + « Accueil du module ». | ☐ |
 | 3.13 | Sécurité : copie de test du module (comme 2.9), mettre `"prompt": "<b>2</b> × 19 = ▢"` dans la 1re mini-étape, `build_index.py`, ouvrir sa leçon | « <b>2</b> × 19 = » s'affiche avec les chevrons. | ☐ |
@@ -91,5 +91,37 @@ Promise.all([
 ```
 
 Pas de `await` au niveau supérieur : la console de Safari ne l'accepte pas.
+
+Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
+
+## Étape 4 — S'entraîner
+
+Préparation : comme l'étape 2 (serveur sur **http://localhost:8000**, un profil créé).
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 4.1 | Ouvrir le module | Cartes « Apprendre » et « S'entraîner » actives ; les 2 autres grisées. | ☐ |
+| 4.2 | « S'entraîner » | Puces « Niveau 1 » à « Niveau 4 » avec sous-titre et nombre de questions (10, 11, 9, 7) ; puces « Tout mélangé » + les 6 compétences ; « Niveau 1 » et « Tout mélangé » surlignées ; bouton « Commencer ». | ☐ |
+| 4.3 | Choisir « Connaître le vocabulaire » puis « Niveau 4 » | Le niveau 4 indique « 0 question » ; encadré bleu « Pas de question de ce niveau… », pas de bouton « Commencer ». | ☐ |
+| 4.4 | « Poser la division », « Niveau 1 », « Commencer » | Adresse `…/entrainement/1/calcul`. « Niveau 1 : 0 réussie du premier coup sur 0 », « Poser la division », énoncé avec nombres en gras, cases « quotient » et « reste », curseur dans la 1re case (clavier numérique sur téléphone). Boutons « Valider », « Un indice », lien « Revoir la méthode ». | ☐ |
+| 4.5 | « Valider » sans rien ; puis « abc » dans une case | « Remplis toutes les cases. » ; « Écris un nombre dans chaque case. » (orange). Le compteur reste « sur 0 ». | ☐ |
+| 4.6 | « Un indice » | Encadré orange « **Indice** » + l'indice (table de multiplication). | ☐ |
+| 4.7 | Réponse fausse prévue par le module (ex. 23 par 4 : quotient 4, reste 7 ; 17 par 3 : 4 et 5) | Encadré rouge « Pas tout à fait. » + message ciblé (« Ton reste (…) n'est pas plus petit que le diviseur… »). Cases bloquées, boutons « Réessayer » (Entrée), « Un indice », « Voir la correction ». Compteur « 0 réussie … sur 1 ». | ☐ |
+| 4.8 | Autre réponse fausse (ex. 1 et 1) sur une nouvelle question | Message générique « Relis bien l'énoncé, puis réessaie… ». | ☐ |
+| 4.9 | « Réessayer », bonne réponse | Curseur dans la case, saisie sélectionnée. Puis encadré vert (« Bravo ! », « Exact ! »…) + « Tu as trouvé au deuxième essai. », cases vertes ; le compteur ne change pas (seul le 1er essai compte). Entrée = « Question suivante ». | ☐ |
+| 4.10 | Deux fois faux, ou « Voir la correction » | Cases rouges (vertes si juste), encadré bleu « **Correction** », « Bonne réponse : quotient = 5, reste = 2 » puis l'explication. | ☐ |
+| 4.11 | Tolérance : répondre « 5 » et « 3 » entourés d'espaces ; question de texte (« Connaître le vocabulaire ») en majuscules sans accent avec « ! » final | Acceptés. | ☐ |
+| 4.12 | QCM (« Repérer l'erreur ») : « Valider » sans choix ; choisir une réponse fausse ; « Réessayer » ; la bonne | « Choisis une réponse. » ; choix surligné en bleu ; message ciblé ; à la fin, bon choix en vert (et le choix faux en rouge si correction). | ☐ |
+| 4.13 | « Niveau 2 », « Tout mélangé » : 5 bonnes réponses du premier coup d'affilée | « Tu enchaînes 5 réussites du premier coup… » + bouton « Niveau suivant » → `…/entrainement/3`, compteur remis à 0. Une erreur au 1er essai fait disparaître la proposition (série remise à 0). | ☐ |
+| 4.14 | Noter les énoncés de 10 questions de suite au niveau 2 (11 questions) | Aucune répétition parmi les 10. Au niveau 1 de « Résoudre un problème » (1 seule question), la même question revient : normal. | ☐ |
+| 4.15 | « Revoir la méthode » | Leçon de la compétence de la question (« Revoir : … »). Bouton retour du navigateur → retour à l'entraînement (nouvelle série). | ☐ |
+| 4.16 | « ← Retour » pendant l'entraînement | Écran de réglage avec le niveau et la compétence en cours déjà surlignés. « ← Retour » → accueil du module. | ☐ |
+| 4.17 | Fin de leçon (3.10) : « Je m'entraîne » | Écran de réglage de l'entraînement. | ☐ |
+| 4.18 | Adresses abîmées : `…/entrainement/9`, `…/entrainement/1/inconnu` | Retour au réglage ; « Cette compétence n'existe pas dans ce module. » + « Choisir un autre réglage ». | ☐ |
+| 4.19 | Sécurité : copie de test du module (comme 2.9), mettre `"prompt": "<b>23</b> par 4"` dans `q001`, `build_index.py`, l'entraîner (niveau 1, Poser la division) | « <b>23</b> par 4 » s'affiche avec les chevrons. Ensuite : `rm modules/maths-cm2-test.json && python tools/build_index.py`. | ☐ |
+| 4.20 | 360 px de large, thème sombre | Puces sur 2 colonnes, cases et boutons sans défilement horizontal ; vert/rouge/bleu lisibles. | ☐ |
+| 4.21 | `python -m unittest discover tools/tests -v` | 33 tests, tous « ok ». | ☐ |
+
+Pas encore fait (étape 6) : les réponses ne sont pas enregistrées (recharger la page remet le compteur à 0) et le signalement des questions n'existe pas.
 
 Après la recette : `git status` doit être propre (sinon `git checkout modules/`).

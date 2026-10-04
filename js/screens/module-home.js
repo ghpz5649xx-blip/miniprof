@@ -8,7 +8,7 @@ import { openModule } from "../open-module.js";
 // que l'activité n'est pas construite.
 const ACTIVITES = [
   { titre: "Apprendre", texte: "La leçon, pas à pas", page: "apprendre" },
-  { titre: "S'entraîner", texte: "Des questions à volonté, avec indices et corrections", page: null, etape: 4 },
+  { titre: "S'entraîner", texte: "Des questions à volonté, avec indices et corrections", page: "entrainement" },
   { titre: "Évaluation", texte: "10 questions, sans aide, avec une note à la fin", page: null, etape: 5 },
   { titre: "Bilan", texte: "Ce qui est réussi, ce qu'il reste à travailler", page: null, etape: 6 },
 ];

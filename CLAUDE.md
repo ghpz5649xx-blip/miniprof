@@ -23,8 +23,9 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
 - `index.html`, `css/style.css`, `js/` : l'app. `js/app.js` (routage par hash), `ui.js`
   (`el()`, `richText()`), `storage.js` (localStorage protégé), `profiles.js`, `loader.js`,
   `check-module.js`, `open-module.js` (chargement + contrôle d'un module pour un écran),
-  `answers.js` (comparaison tolérante des réponses), `screens/` (un fichier par écran :
-  `profiles`, `library`, `module-home`, `lesson`).
+  `answers.js` (comparaison tolérante des réponses), `question-view.js` (affichage et correction
+  d'une question, partagé entraînement / évaluation), `screens/` (un fichier par écran :
+  `profiles`, `library`, `module-home`, `lesson`, `practice-setup`, `practice`).
 - `docs/` : `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`.
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
 
