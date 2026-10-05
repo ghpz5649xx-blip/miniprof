@@ -5,11 +5,19 @@ Claude Code fait tout (page, contrôles, publication) avec le skill `/nouveau-mo
 (`.claude/skills/nouveau-module/SKILL.md`). Comptez 5 à 10 minutes, relecture comprise.
 
 ## Une seule fois
-1. Dans l'app Claude (iPhone), onglet **Code** (ou https://claude.ai/code dans Safari) :
-   connecter GitHub et autoriser le dépôt `ghpz5649xx-blip/miniprof` (l'app GitHub de Claude
-   doit pouvoir **pousser** sur le dépôt).
-2. Installer l'app **GitHub** sur l'iPhone, connectée au même compte (pour fusionner une PR si la
-   session pousse sur une branche, voir plus bas).
+1. **Connecter GitHub** (plus simple dans Safari que dans l'app) : ouvrir https://claude.ai/code,
+   se connecter avec le compte Claude, suivre « Connect GitHub » → page GitHub « Authorize » →
+   retour sur claude.ai/code. Un environnement « Default » est créé tout seul (accès réseau
+   « Trusted » : suffisant, il laisse installer `jsonschema`).
+2. **Installer l'app GitHub de Claude sur le dépôt** : https://github.com/apps/claude/installations/new
+   → compte `ghpz5649xx-blip` → « Only select repositories » → `miniprof` → « Install ». Sans
+   elle, une session peut lire le dépôt (il est public) mais risque de ne pas pouvoir pousser.
+3. Dans l'app Claude (iPhone), onglet **Code** : le dépôt `ghpz5649xx-blip/miniprof` apparaît
+   dans le choix du dépôt. Pas d'onglet Code : vérifier que l'app est à jour et le compte (offre
+   Pro ou Max).
+4. Installer l'app **GitHub** sur l'iPhone, connectée au même compte, pour fusionner les PR.
+
+Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-setup`.
 
 ## À chaque leçon
 1. Prendre les photos de la leçon et des exercices (cahier, manuel). Cadrer la page entière, sans
@@ -21,8 +29,9 @@ Claude Code fait tout (page, contrôles, publication) avec le skill `/nouveau-mo
    (le niveau suffit ; Claude Code le devine sinon).
 4. Attendre la réponse : l'URL `https://ghpz5649xx-blip.github.io/miniprof/modules/<id>.html`,
    les compétences, et **2 ou 3 points à relire**.
-5. **Si la session a poussé sur une branche** (elle le dit, avec un lien de PR) : dans l'app
-   GitHub, ouvrir la PR → « Merge pull request » → « Confirm ». Sinon, rien à faire.
+5. **Fusionner** : une session dans le cloud travaille sur sa propre branche (`claude/…`), pas
+   sur `main`. Créer la PR (bouton « Create PR » de la session, ou le lien donné par Claude
+   Code), puis dans l'app GitHub : ouvrir la PR → « Merge pull request » → « Confirm ».
 6. Attendre environ **une minute** (publication GitHub Pages), ouvrir l'URL, relire les points
    signalés, faire 2 ou 3 questions par niveau. Une erreur ? La dire dans la même session
    (« la question sur … attend 3/4 au lieu de 2/3 ») : Claude Code corrige et republie, même
@@ -41,5 +50,5 @@ Claude Code fait tout (page, contrôles, publication) avec le skill `/nouveau-mo
 ## À vérifier lors du premier essai (recette 10.x de `docs/recette.md`)
 - Les photos s'envoient bien dans Claude Code depuis l'iPhone.
 - Le skill `/nouveau-module` est proposé dans une session web ou mobile.
-- La session pousse sur `main` directement, ou sur une branche `claude/…` à fusionner. Noter
-  ici ce qu'on a constaté : _à compléter_.
+- La session pousse sur une branche `claude/…` (c'est ce que dit la documentation de Claude
+  Code) : confirmer, et noter ici ce qu'on a constaté : _à compléter_.
