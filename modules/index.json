@@ -1,6 +1,41 @@
 {
   "modules": [
     {
+      "id": "anglais-6e-zootopia-animaux",
+      "kind": "html",
+      "file": "anglais-6e-zootopia-animaux.html",
+      "title": "My favourite animals (Zootopia)",
+      "subject": "anglais",
+      "level": "6e",
+      "description": "Les couleurs et les animaux en anglais, a ou an, décrire un animal (This is a grey rabbit), épeler un mot, et he, she ou it.",
+      "skills": [
+        {
+          "id": "couleurs",
+          "label": "Les couleurs"
+        },
+        {
+          "id": "animaux",
+          "label": "Les animaux"
+        },
+        {
+          "id": "a-an",
+          "label": "Choisir a ou an"
+        },
+        {
+          "id": "decrire",
+          "label": "Décrire un animal"
+        },
+        {
+          "id": "epeler",
+          "label": "Épeler un mot"
+        },
+        {
+          "id": "pronoms",
+          "label": "He, she ou it"
+        }
+      ]
+    },
+    {
       "id": "maths-cm2-division-euclidienne",
       "kind": "json",
       "file": "maths-cm2-division-euclidienne.json",
