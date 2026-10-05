@@ -50,7 +50,7 @@ copier-coller du JSON, validateur JS, test de 5 questions dans l'app).
    URL `http(s)://` (Google Fonts compris : polices système), `localStorage`/`sessionStorage`
    (seul `suivi.js` y touche), `<iframe>`, `<link rel="stylesheet" href=…>` externe.
 
-## Étapes (une par session, recette dans `docs/recette.md`)
+## Étapes (recette dans `docs/recette.md`) ; 8 et 9 ensemble, 10 à part
 
 ### Étape 8 : le contrat de suivi
 - Nouveau `js/suivi.js` (environ 60 à 80 lignes) : réutilise `currentProfile()` (`js/profiles.js`),
