@@ -31,7 +31,8 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
   `lesson`, `practice-setup`, `practice`, `exam-setup` (réglage + composition de l'évaluation),
   `exam`, `exam-result`, `report` (bilan), `backup` (sauvegarde)).
   Aperçu d'un module local : id réservé `_apercu` (`open-module.js`), rien n'est enregistré.
-- `docs/` : `prompt-nouveau.md` (généré par `prompt.py`), `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`.
+- `docs/` : `prompt-nouveau.md` (généré par `prompt.py`), `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`,
+  `plan-iphone.md` (plan des étapes 8 à 11, pas encore réalisé).
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
 
 ## Commandes
@@ -58,3 +59,10 @@ python3 -m http.server 8000                   # tester l'app (file:// ne marche 
 - Une étape par session, recette dans `docs/recette.md`, commit clair à la fin.
 - Petits fichiers, noms explicites, pas d'abstraction prématurée. Signaler toute demande qui
   ajoute de la complexité de maintenance.
+
+## Prochaines étapes
+- Plan validé, **pas encore réalisé** : `docs/plan-iphone.md` (créer un module depuis l'iPhone par
+  copier-coller avec un LLM, modules d'environ 30 questions, modules enregistrés sur l'appareil).
+- Une étape par session (8, puis 9, 10, 11), uniquement sur demande. Les changements de contraintes
+  qu'il prévoit (modules en localStorage, exception presse-papiers, validateur JS synchronisé avec
+  `validate.py`) s'ajoutent à ce fichier quand l'étape correspondante est faite.
