@@ -219,3 +219,23 @@ pandas et matplotlib), serveur sur **http://localhost:8000**, fenêtre de naviga
 | 7.23 | `python -m unittest discover tools/tests -v` | 49 tests, tous « ok ». | ☐ |
 
 Après la recette : `git status` doit être propre (sinon `git checkout modules/`).
+
+## Étapes 8 et 9 — Modules HTML : contrat de suivi et module circuit
+
+### Automatique (fait par Claude Code avant chaque push)
+
+| # | Commande | Résultat attendu | OK |
+|---|---|---|---|
+| 8.1 | `python -m unittest discover tools/tests -v` | 61 tests « ok » : `test_check_html` (page valide, chaque interdit refusé, CSP, fiche), `test_build_index` (module HTML indexé avec `"kind": "html"`, page cassée écartée), `test_sync` (`suivi.js` passe par `addEvents`). | ☑ |
+| 8.2 | `python tools/check_html.py modules/*.html` | « ✔ modules/sciences-6e-circuit-electrique.html : conforme au contrat ». | ☑ |
+| 8.3 | `python tools/build_index.py` | 3 modules, dont « sciences-6e-circuit-electrique.html (6e, page HTML) ». | ☑ |
+| 8.4 | `python tools/recette_navigateur.py` | « ✔ 24 OK, 0 échec(s) ». Elle vérifie : `window.miniprof` chargé ; `fetch` bloqué par la CSP ; bandeau « Tu es Léa » ; 6 réponses d'entraînement puis une évaluation de 10, au format du journal, avec une clé commune ; « Mon bilan » ouvre `#/module/<id>/bilan` (16 questions, libellés lus dans l'index, évaluation « Niveau 2 ») ; « Retour » et « Travailler ce point » ramènent à la page ; la bibliothèque montre le module HTML et les modules JSON ; le bilan général montre le titre ; sans profil, bandeau « Choisis ton profil » et rien n'est enregistré. | ☑ |
+
+### Sur l'iPhone (parent)
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 8.5 | https://ghpz5649xx-blip.github.io/miniprof/ : choisir un profil, puis la carte « Le circuit électrique » (rubrique Sciences) | La page circuit s'ouvre, avec un bandeau bleu « Tu es <prénom> · changer · mon bilan · mes modules ». Polices système : le titre n'est plus en Baloo. | ☐ |
+| 8.6 | Apprendre, labo, quelques questions d'entraînement, une évaluation | Tout fonctionne comme la page d'origine : schémas, labo interactif, corrections. | ☐ |
+| 8.7 | « Mon bilan » | Bilan miniprof du module : les compétences travaillées et l'évaluation. « ← Retour » ramène à la page circuit. | ☐ |
+| 8.8 | Envoyer l'URL de la page (`…/modules/sciences-6e-circuit-electrique.html`) par SMS et l'ouvrir sur le téléphone de l'enfant | Sans profil sur ce téléphone : bandeau « Choisis ton profil… ». Après le choix, les réponses comptent. | ☐ |

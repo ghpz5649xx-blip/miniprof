@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Recette modules HTML</title></head><body>
+<!-- Recette automatique des modules HTML (contrat js/suivi.js) et non-régression de l'app.
+     Lancée par tools/recette_navigateur.py, qui sert cette page à la racine du site
+     (/__recette.html) : elle partage donc le localStorage de l'app et des modules.
+     Chaque vérification renvoie une ligne « OK » ou « ECHEC » au serveur ; « FIN » à la fin.
+     Le navigateur a un profil neuf à chaque lancement : localStorage vide au départ. -->
+<iframe id="f" style="width:420px;height:800px"></iframe><pre id="out"></pre>
+<script>
+const out=[];const log=(ok,t)=>{out.push((ok?'OK   ':'ECHEC ')+t);fetch('/__resultat',{method:'POST',body:out.join('\n')});};
+const f=document.getElementById('f');const ID='sciences-6e-circuit-electrique';
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const charger=async(url)=>{f.src='about:blank';await new Promise(r=>f.onload=r);f.src=url;await new Promise(r=>f.onload=r);await sleep(800);return f.contentDocument;};
+const clic=(d,sel)=>{const b=d.querySelector(sel);if(!b)throw new Error('absent : '+sel);b.click();};
+const accueil=d=>{for(let i=0;i<4&&!d.querySelector('.menu');i++)clic(d,'.topbar .back');if(!d.querySelector('.menu'))throw new Error('accueil introuvable');};
+const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
+(async()=>{try{
+  localStorage.clear();
+  localStorage.setItem('miniprof.v1.profiles',JSON.stringify([{id:'ptest',name:'Léa'}]));
+  localStorage.setItem('miniprof.v1.current',JSON.stringify('ptest'));
+  let d=await charger('modules/'+ID+'.html');
+  const w=f.contentWindow;
+  log(!!w.miniprof,'window.miniprof chargé');
+  log(w.miniprof&&w.miniprof.module===ID,'id lu dans la fiche');
+  const bloque=await w.fetch('/index.html').then(()=>false,()=>true);
+  log(bloque,'CSP : fetch depuis la page bloqué');
+  log(d.querySelectorAll('svg').length>0,'schémas SVG affichés ('+d.querySelectorAll('svg').length+')');
+  const b=d.querySelector('.miniprof-bandeau');
+  log(b&&b.textContent.includes('Tu es Léa'),'bandeau : '+(b&&b.textContent));
+  log(b&&[...b.querySelectorAll('a')].some(a=>a.href.endsWith('/#/module/'+ID+'/bilan')),'lien bilan du bandeau');
+  // entraînement : 6 questions
+  clic(d,'[data-act="trainSetup"]');clic(d,'[data-act="trainStart"]');
+  for(let i=0;i<6;i++){clic(d,'.choice');clic(d,'[data-act="check"]');
+    if(!d.querySelector('[data-act="next"]'))clic(d,'[data-act="reveal"]');clic(d,'[data-act="next"]');}
+  let e=ev();
+  log(e.length===6,'entraînement : 6 événements (trouvé '+e.length+')');
+  log(e.every(l=>l[1]===ID&&l[5]==='e'&&l[9]===null&&typeof l[3]==='string'&&(l[4]===1)),'format entraînement : '+JSON.stringify(e[0]));
+  // évaluation niveau Match (2)
+  accueil(d);clic(d,'[data-act="evalSetup"]');clic(d,'[data-act="lvl"][data-v="2"]');clic(d,'[data-act="evalStart"]');
+  for(let i=0;i<10;i++){clic(d,'.choice');clic(d,'[data-act="check"]');}
+  log(!!d.querySelector('.score'),'écran de résultat de la page : '+(d.querySelector('.score')||{}).textContent);
+  e=ev().filter(l=>l[5]==='v');
+  log(e.length===10,'évaluation : 10 événements (trouvé '+e.length+')');
+  log(e.length&&e.every(l=>l[9]===e[0][9])&&/^\d+\/2$/.test(e[0][9]),'clé commune : '+(e[0]||[])[9]);
+  // bouton Mon bilan -> miniprof
+  accueil(d);clic(d,'[data-act="bilan"]');await sleep(1500);
+  log(f.contentWindow.location.hash==='#/module/'+ID+'/bilan','bouton Mon bilan -> '+f.contentWindow.location.href);
+  d=f.contentDocument;const txt=d.getElementById('app').textContent;
+  log(txt.includes('Bilan de Léa'),'bilan miniprof affiché');
+  log(txt.includes('16 questions traitées'),'synthèse : '+(d.querySelector('.report-summary')||{}).textContent);
+  log(txt.includes('Les symboles')||txt.includes('Le court-circuit'),'libellés des compétences lus dans l\'index');
+  log(txt.includes('Niveau 2'),'évaluation listée');
+  const back=d.querySelector('.btn-back');log(back&&back.getAttribute('href')==='modules/'+ID+'.html','retour -> '+(back&&back.getAttribute('href')));
+  const tr=[...d.querySelectorAll('a.btn-primary')].map(a=>a.getAttribute('href'));
+  log(tr.every(h=>h==='modules/'+ID+'.html'),'« Travailler ce point » -> page ('+tr.length+' liens)');
+  // bibliothèque
+  d=await charger('index.html#/biblio');await sleep(800);
+  const cartes=[...d.querySelectorAll('a.card-link')].map(a=>a.getAttribute('href'));
+  log(cartes.includes('modules/'+ID+'.html'),'bibliothèque : carte du module HTML');
+  log(cartes.includes('#/module/maths-cm2-division-euclidienne'),'bibliothèque : modules JSON toujours là');
+  // non-régression : un module JSON s'ouvre et s'entraîne
+  d=await charger('index.html#/module/maths-cm2-division-euclidienne');await sleep(800);
+  log(!d.getElementById('app').textContent.includes('illisible')&&d.querySelectorAll('a.card-link, a.card').length>0,'accueil du module JSON : '+d.getElementById('app').textContent.slice(0,80));
+  d=await charger('index.html#/bilan');await sleep(800);
+  log(d.getElementById('app').textContent.includes('Le circuit électrique'),'bilan tous modules : titre du module HTML');
+  // sans profil
+  localStorage.removeItem('miniprof.v1.current');const n=ev().length;
+  d=await charger('modules/'+ID+'.html');
+  const b2=d.querySelector('.miniprof-bandeau');log(b2&&b2.textContent.includes('Choisis ton profil'),'sans profil : '+(b2&&b2.textContent));
+  log(f.contentWindow.miniprof.reponse({competence:'serie',juste:true})===false&&ev().length===n,'sans profil : rien n\'est enregistré');
+}catch(err){log(false,'exception : '+err.message+' '+err.stack);}
+fetch('/__resultat',{method:'POST',body:out.join('\n')+'\nFIN'});})();
+</script></body></html>

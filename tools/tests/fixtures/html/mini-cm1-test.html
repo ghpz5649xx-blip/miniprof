@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Module HTML minimal</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "mini-cm1-test",
+  "title": "Module HTML minimal",
+  "subject": "sciences",
+  "level": "CM1",
+  "description": "Page de test du contrat miniprof.",
+  "skills": [{"id": "un", "label": "Première compétence"}, {"id": "deux", "label": "Deuxième compétence"}]
+}
+</script>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg>
+<button id="b">Répondre</button>
+<script>
+document.getElementById('b').addEventListener('click', function () {
+  if (window.miniprof) window.miniprof.reponse({ competence: 'un', juste: true, mode: 'e', difficulte: 1 });
+});
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>

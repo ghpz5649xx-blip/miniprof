@@ -10,6 +10,11 @@ qu'à son ouverture.
 
 Seuls les modules VALIDES (validate.py) et bien nommés (<id>.json) sont indexés :
 un module cassé ne doit jamais arriver jusqu'aux enfants.
+
+Deux sortes de modules (champ "kind" de l'index) :
+- "json" : <id>.json, joué par les écrans de l'app ;
+- "html" : <id>.html, page autonome générée par un LLM, contrôlée par
+  check_html.py ; sa fiche (#miniprof-module) donne titre, niveau, compétences.
 """
 
 import argparse
@@ -17,6 +22,7 @@ import json
 import sys
 from pathlib import Path
 
+from check_html import verifier_fichier
 from validate import valider_fichier
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -41,6 +47,7 @@ def construire_index(dossier):
             continue
         modules.append({
             "id": data["id"],
+            "kind": "json",
             "file": path.name,
             "version": data["version"],
             "title": data["title"],
@@ -52,6 +59,27 @@ def construire_index(dossier):
             # affiche sans avoir à télécharger chaque module.
             "skills": [{"id": s["id"], "label": s["label"]} for s in data["skills"]],
         })
+    for path in sorted(Path(dossier).glob("*.html")):
+        rapport = verifier_fichier(path)
+        if not rapport.valide:
+            ecartes.append((path.name, f"{len(rapport.erreurs)} erreur(s) : {rapport.erreurs[0]}"))
+            continue
+        fiche = rapport.fiche
+        modules.append({
+            "id": fiche["id"],
+            "kind": "html",
+            "file": path.name,
+            "title": fiche["title"],
+            "subject": fiche["subject"],
+            "level": fiche["level"],
+            "description": fiche["description"],
+            "skills": [{"id": s["id"], "label": s["label"]} for s in fiche["skills"]],
+        })
+    ids = [m["id"] for m in modules]
+    for m in modules:
+        if ids.count(m["id"]) > 1:
+            ecartes.append((m["file"], f"id « {m['id']} » déjà utilisé par un autre module"))
+    modules = [m for m in modules if ids.count(m["id"]) == 1]
     modules.sort(key=lambda m: (m["subject"], ORDRE_NIVEAUX.index(m["level"]), m["title"]))
     # Pas de date de génération : l'index ne change que si un module change,
     # ce qui évite des commits « vides » de index.json.
@@ -70,9 +98,10 @@ def main():
 
     print(f"✔ {len(index['modules'])} module(s) indexé(s) dans {cible}")
     for m in index["modules"]:
-        print(f"  - {m['file']} ({m['level']}, {m['questions']} questions)")
+        detail = f"{m['questions']} questions" if m["kind"] == "json" else "page HTML"
+        print(f"  - {m['file']} ({m['level']}, {detail})")
     if ecartes:
-        print(f"\n✘ {len(ecartes)} fichier(s) écarté(s) (lancer validate.py dessus) :")
+        print(f"\n✘ {len(ecartes)} fichier(s) écarté(s) (lancer validate.py ou check_html.py dessus) :")
         for nom, raison in ecartes:
             print(f"  - {nom} : {raison}")
     # Code 1 si un fichier est écarté : on le remarque avant de pousser.

@@ -4,7 +4,9 @@
   (risque R5 : dérive entre le contrôle de l'app et validate.py) ;
 - normalize_text() ≡ normalizeText() de js/answers.js : voir test_normalisation.py et les cas
   partagés de fixtures/normalisation.json ;
-- aucun innerHTML dans le JS de l'app (risque R7 : injection de contenu de module).
+- aucun innerHTML dans le JS de l'app (risque R7 : injection de contenu de module) ;
+- js/suivi.js (modules HTML) écrit seulement par addEvents() de js/events.js : l'ordre des
+  cases d'un événement reste défini à un seul endroit.
 """
 
 import json
@@ -53,6 +55,12 @@ class TestSynchronisation(unittest.TestCase):
                 if interdit.search(code):
                     fautifs.append(f"{p.relative_to(ROOT)}:{n}")
         self.assertEqual(fautifs, [], "HTML injecté interdit : utiliser el() / richText()")
+
+    def test_suivi_passe_par_events(self):
+        source = (JS / "suivi.js").read_text(encoding="utf-8")
+        self.assertIn('import { addEvents, maintenant } from "./events.js"', source)
+        code = "\n".join(l.split("//")[0] for l in source.splitlines())
+        self.assertNotRegex(code, r"localStorage|writeKey", "suivi.js doit passer par addEvents()")
 
 
 if __name__ == "__main__":

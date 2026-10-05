@@ -15,6 +15,7 @@ import { readJson } from "../loader.js";
 import { listEvents } from "../events.js";
 import { syntheseGlobale, scoresParCompetence, dernieresEvaluations } from "../stats.js";
 import { barreCompetence } from "./exam-result.js";
+import { adresseModule } from "./library.js";
 
 const NB_EVALUATIONS = 10;
 
@@ -37,6 +38,10 @@ export function showReport(moduleId) {
     .then((index) => {
       if (location.hash !== monAdresse) return; // l'enfant est parti entre-temps
       const modules = index && Array.isArray(index.modules) ? index.modules : [];
+      // Un module HTML n'a pas d'accueil dans l'app : « Retour » ramène à sa page.
+      const m = moduleId ? infoModule(modules, moduleId) : null;
+      const lienRetour = app.querySelector(".btn-back");
+      if (m && lienRetour) lienRetour.setAttribute("href", adresseModule(m));
       zone.replaceChildren(contenu(moduleId, evenements, modules));
     })
     .catch(() => {
@@ -97,8 +102,11 @@ function aTravailler(scores, modules, tousModules) {
   liste.sort((a, b) => a.taux - b.taux);
   return el("div", { class: "stack" }, ...liste.map((s) => {
     const raison = Math.round(s.taux * 100) + " % de réussite" + (s.enBaisse ? ", en baisse" : "");
-    const adresse = "#/module/" + encodeURIComponent(s.module) + "/entrainement/" + s.niveau
-      + "/" + encodeURIComponent(s.skill);
+    // Module HTML : sa page (elle n'a pas d'adresse par compétence).
+    const m = infoModule(modules, s.module);
+    const adresse = m && m.kind === "html" ? adresseModule(m)
+      : "#/module/" + encodeURIComponent(s.module) + "/entrainement/" + s.niveau
+        + "/" + encodeURIComponent(s.skill);
     return el("div", { class: "card" },
       el("span", { class: "card-title" }, richText(libelleCompetence(modules, s.module, s.skill))),
       tousModules ? el("span", { class: "card-text" }, richText(titreModule(modules, s.module))) : null,

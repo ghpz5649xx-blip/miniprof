@@ -52,7 +52,7 @@ copier-coller du JSON, validateur JS, test de 5 questions dans l'app).
 
 ## Étapes (recette dans `docs/recette.md`) ; 8 et 9 ensemble, 10 à part
 
-### Étape 8 : le contrat de suivi
+### Étape 8 : le contrat de suivi ✔ (fait le 2026-10-05)
 - Nouveau `js/suivi.js` (environ 60 à 80 lignes) : réutilise `currentProfile()` (`js/profiles.js`),
   `addEvents()` / `maintenant()` (`js/events.js`), `el()` (`js/ui.js`) pour le bandeau.
 - `tools/build_index.py` : parcourt aussi `modules/*.html`, extrait la fiche (regex sur
@@ -71,9 +71,12 @@ copier-coller du JSON, validateur JS, test de 5 questions dans l'app).
 - `CLAUDE.md` : nouvelle contrainte « modules HTML : JS généré accepté, contrôlé par
   `check_html.py` », arborescence, commandes.
 
-### Étape 9 : premier module HTML (le circuit électrique)
-- Adapter `reference/circuit_electrique.html` → `modules/sciences-cm1-circuit-electrique.html`
-  (id et niveau à confirmer) : ajouter la fiche et `suivi.js`, remplacer `store`/`record()` par
+### Étape 9 : premier module HTML (le circuit électrique) ✔ (fait le 2026-10-05)
+Réalisé : `modules/sciences-6e-circuit-electrique.html` (niveau 6e, choisi par le parent).
+Ajouts en cours de route : une **CSP obligatoire** dans chaque page (`connect-src 'none'`, vérifiée
+par `check_html.py`), parce qu'une recherche de texte ne suffit pas à bloquer le réseau ; et
+`tools/recette_navigateur.py`, une recette automatique dans Chrome sans fenêtre.
+- Adapter `reference/circuit_electrique.html` → `modules/sciences-6e-circuit-electrique.html` : ajouter la fiche et `suivi.js`, remplacer `store`/`record()` par
   `miniprof.reponse(...)`, retirer Google Fonts et l'accès direct à `localStorage`. Son écran
   « Bilan » renvoie vers `../#/module/<id>/bilan`. On garde le reste tel quel.
 - `python tools/check_html.py modules/…html`, puis `build_index.py`.
@@ -87,7 +90,7 @@ copier-coller du JSON, validateur JS, test de 5 questions dans l'app).
   Apprendre / S'entraîner / Évaluation / Bilan, générateurs, schémas SVG si utiles), écrire
   `modules/<id>.html`, lancer `check_html.py` jusqu'à 0 erreur, `build_index.py`, les tests, puis
   commit et push, et donner l'URL GitHub Pages.
-- Nouveau `docs/module-html.md` : le contrat ci-dessus, les règles pédagogiques (reprendre les
+- `docs/module-html.md` (le contrat existe depuis l'étape 8) : compléter avec les règles pédagogiques (reprendre les
   exercices des photos, vocabulaire de la leçon, corrections expliquées, niveaux) et les pièges
   vus sur le circuit.
 - Nouveau `docs/parent-iphone.md` : ouvrir Claude Code sur le dépôt, envoyer les photos, relire

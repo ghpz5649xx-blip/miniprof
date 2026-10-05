@@ -22,15 +22,23 @@ class TestBuildIndex(unittest.TestCase):
         shutil.copy(FIXTURES / "minimal.json", self.tmp / "minimal.json")       # valide
         shutil.copy(FIXTURES / "casse.json", self.tmp / "casse.json")           # invalide
         shutil.copy(FIXTURES / "minimal.json", self.tmp / "mauvais-nom.json")   # id ≠ nom
+        page = FIXTURES / "html" / "mini-cm1-test.html"
+        shutil.copy(page, self.tmp / page.name)                                  # module HTML valide
+        (self.tmp / "page-cassee.html").write_text("<p>pas de fiche</p>", encoding="utf-8")
         # Un ancien index ne doit pas être pris pour un module.
         (self.tmp / "index.json").write_text('{"modules": []}', encoding="utf-8")
         self.index, self.ecartes = construire_index(self.tmp)
 
-    def test_seul_le_module_valide_est_indexe(self):
-        self.assertEqual([m["file"] for m in self.index["modules"]], ["minimal.json"])
+    def test_seuls_les_modules_valides_sont_indexes(self):
+        self.assertEqual(sorted(m["file"] for m in self.index["modules"]),
+                         ["mini-cm1-test.html", "minimal.json"])
+
+    def module(self, fichier):
+        return next(m for m in self.index["modules"] if m["file"] == fichier)
 
     def test_champs_de_l_index(self):
-        m = self.index["modules"][0]
+        m = self.module("minimal.json")
+        self.assertEqual(m["kind"], "json")
         source = json.loads((FIXTURES / "minimal.json").read_text(encoding="utf-8"))
         self.assertEqual(m["id"], source["id"])
         self.assertEqual(m["title"], source["title"])
@@ -40,9 +48,18 @@ class TestBuildIndex(unittest.TestCase):
         # Utilisé par le bilan de l'app (js/screens/report.js).
         self.assertEqual(m["skills"], [{"id": s["id"], "label": s["label"]} for s in source["skills"]])
 
+    def test_module_html(self):
+        # La bibliothèque ouvre la page (kind) ; le bilan lit les compétences de la fiche.
+        m = self.module("mini-cm1-test.html")
+        self.assertEqual(m["kind"], "html")
+        self.assertEqual(m["id"], "mini-cm1-test")
+        self.assertEqual([s["id"] for s in m["skills"]], ["un", "deux"])
+        for champ in ("title", "subject", "level", "description"):
+            self.assertIn(champ, m)
+
     def test_ecartes_avec_raison(self):
         noms = dict(self.ecartes)
-        self.assertEqual(sorted(noms), ["casse.json", "mauvais-nom.json"])
+        self.assertEqual(sorted(noms), ["casse.json", "mauvais-nom.json", "page-cassee.html"])
         self.assertIn("erreur", noms["casse.json"])
         self.assertIn("minimal.json", noms["mauvais-nom.json"])
 

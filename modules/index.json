@@ -2,6 +2,7 @@
   "modules": [
     {
       "id": "maths-cm2-division-euclidienne",
+      "kind": "json",
       "file": "maths-cm2-division-euclidienne.json",
       "version": 1,
       "title": "Division euclidienne",
@@ -38,6 +39,7 @@
     },
     {
       "id": "maths-cm2-grands-nombres",
+      "kind": "json",
       "file": "maths-cm2-grands-nombres.json",
       "version": 1,
       "title": "Les grands nombres",
@@ -61,6 +63,49 @@
         {
           "id": "recomposer",
           "label": "Écrire un nombre à partir de sa décomposition"
+        }
+      ]
+    },
+    {
+      "id": "sciences-6e-circuit-electrique",
+      "kind": "html",
+      "file": "sciences-6e-circuit-electrique.html",
+      "title": "Le circuit électrique",
+      "subject": "sciences",
+      "level": "6e",
+      "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit et sécurité, avec un labo pour expérimenter.",
+      "skills": [
+        {
+          "id": "symboles",
+          "label": "Les symboles"
+        },
+        {
+          "id": "fermeture",
+          "label": "Circuit ouvert ou fermé"
+        },
+        {
+          "id": "serie",
+          "label": "Les lampes en série"
+        },
+        {
+          "id": "derivation",
+          "label": "Série ou dérivation"
+        },
+        {
+          "id": "court",
+          "label": "Le court-circuit"
+        },
+        {
+          "id": "securite",
+          "label": "La sécurité électrique"
+        },
+        {
+          "id": "schema",
+          "label": "Choisir le bon schéma"
+        },
+        {
+          "id": "fils",
+          "label": "Compter les fils"
         }
       ]
     }

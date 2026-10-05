@@ -73,7 +73,7 @@ function listeModules(index) {
       contenu.append(el("h2", { class: "section-title" }, MATIERES[m.subject] || String(m.subject)));
     }
     contenu.append(
-      el("a", { class: "card card-link", href: "#/module/" + encodeURIComponent(m.id) },
+      el("a", { class: "card card-link", href: adresseModule(m) },
         el("span", { class: "card-title" }, richText(m.title)),
         el("span", { class: "badge" }, String(m.level)),
         el("span", { class: "card-text" }, richText(m.description || "")),
@@ -81,6 +81,13 @@ function listeModules(index) {
     );
   }
   return contenu;
+}
+
+// Un module HTML (build_index.py, "kind": "html") est une page autonome : on
+// l'ouvre directement. Un module JSON s'ouvre dans les écrans de l'app.
+export function adresseModule(m) {
+  if (m.kind === "html") return "modules/" + encodeURIComponent(m.file);
+  return "#/module/" + encodeURIComponent(m.id);
 }
 
 // « Pour les parents » : ouvrir un module JSON de l'appareil sans le publier,
