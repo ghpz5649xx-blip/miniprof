@@ -73,6 +73,48 @@ Contrôle : `python tools/check_html.py modules/<id>.html` (`--llm` : texte de c
   `suivi.js` écrit, par `addEvents()`.
 - `<iframe>`, `<object>`, `<embed>`, workers.
 
+## Règles pédagogiques
+La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cours général.
+- **Partir des photos** : reprendre les notions, les définitions et surtout les **exercices** de
+  la leçon (mêmes types de questions, mêmes présentations, autres nombres ou autres exemples).
+  Ne pas ajouter de notion absente de la leçon.
+- **Vocabulaire de la leçon** : mêmes mots, mêmes notations, même méthode que le cahier ou le
+  manuel (une autre méthode, même juste, embrouille l'enfant).
+- **Apprendre** : quelques fiches courtes qui reprennent la leçon, avec un exemple chacune ; une
+  petite question de vérification par fiche quand c'est possible.
+- **Corrections expliquées** (comme le circuit) : après une réponse fausse, dire en une phrase
+  pourquoi ce choix est faux, puis « Réessayer », « Un indice » ou « Voir la correction ». La
+  correction donne la bonne réponse **et pourquoi**, en une ou deux phrases, aussi quand
+  l'enfant a trouvé.
+- **Niveaux** : 2 à 4 niveaux de difficulté (`difficulte` 1 à 4), du plus direct (application
+  de la règle) au plus piégeux (erreurs fréquentes, plusieurs étapes). L'évaluation propose
+  chaque niveau et un mélange (`debutEvaluation(0)`).
+- **Questions tirées au hasard** par des générateurs (un par compétence) quand la notion s'y
+  prête ; chaque réponse attendue est **vérifiée** (recalculée, une seule bonne réponse, pas de
+  choix en double).
+- **Âge** : phrases courtes, consignes d'une ligne, gros boutons (iPhone, au doigt), pas de
+  chronomètre affiché, encouragements sobres. Formulations qui conviennent à une fille comme à un
+  garçon (« On passe à l'évaluation ? » plutôt que « Prête ? »).
+- **Évaluation** : 10 questions environ, sans correction pendant l'épreuve, corrigé détaillé à la
+  fin ; puis le bouton « Mon bilan ».
+
+## Pièges vus sur le module circuit
+- **Polices Google** dans la page d'origine : refusées (URL externe). Polices système
+  (`font-family: system-ui, -apple-system, sans-serif`).
+- **`localStorage` utilisé directement** pour garder les scores : refusé. Les scores sont ceux
+  de miniprof (« Mon bilan »).
+- **Pas de CSP** dans la page d'origine : la balise est obligatoire, recopiée telle quelle.
+- **Une seule réponse comptée par question en entraînement** (le premier essai) : sinon un
+  enfant qui clique au hasard jusqu'à trouver gonfle sa réussite.
+- **Évaluation enregistrée d'un bloc à la fin**, avec la clé de `debutEvaluation()` : une
+  évaluation abandonnée au milieu ne compte pas.
+- **`window.miniprof` absent** (page ouverte ailleurs ou `suivi.js` pas encore chargé) : chaque
+  appel est protégé par `if (window.miniprof)`.
+- **Erreur de syntaxe JS** = page blanche sur l'iPhone : `node --check` sur le script avant de
+  publier (skill `/nouveau-module`).
+- Le texte affiché passe par `innerHTML` dans la page : échapper (`esc()`) tout ce qui n'est pas
+  écrit en dur dans le script.
+
 ## Pourquoi ces règles
 La page exécute du JS généré sur le même site que la progression des enfants. On ne relit pas ce
 JS ligne à ligne : la page est **jetable**, et on la régénère au lieu de la corriger. Le contrat

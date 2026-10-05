@@ -239,3 +239,23 @@ Après la recette : `git status` doit être propre (sinon `git checkout modules/
 | 8.6 | Apprendre, labo, quelques questions d'entraînement, une évaluation | Tout fonctionne comme la page d'origine : schémas, labo interactif, corrections. | ☐ |
 | 8.7 | « Mon bilan » | Bilan miniprof du module : les compétences travaillées et l'évaluation. « ← Retour » ramène à la page circuit. | ☐ |
 | 8.8 | Envoyer l'URL de la page (`…/modules/sciences-6e-circuit-electrique.html`) par SMS et l'ouvrir sur le téléphone de l'enfant | Sans profil sur ce téléphone : bandeau « Choisis ton profil… ». Après le choix, les réponses comptent. | ☐ |
+
+## Étape 10 — Créer un module depuis l'iPhone (skill `/nouveau-module`)
+
+### Automatique (fait par Claude Code avant le push)
+
+| # | Commande | Résultat attendu | OK |
+|---|---|---|---|
+| 10.1 | `python -m unittest discover tools/tests -v` | 62 tests « ok », dont `test_skill_nouveau_module` (le skill lance les trois contrôles, les fichiers cités par le skill et `docs/parent-iphone.md` existent). | ☑ |
+| 10.2 | `python tools/check_html.py modules/*.html` ; `python tools/build_index.py` ; `python tools/recette_navigateur.py` ; contrôle de syntaxe du skill (`node --check`) sur le module circuit | Conforme ; 3 modules ; « ✔ 24 OK, 0 échec(s) » ; `node --check` sans erreur. | ☑ |
+
+### Sur l'iPhone (parent), en suivant `docs/parent-iphone.md`
+
+| # | Scénario | Résultat attendu | OK |
+|---|---|---|---|
+| 10.3 | App Claude, onglet Code (ou claude.ai/code) : nouvelle session sur `miniprof`, taper `/` | `/nouveau-module` est proposé. | ☐ |
+| 10.4 | Joindre 2 à 4 photos d'une vraie leçon + `/nouveau-module <niveau>` | Claude Code lit le contrat, écrit `modules/<id>.html`, lance `check_html.py`, `build_index.py` et les tests (tous verts), commit et push. Aucune photo dans le commit. | ☐ |
+| 10.5 | Où le push arrive | Sur `main` : rien à faire. Sur une branche `claude/…` : lien de PR, fusion depuis l'app GitHub. **Noter le cas constaté dans `docs/parent-iphone.md`.** | ☐ |
+| 10.6 | Une minute après, ouvrir l'URL donnée | La page s'ouvre (pas de page blanche), bandeau « Tu es … », polices système ; la leçon et les exercices reprennent les photos, avec le vocabulaire du cahier. Relire les 2 ou 3 points signalés. | ☐ |
+| 10.7 | Signaler une erreur dans la session (« la question … attend … ») | Correction republiée à la **même URL**, même id. | ☐ |
+| 10.8 | URL par SMS au téléphone de l'enfant ; quelques réponses et une évaluation ; puis miniprof → profil → « Mon bilan » | Le nouveau module apparaît dans la bibliothèque et dans le bilan, avec ses compétences et l'évaluation. | ☐ |

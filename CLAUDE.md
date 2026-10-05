@@ -48,7 +48,9 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
   Aperçu d'un module local : id réservé `_apercu` (`open-module.js`), rien n'est enregistré.
 - `docs/` : `module-html.md` (contrat des modules HTML), `prompt-nouveau.md` (généré par
   `prompt.py`), `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`,
-  `plan-modules-html.md` (étapes 8 et 9 faites, 10 à faire), `plan-iphone.md` (abandonné).
+  `plan-modules-html.md` (étapes 8 à 10 faites), `plan-iphone.md` (abandonné),
+  `parent-iphone.md` (créer un module depuis l'iPhone).
+- `.claude/skills/nouveau-module/SKILL.md` : skill `/nouveau-module` (photos → module HTML publié).
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
   `circuit_electrique.html` : page d'origine du module circuit, gardée pour comparaison.
 
@@ -72,6 +74,8 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
 - Champs obligatoires du schéma ≡ `REQUIRED`, `REQUIRED_QUESTION`, `TYPES_CONNUS`, `BLOCS_CONNUS` de
   `js/check-module.js` (test automatique `test_sync.py`, qui interdit aussi `innerHTML`).
 - La validation complète est dans `validate.py` ; l'app ne fait qu'un contrôle défensif.
+- Le skill `/nouveau-module` lance `check_html.py`, `build_index.py` et les tests, et ne cite que
+  des fichiers qui existent (`test_sync.py`) : le mettre à jour si une commande change.
 - `js/suivi.js` n'écrit que par `addEvents()` de `js/events.js` (`test_sync.py`). La fiche d'un
   module HTML reprend `subject` et `level` du schéma (`check_html.py` les lit dans le schéma).
 - `tools/analyse.py` ≡ app : `COLONNES` ≡ ordre des cases de `js/events.js`, `est_en_baisse()` ≡ `js/stats.js`.
@@ -103,7 +107,6 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   des enfants.
 
 ## Prochaines étapes
-- `docs/plan-modules-html.md` : étapes 8 et 9 faites (contrat de suivi, module circuit). Reste
-  l'**étape 10** : le pipeline depuis le téléphone (skill `/nouveau-module`, `docs/parent-iphone.md`).
-  Elle demande une vérification sur l'iPhone du parent.
+- `docs/plan-modules-html.md` : étapes 8 à 10 faites. Reste la recette de l'étape 10 sur
+  l'iPhone du parent (`docs/recette.md`, 10.3 à 10.8) : premier module créé depuis le téléphone.
 - `docs/plan-iphone.md` : abandonné (gardé pour le pourquoi).

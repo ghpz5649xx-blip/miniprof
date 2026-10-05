@@ -6,7 +6,9 @@
   partagés de fixtures/normalisation.json ;
 - aucun innerHTML dans le JS de l'app (risque R7 : injection de contenu de module) ;
 - js/suivi.js (modules HTML) écrit seulement par addEvents() de js/events.js : l'ordre des
-  cases d'un événement reste défini à un seul endroit.
+  cases d'un événement reste défini à un seul endroit ;
+- le skill /nouveau-module et docs/parent-iphone.md ne citent que des fichiers qui existent, et
+  le skill lance les trois contrôles avant de publier (une session mobile le suit à la lettre).
 """
 
 import json
@@ -61,6 +63,16 @@ class TestSynchronisation(unittest.TestCase):
         self.assertIn('import { addEvents, maintenant } from "./events.js"', source)
         code = "\n".join(l.split("//")[0] for l in source.splitlines())
         self.assertNotRegex(code, r"localStorage|writeKey", "suivi.js doit passer par addEvents()")
+
+    def test_skill_nouveau_module(self):
+        skill = (ROOT / ".claude" / "skills" / "nouveau-module" / "SKILL.md").read_text(encoding="utf-8")
+        for commande in ("tools/check_html.py", "tools/build_index.py", "unittest discover tools/tests"):
+            self.assertIn(commande, skill)
+        guide = (ROOT / "docs" / "parent-iphone.md").read_text(encoding="utf-8")
+        cites = set(re.findall(r"(?:tools|docs|modules|schema|js)/[\w./-]+\.(?:py|md|json|html|js)", skill + guide))
+        cites.add(".claude/skills/nouveau-module/SKILL.md")
+        absents = sorted(c for c in cites if not (ROOT / c).exists())
+        self.assertEqual(absents, [], "fichiers cités par le skill ou le guide parent introuvables")
 
 
 if __name__ == "__main__":

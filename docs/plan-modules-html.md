@@ -84,7 +84,14 @@ par `check_html.py`), parce qu'une recherche de texte ne suffit pas à bloquer l
   bilan miniprof les montre (par compétence, dernières évaluations) ; export, puis
   `analyse.py` les lit.
 
-### Étape 10 : le pipeline Claude Code depuis le téléphone
+### Étape 10 : le pipeline Claude Code depuis le téléphone (fait le 2026-10-06, reste la vérification sur l'iPhone)
+Réalisé : `.claude/skills/nouveau-module/SKILL.md`, `docs/module-html.md` complété (règles
+pédagogiques, pièges du circuit), `docs/parent-iphone.md`, `docs/risques.md` (R11 : photos),
+test `test_skill_nouveau_module` (`test_sync.py` : fichiers cités qui existent, contrôles lancés).
+Ajouts : le skill vérifie la syntaxe du JS par `node --check` quand `node` est là (une erreur de
+syntaxe = page blanche sur l'iPhone, invisible pour `check_html.py`) ; il gère la session sur
+branche (PR à fusionner, l'URL ne marche qu'après). Reste : recette 10.3 à 10.8 sur l'iPhone, et
+noter dans `docs/parent-iphone.md` si la session pousse sur `main` ou sur une branche.
 - Nouveau skill `.claude/skills/nouveau-module/SKILL.md`, appelé par « /nouveau-module » + photos.
   Il dit à Claude Code : lire `docs/module-html.md`, s'inspirer du module circuit (structure
   Apprendre / S'entraîner / Évaluation / Bilan, générateurs, schémas SVG si utiles), écrire
