@@ -253,7 +253,7 @@ Après la recette : `git status` doit être propre (sinon `git checkout modules/
 
 | # | Scénario | Résultat attendu | OK |
 |---|---|---|---|
-| 10.3 | App Claude, onglet Code (ou claude.ai/code) : nouvelle session sur `miniprof`, taper `/` | `/nouveau-module` est proposé. | ☐ |
+| 10.3 | App Claude, onglet Code : nouvelle session sur `miniprof` (`main`, environnement « Default »), taper `/nouveau-module …` en entier et envoyer | Le skill se lance (pas d'autocomplétion au premier message : normal, le dépôt n'est pas encore copié). | ☑ |
 | 10.4 | Joindre 2 à 4 photos d'une vraie leçon + `/nouveau-module <niveau>` | Claude Code lit le contrat, écrit `modules/<id>.html`, lance `check_html.py`, `build_index.py` et les tests (tous verts), commit et push. Aucune photo dans le commit. | ☐ |
 | 10.5 | Où le push arrive | Sur `main` : rien à faire. Sur une branche `claude/…` : lien de PR, fusion depuis l'app GitHub. **Noter le cas constaté dans `docs/parent-iphone.md`.** | ☐ |
 | 10.6 | Une minute après, ouvrir l'URL donnée | La page s'ouvre (pas de page blanche), bandeau « Tu es … », polices système ; la leçon et les exercices reprennent les photos, avec le vocabulaire du cahier. Relire les 2 ou 3 points signalés. | ☐ |

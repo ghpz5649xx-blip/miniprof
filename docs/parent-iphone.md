@@ -23,10 +23,14 @@ Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-se
 1. Prendre les photos de la leçon et des exercices (cahier, manuel). Cadrer la page entière, sans
    prénom ni visage si possible : les photos restent dans la conversation, elles ne vont jamais
    dans le dépôt (il est public).
-2. Ouvrir une **nouvelle session** Claude Code sur le dépôt `miniprof`.
+2. Ouvrir une **nouvelle session** Claude Code (onglet Code), dépôt `miniprof`, branche `main`
+   (branche de départ : la session crée la sienne). Si l'app demande un environnement :
+   « Default ».
 3. Joindre les photos et écrire, par exemple :
    `/nouveau-module 6e, la leçon sur les fractions, surtout les exercices 3 et 4`
-   (le niveau suffit ; Claude Code le devine sinon).
+   (le niveau suffit ; Claude Code le devine sinon). **Taper la commande en entier** : l'app ne
+   la propose pas au premier message (le dépôt n'est pas encore copié dans la session), mais
+   elle marche une fois envoyée.
 4. Attendre la réponse : l'URL `https://ghpz5649xx-blip.github.io/miniprof/modules/<id>.html`,
    les compétences, et **2 ou 3 points à relire**.
 5. **Fusionner** : une session dans le cloud travaille sur sa propre branche (`claude/…`), pas
@@ -49,6 +53,7 @@ Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-se
 
 ## À vérifier lors du premier essai (recette 10.x de `docs/recette.md`)
 - Les photos s'envoient bien dans Claude Code depuis l'iPhone.
-- Le skill `/nouveau-module` est proposé dans une session web ou mobile.
+- Le skill `/nouveau-module` : ✔ (2026-10-06, iPhone) pas d'autocomplétion au premier message,
+  mais la commande tapée en entier marche.
 - La session pousse sur une branche `claude/…` (c'est ce que dit la documentation de Claude
   Code) : confirmer, et noter ici ce qu'on a constaté : _à compléter_.
