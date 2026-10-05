@@ -15,7 +15,8 @@ Claude Code fait tout (page, contrôles, publication) avec le skill `/nouveau-mo
 3. Dans l'app Claude (iPhone), onglet **Code** : le dépôt `ghpz5649xx-blip/miniprof` apparaît
    dans le choix du dépôt. Pas d'onglet Code : vérifier que l'app est à jour et le compte (offre
    Pro ou Max).
-4. Installer l'app **GitHub** sur l'iPhone, connectée au même compte, pour fusionner les PR.
+4. Facultatif : l'app **GitHub** sur l'iPhone, pour fusionner une PR si une session pousse un
+   jour sur une branche.
 
 Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-setup`.
 
@@ -33,9 +34,9 @@ Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-se
    elle marche une fois envoyée.
 4. Attendre la réponse : l'URL `https://ghpz5649xx-blip.github.io/miniprof/modules/<id>.html`,
    les compétences, et **2 ou 3 points à relire**.
-5. **Fusionner** : une session dans le cloud travaille sur sa propre branche (`claude/…`), pas
-   sur `main`. Créer la PR (bouton « Create PR » de la session, ou le lien donné par Claude
-   Code), puis dans l'app GitHub : ouvrir la PR → « Merge pull request » → « Confirm ».
+5. Rien à fusionner en temps normal : partie de `main`, la session y pousse directement
+   (constaté le 2026-10-06). **Seulement si** elle annonce une branche `claude/…` et un lien de
+   PR : dans l'app GitHub, ouvrir la PR → « Merge pull request » → « Confirm ».
 6. Attendre environ **une minute** (publication GitHub Pages), ouvrir l'URL, relire les points
    signalés, faire 2 ou 3 questions par niveau. Une erreur ? La dire dans la même session
    (« la question sur … attend 3/4 au lieu de 2/3 ») : Claude Code corrige et republie, même
@@ -55,5 +56,6 @@ Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-se
 - Les photos s'envoient bien dans Claude Code depuis l'iPhone.
 - Le skill `/nouveau-module` : ✔ (2026-10-06, iPhone) pas d'autocomplétion au premier message,
   mais la commande tapée en entier marche.
-- La session pousse sur une branche `claude/…` (c'est ce que dit la documentation de Claude
-  Code) : confirmer, et noter ici ce qu'on a constaté : _à compléter_.
+- Où arrive le push : ✔ (2026-10-06) directement sur `main` (module `anglais-6e-zootopia-animaux`),
+  alors que la documentation de Claude Code parle d'une branche par session. Le skill gère les
+  deux cas.
