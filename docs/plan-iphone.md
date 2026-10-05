@@ -1,5 +1,11 @@
 # Créer un module depuis l'iPhone (copier-coller avec un LLM, sans API)
 
+> **Abandonné le 2026-10-05, remplacé par `docs/plan-modules-html.md`.** Pourquoi : une page HTML
+> autonome générée par Claude à partir de photos (`reference/circuit_electrique.html`) contenait un
+> solveur de circuit, des schémas SVG calculés et des questions aléatoires, ce que le format JSON
+> ne pourra jamais exprimer. Ce plan donnait un résultat moins bon pour 400 à 500 lignes de JS.
+> Gardé pour l'historique des décisions.
+
 ## Contexte
 Aujourd'hui, créer un module oblige à passer par l'ordinateur (prompt.py, validate.py, build_index,
 commit), et le format vise 100 à 200 questions, impossibles à relire. Objectif : tout faire depuis le

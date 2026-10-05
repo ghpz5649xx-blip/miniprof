@@ -7,3 +7,5 @@ exports/
 *.export.json
 # prompts « lot » : régénérés à chaque fois depuis le module (tools/prompt.py --mode lot)
 docs/prompt-lot-*.md
+# photos de leçons et de cahiers des enfants : données personnelles, ne pas committer
+reference/*_photos/

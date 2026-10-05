@@ -32,7 +32,7 @@ Un seul mainteneur, à l'aise en Python, **faible en JS** : il doit pouvoir lire
   `exam`, `exam-result`, `report` (bilan), `backup` (sauvegarde)).
   Aperçu d'un module local : id réservé `_apercu` (`open-module.js`), rien n'est enregistré.
 - `docs/` : `prompt-nouveau.md` (généré par `prompt.py`), `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`,
-  `plan-iphone.md` (plan des étapes 8 à 11, pas encore réalisé).
+  `plan-modules-html.md` (plan des étapes 8 à 10, pas encore réalisé), `plan-iphone.md` (abandonné).
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
 
 ## Commandes
@@ -61,8 +61,10 @@ python3 -m http.server 8000                   # tester l'app (file:// ne marche 
   ajoute de la complexité de maintenance.
 
 ## Prochaines étapes
-- Plan validé, **pas encore réalisé** : `docs/plan-iphone.md` (créer un module depuis l'iPhone par
-  copier-coller avec un LLM, modules d'environ 30 questions, modules enregistrés sur l'appareil).
-- Une étape par session (8, puis 9, 10, 11), uniquement sur demande. Les changements de contraintes
-  qu'il prévoit (modules en localStorage, exception presse-papiers, validateur JS synchronisé avec
-  `validate.py`) s'ajoutent à ce fichier quand l'étape correspondante est faite.
+- Plan validé, **pas encore réalisé** : `docs/plan-modules-html.md`. Les modules deviennent des pages
+  HTML autonomes générées par Claude Code (depuis le téléphone, à partir de photos) ; miniprof devient
+  le carnet de suivi (`js/suivi.js` écrit dans le journal d'événements). Le moteur JSON reste.
+- Une étape par session (8, puis 9, 10), uniquement sur demande. Les changements de contraintes
+  qu'il prévoit (JS généré accepté dans `modules/*.html`, contrôlé par `tools/check_html.py`)
+  s'ajoutent à ce fichier quand l'étape 8 est faite.
+- `docs/plan-iphone.md` : abandonné (gardé pour le pourquoi).
