@@ -35,6 +35,34 @@
           "label": "Résoudre un problème"
         }
       ]
+    },
+    {
+      "id": "maths-cm2-grands-nombres",
+      "file": "maths-cm2-grands-nombres.json",
+      "version": 1,
+      "title": "Les grands nombres",
+      "subject": "maths",
+      "level": "CM2",
+      "description": "Comparer et ranger des grands nombres jusqu'aux milliards, les décomposer et les écrire à partir de leur décomposition.",
+      "questions": 53,
+      "skills": [
+        {
+          "id": "comparer",
+          "label": "Comparer deux grands nombres"
+        },
+        {
+          "id": "ranger",
+          "label": "Ranger des nombres dans l'ordre"
+        },
+        {
+          "id": "decomposer",
+          "label": "Décomposer un nombre"
+        },
+        {
+          "id": "recomposer",
+          "label": "Écrire un nombre à partir de sa décomposition"
+        }
+      ]
     }
   ]
 }
