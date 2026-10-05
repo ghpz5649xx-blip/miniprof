@@ -10,11 +10,13 @@ renvoie ses résultats à ce petit serveur (POST /__resultat).
 
 Couvre le contrat des modules HTML (js/suivi.js, bilan, bibliothèque) et une
 non-régression légère de l'app. Ne remplace pas la recette sur l'iPhone.
-Chrome : chemin macOS par défaut, ou variable d'environnement CHROME.
+Chrome : variable d'environnement CHROME, sinon chemin macOS, sinon chromium /
+google-chrome trouvé dans le PATH (session Claude Code dans le cloud, Linux).
 """
 
 import http.server
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -24,7 +26,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = Path(__file__).resolve().parent / "recette" / "modules-html.html"
-CHROME = os.environ.get("CHROME", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+CHROME_MAC = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 DELAI = 90  # secondes avant d'abandonner
 
 resultat = {"texte": ""}
@@ -55,25 +57,51 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
 
+def trouver_chrome():
+    if os.environ.get("CHROME"):
+        return os.environ["CHROME"]
+    if Path(CHROME_MAC).exists():
+        return CHROME_MAC
+    for nom in ("chromium", "chromium-browser", "google-chrome", "google-chrome-stable"):
+        if shutil.which(nom):
+            return shutil.which(nom)
+    return None
+
+
 def main():
-    if not Path(CHROME).exists():
-        sys.exit(f"Chrome introuvable : {CHROME} (variable d'environnement CHROME)")
+    chemin = trouver_chrome()
+    if not chemin or not Path(chemin).exists():
+        sys.exit("Chrome introuvable : installer Chrome ou Chromium, ou donner son chemin dans la "
+                 "variable d'environnement CHROME.")
+    options = ["--headless=new", "--disable-gpu", "--no-first-run", "--no-proxy-server"]
+    # En root (conteneur Linux du cloud), Chrome refuse de démarrer avec son bac à sable :
+    # sans cette option il quitte aussitôt, et on ne recevait « aucun résultat ».
+    if hasattr(os, "geteuid") and os.geteuid() == 0:
+        options.append("--no-sandbox")
     serveur = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Serveur)
     threading.Thread(target=serveur.serve_forever, daemon=True).start()
     adresse = f"http://127.0.0.1:{serveur.server_port}/__recette.html"
 
-    with tempfile.TemporaryDirectory() as profil:
+    # Messages de Chrome gardés dans un fichier : affichés seulement s'il s'arrête tout seul.
+    with tempfile.TemporaryDirectory() as profil, tempfile.TemporaryFile() as erreurs:
         chrome = subprocess.Popen(
-            [CHROME, "--headless=new", "--disable-gpu", "--no-first-run",
-             f"--user-data-dir={profil}", "--remote-debugging-port=0", adresse],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            [chemin, *options, f"--user-data-dir={profil}", "--remote-debugging-port=0", adresse],
+            stdout=subprocess.DEVNULL, stderr=erreurs)
         try:
             fin = time.time() + DELAI
-            while "FIN" not in resultat["texte"] and time.time() < fin:
+            while "FIN" not in resultat["texte"] and time.time() < fin and chrome.poll() is None:
                 time.sleep(0.5)
         finally:
+            arret_tout_seul = chrome.poll() is not None
             chrome.terminate()
             chrome.wait(timeout=10)
+        if arret_tout_seul and "FIN" not in resultat["texte"]:
+            erreurs.seek(0)
+            fin_journal = erreurs.read().decode("utf-8", "replace").strip().splitlines()[-10:]
+            print(f"✘ Chrome s'est arrêté sans finir la recette ({chemin}) :")
+            print("\n".join(fin_journal) or "(aucun message)")
+            serveur.shutdown()
+            sys.exit(1)
     serveur.shutdown()
 
     texte = resultat["texte"].replace("\nFIN", "").strip()

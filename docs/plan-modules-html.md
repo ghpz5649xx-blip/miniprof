@@ -84,31 +84,28 @@ par `check_html.py`), parce qu'une recherche de texte ne suffit pas à bloquer l
   bilan miniprof les montre (par compétence, dernières évaluations) ; export, puis
   `analyse.py` les lit.
 
-### Étape 10 : le pipeline Claude Code depuis le téléphone (fait le 2026-10-06, reste la vérification sur l'iPhone)
-Réalisé : `.claude/skills/nouveau-module/SKILL.md`, `docs/module-html.md` complété (règles
-pédagogiques, pièges du circuit), `docs/parent-iphone.md`, `docs/risques.md` (R11 : photos),
-test `test_skill_nouveau_module` (`test_sync.py` : fichiers cités qui existent, contrôles lancés).
-Ajouts : le skill vérifie la syntaxe du JS par `node --check` quand `node` est là (une erreur de
-syntaxe = page blanche sur l'iPhone, invisible pour `check_html.py`) ; il gère la session sur
-branche (PR à fusionner, l'URL ne marche qu'après). Reste : recette 10.3 à 10.8 sur l'iPhone, et
-noter dans `docs/parent-iphone.md` si la session pousse sur `main` ou sur une branche.
-- Nouveau skill `.claude/skills/nouveau-module/SKILL.md`, appelé par « /nouveau-module » + photos.
-  Il dit à Claude Code : lire `docs/module-html.md`, s'inspirer du module circuit (structure
-  Apprendre / S'entraîner / Évaluation / Bilan, générateurs, schémas SVG si utiles), écrire
-  `modules/<id>.html`, lancer `check_html.py` jusqu'à 0 erreur, `build_index.py`, les tests, puis
-  commit et push, et donner l'URL GitHub Pages.
-- `docs/module-html.md` (le contrat existe depuis l'étape 8) : compléter avec les règles pédagogiques (reprendre les
-  exercices des photos, vocabulaire de la leçon, corrections expliquées, niveaux) et les pièges
-  vus sur le circuit.
-- Nouveau `docs/parent-iphone.md` : ouvrir Claude Code sur le dépôt, envoyer les photos, relire
-  la page (environ 1 minute de déploiement Pages), envoyer l'URL. **À vérifier dans cette
-  étape** : envoi de photos dans Claude Code mobile, et si les sessions web poussent sur une
-  branche (PR à fusionner depuis l'app GitHub) ou directement sur `main`.
-- `docs/plan-iphone.md` : marquer « abandonné, remplacé par ce plan » (garder le pourquoi).
-  `docs/risques.md` : R3 (erreurs du LLM) = relecture par le parent + régénération ; nouveau
-  risque : JS généré sur le même site (garde-fous de `check_html.py`).
+### Étape 10 : le pipeline Claude Code depuis le téléphone ✔ (fait le 2026-10-06)
+Réalisé : skill `.claude/skills/nouveau-module/SKILL.md` (photos → `modules/<id>.html` →
+contrôles → commit → push → URL), `docs/module-html.md` complété (règles pédagogiques validées
+par le parent, pièges vus sur le circuit), `docs/parent-iphone.md`, risque R11 (photos), test
+`test_skill_nouveau_module` (`test_sync.py`). Premier module fait depuis l'iPhone :
+`anglais-6e-zootopia-animaux`.
+Constats et décisions :
+- Le skill vérifie la syntaxe du JS par `node --check` : une erreur de syntaxe donne une page
+  blanche sur l'iPhone et `check_html.py` ne la voit pas.
+- Dans l'app iOS, `/nouveau-module` n'est pas proposé au premier message (le dépôt n'est pas
+  encore copié dans la session) : on tape la commande en entier, elle marche.
+- La session partie de `main` a poussé **directement sur `main`**, contrairement à la
+  documentation de Claude Code (une branche par session). Le skill gère les deux cas.
+- Session dans le cloud : `test_json_casse` dépendait de la version de Python (rendu
+  indépendant) ; `recette_navigateur.py` n'y renvoyait rien (Chromium en root sans
+  `--no-sandbox`) : le script cherche maintenant Chromium sur Linux et dit pourquoi le navigateur
+  s'est arrêté. Cette recette teste l'app, pas le nouveau module : en local, elle reste
+  obligatoire seulement quand le code de l'app change.
+- Dépôt gardé public (GitHub Pages gratuit) : voir R11.
+Reste : recette 10.6 à 10.8 avec un enfant (`docs/recette.md`).
 
-## Limites à accepter (et à écrire dans `docs/risques.md`)
+## Limites acceptées (écrites dans `docs/risques.md`, R3 et R10)
 - Les pages HTML ne sont pas lisibles par le mainteneur : elles sont **jetables** (on les
   régénère au lieu de les corriger). Le code à maintenir reste petit et lisible : `suivi.js`,
   `check_html.py`, une vingtaine de lignes dans `library` et `report`.
@@ -122,4 +119,4 @@ noter dans `docs/parent-iphone.md` si la session pousse sur `main` ou sur une br
 - `python3 -m http.server 8000` : bibliothèque → circuit (page HTML) → réponses → `#/bilan`
   montre les compétences du circuit à côté des modules JSON ; les modules JSON marchent toujours.
 - Sur l'iPhone (GitHub Pages) : de bout en bout, avec une vraie leçon envoyée depuis Claude Code
-  mobile, jusqu'à l'URL envoyée par SMS et au bilan rempli.
+  mobile, jusqu'à l'URL envoyée par SMS et au bilan rempli (recette 10.3 à 10.8).

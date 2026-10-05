@@ -62,7 +62,7 @@ python tools/check_html.py modules/<id>.html  # contrat d'un module HTML ; --llm
 python tools/build_index.py                   # régénère modules/index.json (modules valides)
 python tools/prompt.py --mode nouveau          # ou --mode lot <module> ; merge.py <module> <lot> ; analyse.py <export>
 python -m unittest discover tools/tests -v    # tests
-python tools/recette_navigateur.py            # recette automatique dans Chrome sans fenêtre
+python tools/recette_navigateur.py            # recette auto dans Chrome/Chromium sans fenêtre (CHROME=…)
 python3 -m http.server 8000                   # tester l'app (file:// ne marche pas)
 ```
 Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.github.io/miniprof/
@@ -107,6 +107,9 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   des enfants.
 
 ## Prochaines étapes
-- `docs/plan-modules-html.md` : étapes 8 à 10 faites. Reste la recette de l'étape 10 sur
-  l'iPhone du parent (`docs/recette.md`, 10.3 à 10.8) : premier module créé depuis le téléphone.
+- `docs/plan-modules-html.md` : étapes 8 à 10 faites. Reste la recette 10.6 à 10.8 avec un
+  enfant (module `anglais-6e-zootopia-animaux`, créé depuis l'iPhone). Aucune autre évolution
+  demandée.
+- Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
+  (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.
 - `docs/plan-iphone.md` : abandonné (gardé pour le pourquoi).

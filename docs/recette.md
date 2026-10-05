@@ -248,6 +248,7 @@ Après la recette : `git status` doit être propre (sinon `git checkout modules/
 |---|---|---|---|
 | 10.1 | `python -m unittest discover tools/tests -v` | 62 tests « ok », dont `test_skill_nouveau_module` (le skill lance les trois contrôles, les fichiers cités par le skill et `docs/parent-iphone.md` existent). | ☑ |
 | 10.2 | `python tools/check_html.py modules/*.html` ; `python tools/build_index.py` ; `python tools/recette_navigateur.py` ; contrôle de syntaxe du skill (`node --check`) sur le module circuit | Conforme ; 3 modules ; « ✔ 24 OK, 0 échec(s) » ; `node --check` sans erreur. | ☑ |
+| 10.2b | Retours de la session iPhone : `test_json_casse` sous Python 3.11 et 3.14 ; `CHROME=/usr/bin/false python tools/recette_navigateur.py` | Le test accepte « ligne 3 » (3.13+) ou « ligne 4 » ; la recette affiche « ✘ Chrome s'est arrêté sans finir la recette » au lieu de « Aucun résultat reçu », code 1. Recette normale toujours « ✔ 24 OK ». | ☑ |
 
 ### Sur l'iPhone (parent), en suivant `docs/parent-iphone.md`
 

@@ -55,7 +55,11 @@ python -m unittest discover tools/tests                # tous les tests passent
   ```bash
   python3 -c "import re,sys;s=open(sys.argv[1]).read();print('\n'.join(m for m in re.findall(r'<script>(.*?)</script>',s,re.S)))" modules/<id>.html > /tmp/page.js && node --check /tmp/page.js
   ```
-- En local seulement (Chrome nécessaire) : `python tools/recette_navigateur.py` doit rester vert.
+- `python tools/recette_navigateur.py` teste l'app (non-régression), pas le nouveau module : la
+  lancer si un navigateur est disponible, sinon le dire au parent (elle sera relancée en local).
+  Si tu as un navigateur, ouvre plutôt la nouvelle page et fais une question par compétence.
+- Un test **sans rapport avec le module** qui échouait déjà avant ton travail (vérifie avec
+  `git stash`) ne bloque pas la publication : publie, et signale-le au parent en une ligne.
 
 Si un contrôle échoue et que tu ne trouves pas pourquoi après deux essais, **ne pousse pas** :
 explique au parent ce qui bloque.

@@ -4,10 +4,12 @@ App de révision pour les enfants : apprendre une leçon pas à pas, s'entraîne
 et corrections, passer des évaluations, suivre sa progression. 100 % statique, hébergée sur
 GitHub Pages, sans compte ni serveur ; la progression reste dans le navigateur de l'appareil.
 
-> État : **étape 7** livrée. Toute l'app v1 est en place : profils, bibliothèque, Apprendre,
-> S'entraîner, Évaluation, Bilan, signalement, sauvegarde, aperçu d'un module, et les outils
-> Python (`validate`, `build_index`, `prompt`, `merge`, `analyse`). Reste l'étape 8 :
-> déploiement sur GitHub Pages.
+Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` publie en une minute).
+
+> État : **étape 10** livrée. L'app v1 (profils, modules JSON avec leçon, entraînement,
+> évaluation, bilan, sauvegarde, outils Python) sert aussi de **carnet de suivi** pour des
+> **modules HTML** : des pages de révision générées par Claude Code à partir des photos d'une
+> leçon, qui écrivent leurs résultats dans le bilan de l'enfant (`docs/module-html.md`).
 
 ## Installation des outils (une fois)
 
@@ -18,6 +20,12 @@ pip install -r tools/requirements.txt     # jsonschema, pandas, matplotlib
 ```
 
 ## Ajouter un module
+
+**Façon habituelle, depuis l'iPhone** : photos de la leçon + `/nouveau-module` dans Claude Code
+(onglet Code de l'app Claude). Claude Code écrit la page HTML, la contrôle, la publie et donne
+l'URL à envoyer à l'enfant. Marche à suivre : `docs/parent-iphone.md`.
+
+**Module JSON** (questions fixes, joué par l'app ; plus long à produire) :
 
 1. Photographier le cours, les exercices, les contrôles (1 à 10 photos).
 2. Générer le prompt « nouveau module » :
@@ -135,9 +143,11 @@ DataFrame pandas avec ces colonnes nommées (`COLONNES` en tête du fichier).
 
 ```bash
 python -m unittest discover tools/tests -v   # tests automatiques
+python tools/check_html.py modules/*.html    # contrat des modules HTML
+python tools/recette_navigateur.py           # recette automatique dans Chrome sans fenêtre
 python3 -m http.server 8000                  # puis ouvrir http://localhost:8000
 ```
 L'app doit être servie par un serveur (même local) : ouvrir `index.html` directement
 (`file://`) ne marche pas, le navigateur refusant alors de lire les fichiers de modules.
 
-Scénarios de recette à la main, étape par étape : `docs/recette.md`.
+Scénarios de recette, étape par étape : `docs/recette.md`.

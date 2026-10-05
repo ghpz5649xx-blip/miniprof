@@ -138,7 +138,9 @@ class LectureDuFichier(unittest.TestCase):
 
     def test_json_casse(self):
         r = valider_fichier(FIXTURES / "casse.json")
-        self.assertIn("ligne 3", r.erreurs[0])
+        # Virgule en trop à la fin de la ligne 3 : Python 3.13+ la signale ligne 3,
+        # les versions plus anciennes sur la ligne 4 (le « } » qui suit). Les deux aident.
+        self.assertRegex(r.erreurs[0], r"ligne [34]\b")
         self.assertIn("virgule en trop", r.erreurs[0])
 
     def test_cle_en_double(self):
