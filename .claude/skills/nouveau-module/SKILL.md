@@ -13,10 +13,10 @@ photos sans rapport avec une leçon). Réponds en français, court.
 ## 1. Lire avant d'écrire
 - `docs/module-html.md` : le contrat (CSP, fiche, `suivi.js`, appels de suivi, interdits) et les
   **règles pédagogiques**. C'est la référence ; ce skill ne la recopie pas.
-- `modules/sciences-6e-circuit-electrique.html` : le module de référence. Reprends sa structure
-  (accueil → Apprendre / S'entraîner / Évaluation / Mon bilan), son moteur de questions
-  (`genXxx(level)` par compétence, `genQuestion`, `record`, `evalStart` / `evalEnd`) et son
-  style, sans recopier son contenu. Lis-le par morceaux (il fait 72 Ko).
+- `docs/gabarit-module.html` : la page à copier. Son **moteur** (écrans, entraînement,
+  évaluation, suivi) se garde tel quel ; tu n'écris que la partie **CONTENU** (données,
+  générateurs, fiches Apprendre, accueil). Ne relis pas les modules existants pour leur moteur :
+  garde ton effort pour le contenu. Seule exception : une régénération (voir 2).
 - `schema/module.schema.json` : valeurs permises pour `subject` et `level`.
 - `modules/index.json` : modules existants (pour l'id).
 
@@ -26,10 +26,19 @@ photos sans rapport avec une leçon). Réponds en français, court.
 - **id** : `matiere-niveau-sujet` (minuscules, sans accents, tirets), ex. `maths-cm1-fractions`.
 - **Si `modules/<id>.html` existe déjà** : c'est une régénération. Garde le même id **et tous
   les ids de compétences existants** (l'historique des enfants y est rattaché) ; tu peux en
-  ajouter. Ne crée pas un deuxième id pour la même leçon.
+  ajouter. Ne crée pas un deuxième id pour la même leçon. Pour une simple correction, modifie la
+  page existante (lis seulement les parties concernées) ; s'il lui manque la ligne
+  `window.__miniprofTirage` de la fin du gabarit, ajoute-la pour pouvoir lancer le tirage.
 - 2 à 8 compétences, tirées de la leçon.
 
 ## 3. Écrire `modules/<id>.html`
+Pars du gabarit : `cp docs/gabarit-module.html modules/<id>.html`, puis remplace la partie CONTENU.
+
+**Le contenu est le cœur du travail** : c'est lui qui fait progresser l'enfant. Avant d'écrire,
+liste pour toi les notions et les exercices des photos, puis les erreurs que font souvent les
+élèves de ce niveau sur ces notions. Chaque niveau de difficulté vise un piège précis, et chaque
+mauvais choix a son « pourquoi » qui corrige cette erreur-là.
+
 Respecte `docs/module-html.md` (contrat + règles pédagogiques + pièges). En bref : une seule page,
 tout dedans (CSS, JS, SVG), polices système, aucune URL externe, aucun accès au stockage, suivi
 uniquement par `window.miniprof`, et la page doit marcher sans miniprof.
@@ -50,11 +59,12 @@ python -m unittest discover tools/tests                # tous les tests passent
 - `python` introuvable : utiliser `python3`. `ModuleNotFoundError` (session dans le cloud,
   sans `.venv`) : `pip install -r tools/requirements.txt`, puis relancer. En local :
   `source .venv/bin/activate`.
-- Syntaxe du JS de la page, si `node` est disponible (une erreur de syntaxe donne une page
-  blanche sur l'iPhone) :
-  ```bash
-  python3 -c "import re,sys;s=open(sys.argv[1]).read();print('\n'.join(m for m in re.findall(r'<script>(.*?)</script>',s,re.S)))" modules/<id>.html > /tmp/page.js && node --check /tmp/page.js
-  ```
+- **Tirage** (si `node` est disponible) : `python tools/tirage.py modules/<id>.html` fait tourner
+  les vrais générateurs (2000 questions par compétence et niveau). Il voit une erreur de syntaxe
+  (page blanche sur l'iPhone), deux bonnes réponses, un choix en double, un « undefined ».
+  Corrige jusqu'à « aucune erreur de forme », puis **lis les exemples affichés comme le ferait
+  l'enfant** : l'outil ne voit pas une réponse fausse sur le fond (un calcul faux, une traduction
+  discutable). Sans `node`, dis-le au parent : il relira plus d'exemples.
 - `python tools/recette_navigateur.py` teste l'app (non-régression), pas le nouveau module : la
   lancer si un navigateur est disponible, sinon le dire au parent (elle sera relancée en local).
   Si tu as un navigateur, ouvre plutôt la nouvelle page et fais une question par compétence.

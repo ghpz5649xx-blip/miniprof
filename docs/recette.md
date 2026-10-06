@@ -291,3 +291,18 @@ public) et lu avec `python tools/analyse.py exports/<fichier>.export.json`.
 | 12.2 | `python tools/build_index.py` | `brouillons.json` n'est pas pris pour un module ; 4 modules, aucun écarté. | ☑ |
 | 12.3 | `python tools/recette_navigateur.py` (le serveur simule `maths-cm2-grands-nombres` en brouillon) | Le brouillon n'est plus dans la bibliothèque, les autres modules y sont. « ✔ 28 OK ». | ☑ |
 
+
+## Gabarit des modules HTML et tirage automatique (6 octobre 2026)
+
+Demande du parent : garder le meilleur modèle pour `/nouveau-module`, mais ne plus dépenser de
+tokens à relire un module complet (72 Ko) à chaque création. `docs/gabarit-module.html` (moteur
+commun) et `tools/tirage.py` (milliers de questions tirées et vérifiées) ; pourquoi : voir
+`docs/module-html.md`, « Gabarit et tirage automatique ».
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| G.1 | `python -m unittest discover tools/tests -v` | Tous « ok », dont `test_tirage.py` : gabarit conforme au contrat, gabarit sans erreur au tirage, et détection d'un choix en double, d'un « undefined », d'un générateur qui plante, d'une page sans point de tirage, d'une erreur de syntaxe. | ☑ |
+| G.2 | `python tools/tirage.py modules/anglais-6e-zootopia-animaux.html` | 24 000 questions tirées, « ✔ aucune erreur de forme », 3 exemples par compétence et niveau. (Une première version de l'outil signalait à tort des pastilles de couleur « en double » : les libellés sont comparés bruts, dessin compris.) | ☑ |
+| G.3 | Gabarit copié dans `modules/`, puis module Zootopia, dans Chromium (390 px) : les fiches Apprendre, 15 questions d'entraînement, une évaluation | Les deux pages marchent, sans erreur JS ; « À retenir » en fin de fiches ; score sur 10 affiché. | ☑ |
+| G.4 | `python tools/recette_navigateur.py` (Chromium, `CHROME=/opt/pw-browsers/chromium`) | « ✔ 28 OK, 0 échec(s) ». | ☑ |
+| G.5 | Prochain `/nouveau-module` depuis l'iPhone | La session part du gabarit (`cp docs/gabarit-module.html …`), lance `tirage.py` et cite des exemples à relire dans sa réponse. | ☐ |

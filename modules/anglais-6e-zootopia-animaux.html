@@ -704,6 +704,8 @@ function act(a,el){
   }
 }
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS});return;}
 home();
 
 })();

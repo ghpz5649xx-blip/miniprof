@@ -34,7 +34,7 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
   `docs/module-html.md`) ; `index.json` généré par `tools/build_index.py` (`"kind": "json" | "html"`) ;
   `brouillons.json` : modules publiés mais pas encore relus par le parent (cachés aux enfants,
   `"brouillon": true` dans l'index).
-- `tools/` : outils Python (validate, check_html, merge, prompt, analyse, build_index,
+- `tools/` : outils Python (validate, check_html, tirage, merge, prompt, analyse, build_index,
   recette_navigateur) ; `common.py` partagé ; `recette/` : page de recette automatique.
 - `tools/tests/` : unittest + `fixtures/` (`fixtures/html/` : module HTML minimal).
 - `index.html`, `css/style.css`, `js/` : l'app. `js/app.js` (routage par hash), `ui.js`
@@ -48,7 +48,8 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
   `exam`, `exam-result`, `report` (bilan), `backup` (sauvegarde)). `suivi.js` : chargé par les
   modules HTML, expose `window.miniprof` et écrit leurs réponses par `addEvents()`.
   Aperçu d'un module local : id réservé `_apercu` (`open-module.js`), rien n'est enregistré.
-- `docs/` : `module-html.md` (contrat des modules HTML), `prompt-nouveau.md` (généré par
+- `docs/` : `module-html.md` (contrat des modules HTML), `gabarit-module.html` (moteur commun à
+  copier pour un nouveau module HTML), `prompt-nouveau.md` (généré par
   `prompt.py`), `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`,
   `plan-modules-html.md` (étapes 8 à 10 faites), `plan-iphone.md` (abandonné),
   `parent-iphone.md` (créer un module depuis l'iPhone).
@@ -63,6 +64,7 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
 source .venv/bin/activate                     # venv local (pip install -r tools/requirements.txt)
 python tools/validate.py modules/<id>.json    # --llm : texte pour le LLM ; --nettoyer
 python tools/check_html.py modules/<id>.html  # contrat d'un module HTML ; --llm : texte pour le LLM
+python tools/tirage.py modules/<id>.html      # tire des milliers de questions (node), cherche les ambiguïtés
 python tools/build_index.py                   # régénère modules/index.json (modules valides)
 python tools/prompt.py --mode nouveau          # ou --mode lot <module> ; merge.py <module> <lot> ; analyse.py <export>
 python -m unittest discover tools/tests -v    # tests

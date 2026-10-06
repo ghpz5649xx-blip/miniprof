@@ -2,7 +2,8 @@
 
 Un module HTML est une page autonome (`modules/<id>.html`) générée par un LLM à partir des photos
 d'une leçon : leçon, entraînement, évaluation, avec schémas SVG, animations et questions tirées au
-hasard si c'est utile. Exemple de référence : `modules/sciences-6e-circuit-electrique.html`.
+hasard si c'est utile. Point de départ : `docs/gabarit-module.html` (moteur commun, à copier) ;
+exemple complet : `modules/sciences-6e-circuit-electrique.html`.
 
 miniprof ne l'affiche pas : il en **suit les résultats**. La page écrit chaque réponse dans le
 journal de l'enfant (`js/events.js`) par le script `js/suivi.js`. Le bilan de miniprof, la
@@ -110,10 +111,24 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
   évaluation abandonnée au milieu ne compte pas.
 - **`window.miniprof` absent** (page ouverte ailleurs ou `suivi.js` pas encore chargé) : chaque
   appel est protégé par `if (window.miniprof)`.
-- **Erreur de syntaxe JS** = page blanche sur l'iPhone : `node --check` sur le script avant de
+- **Erreur de syntaxe JS** = page blanche sur l'iPhone : `python tools/tirage.py` la voit avant de
   publier (skill `/nouveau-module`).
 - Le texte affiché passe par `innerHTML` dans la page : échapper (`esc()`) tout ce qui n'est pas
   écrit en dur dans le script.
+
+## Gabarit et tirage automatique
+- `docs/gabarit-module.html` contient le **moteur** commun (accueil, Apprendre, entraînement,
+  évaluation, suivi, 2 à 4 niveaux) et une partie **CONTENU** à remplacer. Pourquoi : relire un
+  module complet (72 Ko) à chaque création coûtait des dizaines de milliers de tokens, pris sur
+  le travail qui compte, le contenu pédagogique. Le gabarit passe `check_html.py` tel quel
+  (test `test_tirage.py`).
+- À la fin du script, la page appelle `window.__miniprofTirage({ GEN, LEVELS, LEARN, SKILLS,
+  EVAL_SKILLS })` si cette fonction existe, au lieu de s'afficher. Elle n'existe que dans
+  `tools/tirage.py`, qui fait tourner les vrais générateurs avec node et vérifie des milliers de
+  questions (une seule bonne réponse, pas de choix en double, pas de « undefined »…). Pourquoi :
+  une combinaison rare d'un générateur aléatoire échappe à la relecture. Ce n'est pas exigé par
+  `check_html.py` (le module circuit, plus ancien, ne l'a pas) ; le skill l'ajoute aux modules
+  qu'il touche. L'outil voit la forme, pas le fond : les exemples affichés restent à relire.
 
 ## Pourquoi ces règles
 La page exécute du JS généré sur le même site que la progression des enfants. On ne relit pas ce
