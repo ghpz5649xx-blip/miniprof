@@ -45,6 +45,9 @@ Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-se
    (une fois) ; ses réponses vont ensuite dans son bilan miniprof.
 
 ## Bon à savoir
+- **Corriger un module plus tard** (la session est fermée) : nouvelle session, sans photo,
+  `/nouveau-module corrige le module <id> : <ce qui ne va pas>`. Même adresse, même historique
+  (constaté le 2026-10-06).
 - **Refaire un module** (photos plus nettes, autre approche) : `/nouveau-module` avec les photos,
   en précisant « refais le module <titre> ». Le même id est gardé, donc l'historique de l'enfant
   aussi.

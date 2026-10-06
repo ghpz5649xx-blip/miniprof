@@ -103,7 +103,7 @@ Constats et décisions :
   s'est arrêté. Cette recette teste l'app, pas le nouveau module : en local, elle reste
   obligatoire seulement quand le code de l'app change.
 - Dépôt gardé public (GitHub Pages gratuit) : voir R11.
-Reste : recette 10.7 (corriger un module depuis la session iPhone) ; 10.6 et 10.8 faites le 6 octobre 2026 avec l’enfant de 6e (`docs/recette.md`).
+Recette 10.3 à 10.8 faite le 6 octobre 2026 (`docs/recette.md`).
 
 ## Limites acceptées (écrites dans `docs/risques.md`, R3 et R10)
 - Les pages HTML ne sont pas lisibles par le mainteneur : elles sont **jetables** (on les
