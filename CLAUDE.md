@@ -75,8 +75,10 @@ corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre
   `exam`, `exam-result`, `report` (bilan), `backup` (sauvegarde)). `suivi.js` : chargé par les
   modules HTML, expose `window.miniprof` et écrit leurs réponses par `addEvents()`.
   Aperçu d'un module local : id réservé `_apercu` (`open-module.js`), rien n'est enregistré.
-- `docs/` (carte et usage : `README.md`, « Les docs ») : `plan-modules-html.md` (plan en cours),
-  `recette.md` (en tête : ce qui reste à vérifier par le parent), `parent-iphone.md` (créer un
+- `README.md` : documentation de reprise du projet (comment tout marche, mode d'emploi, carte
+  du dépôt et des docs) ; à tenir à jour quand le fonctionnement change.
+- `docs/` (carte : `README.md`, « Les docs ») : `plan-modules-html.md` (plan en cours),
+  `recette.md` (ce qui a été vérifié, et comment), `parent-iphone.md` (créer un
   module depuis l'iPhone), `module-html.md` (contrat des modules HTML), `gabarit-module.html`
   (moteur commun à copier), `risques.md` ; références figées de l'app v1 : `besoins.md`, `ux.md`.
   `prompt-nouveau.md` et `prompt-lot-*.md` sont générés par `prompt.py` et non versionnés.
@@ -143,7 +145,8 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
      une évolution le permet), plus ce qui demande de regarder l'écran ; elle est écrite dans
      `docs/recette.md` ;
   4. les docs touchées sont à jour (arborescence, « Règles à garder synchronisées », plan),
-     ainsi que `pilotage.md` (faits marquants, actions, décisions) ;
+     ainsi que `pilotage.md` (faits marquants, actions, décisions) et le `README.md` si le
+     fonctionnement change ;
   5. commit clair, puis **push**.
 - **S'arrêter et demander au parent**, sans pousser : changement d'une contrainte non négociable,
   choix pédagogique ou d'UX visible par les enfants, changement du format de stockage, recette
@@ -159,7 +162,7 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   garde) une fois son « pourquoi » reporté dans le plan suivant ou `risques.md`.
 
 ## Prochaines étapes
-- État, décisions, actions et backlog : `pilotage.md`. Étape 12 allégée livrée (D5) ; prochaine
-  évolution décidée : refonte du `README.md` en documentation de reprise (action A6).
+- État, décisions, actions et backlog : `pilotage.md`. Aucune évolution décidée en attente ;
+  prochain rendez-vous : comité n° 2.
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.
