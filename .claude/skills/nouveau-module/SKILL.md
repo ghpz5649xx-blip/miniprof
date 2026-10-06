@@ -1,10 +1,13 @@
 ---
 name: nouveau-module
-description: Crée un module HTML miniprof (modules/<id>.html) à partir des photos d'une leçon, le contrôle, le publie sur GitHub Pages et donne l'URL à envoyer à l'enfant. À utiliser quand le parent envoie des photos de leçon ou d'exercices, ou demande de régénérer un module HTML.
-argument-hint: "[niveau ou consignes, ex. « 6e, surtout les exercices de la page 2 »] + photos"
+description: Crée un module HTML miniprof (modules/<id>.html) à partir des photos d'une leçon, le contrôle, le publie en brouillon sur GitHub Pages et donne au parent les exemples à relire ; « valide <id> » le rend visible aux enfants. À utiliser quand le parent envoie des photos de leçon ou d'exercices, demande de corriger ou régénérer un module HTML, ou de valider un module.
+argument-hint: "[niveau ou consignes, ex. « 6e, surtout les exercices de la page 2 »] + photos, ou « valide <id> »"
 ---
 
 # /nouveau-module : photos d'une leçon → page de révision publiée
+
+**Si le message est « valide <id> »** (ou « valide » juste après une création dans la même
+session) : va directement à la section 7.
 
 Le parent est souvent sur son iPhone : il veut **une URL qui marche** à la fin, pas des
 questions. Pose une question seulement si tu ne peux vraiment pas décider (niveau illisible,
@@ -30,6 +33,12 @@ photos sans rapport avec une leçon). Réponds en français, court.
   page existante (lis seulement les parties concernées) ; s'il lui manque la ligne
   `window.__miniprofTirage` de la fin du gabarit, ajoute-la pour pouvoir lancer le tirage.
 - 2 à 8 compétences, tirées de la leçon.
+- **Brouillon** : un **nouveau** module (id absent de `modules/index.json`) est publié en
+  brouillon : ajoute son id à la liste de `modules/brouillons.json`. Il est caché dans la
+  bibliothèque des enfants tant que le parent ne l'a pas relu et validé (section 7) ; son URL
+  marche, pour que le parent l'essaie. Pourquoi : une réponse fausse apprise par un enfant est
+  le risque principal du projet (décision D5 du comité n° 1, `pilotage.md`). Une correction
+  d'un module déjà validé ne le remet pas en brouillon (l'enfant s'en sert déjà).
 
 ## 3. Écrire `modules/<id>.html`
 Pars du gabarit : `cp docs/gabarit-module.html modules/<id>.html`, puis remplace la partie CONTENU.
@@ -76,26 +85,46 @@ explique au parent ce qui bloque.
 
 ## 5. Publier
 ```bash
-git add modules/<id>.html modules/index.json pilotage.md
+git add modules/<id>.html modules/index.json modules/brouillons.json pilotage.md
 git commit -m "Module : <titre> (<niveau>)"
 git push
 ```
 - Avant : ajoute une ligne au tableau « Faits marquants » de `pilotage.md` (date, module créé ou
   corrigé, et pourquoi en quelques mots). C'est du service courant : pas de comité nécessaire.
-- Ne committe que ces trois fichiers (jamais de photo, d'export, de fichier de travail).
+- Ne committe que ces fichiers (jamais de photo, d'export, de fichier de travail).
 - Si la session travaille sur une branche (session web ou mobile) : pousse la branche, ouvre une
   PR vers `main` si tu le peux (`gh pr create`), sinon donne le lien
   `https://github.com/ghpz5649xx-blip/miniprof/compare/main...<branche>`. Dis au parent que
   **l'URL ne marchera qu'après la fusion** (depuis l'app GitHub : « Merge pull request »).
 
 ## 6. Répondre au parent
-Un message court :
+Un message court (le parent lit sur son iPhone) :
 - l'URL : `https://ghpz5649xx-blip.github.io/miniprof/modules/<id>.html` (en ligne environ une
-  minute après le push sur `main`) ;
+  minute après le push sur `main`), et le rappel : **module en brouillon, ne pas envoyer l'URL à
+  l'enfant avant de l'avoir validé** ;
 - ce que contient la page : compétences, niveaux, nombre de types de questions ;
 - ce que tu n'as pas pu reprendre des photos (illisible, hors sujet) ;
-- **à relire avant d'envoyer l'URL** à l'enfant : 2 ou 3 points précis où tu as pu te tromper
-  (une réponse calculée, une notion interprétée).
+- **à relire** :
+  - 2 ou 3 points précis où tu as pu te tromper (une réponse calculée, une notion interprétée) ;
+  - **une question par compétence et par niveau, avec sa bonne réponse**, recopiée des exemples
+    de `tirage.py` (`--exemples 1`), sous la forme « question → réponse » : c'est la fiche de
+    contrôle, produite par le vrai code de la page ;
+- la suite : « Si tout est juste, réponds **valide** ; sinon, dis-moi ce qui ne va pas. »
 
 Si le parent signale une erreur ensuite : corrige ou régénère la page avec le **même id** et les
 mêmes compétences, refais les contrôles et republie.
+
+## 7. Valider un module (« valide <id> »)
+1. Retire l'id de la liste de `modules/brouillons.json` (s'il n'y est pas, dis-le au parent et
+   arrête-toi).
+2. `python tools/build_index.py` (le module n'a plus `"brouillon": true`), puis
+   `python -m unittest discover tools/tests`.
+3. Ajoute une ligne aux « Faits marquants » de `pilotage.md` (« module <titre> validé par le
+   sponsor »), puis :
+   ```bash
+   git add modules/brouillons.json modules/index.json pilotage.md
+   git commit -m "Validation : <titre> (<niveau>)"
+   git push
+   ```
+4. Réponds en une ligne : le module apparaît dans la bibliothèque des enfants d'ici une minute,
+   et l'URL peut être envoyée à l'enfant.

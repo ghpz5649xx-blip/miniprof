@@ -298,6 +298,16 @@ public) et lu avec `python tools/analyse.py exports/<fichier>.export.json`.
 | 12.2 | `python tools/build_index.py` | `brouillons.json` n'est pas pris pour un module ; 4 modules, aucun écarté. | ☑ |
 | 12.3 | `python tools/recette_navigateur.py` (le serveur simule `maths-cm2-grands-nombres` en brouillon) | Le brouillon n'est plus dans la bibliothèque, les autres modules y sont. « ✔ 28 OK ». | ☑ |
 
+Étape allégée (comité n° 1, D5) : les unités 2 et 3 vont au backlog ; unité 4 ci-dessous.
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| 12.4 | `python -m unittest discover tools/tests -v` | Tous « ok », dont `test_skill_nouveau_module` : le skill cite `modules/brouillons.json`, `tools/tirage.py` et sa section « Valider un module ». | ☑ |
+| 12.5 | Parcours du skill à blanc : gabarit copié en `modules/autre-6e-gabarit.html`, son id ajouté à `brouillons.json`, `build_index.py` ; puis id retiré, fichier supprimé | « autre-6e-gabarit.html (6e, page HTML, brouillon) » et `"brouillon": true` dans l'index ; après retrait, 4 modules, dépôt inchangé. | ☑ |
+| 12.6 | `python tools/recette_navigateur.py` | « ✔ 28 OK » (l'app n'a pas changé). | ☑ |
+| 12.7 | **iPhone** (action A8) : `/nouveau-module` avec les photos d'une leçon CE2/CM1 | La réponse dit « brouillon », donne une question-réponse par compétence et par niveau ; l'URL marche ; le module n'est **pas** dans la bibliothèque des enfants. | ☐ |
+| 12.8 | **iPhone** : répondre « valide » dans la même session | Réponse en une ligne ; une minute plus tard, le module est dans la bibliothèque. | ☐ |
+
 
 ## Gabarit des modules HTML et tirage automatique (6 octobre 2026)
 

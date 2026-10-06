@@ -18,7 +18,8 @@ Deux sortes de modules (champ "kind" de l'index) :
 
 Brouillons (modules/brouillons.json, {"brouillons": ["<id>", ...]}) : un module publié mais
 pas encore relu par le parent. Il est indexé avec "brouillon": true ; la bibliothèque des
-enfants ne l'affiche pas, l'écran « Pour les parents » (#/parents) si. Pourquoi un fichier à
+enfants ne l'affiche pas (son URL marche, pour que le parent l'essaie). Le skill
+/nouveau-module y ajoute chaque nouveau module et l'en retire sur « valide <id> ». Pourquoi un fichier à
 part plutôt qu'un champ du module : le schéma refuse les champs inconnus, et un seul fichier
 marche pour les modules JSON comme HTML. Valider un module = retirer son id de la liste.
 """

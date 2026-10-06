@@ -1,7 +1,7 @@
 # miniprof : des modules HTML générés par le LLM, miniprof en « carnet de suivi »
 
 > **Le plan en cours.** État : étapes 8, 9, 10 faites ; gabarit + `tirage.py` faits ;
-> **étape 12 en cours, allégée** (unité 1 « brouillon » faite ; unité 4 en cours ; 2 et 3 au backlog).
+> **étape 12 allégée faite** (unités 1 et 4 ; 2 et 3 au backlog) ; recette iPhone 12.7-12.8 à faire.
 > Résumé et décisions : `pilotage.md`.
 
 ## Contexte

@@ -33,15 +33,20 @@ Variante depuis le Mac, si `gh` y est connecté : lancer `claude`, puis `/web-se
    la propose pas au premier message (le dépôt n'est pas encore copié dans la session), mais
    elle marche une fois envoyée.
 4. Attendre la réponse : l'URL `https://ghpz5649xx-blip.github.io/miniprof/modules/<id>.html`,
-   les compétences, et **2 ou 3 points à relire**.
+   les compétences, **2 ou 3 points à relire**, et une question par compétence et par niveau
+   avec sa bonne réponse. Le module est publié **en brouillon** : il n'apparaît pas encore dans
+   la bibliothèque des enfants.
 5. Rien à fusionner en temps normal : partie de `main`, la session y pousse directement
    (constaté le 2026-10-06). **Seulement si** elle annonce une branche `claude/…` et un lien de
    PR : dans l'app GitHub, ouvrir la PR → « Merge pull request » → « Confirm ».
 6. Attendre environ **une minute** (publication GitHub Pages), ouvrir l'URL, relire les points
-   signalés, faire 2 ou 3 questions par niveau. Une erreur ? La dire dans la même session
-   (« la question sur … attend 3/4 au lieu de 2/3 ») : Claude Code corrige et republie, même
-   adresse.
-7. Envoyer l'URL par SMS. Sur le téléphone de l'enfant, la page demande de choisir son profil
+   signalés et les questions-réponses, faire 2 ou 3 questions par niveau. Une erreur ? La dire
+   dans la même session (« la question sur … attend 3/4 au lieu de 2/3 ») : Claude Code corrige
+   et republie, même adresse.
+7. Tout est juste : répondre **valide** dans la même session (ou, plus tard, dans une nouvelle
+   session : `/nouveau-module valide <id>`). Le module apparaît alors dans la bibliothèque des
+   enfants.
+8. Envoyer l'URL par SMS. Sur le téléphone de l'enfant, la page demande de choisir son profil
    (une fois) ; ses réponses vont ensuite dans son bilan miniprof.
 
 ## Bon à savoir

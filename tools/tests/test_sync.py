@@ -68,6 +68,9 @@ class TestSynchronisation(unittest.TestCase):
         skill = (ROOT / ".claude" / "skills" / "nouveau-module" / "SKILL.md").read_text(encoding="utf-8")
         for commande in ("tools/check_html.py", "tools/build_index.py", "unittest discover tools/tests"):
             self.assertIn(commande, skill)
+        # Étape 12 allégée (comité n° 1, D5) : un nouveau module part en brouillon, « valide <id> » le publie.
+        for etape in ("modules/brouillons.json", "## 7. Valider un module", "tools/tirage.py"):
+            self.assertIn(etape, skill)
         guide = (ROOT / "docs" / "parent-iphone.md").read_text(encoding="utf-8")
         cites = set(re.findall(r"(?:tools|docs|modules|schema|js)/[\w./-]+\.(?:py|md|json|html|js)", skill + guide))
         cites.add(".claude/skills/nouveau-module/SKILL.md")

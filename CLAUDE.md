@@ -159,7 +159,7 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   garde) une fois son « pourquoi » reporté dans le plan suivant ou `risques.md`.
 
 ## Prochaines étapes
-- État, décisions, actions et backlog : `pilotage.md`. Évolution en cours : étape 12 allégée
-  (unité 4 seule, décision D5 du comité n° 1).
+- État, décisions, actions et backlog : `pilotage.md`. Étape 12 allégée livrée (D5) ; prochaine
+  évolution décidée : refonte du `README.md` en documentation de reprise (action A6).
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.

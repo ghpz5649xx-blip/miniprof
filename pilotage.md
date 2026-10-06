@@ -4,8 +4,7 @@ Support des comités de pilotage. **Claude le met à jour à la fin de chaque se
 suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUDE.md`,
 « Gouvernance ».
 
-**Évolution en cours : étape 12 allégée (unité 4 : publication en brouillon, validation par
-message).** Une session qui voit cette ligne ne lance pas d'autre évolution (décision D3).
+**Évolution en cours : aucune.** Prochaine décidée : refonte du `README.md` (A6).
 
 ---
 
@@ -38,6 +37,7 @@ message).** Une session qui voit cette ligne ne lance pas d'autre évolution (d�
 | 6 oct. | Étape 12, unité 1 : un module « brouillon » est caché aux enfants tant qu'il n'est pas relu. |
 | 6 oct. | Gabarit commun des modules HTML et `tools/tirage.py` (milliers de questions vérifiées). |
 | 6 oct. | Comité n° 1 : gouvernance adoptée (D1 à D4, D6), étape 12 allégée (D5), pipeline sans Claude Code mis au backlog (D7). |
+| 6 oct. | Étape 12 allégée livrée : un nouveau module sort en brouillon, avec une question-réponse par compétence et par niveau à relire ; « valide » le rend visible aux enfants. Reste ta recette sur l'iPhone (12.7, 12.8) avec le module de ce week-end. |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
 et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
@@ -46,8 +46,8 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 
 ## Regard du chef de projet
 
-- **Priorité du moment** : l'étape 12 allégée, avant le premier module CE2/CM1 attendu ce
-  week-end. Ce module sera ainsi le premier publié en brouillon, relu par toi avant ton enfant.
+- **Priorité du moment** : ta recette de l'étape 12 avec le module CE2/CM1 de ce week-end
+  (A8). C'est le premier module publié en brouillon, relu par toi avant ton enfant.
 - **Le vrai risque reste la qualité du contenu** (une réponse fausse apprise par un enfant) :
   l'étape 12 y répond directement.
 - **Vérifications sur l'iPhone en retard** (A2, A3) : elles se feront naturellement avec le
@@ -72,10 +72,9 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 | A3 | Jouer le module circuit sur l'iPhone (recette 8.5 à 8.8), seulement s'il doit être envoyé à un enfant | Sponsor | si besoin | à faire |
 | A4 | Faire un export des données de la 6e après une semaine d'usage (Sauvegarde > Exporter), puis me le transmettre en session | Sponsor | vers le 13 oct. | à faire |
 | A6 | Refondre le `README.md` en documentation de reprise : à quoi sert le projet, comment il marche (app, modules, pipeline avec un LLM, gouvernance), comment s'en servir | Claude | avant le comité n° 2 | à faire |
-| A7 | Étape 12 allégée (unité 4) : un nouveau module est publié en brouillon, la réponse donne les exemples à relire, « valide <id> » le rend visible aux enfants | Claude | avant ce week-end | en cours |
-| A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` (il sortira en brouillon), le relire, puis le valider | Sponsor | ce week-end | à faire |
+| A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` : il sort en brouillon ; relire les questions-réponses données, essayer la page, puis répondre « valide » (recette 12.7 et 12.8). Ne pas envoyer l'URL à l'enfant avant. | Sponsor | ce week-end | à faire |
 
-Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées).
+Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A7 (étape 12 allégée livrée).
 
 ---
 
