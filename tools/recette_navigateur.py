@@ -30,6 +30,7 @@ CHROME_MAC = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 DELAI = 90  # secondes avant d'abandonner
 
 resultat = {"texte": ""}
+verrou = threading.Lock()
 
 
 class Serveur(http.server.SimpleHTTPRequestHandler):
@@ -52,7 +53,13 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         n = int(self.headers.get("Content-Length", 0))
-        resultat["texte"] = self.rfile.read(n).decode("utf-8")
+        texte = self.rfile.read(n).decode("utf-8")
+        # Chaque envoi reprend tous les précédents, mais le serveur les traite en parallèle :
+        # un envoi plus ancien peut arriver après « FIN » et l'effacer (recette bloquée 90 s).
+        # On garde donc toujours le plus long.
+        with verrou:
+            if len(texte) >= len(resultat["texte"]):
+                resultat["texte"] = texte
         self.send_response(204)
         self.end_headers()
 
