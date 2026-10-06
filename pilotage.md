@@ -73,7 +73,6 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 | A3 | Jouer le module circuit sur l'iPhone (recette 8.5 à 8.8), seulement s'il doit être envoyé à un enfant | Sponsor | si besoin | à faire |
 | A4 | Faire un export des données de la 6e après une semaine d'usage (Sauvegarde > Exporter), puis me le transmettre en session | Sponsor | vers le 13 oct. | à faire |
 | A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` : il sort en brouillon ; relire les questions-réponses données, essayer la page, puis répondre « valide » (recette 12.7 et 12.8). Ne pas envoyer l'URL à l'enfant avant. | Sponsor | ce week-end | à faire |
-
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
 
 Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée).
