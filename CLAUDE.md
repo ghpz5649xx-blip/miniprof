@@ -88,6 +88,11 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
 - Petits fichiers, noms explicites, pas d'abstraction prématurée.
 
 ## Façon de travailler
+- **Challenger chaque demande d'évolution avant de la découper** : reformuler le besoin (quel
+  problème, pour quel enfant), dire si l'existant le couvre déjà ou si plus léger suffit (module
+  HTML, doc, simple réglage), annoncer le coût (fichiers et règles à synchroniser, recette iPhone)
+  et les risques (données des enfants, contraintes). Une seule fois, en quelques lignes ; le
+  parent tranche. Ne s'applique pas à la création de modules (`/nouveau-module`).
 - On n'attaque une évolution que sur demande du parent. Elle est découpée en **unités
   vérifiables** ; plusieurs unités peuvent tenir dans une session.
 - Une unité est **finie** quand :
