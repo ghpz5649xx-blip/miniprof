@@ -278,4 +278,4 @@ public) et lu avec `python tools/analyse.py exports/<fichier>.export.json`.
 |---|---|---|---|
 | 11.1 | `python tools/recette_navigateur.py` | « ✔ 27 OK, 0 échec(s) » : 3 vérifications de plus (profil en double : erreur et saisie gardée ; profil créé devenu le profil courant ; arrivée sur `#/biblio`, « Bonjour Tom »). Sans la correction, les 2 dernières échouent. | ☑ |
 | 11.2 | `python -m unittest discover tools/tests -v` | 62 tests « ok ». | ☑ |
-| 11.3 | Sur l'iPhone, après le push : « Gérer les profils » pour supprimer un profil de test si besoin, puis créer un profil | On arrive directement sur « Bonjour <prénom> ! ». | ☐ |
+| 11.3 | Sur l'iPhone, après le push : « Gérer les profils » pour supprimer un profil de test si besoin, puis créer un profil | On arrive directement sur « Bonjour <prénom> ! ». | ☑ (iPhone, 6 octobre 2026) |
