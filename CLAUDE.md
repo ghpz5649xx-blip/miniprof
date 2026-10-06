@@ -53,6 +53,8 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
   `plan-modules-html.md` (étapes 8 à 10 faites), `plan-iphone.md` (abandonné),
   `parent-iphone.md` (créer un module depuis l'iPhone).
 - `.claude/skills/nouveau-module/SKILL.md` : skill `/nouveau-module` (photos → module HTML publié).
+- `.claude/settings.json` + `.claude/hooks/synchro.sh` : au démarrage de chaque session,
+  `git pull --ff-only` sur `main` ; affiche un avertissement en cas d'échec, sans rien forcer.
 - `reference/` : prototype d'origine, **ne plus le relire** (résumé dans `docs/ux.md`).
   `circuit_electrique.html` : page d'origine du module circuit, gardée pour comparaison.
 
@@ -93,6 +95,11 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   HTML, doc, simple réglage), annoncer le coût (fichiers et règles à synchroniser, recette iPhone)
   et les risques (données des enfants, contraintes). Une seule fois, en quelques lignes ; le
   parent tranche. Ne s'applique pas à la création de modules (`/nouveau-module`).
+- **Rester synchronisé avec `origin/main`** (le parent travaille depuis l'iPhone et le Mac,
+  plusieurs sessions peuvent pousser en parallèle) : mise à jour en début de session par le hook
+  `synchro.sh` (si son message signale un échec, prévenir le parent), puis
+  `git pull --rebase origin main` juste avant chaque push et relancer les tests. En cas de
+  conflit, s'arrêter et demander au parent.
 - On n'attaque une évolution que sur demande du parent. Elle est découpée en **unités
   vérifiables** ; plusieurs unités peuvent tenir dans une session.
 - Une unité est **finie** quand :
