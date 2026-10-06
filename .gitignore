@@ -5,7 +5,8 @@ __pycache__/
 # exports de progression des enfants : données personnelles, ne pas committer
 exports/
 *.export.json
-# prompts « lot » : régénérés à chaque fois depuis le module (tools/prompt.py --mode lot)
+# prompts pour le LLM : régénérés à chaque fois par tools/prompt.py (ce ne sont pas des docs)
+docs/prompt-nouveau.md
 docs/prompt-lot-*.md
 # photos de leçons et de cahiers des enfants : données personnelles, ne pas committer
 reference/*_photos/

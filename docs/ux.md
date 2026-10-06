@@ -1,5 +1,7 @@
 # Expérience utilisateur de référence
 
+> Référence figée de l'app v1 (modules JSON). Pas à relire pour suivre le projet.
+
 Résumé du prototype `reference/division-euclidienne.html` (lu une seule fois, à ne plus relire).
 Ce document décrit **ce que l'enfant voit et vit** ; l'app finale reproduit ces comportements,
 mais avec un contenu lu dans un fichier de module au lieu d'être écrit dans le code.

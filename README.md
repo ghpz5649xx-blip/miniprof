@@ -6,10 +6,34 @@ GitHub Pages, sans compte ni serveur ; la progression reste dans le navigateur d
 
 Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` publie en une minute).
 
-> État : **étape 10** livrée. L'app v1 (profils, modules JSON avec leçon, entraînement,
-> évaluation, bilan, sauvegarde, outils Python) sert aussi de **carnet de suivi** pour des
-> **modules HTML** : des pages de révision générées par Claude Code à partir des photos d'une
-> leçon, qui écrivent leurs résultats dans le bilan de l'enfant (`docs/module-html.md`).
+## Où en est le projet (mis à jour à chaque unité livrée)
+
+- **En service** : l'app (profils, bilan, sauvegarde) et la création de modules HTML depuis
+  l'iPhone avec `/nouveau-module` (photos → page publiée → URL par SMS). Utilisée par l'enfant
+  de 6e depuis le 6 octobre 2026. Modules : 2 HTML (anglais 6e, circuit 6e), 2 JSON (CM2).
+- **Dernière livraison** : un gabarit commun pour les modules HTML et `tools/tirage.py`, qui
+  tire des milliers de questions pour repérer les erreurs avant publication.
+- **En cours : étape 12, la relecture des modules par le parent.** Un module publié reste
+  « brouillon » (caché aux enfants) tant que le parent ne l'a pas validé. Fait : le statut
+  brouillon. À faire : 2. un écran parent avec la fiche de contrôle des modules JSON ;
+  3. la même fiche pour les modules HTML ; 4. le skill `/nouveau-module` qui publie en
+  brouillon et valide sur demande.
+- **À vérifier par le parent** : liste en tête de `docs/recette.md`.
+
+## Les docs : lesquelles lire
+
+| Pour | Fichier | Quand le lire |
+|---|---|---|
+| Suivre le projet | ce `README.md` | toujours : état, modes d'emploi |
+| | `docs/plan-modules-html.md` | pour le détail et le **pourquoi** des décisions en cours |
+| | `docs/recette.md` | ce qui a été vérifié ; en tête, ce qui reste à vérifier par le parent |
+| Créer un module | `docs/parent-iphone.md` | marche à suivre depuis l'iPhone |
+| Référence (rarement) | `docs/risques.md` | registre des risques et de leurs parades |
+| | `docs/besoins.md`, `docs/ux.md` | ce que fait l'app v1, figé |
+| Pour Claude Code | `CLAUDE.md`, `docs/module-html.md`, `docs/gabarit-module.html` | règles du dépôt, contrat d'un module HTML, page à copier |
+
+Règle : pas de nouveau fichier dans `docs/` sans accord du parent ; un plan fini ou abandonné
+est retiré (l'historique Git le garde) une fois son « pourquoi » reporté ailleurs.
 
 ## Installation des outils (une fois)
 
@@ -25,15 +49,16 @@ pip install -r tools/requirements.txt     # jsonschema, pandas, matplotlib
 (onglet Code de l'app Claude). Claude Code écrit la page HTML, la contrôle, la publie et donne
 l'URL à envoyer à l'enfant. Marche à suivre : `docs/parent-iphone.md`.
 
-**Module JSON** (questions fixes, joué par l'app ; plus long à produire) :
+**Module JSON** (ancienne façon, depuis le Mac : questions fixes jouées par l'app, plus long à
+produire) :
 
 1. Photographier le cours, les exercices, les contrôles (1 à 10 photos).
 2. Générer le prompt « nouveau module » :
    ```bash
    python tools/prompt.py --mode nouveau
    ```
-   Il est écrit dans `docs/prompt-nouveau.md` **et copié dans le presse-papiers** : le coller
-   dans le LLM avec les photos. Le prompt contient le schéma, les règles pédagogiques,
+   Il est écrit dans `docs/prompt-nouveau.md` (non versionné) **et copié dans le
+   presse-papiers** : le coller dans le LLM avec les photos. Le prompt contient le schéma, les règles pédagogiques,
    l'obligation de vérifier chaque calcul et un exemple court. Il demande la leçon et un
    premier lot de 40 à 60 questions.
 3. Coller la réponse du LLM dans un fichier, par ex. `brouillon.json`.

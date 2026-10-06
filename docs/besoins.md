@@ -1,5 +1,8 @@
 # Besoins — user stories et critères d'acceptation
 
+> Référence figée de l'app v1 (étapes 1 à 7, modules JSON). Les besoins suivants sont dans
+> le plan en cours (`docs/plan-modules-html.md`). Pas à relire pour suivre le projet.
+
 Acteurs : **Parent** (mainteneur, crée les modules, suit la progression) et **Enfant**.
 Étape de livraison indiquée entre crochets.
 

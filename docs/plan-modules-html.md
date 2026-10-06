@@ -1,13 +1,18 @@
 # miniprof : des modules HTML générés par le LLM, miniprof en « carnet de suivi »
 
+> **Le plan en cours.** État : étapes 8, 9, 10 faites ; gabarit + `tirage.py` faits ;
+> **étape 12 en cours** (unité 1 « brouillon » faite, unités 2 à 4 à faire). Résumé dans le
+> `README.md`, « Où en est le projet ».
+
 ## Contexte
 Ce matin, une page HTML autonome (`reference/circuit_electrique.html`, 73 Ko) produite par Claude
 à partir de 4 photos a suffi pour faire réviser une leçon, envoyée par SMS depuis le travail. Ce
 fichier est un **programme** : un solveur de circuit (`solve()`), des schémas SVG calculés
 (`drawCircuit`), des générateurs de questions aléatoires (`genSerie`, `genCourt`…) et un labo
-interactif. Le format JSON de miniprof (questions fixes) ne pourra jamais exprimer cela. Le plan
+interactif. Le format JSON de miniprof (questions fixes) ne pourra jamais exprimer cela. L'ancien plan
 `docs/plan-iphone.md` (étapes 8 à 11, 400 à 500 lignes de JS dont un validateur en double) donnerait
-un résultat **moins bon** que le pipeline de ce matin.
+un résultat **moins bon** que le pipeline de ce matin. (Ce plan, abandonné, a été retiré le
+2026-10-06 ; il reste lisible dans l'historique Git.)
 
 Ce que miniprof apporte et que la page seule n'a pas : le **suivi dans la durée**, par enfant et sur
 plusieurs modules (`js/events.js`, `js/stats.js`, `screens/report.js`, sauvegarde, `tools/analyse.py`).
@@ -23,7 +28,7 @@ plusieurs modules (`js/events.js`, `js/stats.js`, `screens/report.js`, sauvegard
   rien.
 - **Sécurité** : on accepte le JS généré sur le même site, avec des garde-fous automatiques.
 
-Ce qui est abandonné : les étapes 8 à 11 de `docs/plan-iphone.md` (modules de 30 questions,
+Ce qui est abandonné : les étapes 8 à 11 de l'ancien `docs/plan-iphone.md` (modules de 30 questions,
 copier-coller du JSON, validateur JS, test de 5 questions dans l'app).
 
 ## Le contrat (ce qu'une page HTML doit respecter)

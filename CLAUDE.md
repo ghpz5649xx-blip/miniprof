@@ -48,11 +48,11 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
   `exam`, `exam-result`, `report` (bilan), `backup` (sauvegarde)). `suivi.js` : chargé par les
   modules HTML, expose `window.miniprof` et écrit leurs réponses par `addEvents()`.
   Aperçu d'un module local : id réservé `_apercu` (`open-module.js`), rien n'est enregistré.
-- `docs/` : `module-html.md` (contrat des modules HTML), `gabarit-module.html` (moteur commun à
-  copier pour un nouveau module HTML), `prompt-nouveau.md` (généré par
-  `prompt.py`), `ux.md` (référence UX), `besoins.md`, `recette.md`, `risques.md`,
-  `plan-modules-html.md` (étapes 8 à 10 faites), `plan-iphone.md` (abandonné),
-  `parent-iphone.md` (créer un module depuis l'iPhone).
+- `docs/` (carte et usage : `README.md`, « Les docs ») : `plan-modules-html.md` (plan en cours),
+  `recette.md` (en tête : ce qui reste à vérifier par le parent), `parent-iphone.md` (créer un
+  module depuis l'iPhone), `module-html.md` (contrat des modules HTML), `gabarit-module.html`
+  (moteur commun à copier), `risques.md` ; références figées de l'app v1 : `besoins.md`, `ux.md`.
+  `prompt-nouveau.md` et `prompt-lot-*.md` sont générés par `prompt.py` et non versionnés.
 - `.claude/skills/nouveau-module/SKILL.md` : skill `/nouveau-module` (photos → module HTML publié).
 - `.claude/settings.json` + `.claude/hooks/synchro.sh` : au démarrage de chaque session,
   `git pull --ff-only` sur `main` ; affiche un avertissement en cas d'échec, sans rien forcer.
@@ -111,7 +111,9 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   3. la recette est faite dans le navigateur : `tools/recette_navigateur.py` (à compléter quand
      une évolution le permet), plus ce qui demande de regarder l'écran ; elle est écrite dans
      `docs/recette.md` ;
-  4. les docs touchées sont à jour (arborescence, « Règles à garder synchronisées », plan) ;
+  4. les docs touchées sont à jour (arborescence, « Règles à garder synchronisées », plan),
+     ainsi que « Où en est le projet » du `README.md` et la liste « Reste à vérifier par le
+     parent » de `docs/recette.md` ;
   5. commit clair, puis **push**.
 - **S'arrêter et demander au parent**, sans pousser : changement d'une contrainte non négociable,
   choix pédagogique ou d'UX visible par les enfants, changement du format de stockage, recette
@@ -121,10 +123,13 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   `risques.md`, commentaire), pas seulement dans le message de commit.
 - Signaler au parent ce qui ajoute du travail manuel de son côté ou un risque pour les données
   des enfants.
+- **Docs sobres** : le parent suit le projet par le `README.md` (état) et l'en-tête de
+  `docs/recette.md` (ce qu'il doit vérifier). Pas de nouveau fichier dans `docs/` sans son
+  accord : compléter un doc existant. Un plan fini ou abandonné est retiré (l'historique Git le
+  garde) une fois son « pourquoi » reporté dans le plan suivant ou `risques.md`.
 
 ## Prochaines étapes
-- `docs/plan-modules-html.md` : étapes 8 à 10 faites (recette 10.3 à 10.8 comprise) ;
-  étape 12 (brouillon + fiche de contrôle) en cours, découpée en 4 unités.
+- État à jour : `README.md`, « Où en est le projet ». Détail : `docs/plan-modules-html.md`,
+  étape 12 (brouillon + fiche de contrôle) en cours, unité 1 faite, unités 2 à 4 à faire.
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.
-- `docs/plan-iphone.md` : abandonné (gardé pour le pourquoi).
