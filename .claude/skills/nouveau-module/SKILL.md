@@ -76,11 +76,13 @@ explique au parent ce qui bloque.
 
 ## 5. Publier
 ```bash
-git add modules/<id>.html modules/index.json
+git add modules/<id>.html modules/index.json pilotage.md
 git commit -m "Module : <titre> (<niveau>)"
 git push
 ```
-- Ne committe que ces deux fichiers (jamais de photo, d'export, de fichier de travail).
+- Avant : ajoute une ligne au tableau « Faits marquants » de `pilotage.md` (date, module créé ou
+  corrigé, et pourquoi en quelques mots). C'est du service courant : pas de comité nécessaire.
+- Ne committe que ces trois fichiers (jamais de photo, d'export, de fichier de travail).
 - Si la session travaille sur une branche (session web ou mobile) : pousse la branche, ouvre une
   PR vers `main` si tu le peux (`gh pr create`), sinon donne le lien
   `https://github.com/ghpz5649xx-blip/miniprof/compare/main...<branche>`. Dis au parent que

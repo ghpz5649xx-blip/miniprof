@@ -2,13 +2,7 @@
 
 Ce qui a été vérifié à chaque étape, et comment. ☑ = vérifié ; ☐ = pas coché.
 
-## Reste à vérifier par le parent
-
-- **G.5** : au prochain `/nouveau-module` depuis l'iPhone, la session part du gabarit, lance
-  `tirage.py` et cite des exemples à relire.
-- **8.5 à 8.8** : le module circuit sur l'iPhone (bandeau, labo, « Mon bilan », URL par SMS).
-  Le même parcours a été validé avec le module anglais (10.6 à 10.8) ; reste à jouer le circuit
-  si on veut l'envoyer à un enfant.
+Ce qui reste à vérifier par le sponsor est dans les actions de `pilotage.md`.
 
 Les étapes 1 à 7 (app v1, modules JSON) ont été jouées sur le Mac au moment de leur livraison,
 sans cocher les cases ; une bonne partie est maintenant refaite à chaque fois par

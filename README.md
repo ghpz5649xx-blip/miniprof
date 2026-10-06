@@ -6,27 +6,19 @@ GitHub Pages, sans compte ni serveur ; la progression reste dans le navigateur d
 
 Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` publie en une minute).
 
-## Où en est le projet (mis à jour à chaque unité livrée)
+## Où en est le projet
 
-- **En service** : l'app (profils, bilan, sauvegarde) et la création de modules HTML depuis
-  l'iPhone avec `/nouveau-module` (photos → page publiée → URL par SMS). Utilisée par l'enfant
-  de 6e depuis le 6 octobre 2026. Modules : 2 HTML (anglais 6e, circuit 6e), 2 JSON (CM2).
-- **Dernière livraison** : un gabarit commun pour les modules HTML et `tools/tirage.py`, qui
-  tire des milliers de questions pour repérer les erreurs avant publication.
-- **En cours : étape 12, la relecture des modules par le parent.** Un module publié reste
-  « brouillon » (caché aux enfants) tant que le parent ne l'a pas validé. Fait : le statut
-  brouillon. À faire : 2. un écran parent avec la fiche de contrôle des modules JSON ;
-  3. la même fiche pour les modules HTML ; 4. le skill `/nouveau-module` qui publie en
-  brouillon et valide sur demande.
-- **À vérifier par le parent** : liste en tête de `docs/recette.md`.
+Voir **`pilotage.md`** : état, décisions du sponsor, actions en cours, prochain comité de
+pilotage.
 
 ## Les docs : lesquelles lire
 
 | Pour | Fichier | Quand le lire |
 |---|---|---|
-| Suivre le projet | ce `README.md` | toujours : état, modes d'emploi |
+| Suivre le projet | `pilotage.md` | avant chaque comité : état, décisions, actions |
+| | ce `README.md` | modes d'emploi |
 | | `docs/plan-modules-html.md` | pour le détail et le **pourquoi** des décisions en cours |
-| | `docs/recette.md` | ce qui a été vérifié ; en tête, ce qui reste à vérifier par le parent |
+| | `docs/recette.md` | ce qui a été vérifié, et comment |
 | Créer un module | `docs/parent-iphone.md` | marche à suivre depuis l'iPhone |
 | Référence (rarement) | `docs/risques.md` | registre des risques et de leurs parades |
 | | `docs/besoins.md`, `docs/ux.md` | ce que fait l'app v1, figé |

@@ -1,8 +1,8 @@
 # miniprof : des modules HTML générés par le LLM, miniprof en « carnet de suivi »
 
 > **Le plan en cours.** État : étapes 8, 9, 10 faites ; gabarit + `tirage.py` faits ;
-> **étape 12 en cours** (unité 1 « brouillon » faite, unités 2 à 4 à faire). Résumé dans le
-> `README.md`, « Où en est le projet ».
+> **étape 12 en cours** (unité 1 « brouillon » faite ; suite suspendue à la décision D5).
+> Résumé et décisions : `pilotage.md`.
 
 ## Contexte
 Ce matin, une page HTML autonome (`reference/circuit_electrique.html`, 73 Ko) produite par Claude

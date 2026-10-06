@@ -1,9 +1,26 @@
 # miniprof
 
 App web d'entraînement et d'évaluation pour 2 enfants (CE2/CM1 et 6e/5e), en français.
-Mainteneur : Claude Code. Le parent (à l'aise en Python, peu en JS) décide des besoins, de la
-pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir **lire** le code
-(pas forcément le corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre.
+Le parent (à l'aise en Python, peu en JS) doit pouvoir **lire** le code (pas forcément le
+corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre.
+
+## Gouvernance (décidée par le sponsor le 6 octobre 2026)
+- **Deux acteurs.** **Claude** : chef de projet, architecte fonctionnel, développeur, PMO,
+  testeur, responsable de production, support. **Le parent** : sponsor et client ; profil chef
+  de projet / BA. Claude le tutoie et l'appelle par son prénom dans la conversation ; dans le
+  dépôt (public), il est « le sponsor », sans nom (décision D4 du comité n° 1 en attente).
+- **Comité de pilotage** : une session que le sponsor ouvre (message « comité »). Support :
+  `pilotage.md` à la racine, que **Claude met à jour à la fin de chaque session** pour la
+  suivante, et que le sponsor lit avant. Claude déroule l'ordre du jour et **tient le temps**
+  (30 minutes, un temps par point ; à l'échéance : trancher, reporter ou prolonger).
+- **Toute session se conclut** par les décisions du sponsor et les actions (porteur,
+  échéance), écrites dans `pilotage.md` (relevé des décisions, tableau des actions), puis
+  commit et push.
+- **Pour chaque décision à prendre**, le support donne le contexte, les options avec leur coût
+  et ce qu'on perd, et la recommandation de Claude. Le sponsor tranche ; Claude ne tranche pas à
+  sa place.
+- Entre deux comités, voir « Façon de travailler » (service courant d'un côté, évolutions de
+  l'autre ; proposition D3 du comité n° 1).
 
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework,
@@ -29,6 +46,8 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
   parent et par la session suivante).
 
 ## Arborescence
+- `pilotage.md` : support des comités de pilotage (état, décisions, actions) ; seul doc que lit
+  le sponsor.
 - `schema/module.schema.json` : **source de vérité** du format de module.
 - `modules/` : un fichier par module, JSON (joué par l'app) ou HTML (page autonome, contrat
   `docs/module-html.md`) ; `index.json` généré par `tools/build_index.py` (`"kind": "json" | "html"`) ;
@@ -102,8 +121,12 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   `synchro.sh` (si son message signale un échec, prévenir le parent), puis
   `git pull --rebase origin main` juste avant chaque push et relancer les tests. En cas de
   conflit, s'arrêter et demander au parent.
-- On n'attaque une évolution que sur demande du parent. Elle est découpée en **unités
-  vérifiables** ; plusieurs unités peuvent tenir dans une session.
+- On n'attaque une évolution que sur **décision du sponsor, inscrite dans `pilotage.md`**.
+  Une idée nouvelle (la sienne ou celle de Claude) va à l'ordre du jour du comité suivant, au
+  lieu d'être réalisée dans la conversation où elle naît. Le **service courant** n'attend pas un
+  comité : `/nouveau-module`, correction d'un module, réponse à une question, `git revert` en
+  cas d'incident. Une évolution décidée est découpée en **unités vérifiables** ; plusieurs
+  unités peuvent tenir dans une session.
 - Une unité est **finie** quand :
   1. `python -m unittest discover tools/tests -v` passe ;
   2. les contrôles concernés passent (`validate.py`, `check_html.py`, `build_index.py`) et
@@ -112,8 +135,7 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
      une évolution le permet), plus ce qui demande de regarder l'écran ; elle est écrite dans
      `docs/recette.md` ;
   4. les docs touchées sont à jour (arborescence, « Règles à garder synchronisées », plan),
-     ainsi que « Où en est le projet » du `README.md` et la liste « Reste à vérifier par le
-     parent » de `docs/recette.md` ;
+     ainsi que `pilotage.md` (faits marquants, actions, décisions) ;
   5. commit clair, puis **push**.
 - **S'arrêter et demander au parent**, sans pousser : changement d'une contrainte non négociable,
   choix pédagogique ou d'UX visible par les enfants, changement du format de stockage, recette
@@ -123,13 +145,13 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   `risques.md`, commentaire), pas seulement dans le message de commit.
 - Signaler au parent ce qui ajoute du travail manuel de son côté ou un risque pour les données
   des enfants.
-- **Docs sobres** : le parent suit le projet par le `README.md` (état) et l'en-tête de
-  `docs/recette.md` (ce qu'il doit vérifier). Pas de nouveau fichier dans `docs/` sans son
-  accord : compléter un doc existant. Un plan fini ou abandonné est retiré (l'historique Git le
+- **Docs sobres** : le sponsor suit le projet par `pilotage.md` seulement (état, décisions,
+  actions, ce qu'il doit vérifier) ; les autres docs sont des annexes. Pas de nouveau fichier
+  dans `docs/` sans son accord : compléter un doc existant. Un plan fini ou abandonné est retiré (l'historique Git le
   garde) une fois son « pourquoi » reporté dans le plan suivant ou `risques.md`.
 
 ## Prochaines étapes
-- État à jour : `README.md`, « Où en est le projet ». Détail : `docs/plan-modules-html.md`,
-  étape 12 (brouillon + fiche de contrôle) en cours, unité 1 faite, unités 2 à 4 à faire.
+- État, décisions et actions : `pilotage.md`. Prochain rendez-vous : comité n° 1 (gouvernance,
+  suite de l'étape 12 : décision D5). Ne pas avancer l'étape 12 avant cette décision.
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.
