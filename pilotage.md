@@ -4,7 +4,7 @@ Support des comités de pilotage. **Claude le met à jour à la fin de chaque se
 suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUDE.md`,
 « Gouvernance ».
 
-**Évolution en cours : aucune.** Prochaine décidée : refonte du `README.md` (A6).
+**Évolution en cours : refonte du `README.md` en documentation de reprise (A6).** Une session qui voit cette ligne ne lance pas d'autre évolution (D3).
 
 ---
 
