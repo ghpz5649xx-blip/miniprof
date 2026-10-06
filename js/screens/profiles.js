@@ -75,7 +75,13 @@ function formulaireAjout(app) {
   form.addEventListener("submit", (event) => {
     event.preventDefault(); // pas de rechargement de page
     const resultat = createProfile(champ.value);
-    showProfiles(resultat.ok ? null : resultat.error, resultat.ok ? "" : champ.value);
+    if (!resultat.ok) {
+      showProfiles(resultat.error, champ.value);
+      return;
+    }
+    // On entre directement dans le profil créé : sinon l'enfant ne comprend pas
+    // qu'il faut encore toucher son prénom (retour de la 1re utilisation, iPhone).
+    choisir(resultat.profile.id);
   });
   app.append(form);
   return champ;

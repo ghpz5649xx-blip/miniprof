@@ -107,9 +107,9 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   des enfants.
 
 ## Prochaines étapes
-- `docs/plan-modules-html.md` : étapes 8 à 10 faites. Reste la recette 10.6 à 10.8 avec un
-  enfant (module `anglais-6e-zootopia-animaux`, créé depuis l'iPhone). Aucune autre évolution
-  demandée.
+- `docs/plan-modules-html.md` : étapes 8 à 10 faites. 10.6 et 10.8 faites avec l'enfant de 6e
+  (iPhone 8, 6 octobre 2026). Reste la recette 10.7 (corriger un module depuis l'iPhone) et
+  11.3 (création de profil sur l'iPhone). Aucune autre évolution demandée.
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.
 - `docs/plan-iphone.md` : abandonné (gardé pour le pourquoi).

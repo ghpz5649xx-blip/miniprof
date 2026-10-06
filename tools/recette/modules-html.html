@@ -67,6 +67,15 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   d=await charger('modules/'+ID+'.html');
   const b2=d.querySelector('.miniprof-bandeau');log(b2&&b2.textContent.includes('Choisis ton profil'),'sans profil : '+(b2&&b2.textContent));
   log(f.contentWindow.miniprof.reponse({competence:'serie',juste:true})===false&&ev().length===n,'sans profil : rien n\'est enregistré');
+  // création de profil : on entre directement dans le profil créé (retour du 1er essai sur iPhone)
+  d=await charger('index.html#/');
+  const ajouter=async nom=>{d.getElementById('nouveau-prenom').value=nom;d.querySelector('form.add-profile').requestSubmit();await sleep(800);d=f.contentDocument;};
+  await ajouter('léa');
+  log(d.getElementById('app').textContent.includes('existe déjà')&&d.getElementById('nouveau-prenom').value==='léa','profil en double : erreur, saisie gardée');
+  await ajouter('Tom');
+  const cree=JSON.parse(localStorage.getItem('miniprof.v1.profiles')).find(p=>p.name==='Tom');
+  log(cree&&JSON.parse(localStorage.getItem('miniprof.v1.current'))===cree.id,'profil créé devenu le profil courant');
+  log(f.contentWindow.location.hash==='#/biblio'&&d.getElementById('app').textContent.includes('Bonjour Tom'),'profil créé -> bibliothèque : '+f.contentWindow.location.hash);
 }catch(err){log(false,'exception : '+err.message+' '+err.stack);}
 fetch('/__resultat',{method:'POST',body:out.join('\n')+'\nFIN'});})();
 </script></body></html>

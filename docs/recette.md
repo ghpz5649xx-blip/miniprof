@@ -37,7 +37,7 @@ permet de repartir de zéro).
 |---|---|---|---|
 | 2.1 | `python tools/build_index.py` | « ✔ 1 module(s) indexé(s) », ligne `maths-cm2-division-euclidienne.json (CM2, 37 questions)`. Code retour 0. `git status` : `modules/index.json` inchangé (il est déjà commité). | ☐ |
 | 2.2 | Ouvrir l'app pour la première fois | Titre « miniprof », « Bienvenue ! Crée ton profil pour commencer. », champ « Ajouter un profil » avec le curseur dedans. | ☐ |
-| 2.3 | Taper « Léa », touche Entrée ; puis « Tom », clic sur OK | Deux gros boutons « Léa » et « Tom » ; le texte devient « Qui es-tu ? ». | ☐ |
+| 2.3 | Taper « Léa », touche Entrée ; « Changer de profil » ; puis « Tom », clic sur OK ; « Changer de profil » | Après chaque création, on arrive directement dans la bibliothèque du profil créé (« Bonjour Léa ! », puis « Bonjour Tom ! ») : pas besoin de retoucher son prénom (depuis le 6 octobre 2026). Au retour : deux gros boutons « Léa » et « Tom », le texte devient « Qui es-tu ? ». | ☐ |
 | 2.4 | Valider un prénom vide ; puis « léa » | Encadré rouge « Écris un prénom. » ; puis « Le profil « léa » existe déjà. » avec la saisie conservée. Le champ n'accepte pas plus de 20 caractères. | ☐ |
 | 2.5 | Cliquer « Léa » | « Bonjour Léa ! », titre « Mathématiques », carte « Division euclidienne », badge « CM2 », description. | ☐ |
 | 2.6 | Recharger la page (F5), puis fermer l'onglet et rouvrir http://localhost:8000 | On reste / on revient sur la bibliothèque de Léa. | ☐ |
@@ -257,6 +257,25 @@ Après la recette : `git status` doit être propre (sinon `git checkout modules/
 | 10.3 | App Claude, onglet Code : nouvelle session sur `miniprof` (`main`, environnement « Default »), taper `/nouveau-module …` en entier et envoyer | Le skill se lance (pas d'autocomplétion au premier message : normal, le dépôt n'est pas encore copié). | ☑ |
 | 10.4 | Joindre 2 à 4 photos d'une vraie leçon + `/nouveau-module <niveau>` | Claude Code lit le contrat, écrit `modules/<id>.html`, lance `check_html.py`, `build_index.py` et les tests (tous verts), commit et push. Aucune photo dans le commit. | ☑ (module anglais 6e Zootopia : commit de 2 fichiers ; contrôles refaits sur le Mac : conforme, index à jour, `node --check` OK, tests OK) |
 | 10.5 | Où le push arrive | Sur `main` : rien à faire. Sur une branche `claude/…` : lien de PR, fusion depuis l'app GitHub. **Noter le cas constaté dans `docs/parent-iphone.md`.** | ☑ directement sur `main` |
-| 10.6 | Une minute après, ouvrir l'URL donnée | La page s'ouvre (pas de page blanche), bandeau « Tu es … », polices système ; la leçon et les exercices reprennent les photos, avec le vocabulaire du cahier. Relire les 2 ou 3 points signalés. | ☐ |
+| 10.6 | Une minute après, ouvrir l'URL donnée | La page s'ouvre (pas de page blanche), bandeau « Tu es … », polices système ; la leçon et les exercices reprennent les photos, avec le vocabulaire du cahier. Relire les 2 ou 3 points signalés. | ☑ ouverte et utilisée sans souci sur l'iPhone 8 de l'enfant (6 octobre 2026, voir ci-dessous) |
 | 10.7 | Signaler une erreur dans la session (« la question … attend … ») | Correction republiée à la **même URL**, même id. | ☐ |
-| 10.8 | URL par SMS au téléphone de l'enfant ; quelques réponses et une évaluation ; puis miniprof → profil → « Mon bilan » | Le nouveau module apparaît dans la bibliothèque et dans le bilan, avec ses compétences et l'évaluation. | ☐ |
+| 10.8 | URL par SMS au téléphone de l'enfant ; quelques réponses et une évaluation ; puis miniprof → profil → « Mon bilan » | Le nouveau module apparaît dans la bibliothèque et dans le bilan, avec ses compétences et l'évaluation. | ☑ d'après l'export : les réponses et les 9 évaluations du module sont dans le profil, avec ses 6 compétences |
+
+### Première utilisation par un enfant (6 octobre 2026)
+
+L'enfant de 6e s'est entraînée seule sur son iPhone 8, une demi-heure. Son export a été déposé
+dans `exports/` (ignoré par Git : il contient son prénom, il ne doit pas partir sur le dépôt
+public) et lu avec `python tools/analyse.py exports/<fichier>.export.json`.
+
+| Constat | Détail |
+|---|---|
+| L'app marche sur un iPhone 8 | Profil créé, module HTML et module JSON joués, évaluations enregistrées, export fait : aucun blocage technique. |
+| Volume | 144 réponses : `anglais-6e-zootopia-animaux` (37 en entraînement, 9 évaluations de 10, notes de 6 à 9/10, en progrès) ; `maths-cm2-grands-nombres` (7 en entraînement, 1 évaluation, 5/10). Aucune question signalée. |
+| Point à travailler (anglais) | « Décrire un animal » : 43 % de réussite au premier coup. Erreurs surtout sur l'article devant l'adjectif (`art` : « an pink… » / « a orange… »), puis l'ordre adjectif-nom (`ordre`) et le verbe oublié (`is`). Difficulté réelle de la leçon, pas un défaut du module. |
+| Retour de l'enfant | Après avoir créé son profil, elle n'a pas compris qu'il fallait encore toucher son prénom. **Corrigé** : la création ouvre directement la bibliothèque du profil (`js/screens/profiles.js`) ; scénario 2.3 mis à jour. |
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| 11.1 | `python tools/recette_navigateur.py` | « ✔ 27 OK, 0 échec(s) » : 3 vérifications de plus (profil en double : erreur et saisie gardée ; profil créé devenu le profil courant ; arrivée sur `#/biblio`, « Bonjour Tom »). Sans la correction, les 2 dernières échouent. | ☑ |
+| 11.2 | `python -m unittest discover tools/tests -v` | 62 tests « ok ». | ☑ |
+| 11.3 | Sur l'iPhone, après le push : « Gérer les profils » pour supprimer un profil de test si besoin, puis créer un profil | On arrive directement sur « Bonjour <prénom> ! ». | ☐ |
