@@ -62,6 +62,7 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 |---|---|---|---|---|
 | B1 | Pipeline sans Claude Code : robot de contrôle GitHub, puis POC de l'API Claude payée à l'usage | assessment du comité n° 1 (D7) | basse | l'assessment complet (options, SWOT, coûts) est dans l'historique de ce fichier, commit « Pilotage : retours du sponsor, assessment… » |
 | B2 | Étape 12, unités 2 et 3 : fiche de contrôle dans l'app (modules JSON, puis HTML) | plan de l'étape 12 | basse | inutiles tant que la relecture dans la conversation suffit (D5) |
+| B3 | Fusion des sauvegardes : restaurer un export **sans écraser** la progression déjà sur l'appareil (utile si un même enfant joue sur plusieurs appareils) | sponsor, 6 oct. | basse | à ressortir seulement si un enfant joue sur deux appareils. Synchronisation en ligne étudiée et écartée : iCloud (CloudKit JS : compte Apple Developer 99 $/an), Cloudflare Workers + D1 gratuit (le plus solide), Supabase (pause après une semaine), Firebase ; toutes lèvent « statique, aucun tiers, aucun compte » pour un besoin couvert par l'export envoyé par SMS. En attendant : ne restaurer l'export d'un enfant que sur un appareil vide ou le sien, car la restauration écrase tout. |
 
 ---
 
@@ -94,3 +95,4 @@ Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), 
 | 6 oct. 2026 | n° 1 | D6 : cadre des POC : proposés par Claude ou demandés par le sponsor, go du sponsor, dossier `poc/<sujet>/` isolé de l'app, des modules et des données, une session au plus, démo + conclusion en cinq lignes, jamais mis en production tel quel. |
 | 6 oct. 2026 | n° 1 | D7 : le pipeline sans Claude Code va au backlog, priorité basse. |
 | 6 oct. 2026 | n° 1 | Dans les échanges, Claude pose **une question à la fois**. |
+| 6 oct. 2026 | (hors comité) | Pas de synchronisation en ligne de la progression : coût (serveur ou tiers, contraintes à lever, données des enfants hors de la maison) trop élevé pour le besoin ; l'export par SMS et l'accès physique aux appareils suffisent. Fusion des sauvegardes au backlog (B3), priorité basse. |
