@@ -77,6 +77,11 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 .small{font-size:.9rem;color:var(--muted)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .en{font-weight:800;color:var(--pitch)}
+/* a / an : première lettre soulignée, voyelles en cases */
+.l1{color:var(--c3);text-decoration:underline;text-underline-offset:3px}
+.voy{display:inline-block;min-width:1.8em;text-align:center;font-weight:800;border:2px solid var(--c3);border-radius:8px;margin:0 2px;padding:0 4px}
+.steps{margin:6px 0 0;padding-left:1.4em}
+.steps li{margin:4px 0}
 
 .menu{display:grid;gap:12px;margin-top:16px}
 .mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
@@ -128,6 +133,7 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 table.voc{border-collapse:collapse;width:100%;margin:10px 0}
 table.voc td{padding:6px 8px;border-bottom:1px solid var(--line)}
 table.voc td:first-child{font-weight:800;color:var(--pitch)}
+table.voc.aan td{font-weight:800;color:var(--pitch)}
 
 .dots{display:flex;gap:6px;margin-bottom:6px}
 .dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
@@ -287,32 +293,61 @@ function genAnimaux(level){
     `<p>${en(odd)} n'est pas une couleur : c'est un animal (${frArt(odd)} ${ANI[odd].fr}). Les autres : ${set.map(v=>`${en(v)} = ${COL[v].fr}`).join(', ')}.</p>`);
 }
 
-// Pourquoi a ou an, en une phrase (le mot qui compte est celui juste après l'article)
+// a / an : la page montre toujours la MÊME méthode (mot juste après → première lettre → a ou an),
+// et souligne la première lettre, parce que c'est l'étape que l'enfant saute.
+const hl=w=>`<span class="en"><span class="l1">${w[0]}</span>${w.slice(1)}</span>`;
 function whyArt(next){
   return VOW(next)
-    ?`${en(next)} commence par un son voyelle : on met ${en('an')}.`
-    :`${en(next)} commence par un son consonne : on met ${en('a')}.`;
+    ?`Le mot juste après, c'est ${hl(next)}. Il commence par <b>${next[0]}</b>, une voyelle : on met ${en('an')}.`
+    :`Le mot juste après, c'est ${hl(next)}. Il commence par <b>${next[0]}</b>, une consonne : on met ${en('a')}.`;
+}
+const METHOD=`<ol class="steps"><li>Trouve le mot <b>juste après</b> le trou.</li><li>Regarde sa <b>première lettre</b>.</li><li><span class="voy">a</span><span class="voy">e</span><span class="voy">i</span><span class="voy">o</span><span class="voy">u</span> → ${en('an')}. Sinon → ${en('a')}.</li></ol>`;
+// Mots de la leçon, rangés selon leur première lettre
+const AAN_VOW=['umbrella','orangutan','animal','orange','English'];
+const AAN_CONS=ANIS.filter(w=>!VOW(w)).concat(['car','bike','big','small','grey','brown']);
+// Un groupe « ___ mots » : seul (a fox) ou avec le piège de l'adjectif (an orange fox, a big umbrella)
+function aanGroup(trap){
+  if(!trap){const w=pick(Math.random()<.5?['umbrella','orangutan','animal']:AAN_CONS.filter(x=>ANI[x]||OBJ[x]));return {first:w,words:w};}
+  // moitié : nom à voyelle mais adjectif à consonne ; moitié : nom à consonne mais adjectif à voyelle
+  if(Math.random()<.5){const n=pick(['umbrella','orangutan','animal']);
+    const f=n==='orangutan'?pick(['big','small','brown']):pick(['big','small']);return {first:f,words:f+' '+n};}
+  const n=pick(['fox','tiger','car','bike']);const f=OBJ[n]?pick(['orange','English']):'orange';return {first:f,words:f+' '+n};
+}
+function aanFill(level,g){
+  const ok=art(g.first),no=ok==='a'?'an':'a';
+  const frame=Math.random()<.5?['','']:pick([['This is ','.'],['I can see ','.']]);
+  return Q('a-an',level,`Complète : <span class="big">${frame[0]}___ ${g.words}${frame[1]}</span>`,
+    [C(ok,ok),C(no,no,whyArt(g.first))],ok,
+    `<p>Le mot juste après le trou, c'est ${en(g.first)}.</p>${METHOD}`,
+    `<p><b>${frame[0]}${ok} ${g.words}${frame[1]}</b></p><p>${whyArt(g.first)}</p>`);
 }
 function genAAn(level){
-  let words,first;
+  const r=Math.random();
   if(level===1){
-    const nouns=ANIS.concat(Object.keys(OBJ),['animal']);
-    // une chance sur deux d'avoir un mot qui commence par une voyelle (sinon presque toujours « a »)
-    const vow=nouns.filter(VOW),cons=nouns.filter(w=>!VOW(w));
-    first=pick(Math.random()<.5?vow:cons);words=first;
-  }else{
-    // le piège : l'adjectif est entre l'article et le nom, c'est LUI qui décide
-    // moitié : nom à voyelle mais adjectif à consonne (a big umbrella) ;
-    // moitié : nom à consonne mais adjectif à voyelle (an orange fox, an English car)
-    if(Math.random()<.5){const n=pick(['umbrella','orangutan','animal']);
-      first=n==='orangutan'?pick(['big','small','brown']):pick(['big','small']);words=first+' '+n;}
-    else{const n=pick(['fox','tiger','car','bike']);first=OBJ[n]?pick(['orange','English']):'orange';words=first+' '+n;}
+    if(r<.7)return aanFill(level,aanGroup(false));
+    // quel mot va avec a / an ? (trier les mots selon leur première lettre)
+    const k=pick(['a','an']),good=pick(k==='an'?AAN_VOW:AAN_CONS),bad=others(k==='an'?AAN_CONS:AAN_VOW,null,3);
+    return Q('a-an',level,`Quel mot peut aller juste après <span class="big">${k}</span> ?`,
+      [C(good,good)].concat(bad.map(w=>C(w,w,whyArt(w)))),good,
+      METHOD,`<p><b>${k} ${good}</b>. ${whyArt(good)}</p>`);
   }
-  const ok=art(first),no=ok==='a'?'an':'a';
-  return Q('a-an',level,`Complète : <span class="big">___ ${words}</span>`,
-    [C(ok,ok),C(no,no,whyArt(first))],ok,
-    `<p>Regarde le mot juste après le trou : ${en(first)}. Il commence par quel son ?</p>`,
-    `<p><b>${ok} ${words}</b>. ${whyArt(first)}</p>`);
+  if(r<.55)return aanFill(level,aanGroup(true));
+  if(r<.75){
+    // quel mot décide ? (l'étape 1 de la méthode, là où on se trompe avec un adjectif)
+    const g=aanGroup(true),noun=g.words.split(' ')[1];
+    return Q('a-an',level,`Dans <span class="big">___ ${g.words}</span>, quel mot décide entre a et an ?`,
+      [C('adj',g.first),C('nom',noun,`Non : ${en(noun)} n'est pas juste après le trou. C'est ${en(g.first)} qui est juste après.`)],'adj',
+      `<p>Le mot qui décide est celui qui est <b>collé</b> au trou.</p>`,
+      `<p>C'est ${hl(g.first)}, le mot juste après le trou. Donc <b>${art(g.first)} ${g.words}</b>.</p>`);
+  }
+  // trouve l'erreur : 3 groupes justes, 1 faux (souvent un piège)
+  const gs=[];while(gs.length<4){const g=aanGroup(Math.random()<.6);if(!gs.some(x=>x.words===g.words))gs.push(g);}
+  const wrong=gs[0];
+  const lab=(g,bad)=>{const a=art(g.first);return `${bad?(a==='a'?'an':'a'):a} ${g.words}`;};
+  return Q('a-an',level,`Une seule de ces réponses a une <b>erreur</b>. Laquelle ?`,
+    gs.map((g,i)=>C('g'+i,lab(g,i===0),i===0?'':`${lab(g,false)} est juste. ${whyArt(g.first)}`)),'g0',
+    `<p>Pour chaque réponse, applique la méthode :</p>${METHOD}`,
+    `<p>L'erreur : <b>${lab(wrong,true)}</b>. Il faut dire <b>${lab(wrong,false)}</b>.</p><p>${whyArt(wrong.first)}</p>`);
 }
 
 // Groupe nominal anglais et sa traduction française (adjectif avant le nom en anglais)
@@ -336,7 +371,7 @@ function genDecrire(level){
        C('art',`${st} ${no} ${c} ${a}.`,whyArt(c)),
        C('is',see?`I see can ${k} ${c} ${a}.`:`This ${k} ${c} ${a}.`,see?"On dit « I can see » : can avant see.":"Il manque le verbe : This <b>is</b> a… (c'est = this is).")],'ok',
       `<p>Modèle du cahier : ${en('This is a grey rabbit.')} La couleur va avant l'animal.</p>`,
-      `<p><b>${good}</b> La couleur (${en(c)}) se met avant l'animal, et ${whyArt(c)}</p>`);
+      `<p><b>${good}</b> La couleur (${en(c)}) se met avant l'animal. ${whyArt(c)}</p>`);
   }
   // Défi : traduire un groupe du cahier (un petit vélo, une voiture anglaise, un renard orange)
   let noun,fr,f,adj;
@@ -353,7 +388,7 @@ function genDecrire(level){
      C('ordre',`${kn} ${noun} ${adj}`,"En anglais, l'adjectif se met <b>avant</b> le nom, même pour la couleur."),
      C('deux',`${non} ${noun} ${adj}`,"Deux erreurs : l'adjectif va avant le nom, et l'article dépend du mot qui suit.")],'ok',
     `<p>L'adjectif va avant le nom. Puis regarde le mot juste après l'article : a ou an ?</p>`,
-    `<p><b>${good}</b> : l'adjectif ${en(adj)} se met avant le nom, et ${whyArt(adj)}</p>`);
+    `<p><b>${good}</b> : l'adjectif ${en(adj)} se met avant le nom. ${whyArt(adj)}</p>`);
 }
 
 function genEpeler(level){
@@ -443,7 +478,7 @@ function home(){
     </div></section>
     <main class="wrap">
       <div class="menu">
-        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en 6 fiches courtes, avec une question à chaque fois</span></button>
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en 7 fiches courtes, avec une question à chaque fois</span></button>
         <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
         <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>10 questions, sans aide, avec une note à la fin</span></button>
         <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
@@ -460,11 +495,15 @@ const LEARN=[
   {t:'Animals : les animaux',body:()=>`<p><b>Zootopia</b> : ${['rabbit','fox','sloth','buffalo'].map(en).join(', ')}.<br><b>The Jungle Book</b> : ${['tiger','bear','panther','snake','wolf','orangutan'].map(en).join(', ')}.</p>
     <table class="voc">${ANIS.map(a=>`<tr><td>${art(a)} ${a}</td><td>${frArt(a)} ${ANI[a].fr}</td></tr>`).join('')}</table>`,
    q:{p:`Comment dit-on « un renard » ?`,c:[C('f','a fox'),C('w','a wolf',`${en('a wolf')}, c'est un loup.`),C('s','a sloth',`${en('a sloth')}, c'est un paresseux.`)],ok:'f'}},
-  {t:'a ou an ?',body:()=>`<p>${en('a')} / ${en('an')} = un, une (l'article indéfini).</p>
-    <div class="rulebox">On utilise ${en('a')} devant un <b>son consonne</b> et ${en('an')} devant un <b>son voyelle</b>.</div>
-    <p>${en('a car')}, ${en('a bike')}, ${en('a rabbit')}<br>${en('an umbrella')}, ${en('an orangutan')}</p>
-    <p><b>Le piège :</b> on regarde le mot <b>juste après</b> l'article.<br>${en('an English car')} (English commence par une voyelle)<br>${en('a big umbrella')} (big commence par une consonne)<br>${en('an orange fox')}</p>`,
-   q:{p:'Complète : ___ big umbrella',c:[C('a','a'),C('an','an',`Le mot juste après, c'est ${en('big')} : son consonne, donc ${en('a')}.`)],ok:'a'}},
+  {t:'a ou an : la règle',body:()=>`<p>${en('a')} / ${en('an')} = un, une.</p>
+    <div class="rulebox"><b>La méthode, à chaque fois :</b>${METHOD}</div>
+    <table class="voc aan">${['car','bike','rabbit','fox'].map((w,i)=>{const v=['umbrella','orangutan','animal','orange'][i];return `<tr><td>a ${hl(w)}</td><td>an ${hl(v)}</td></tr>`;}).join('')}</table>
+    <p><b>Pourquoi ?</b> Dire « a orange », c'est difficile : deux voyelles se cognent. Le <b>n</b> de ${en('an')} fait le lien : ${en('an orange')} se dit « a-norange ».</p>`,
+   q:{p:'Complète : ___ umbrella',c:[C('an','an'),C('a','a',`${en('umbrella')} commence par <b>u</b>, une voyelle : ${en('an umbrella')}.`)],ok:'an'}},
+  {t:'a ou an : le piège',body:()=>`<p>Quand il y a un adjectif (une couleur, big, small…), il se met <b>entre</b> ${en('a')}/${en('an')} et le nom. Alors c'est <b>l'adjectif</b> qui décide, pas le nom !</p>
+    <table class="voc aan"><tr><td>a ${hl('fox')}</td><td>an ${hl('orange')} fox</td></tr><tr><td>a ${hl('car')}</td><td>an ${hl('English')} car</td></tr><tr><td>an ${hl('umbrella')}</td><td>a ${hl('big')} umbrella</td></tr><tr><td>an ${hl('orangutan')}</td><td>a ${hl('small')} orangutan</td></tr></table>
+    <div class="rulebox">Ne cherche pas l'animal : regarde seulement le mot <b>collé</b> au trou.</div>`,
+   q:{p:'Complète : ___ big umbrella',c:[C('a','a'),C('an','an',`Le mot juste après, c'est ${hl('big')} : <b>b</b> est une consonne, donc ${en('a')}. ${en('umbrella')} est plus loin, il ne décide pas.`)],ok:'a'}},
   {t:'Décrire un animal',body:()=>`<p>Comme dans le cahier :</p>
     <p class="big">This is a grey rabbit.</p><p>C'est un lapin gris.</p>
     <p class="big">This is an orange fox.</p><p>C'est un renard orange.</p>
@@ -484,7 +523,7 @@ function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
 function renderLearn(){
   const st=LEARN[S.ls];let body;
   if(st.recap){
-    body=`<div class="card"><p>• Les couleurs : ${COLS.map(en).join(', ')}.</p><p>• ${en('a')} devant un son consonne, ${en('an')} devant un son voyelle : on regarde le mot juste après.</p><p>• ${en('This is a grey rabbit.')} L'adjectif va <b>avant</b> le nom.</p><p>• Épeler : T-I-G-E-R. Attention à E [i], I [aï], A [eï].</p><p>• ${en('it')} pour un animal sauvage, ${en('he')} / ${en('she')} pour un animal de compagnie.</p></div>
+    body=`<div class="card"><p>• Les couleurs : ${COLS.map(en).join(', ')}.</p><p>• ${en('an')} si le mot <b>juste après</b> commence par a, e, i, o, u ; sinon ${en('a')} : ${en('an orange fox')}, ${en('a big umbrella')}.</p><p>• ${en('This is a grey rabbit.')} L'adjectif va <b>avant</b> le nom.</p><p>• Épeler : T-I-G-E-R. Attention à E [i], I [aï], A [eï].</p><p>• ${en('it')} pour un animal sauvage, ${en('he')} / ${en('she')} pour un animal de compagnie.</p></div>
       <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
   }else{
     const q=st.q;
