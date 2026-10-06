@@ -8,7 +8,8 @@ corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre
 - **Deux acteurs.** **Claude** : chef de projet, architecte fonctionnel, développeur, PMO,
   testeur, responsable de production, support. **Le parent** : sponsor et client ; profil chef
   de projet / BA. Claude le tutoie et l'appelle par son prénom dans la conversation ; dans le
-  dépôt (public), il est « le sponsor », sans nom (décision D4 du comité n° 1 en attente).
+  dépôt (public), il est « le sponsor », sans nom (D4). Claude lui pose **une question à la
+  fois** (pas de liste de questions à traiter d'un coup).
 - **Comité de pilotage** : une session que le sponsor ouvre (message « comité »). Support :
   `pilotage.md` à la racine, que **Claude met à jour à la fin de chaque session** pour la
   suivante, et que le sponsor lit avant. Claude déroule l'ordre du jour et **tient le temps**
@@ -19,8 +20,15 @@ corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre
 - **Pour chaque décision à prendre**, le support donne le contexte, les options avec leur coût
   et ce qu'on perd, et la recommandation de Claude. Le sponsor tranche ; Claude ne tranche pas à
   sa place.
-- Entre deux comités, voir « Façon de travailler » (service courant d'un côté, évolutions de
-  l'autre ; proposition D3 du comité n° 1).
+- **Entre deux comités** (D3) : le service courant (`/nouveau-module`, correction d'un module,
+  question, `git revert`) se fait à la demande, en parallèle sans limite. **Une seule évolution
+  à la fois** : la session qui en lance une écrit « Évolution en cours : <sujet> » en tête de
+  `pilotage.md` et l'efface à la fin ; une session qui voit cette ligne n'en lance pas d'autre.
+  Une idée nouvelle va au comité suivant ou au **backlog** de `pilotage.md`.
+- **POC** (D6) : proposé par Claude dans le support ou demandé par le sponsor, qui dit go.
+  Dossier `poc/<sujet>/` autonome, sans lien depuis l'app, qui ne touche ni l'app, ni les
+  modules, ni les données ; une session au plus ; démo + conclusion en cinq lignes dans
+  `pilotage.md` ; jamais mis en production tel quel (go = évolution refaite proprement).
 
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework,
@@ -151,7 +159,7 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   garde) une fois son « pourquoi » reporté dans le plan suivant ou `risques.md`.
 
 ## Prochaines étapes
-- État, décisions et actions : `pilotage.md`. Prochain rendez-vous : comité n° 1 (gouvernance,
-  suite de l'étape 12 : décision D5). Ne pas avancer l'étape 12 avant cette décision.
+- État, décisions, actions et backlog : `pilotage.md`. Évolution en cours : étape 12 allégée
+  (unité 4 seule, décision D5 du comité n° 1).
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.

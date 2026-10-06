@@ -1,7 +1,7 @@
 # miniprof : des modules HTML générés par le LLM, miniprof en « carnet de suivi »
 
 > **Le plan en cours.** État : étapes 8, 9, 10 faites ; gabarit + `tirage.py` faits ;
-> **étape 12 en cours** (unité 1 « brouillon » faite ; suite suspendue à la décision D5).
+> **étape 12 en cours, allégée** (unité 1 « brouillon » faite ; unité 4 en cours ; 2 et 3 au backlog).
 > Résumé et décisions : `pilotage.md`.
 
 ## Contexte
@@ -133,6 +133,10 @@ réponses en face, pour valider vite. Après analyse, le parent a retenu :
 Unités : 1. brouillon (`build_index.py`, bibliothèque) ; 2. écran `#/parents` et fiche de
 contrôle JSON ; 3. mode `#controle` des modules HTML (contrat, `check_html.py`, recette) ;
 4. skill `/nouveau-module` et `docs/parent-iphone.md`. Recette : `docs/recette.md`, étape 12.
+**Comité n° 1 (6 oct.), décision D5 : étape allégée, unité 4 seule.** Pourquoi : `tools/tirage.py`
+donne déjà des exemples « question → bonne réponse » tirés du vrai code de la page, que la
+réponse de `/nouveau-module` cite pour la relecture ; et on ne crée plus de modules JSON. Les
+unités 2 et 3 (fiche de contrôle dans l'app) vont au backlog.
 
 ## Limites acceptées (écrites dans `docs/risques.md`, R3 et R10)
 - Les pages HTML ne sont pas lisibles par le mainteneur : elles sont **jetables** (on les
