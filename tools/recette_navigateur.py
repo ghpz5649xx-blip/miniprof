@@ -15,6 +15,7 @@ google-chrome trouvé dans le PATH (session Claude Code dans le cloud, Linux).
 """
 
 import http.server
+import json
 import os
 import shutil
 import subprocess
@@ -30,6 +31,9 @@ CHROME_MAC = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 DELAI = 90  # secondes avant d'abandonner
 
 resultat = {"texte": ""}
+# Brouillon simulé (POST /__brouillon) : le vrai modules/brouillons.json est souvent vide,
+# on marque donc un module en brouillon dans l'index servi, sans toucher au fichier.
+brouillon = {"id": None}
 verrou = threading.Lock()
 
 
@@ -49,11 +53,28 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(corps)
             return
+        if self.path.split("?")[0] == "/modules/index.json" and brouillon["id"]:
+            index = json.loads((ROOT / "modules" / "index.json").read_text(encoding="utf-8"))
+            for m in index["modules"]:
+                if m["id"] == brouillon["id"]:
+                    m["brouillon"] = True
+            corps = json.dumps(index).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(corps)))
+            self.end_headers()
+            self.wfile.write(corps)
+            return
         super().do_GET()
 
     def do_POST(self):
         n = int(self.headers.get("Content-Length", 0))
         texte = self.rfile.read(n).decode("utf-8")
+        if self.path == "/__brouillon":
+            brouillon["id"] = texte or None
+            self.send_response(204)
+            self.end_headers()
+            return
         # Chaque envoi reprend tous les précédents, mais le serveur les traite en parallèle :
         # un envoi plus ancien peut arriver après « FIN » et l'effacer (recette bloquée 90 s).
         # On garde donc toujours le plus long.

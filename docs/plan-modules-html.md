@@ -105,6 +105,30 @@ Constats et décisions :
 - Dépôt gardé public (GitHub Pages gratuit) : voir R11.
 Recette 10.3 à 10.8 faite le 6 octobre 2026 (`docs/recette.md`).
 
+### Étape 12 : validation des modules par le parent (brouillon + fiche de contrôle)
+Demande du parent (6 octobre 2026) : un profil PARENT ouvert par l'énigme du Sphinx, la liste des
+modules pas encore validés, et pour chacun les objectifs et quelques exercices avec leurs
+réponses en face, pour valider vite. Après analyse, le parent a retenu :
+- **Une fiche de contrôle produite par le vrai code** : c'est le cœur de la valeur, et la seule
+  parade en amont à R3 (réponse fausse du LLM). Pour un module HTML, les questions viennent de
+  générateurs JS : la fiche tire des questions avec ces générateurs (mode `#controle` de la page),
+  au lieu d'un résumé écrit à part, qui pourrait être juste alors que le générateur est faux.
+  Pour un module JSON : toutes les questions avec leurs réponses (écran `#/controle/<id>`).
+- **Un statut brouillon** (`modules/brouillons.json`) : avant, un module poussé apparaissait
+  tout de suite dans la bibliothèque des enfants, avant la relecture. Un brouillon est caché
+  dans la bibliothèque, mais son URL marche et il reste dans le bilan. Pourquoi un fichier à part
+  plutôt qu'un champ du module : le schéma refuse les champs inconnus, et un seul fichier marche
+  pour les deux sortes de modules.
+- **Valider = demander à Claude Code** (`/nouveau-module valide <id>`), qui retire l'id et pousse.
+  Un bouton dans l'app ne peut rien changer chez les enfants : il n'y a pas de serveur.
+- **Pas d'énigme ni de profil PARENT** : le site est statique et le dépôt public, donc la réponse
+  serait lisible dans le JS (et les enfants la connaissent). Un profil n'existe que sur un
+  appareil : un rôle parent ne protégerait rien et obligerait à migrer `miniprof.v1.profiles`.
+  L'écran `#/parents` est caché, pas protégé, comme l'aperçu d'un module.
+Unités : 1. brouillon (`build_index.py`, bibliothèque) ; 2. écran `#/parents` et fiche de
+contrôle JSON ; 3. mode `#controle` des modules HTML (contrat, `check_html.py`, recette) ;
+4. skill `/nouveau-module` et `docs/parent-iphone.md`. Recette : `docs/recette.md`, étape 12.
+
 ## Limites acceptées (écrites dans `docs/risques.md`, R3 et R10)
 - Les pages HTML ne sont pas lisibles par le mainteneur : elles sont **jetables** (on les
   régénère au lieu de les corriger). Le code à maintenir reste petit et lisible : `suivi.js`,

@@ -41,7 +41,7 @@ def module_modifie(modification):
 
 class ModulesDuDepot(unittest.TestCase):
     def test_tous_les_modules_sont_valides(self):
-        fichiers = [p for p in MODULES.glob("*.json") if p.name != "index.json"]
+        fichiers = [p for p in MODULES.glob("*.json") if p.name not in ("index.json", "brouillons.json")]
         self.assertTrue(fichiers, "aucun module dans modules/")
         for path in fichiers:
             with self.subTest(module=path.name):

@@ -53,7 +53,11 @@ export function showLibrary() {
 }
 
 function listeModules(index) {
-  const modules = index && Array.isArray(index.modules) ? index.modules : [];
+  const tous = index && Array.isArray(index.modules) ? index.modules : [];
+  // Un brouillon (modules/brouillons.json, tools/build_index.py) n'est pas encore
+  // relu par le parent : les enfants ne le voient pas. Il reste dans l'index pour
+  // le bilan et l'écran « Pour les parents ».
+  const modules = tous.filter((m) => !m.brouillon);
   if (modules.length === 0) {
     return message("info", "Aucun module pour l'instant.");
   }

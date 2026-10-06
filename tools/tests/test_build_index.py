@@ -69,5 +69,45 @@ class TestBuildIndex(unittest.TestCase):
         self.assertGreaterEqual(len(index["modules"]), 1)
 
 
+class TestBrouillons(unittest.TestCase):
+    """modules/brouillons.json : modules publiés mais pas encore relus par le parent."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp)
+        shutil.copy(FIXTURES / "minimal.json", self.tmp / "minimal.json")
+        page = FIXTURES / "html" / "mini-cm1-test.html"
+        shutil.copy(page, self.tmp / page.name)
+        self.id_json = json.loads((FIXTURES / "minimal.json").read_text(encoding="utf-8"))["id"]
+
+    def brouillons(self, contenu):
+        (self.tmp / "brouillons.json").write_text(contenu, encoding="utf-8")
+
+    def test_sans_fichier_aucun_brouillon(self):
+        index, ecartes = construire_index(self.tmp)
+        self.assertEqual(ecartes, [])
+        self.assertFalse(any("brouillon" in m for m in index["modules"]))
+
+    def test_brouillon_marque(self):
+        self.brouillons('{"brouillons": ["mini-cm1-test"]}')
+        index, ecartes = construire_index(self.tmp)
+        self.assertEqual(ecartes, [])  # brouillons.json n'est pas pris pour un module
+        marques = {m["id"]: m.get("brouillon", False) for m in index["modules"]}
+        self.assertEqual(marques, {"mini-cm1-test": True, self.id_json: False})
+
+    def test_id_inconnu_signale(self):
+        self.brouillons('{"brouillons": ["fantome"]}')
+        _, ecartes = construire_index(self.tmp)
+        self.assertEqual(len(ecartes), 1)
+        self.assertEqual(ecartes[0][0], "brouillons.json")
+        self.assertIn("fantome", ecartes[0][1])
+
+    def test_format_casse_signale(self):
+        self.brouillons('["mini-cm1-test"]')
+        index, ecartes = construire_index(self.tmp)
+        self.assertEqual([nom for nom, _ in ecartes], ["brouillons.json"])
+        self.assertFalse(any("brouillon" in m for m in index["modules"]))
+
+
 if __name__ == "__main__":
     unittest.main()

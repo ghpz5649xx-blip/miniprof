@@ -31,7 +31,9 @@ pédagogie et de l'UX, et fait la recette finale sur l'iPhone. Il doit pouvoir *
 ## Arborescence
 - `schema/module.schema.json` : **source de vérité** du format de module.
 - `modules/` : un fichier par module, JSON (joué par l'app) ou HTML (page autonome, contrat
-  `docs/module-html.md`) ; `index.json` généré par `tools/build_index.py` (`"kind": "json" | "html"`).
+  `docs/module-html.md`) ; `index.json` généré par `tools/build_index.py` (`"kind": "json" | "html"`) ;
+  `brouillons.json` : modules publiés mais pas encore relus par le parent (cachés aux enfants,
+  `"brouillon": true` dans l'index).
 - `tools/` : outils Python (validate, check_html, merge, prompt, analyse, build_index,
   recette_navigateur) ; `common.py` partagé ; `recette/` : page de recette automatique.
 - `tools/tests/` : unittest + `fixtures/` (`fixtures/html/` : module HTML minimal).
@@ -107,8 +109,8 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
   des enfants.
 
 ## Prochaines étapes
-- `docs/plan-modules-html.md` : étapes 8 à 10 faites, recette 10.3 à 10.8
-  comprise (6 octobre 2026). Aucune autre évolution demandée.
+- `docs/plan-modules-html.md` : étapes 8 à 10 faites (recette 10.3 à 10.8 comprise) ;
+  étape 12 (brouillon + fiche de contrôle) en cours, découpée en 4 unités.
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.
 - `docs/plan-iphone.md` : abandonné (gardé pour le pourquoi).

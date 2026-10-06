@@ -280,3 +280,14 @@ public) et lu avec `python tools/analyse.py exports/<fichier>.export.json`.
 | 11.2 | `python -m unittest discover tools/tests -v` | 62 tests « ok ». | ☑ |
 | 11.4 | `python tools/recette_navigateur.py` lancée 3 fois de suite | « ✔ 27 OK » à chaque fois. Avant la correction de `recette_navigateur.py`, elle restait parfois bloquée (« pas de FIN après 90 s ») : un envoi de résultats plus ancien, arrivé après « FIN », l'écrasait. Le serveur garde maintenant le plus long. | ☑ |
 | 11.3 | Sur l'iPhone, après le push : « Gérer les profils » pour supprimer un profil de test si besoin, puis créer un profil | On arrive directement sur « Bonjour <prénom> ! ». | ☑ (iPhone, 6 octobre 2026) |
+
+## Étape 12 — Validation des modules par le parent (brouillon + fiche de contrôle)
+
+### Automatique (fait par Claude Code avant chaque push)
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| 12.1 | `python -m unittest discover tools/tests -v` | Tous « ok », dont `TestBrouillons` (`test_build_index.py`) : sans fichier, aucun brouillon ; id listé marqué `"brouillon": true` ; id inconnu ou format cassé signalés (code 1). | ☑ |
+| 12.2 | `python tools/build_index.py` | `brouillons.json` n'est pas pris pour un module ; 4 modules, aucun écarté. | ☑ |
+| 12.3 | `python tools/recette_navigateur.py` (le serveur simule `maths-cm2-grands-nombres` en brouillon) | Le brouillon n'est plus dans la bibliothèque, les autres modules y sont. « ✔ 28 OK ». | ☑ |
+

@@ -57,6 +57,11 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   const cartes=[...d.querySelectorAll('a.card-link')].map(a=>a.getAttribute('href'));
   log(cartes.includes('modules/'+ID+'.html'),'bibliothèque : carte du module HTML');
   log(cartes.includes('#/module/maths-cm2-division-euclidienne'),'bibliothèque : modules JSON toujours là');
+  // brouillon (modules/brouillons.json, simulé par le serveur) : caché aux enfants, gardé dans le bilan
+  await fetch('/__brouillon',{method:'POST',body:'maths-cm2-grands-nombres'});
+  d=await charger('index.html#/biblio');await sleep(800);
+  const cartesB=[...d.querySelectorAll('a.card-link')].map(a=>a.getAttribute('href'));
+  log(!cartesB.includes('#/module/maths-cm2-grands-nombres')&&cartesB.includes('#/module/maths-cm2-division-euclidienne'),'brouillon absent de la bibliothèque, autres modules présents');
   // non-régression : un module JSON s'ouvre et s'entraîne
   d=await charger('index.html#/module/maths-cm2-division-euclidienne');await sleep(800);
   log(!d.getElementById('app').textContent.includes('illisible')&&d.querySelectorAll('a.card-link, a.card').length>0,'accueil du module JSON : '+d.getElementById('app').textContent.slice(0,80));
@@ -77,5 +82,6 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(cree&&JSON.parse(localStorage.getItem('miniprof.v1.current'))===cree.id,'profil créé devenu le profil courant');
   log(f.contentWindow.location.hash==='#/biblio'&&d.getElementById('app').textContent.includes('Bonjour Tom'),'profil créé -> bibliothèque : '+f.contentWindow.location.hash);
 }catch(err){log(false,'exception : '+err.message+' '+err.stack);}
+await fetch('/__brouillon',{method:'POST',body:''});
 fetch('/__resultat',{method:'POST',body:out.join('\n')+'\nFIN'});})();
 </script></body></html>
