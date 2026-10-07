@@ -15,9 +15,10 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | # | Point | Temps | Ce qu'on attend de toi |
 |---|---|---|---|
 | 1 | Bilan de l'étape 12 allégée (si livrée) : un vrai module publié en brouillon puis validé | 5 min | ton retour d'usage |
-| 2 | Refonte du `README.md` (A6, livrée) : est-ce que tu t'y retrouves ? | 5 min | ta relecture |
-| 3 | Retour d'usage de la 6e : l'export (A4) dit-il si la correction du a / an a aidé ? | 10 min | l'export |
+| 2 | Refonte du `README.md` (A6, livrée) : est-ce que tu t'y retrouves ? | 3 min | ta relecture |
+| 3 | Retour d'usage de la 6e : l'export (A4) dit-il si la correction du a / an a aidé ? | 7 min | l'export |
 | 4 | Premier module CE2/CM1 : comment ça s'est passé | 5 min | ton retour |
+| 4 bis | Module « dictée » (D8) : retour d'usage ; faut-il l'évolution B4, et comment la concevoir ? | 5 min | ton retour |
 | 5 | Backlog : priorités | 3 min | arbitrage |
 | 6 | Relevé des décisions et des actions | 2 min | validation |
 
@@ -39,6 +40,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 6 oct. | Comité n° 1 : gouvernance adoptée (D1 à D4, D6), étape 12 allégée (D5), pipeline sans Claude Code mis au backlog (D7). |
 | 6 oct. | Étape 12 allégée livrée : un nouveau module sort en brouillon, avec une question-réponse par compétence et par niveau à relire ; « valide » le rend visible aux enfants. Reste ta recette sur l'iPhone (12.7, 12.8) avec le module de ce week-end. |
 | 6 oct. | `README.md` refondu en documentation de reprise : comment tout marche (app, modules, rôle du LLM, gouvernance), mode d'emploi, carte du dépôt et des docs. |
+| 7 oct. | Besoin « listes de mots pour la dictée » (CE2/CM1) analysé à partir d'une ancienne conversation LLM : refaire toujours la même dictée fait apprendre le texte plutôt que les mots, et le LLM se trompait sur la couverture de la liste (5 mots jamais travaillés). Décision D8 : un module « dictée » fait par `/nouveau-module`. |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
 et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
@@ -63,6 +65,7 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 | B1 | Pipeline sans Claude Code : robot de contrôle GitHub, puis POC de l'API Claude payée à l'usage | assessment du comité n° 1 (D7) | basse | l'assessment complet (options, SWOT, coûts) est dans l'historique de ce fichier, commit « Pilotage : retours du sponsor, assessment… » |
 | B2 | Étape 12, unités 2 et 3 : fiche de contrôle dans l'app (modules JSON, puis HTML) | plan de l'étape 12 | basse | inutiles tant que la relecture dans la conversation suffit (D5) |
 | B3 | Fusion des sauvegardes : restaurer un export **sans écraser** la progression déjà sur l'appareil (utile si un même enfant joue sur plusieurs appareils) | sponsor, 6 oct. | basse | à ressortir seulement si un enfant joue sur deux appareils. Synchronisation en ligne étudiée et écartée : iCloud (CloudKit JS : compte Apple Developer 99 $/an), Cloudflare Workers + D1 gratuit (le plus solide), Supabase (pause après une semaine), Firebase ; toutes lèvent « statique, aucun tiers, aucun compte » pour un besoin couvert par l'export envoyé par SMS. En attendant : ne restaurer l'export d'un enfant que sur un appareil vide ou le sien, car la restauration écrase tout. |
+| B4 | Évolution « dictée » : rendre répétable le module de D8 (contrôle de couverture par un outil de `tools/`, skill adapté : une photo de liste suffit) | sponsor et Claude, 7 oct. | à décider au comité n° 2 | seulement si le module de D8 a servi ; la forme reste à concevoir à partir de son retour d'usage. Leçons de l'ancienne méthode : phrases nouvelles à chaque séance, courtes, au présent, sans les mots *** ; couverture vérifiée par programme, jamais par le LLM. |
 
 ---
 
@@ -75,6 +78,7 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 | A4 | Faire un export des données de la 6e après une semaine d'usage (Sauvegarde > Exporter), puis me le transmettre en session | Sponsor | vers le 13 oct. | à faire |
 | A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` : il sort en brouillon ; relire les questions-réponses données, essayer la page, puis répondre « valide » (recette 12.7 et 12.8). Ne pas envoyer l'URL à l'enfant avant. | Sponsor | ce week-end | à faire |
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
+| A10 | À la prochaine liste de mots : l'envoyer en photo avec `/nouveau-module` en précisant « dictée, niveau ** » ; Claude fabrique le module (phrases nouvelles à chaque séance, couverture vérifiée par programme, mots ratés en priorité), tu le relis puis « valide » | Sponsor, puis Claude | prochaine liste | à faire |
 
 Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée).
 
@@ -96,3 +100,4 @@ Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), 
 | 6 oct. 2026 | n° 1 | D7 : le pipeline sans Claude Code va au backlog, priorité basse. |
 | 6 oct. 2026 | n° 1 | Dans les échanges, Claude pose **une question à la fois**. |
 | 6 oct. 2026 | (hors comité) | Pas de synchronisation en ligne de la progression : coût (serveur ou tiers, contraintes à lever, données des enfants hors de la maison) trop élevé pour le besoin ; l'export par SMS et l'accès physique aux appareils suffisent. Fusion des sauvegardes au backlog (B3), priorité basse. |
+| 7 oct. 2026 | (hors comité) | D8 : listes de mots de la dictée (CE2/CM1) : option B, un module HTML « dictée » fait avec `/nouveau-module` (service courant). Le parent dicte depuis le téléphone, l'enfant écrit sur papier, le parent touche les mots ratés. Écartées pour l'instant : A (consigne à coller dans un LLM : couverture invérifiable) et C (évolution répétable, au backlog B4) : on la conçoit seulement après l'usage de B. |
