@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Paddington 2 – Réviser, s'entraîner, s'évaluer</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "anglais-6e-paddington-2",
+  "title": "Paddington 2 en VO",
+  "subject": "anglais",
+  "level": "6e",
+  "description": "Avant et après le film : les mots et les personnages de Paddington 2, être poli, se présenter, décrire, comprendre l'histoire.",
+  "skills": [
+    {"id": "vocabulaire", "label": "Les mots du film"},
+    {"id": "personnages", "label": "Les personnages"},
+    {"id": "politesse", "label": "Être poli comme Paddington"},
+    {"id": "se-presenter", "label": "Se présenter"},
+    {"id": "decrire", "label": "Décrire"},
+    {"id": "histoire", "label": "L'histoire"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#1f4f9c; --pitch-ink:#ffffff; --stripe1:#1b4589; --stripe2:#1f4f9c;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#c8322b; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.4rem;font-weight:800}
+.en{font-weight:800;color:var(--pitch)}
+table.voc{border-collapse:collapse;width:100%;margin:10px 0}
+table.voc td{padding:6px 8px;border-bottom:1px solid var(--line)}
+table.voc td:first-child{font-weight:800;color:var(--pitch)}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+// n éléments distincts de la liste, sans celui à exclure
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question : prompt et libellés en HTML écrit dans ce script (sinon passer par esc()).
+// choices : liste de C(valeur, libellé, pourquoi c'est faux) ; correct : la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+
+/* ================= CONTENU : données du film ================= */
+// Module « avant et après le film » : Paddington 2 vu en VO sous-titrée. Il reprend ce que la
+// 6e a vu en classe (manuel p. 20-21 : couleurs, a / an, adjectif avant le nom, he / she / it,
+// « Paddington's passport ») et y ajoute les mots qu'on entend dans le film.
+// Aucune révélation sur la fin du film : seulement le début de l'histoire.
+const en=s=>`<span class="en">${s}</span>`;
+const VOW=w=>/^[aeiou]/i.test(w);
+const art=w=>VOW(w)?'an':'a';
+const other=a=>a==='a'?'an':'a';
+
+// Mots du film, anglais → français
+const VOC={bear:'un ours',aunt:'une tante',marmalade:'la marmelade (confiture d’orange)',book:'un livre',
+  present:'un cadeau',birthday:'un anniversaire',hat:'un chapeau',coat:'un manteau',suitcase:'une valise',
+  window:'une fenêtre',shop:'un magasin',money:'l’argent',job:'un travail',thief:'un voleur'};
+const VOCS=Object.keys(VOC);
+// Fautes d'orthographe écrites à la main (aucune n'est un vrai mot anglais)
+const MIS={birthday:['birtday','bithday','birthdey'],present:['presant','prezent','presente'],
+  suitcase:['suitecase','suitcas','sutcase'],window:['windaw','windo','wndow'],
+  marmalade:['marmelade','marmalad','marmalaide'],money:['mony','monney','monay'],thief:['theif','thiefe','thif']};
+
+// Les personnages (rôles du début du film)
+const PERS=[
+  {n:'Paddington',p:'He',r:'a bear from Peru',fr:'un ours qui vient du Pérou'},
+  {n:'Aunt Lucy',p:'She',r:'Paddington’s aunt',fr:'la tante de Paddington'},
+  {n:'Mr Brown',p:'He',r:'the father of the Brown family',fr:'le père de la famille Brown'},
+  {n:'Mrs Brown',p:'She',r:'the mother of the Brown family',fr:'la mère de la famille Brown'},
+  {n:'Judy',p:'She',r:'the daughter of the Brown family',fr:'la fille de la famille Brown'},
+  {n:'Jonathan',p:'He',r:'the son of the Brown family',fr:'le fils de la famille Brown'},
+  {n:'Mrs Bird',p:'She',r:'the housekeeper of the Brown family',fr:'la gouvernante de la famille Brown'},
+  {n:'Phoenix Buchanan',p:'He',r:'an actor',fr:'un acteur'},
+  {n:'Knuckles McGinty',p:'He',r:'the cook in the prison',fr:'le cuisinier de la prison'}
+];
+
+// Formules de politesse : sens en français (sert aux « pourquoi »)
+const PHR={'Thank you!':'merci','You’re welcome.':'de rien','Sorry!':'pardon, désolé (quand on a fait une bêtise)',
+  'Excuse me.':'excusez-moi (pour attirer l’attention ou pour passer)','Hello!':'bonjour','Goodbye!':'au revoir',
+  'Nice to meet you.':'enchanté(e)','Please.':'s’il te plaît, s’il vous plaît'};
+// x : formules exclues des mauvais choix, parce qu'elles pourraient aussi convenir
+const POLI=[
+  {s:'Tu veux remercier quelqu’un.',a:'Thank you!',x:[]},
+  {s:'Quelqu’un te dit « Thank you! ».',a:'You’re welcome.',x:[]},
+  {s:'Tu bouscules quelqu’un sans le faire exprès.',a:'Sorry!',x:['Excuse me.']},
+  {s:'Tu veux demander ton chemin : d’abord, tu attires l’attention d’un passant.',a:'Excuse me.',x:['Hello!','Sorry!']},
+  {s:'Tu arrives chez tes voisins.',a:'Hello!',x:['Nice to meet you.','Excuse me.']},
+  {s:'Tu quittes tes amis le soir.',a:'Goodbye!',x:[]},
+  {s:'Tu viens de dire bonjour à quelqu’un que tu rencontres pour la première fois.',a:'Nice to meet you.',x:['Hello!']},
+  {s:'Tu demandes quelque chose. Quel mot ajoutes-tu pour être poli ?',a:'Please.',x:['Excuse me.']}
+];
+// Demandes polies : « Can I have a … , please? » (adjectif avant le nom, a / an)
+const DEM=[
+  {a:'marmalade',n:'sandwich',fr:'un sandwich à la marmelade'},
+  {a:'blue',n:'coat',fr:'un manteau bleu'},
+  {a:'red',n:'hat',fr:'un chapeau rouge'},
+  {a:'big',n:'suitcase',fr:'une grande valise'},
+  {a:'old',n:'book',fr:'un vieux livre'},
+  {a:'orange',n:'hat',fr:'un chapeau orange'}
+];
+
+// « Paddington's passport » : questions du douanier, réponses de Paddington
+const QA=[
+  {q:'What’s your name?',a:'My name is Paddington.',fr:'Comment t’appelles-tu ?'},
+  {q:'Where are you from?',a:'I’m from Peru.',fr:'D’où viens-tu ?'},
+  {q:'Where do you live?',a:'I live in London.',fr:'Où habites-tu ?'},
+  {q:'Who do you live with?',a:'I live with the Brown family.',fr:'Avec qui habites-tu ?'},
+  {q:'What do you like?',a:'I like marmalade.',fr:'Qu’est-ce que tu aimes ?'},
+  {q:'Who is Aunt Lucy?',a:'She is my aunt.',fr:'Qui est tante Lucy ?'}
+];
+// Les questions qui se ressemblent : on les met toujours ensemble dans les choix
+const PIEGE={'Where are you from?':'Where do you live?','Where do you live?':'Where are you from?',
+  'Who do you live with?':'Where do you live?','Who is Aunt Lucy?':'Who do you live with?'};
+
+// Décrire : groupe nom + adjectif (traduction donnée telle quelle, sans accord à calculer)
+const GRP=[
+  {a:'red',n:'hat',fr:'un chapeau rouge'},{a:'blue',n:'coat',fr:'un manteau bleu'},
+  {a:'brown',n:'bear',fr:'un ours marron'},{a:'small',n:'bear',fr:'un petit ours'},
+  {a:'big',n:'suitcase',fr:'une grande valise'},{a:'old',n:'book',fr:'un vieux livre'},
+  {a:'orange',n:'hat',fr:'un chapeau orange'},{a:'old',n:'shop',fr:'un vieux magasin'},
+  {a:'big',n:'window',fr:'une grande fenêtre'}
+];
+const ADJ={kind:'gentil',polite:'poli',brave:'courageux',funny:'drôle',clumsy:'maladroit'};
+const CAR=[
+  {s:'Paddington dit toujours « please » et « thank you ».',a:'polite'},
+  {s:'Paddington aide ses voisins et partage ses sandwichs.',a:'kind'},
+  {s:'Paddington renverse et casse des choses sans le faire exprès.',a:'clumsy'},
+  {s:'Paddington fait rire tout le monde.',a:'funny'},
+  {s:'Paddington n’a pas peur, même quand il est en danger.',a:'brave'}
+];
+
+// L'histoire : seulement le début du film (pas la fin)
+const VF=[
+  {t:'Paddington lives in London.',v:true,e:'Il habite à Londres (London), chez la famille Brown.'},
+  {t:'Paddington lives in Paris.',v:false,e:'Il habite à Londres (London), pas à Paris.'},
+  {t:'Aunt Lucy lives in Peru.',v:true,e:'Tante Lucy est restée au Pérou (Peru).'},
+  {t:'Aunt Lucy is Paddington’s sister.',v:false,e:'C’est sa tante (aunt). « Sœur » se dit sister.'},
+  {t:'Paddington loves marmalade.',v:true,e:'Il adore la marmelade, surtout en sandwich.'},
+  {t:'Paddington has a red hat and a blue coat.',v:true,e:'Un chapeau rouge (a red hat) et un manteau bleu (a blue coat).'},
+  {t:'Paddington wants a present for his birthday.',v:false,e:'Le cadeau est pour l’anniversaire de tante Lucy, qui va avoir 100 ans.'},
+  {t:'The present is a pop-up book of London.',v:true,e:'Un livre animé (pop-up book) sur Londres.'},
+  {t:'Paddington works as a window cleaner to earn money.',v:true,e:'Il lave les vitres (window cleaner) pour gagner de l’argent (money).'},
+  {t:'Paddington is a cat.',v:false,e:'C’est un ours (a bear).'}
+];
+const QW={Where:'où : la réponse est un lieu',Who:'qui : la réponse est une personne',What:'quoi : la réponse est une chose',How:'How old = quel âge : la réponse est un âge'};
+const QWQ=[
+  {q:'___ does Aunt Lucy live? — In Peru.',a:'Where'},
+  {q:'___ is Aunt Lucy? — She is Paddington’s aunt.',a:'Who'},
+  {q:'___ does Paddington love? — Marmalade!',a:'What'},
+  {q:'___ old is Aunt Lucy? — She is nearly 100.',a:'How'},
+  {q:'___ does Paddington want to buy? — A pop-up book.',a:'What'},
+  {q:'___ is the shop? — In London.',a:'Where'},
+  {q:'___ steals the book? — A thief!',a:'Who'}
+];
+
+/* ================= CONTENU : un générateur par compétence ================= */
+function genVocabulaire(level){
+  if(level===1){
+    const w=pick(VOCS),set=[w].concat(others(VOCS,w,3));
+    if(Math.random()<.5)
+      return Q('vocabulaire',level,`Comment dit-on <b>${VOC[w]}</b> en anglais ?`,
+        set.map(v=>C(v,v,`${en(v)}, c’est ${VOC[v]}.`)),w,
+        `<p>C’est un mot du film. Relis la fiche « Les mots du film ».</p>`,
+        `<p>${VOC[w]} = ${en(w)}.</p>`);
+    return Q('vocabulaire',level,`Que veut dire <span class="big">${w}</span> ?`,
+      set.map(v=>C(v,VOC[v],`${VOC[v]}, c’est ${en(v)} en anglais.`)),w,
+      `<p>C’est un mot du film. Relis la fiche « Les mots du film ».</p>`,
+      `<p>${en(w)} = ${VOC[w]}.</p>`);
+  }
+  // Défi : la bonne orthographe parmi des fautes fréquentes
+  const w=pick(Object.keys(MIS));
+  const truc=w==='thief'?' Astuce : i avant e (th-<b>ie</b>-f).':'';
+  return Q('vocabulaire',level,`Comment écrit-on <b>${VOC[w]}</b> en anglais ?`,
+    [C(w,w)].concat(MIS[w].map(m=>C(m,m,`Presque ! Le mot s’écrit ${w.toUpperCase().split('').join('-')}.`))),w,
+    `<p>Le mot a ${w.length} lettres.</p>`,
+    `<p>${VOC[w]} = ${en(w)}, qui s’épelle <b>${w.toUpperCase().split('').join('-')}</b>.${truc}</p>`);
+}
+
+function genPersonnages(level){
+  if(level===1){
+    const p=pick(PERS),set=[p].concat(others(PERS,p,3));
+    return Q('personnages',level,`<span class="big">Who is ${p.n}?</span><br>${p.p} is…`,
+      set.map(x=>C(x.n,x.r,`${en(x.r)}, c’est ${x.n} (${x.fr}).`)),p.n,
+      `<p>Relis la fiche « Les personnages ».</p>`,
+      `<p>${en(p.n+' is '+p.r+'.')} C’est ${p.fr}.</p>`);
+  }
+  // Défi : he, she ou it
+  let s,ok,why;
+  const r=Math.random();
+  if(r<.6){
+    const p=pick(PERS);ok=p.p;s=`Look at ${p.n}. ___ is ${p.r}.`;
+    why=p.n==='Paddington'?'Paddington est un ours, mais il a un prénom et vit dans une famille, comme un animal de compagnie : on dit <b>he</b>.'
+      :p.n==='Aunt Lucy'?'Tante Lucy est une ourse qui a un prénom : c’est un personnage féminin, on dit <b>she</b>.'
+      :`${p.n} est ${p.p==='He'?'un homme ou un garçon : <b>he</b>':'une femme ou une fille : <b>she</b>'}.`;
+  }else{
+    const o=pick([['the pop-up book','It is old and beautiful.'],['London','It is a big city.'],['the shop','It is old.'],['the red hat','It is old.']]);
+    ok='It';s=`Look at ${o[0]}. ___ ${o[1].slice(3)}`;
+    why=`${o[0]} est une chose ou un lieu : on dit <b>it</b>.`;
+  }
+  const wrong={He:'<b>he</b> : un personnage masculin.',She:'<b>she</b> : un personnage féminin.',It:'<b>it</b> : une chose, un lieu ou un animal sauvage.'};
+  return Q('personnages',level,`Complète : <b>${s}</b>`,
+    ['He','She','It'].map(v=>C(v,v,v===ok?'':`${wrong[v]} ${why}`)),ok,
+    `<p>Une personne ou un personnage (masculin ou féminin) ? Ou une chose, un lieu ?</p>`,
+    `<p><b>${ok}</b>. ${why}</p>`);
+}
+
+function genPolitesse(level){
+  if(level===1){
+    const it=pick(POLI);
+    const pool=Object.keys(PHR).filter(k=>k!==it.a&&!it.x.includes(k));
+    const set=[it.a].concat(shuffle(pool).slice(0,3));
+    return Q('politesse',level,`${it.s}<br>Que dis-tu ?`,
+      set.map(v=>C(v,v,`${en(v)} veut dire « ${PHR[v]} ».`)),it.a,
+      `<p>Pense au sens de chaque formule en français.</p>`,
+      `<p>${en(it.a)} : « ${PHR[it.a]} ».</p>`);
+  }
+  if(Math.random()<.3){
+    // Les phrases célèbres de Paddington
+    if(Math.random()<.5)
+      return Q('politesse',level,`Tante Lucy dit : <b>« If we’re kind and ___, the world will be right. »</b>`,
+        [C('polite','polite'),C('clumsy','clumsy','clumsy = maladroit : ce n’est pas un conseil de tante Lucy !'),
+         C('brown','brown','brown = marron : une couleur.'),C('big','big','big = grand : une taille.')],'polite',
+        `<p>C’est le mot qui va avec « please » et « thank you ».</p>`,
+        `<p>« Si on est gentil (kind) et <b>poli (polite)</b>, le monde ira bien. » C’est la devise de Paddington.</p>`);
+    return Q('politesse',level,`Sur l’étiquette de Paddington (premier film) : <b>« Please look after this ___. Thank you. »</b>`,
+      [C('bear','bear'),C('book','book','book = un livre.'),C('hat','hat','hat = un chapeau.'),C('suitcase','suitcase','suitcase = une valise.')],'bear',
+      `<p>Paddington est arrivé du Pérou avec cette étiquette autour du cou.</p>`,
+      `<p>« S’il vous plaît, occupez-vous de cet <b>ours (bear)</b>. Merci. »</p>`);
+  }
+  // Demander poliment : Can I have a / an + adjectif + nom, please?
+  const d=pick(DEM),k=art(d.a),kn=art(d.n);
+  const good=`Can I have ${k} ${d.a} ${d.n}, please?`;
+  return Q('politesse',level,`Demande poliment : <b>${d.fr}</b>`,
+    [C('ok',good),
+     C('ordre',`Give me ${k} ${d.a} ${d.n}!`,'« Give me… ! », c’est un ordre (donne-moi !) : ce n’est pas poli. Paddington dirait « Can I have…, please? ».'),
+     C('adj',`Can I have ${kn} ${d.n} ${d.a}, please?`,'En anglais, l’adjectif se met avant le nom.'),
+     C('art',`Can I have ${other(k)} ${d.a} ${d.n}, please?`,`On regarde le mot juste après : ${en(d.a)} commence par ${VOW(d.a)?'une voyelle : <b>an</b>':'une consonne : <b>a</b>'}.`)],'ok',
+    `<p>Trois choses : « Can I have… please? », l’adjectif avant le nom, et a ou an.</p>`,
+    `<p><b>${good}</b> Poli (« Can I have…, please? »), l’adjectif ${en(d.a)} avant le nom, et ${en(k)} parce que ${en(d.a)} commence par ${VOW(d.a)?'une voyelle':'une consonne'}.</p>`);
+}
+
+function genSePresenter(level){
+  const it=pick(QA);
+  if(level===1){
+    const set=[it].concat(others(QA,it,3));
+    return Q('se-presenter',level,`Le douanier demande : <span class="big">${it.q}</span><br>Paddington répond :`,
+      set.map(x=>C(x.q,x.a,`Cette réponse va avec « ${x.q} » (${x.fr}).`)),it.q,
+      `<p>La question veut dire : ${it.fr}</p>`,
+      `<p>${en(it.q)} (${it.fr}) → ${en(it.a)}</p>`);
+  }
+  // Défi : retrouver la question à partir de la réponse ; les questions qui se ressemblent sont proposées ensemble
+  const piege=PIEGE[it.q]?QA.find(x=>x.q===PIEGE[it.q]):null;
+  let set=[it];if(piege)set.push(piege);
+  set=set.concat(others(QA.filter(x=>!set.includes(x)),null,4-set.length));
+  return Q('se-presenter',level,`Paddington répond : <span class="big">${it.a}</span><br>Quelle était la question du douanier ?`,
+    set.map(x=>C(x.q,x.q,`« ${x.q} » veut dire « ${x.fr} » : la réponse serait « ${x.a} ».`)),it.q,
+    `<p>Regarde le premier mot de la réponse et ce qu’elle dit : un nom, un lieu, une personne, une chose ?</p>`,
+    `<p>${en(it.q)} (${it.fr}) → ${en(it.a)}</p>`);
+}
+
+function genDecrire(level){
+  if(level===1){
+    const g=pick(GRP),k=art(g.a),kn=art(g.n);
+    const good=`${k} ${g.a} ${g.n}`;
+    return Q('decrire',level,`Traduis : <b>« ${g.fr} »</b>`,
+      [C('ok',good),
+       C('art',`${other(k)} ${g.a} ${g.n}`,`On regarde le mot juste après l’article : ${en(g.a)} commence par ${VOW(g.a)?'une voyelle : <b>an</b>':'une consonne : <b>a</b>'}.`),
+       C('ordre',`${kn} ${g.n} ${g.a}`,'En anglais, l’adjectif se met avant le nom.'),
+       C('deux',`${other(kn)} ${g.n} ${g.a}`,'Deux erreurs : l’adjectif va avant le nom, et l’article dépend du mot qui suit.')],'ok',
+      `<p>L’adjectif va avant le nom. Puis : a ou an selon le mot juste après.</p>`,
+      `<p><b>${good}</b> : ${en(g.a)} avant ${en(g.n)}, et ${en(k)} parce que ${en(g.a)} commence par ${VOW(g.a)?'une voyelle':'une consonne'}.</p>`);
+  }
+  // Défi : l'adjectif qui décrit le caractère de Paddington
+  const c=pick(CAR),set=[c.a].concat(others(Object.keys(ADJ),c.a,3));
+  return Q('decrire',level,`${c.s}<br><span class="big">He is…</span>`,
+    set.map(v=>C(v,v,`${en(v)} veut dire « ${ADJ[v]} ».`)),c.a,
+    `<p>Cherche l’adjectif qui veut dire la même chose que la phrase en français.</p>`,
+    `<p><b>He is ${c.a}.</b> ${en(c.a)} = ${ADJ[c.a]}.</p>`);
+}
+
+function genHistoire(level){
+  if(level===1){
+    const s=pick(VF);
+    return Q('histoire',level,`Vrai ou faux ?<br><b>« ${s.t} »</b>`,
+      [C('v','True (vrai)',s.v?'':s.e),C('f','False (faux)',s.v?s.e:'')],s.v?'v':'f',
+      `<p>Relis la fiche « L’histoire ».</p>`,
+      `<p><b>${s.v?'True':'False'}.</b> ${s.e}</p>`);
+  }
+  const it=pick(QWQ);
+  return Q('histoire',level,`Complète la question : <b>${it.q}</b>`,
+    Object.keys(QW).map(w=>C(w,w,w===it.a?'':`${en(w)} = ${QW[w]}.`)),it.a,
+    `<p>Regarde la réponse : un lieu, une personne, une chose, un âge ?</p>`,
+    `<p><b>${it.a}</b> : ${QW[it.a]}.</p>`);
+}
+
+// Clés = ids des compétences de la fiche (même ordre)
+const SKILLS={vocabulaire:{label:'Les mots du film'},personnages:{label:'Les personnages'},
+  politesse:{label:'Être poli comme Paddington'},'se-presenter':{label:'Se présenter'},
+  decrire:{label:'Décrire'},histoire:{label:'L’histoire'}};
+const GEN={vocabulaire:genVocabulaire,personnages:genPersonnages,politesse:genPolitesse,
+  'se-presenter':genSePresenter,decrire:genDecrire,histoire:genHistoire};
+const LEVELS={1:{t:'Échauffement',d:'questions de base'},2:{t:'Défi',d:'questions plus piégeuses'}};
+const EVAL_SKILLS=['vocabulaire','vocabulaire','personnages','personnages','politesse','politesse','se-presenter','decrire','decrire','histoire'];
+const CHEER=['Well done!','Great!','Brilliant!','Bravo !','Lovely!','Perfect!'];
+
+/* ================= CONTENU : fiches Apprendre ================= */
+const LEARN=[
+  {t:'L’histoire (sans la fin)',body:()=>`<p>Paddington est un ours venu du Pérou (<b>Peru</b>). Il vit à Londres (<b>London</b>) chez la famille Brown.</p>
+    <p>Sa tante Lucy (<b>Aunt Lucy</b>) va avoir 100 ans. Pour son anniversaire (<b>birthday</b>), Paddington veut lui offrir un cadeau (<b>a present</b>) : un livre animé sur Londres (<b>a pop-up book</b>), trouvé dans un vieux magasin.</p>
+    <p>Pour gagner de l’argent (<b>money</b>), il fait des petits travaux, par exemple laveur de vitres (<b>window cleaner</b>). Mais un voleur (<b>a thief</b>) vole le livre… La suite, dans le film !</p>`,
+   q:{p:'Where does Aunt Lucy live?',c:[C('p','In Peru.'),C('l','In London.','Londres, c’est là où vit Paddington. Tante Lucy est restée au Pérou.'),C('f','In France.','Non : tante Lucy vit au Pérou.')],ok:'p'}},
+  {t:'Les personnages',body:()=>`<table class="voc">${PERS.map(p=>`<tr><td>${p.n}</td><td>${p.p.toLowerCase()} · ${p.fr}</td></tr>`).join('')}</table>
+    <div class="rulebox">La famille : <b>father</b> = père, <b>mother</b> = mère, <b>son</b> = fils, <b>daughter</b> = fille, <b>aunt</b> = tante.<br>
+    <b>he</b> pour un personnage masculin, <b>she</b> pour un personnage féminin, <b>it</b> pour une chose ou un lieu. Paddington est un ours, mais il a un prénom et vit dans une famille, comme un animal de compagnie : on dit <b>he</b>.</div>`,
+   q:{p:'Who is Judy? She is…',c:[C('d','the daughter of the Brown family'),C('m','the mother of the Brown family','La mère, c’est Mrs Brown.'),C('a','Paddington’s aunt','La tante, c’est Aunt Lucy.')],ok:'d'}},
+  {t:'Les mots du film',body:()=>`<table class="voc">${VOCS.map(w=>`<tr><td>${w}</td><td>${VOC[w]}</td></tr>`).join('')}</table>
+    <p class="small">Attention : <b>thief</b> s’écrit avec <b>ie</b>.</p>`,
+   q:{p:'Que veut dire « present » ?',c:[C('c','un cadeau'),C('p','le présent','Piège ! Ici, a present, c’est un cadeau.'),C('a','un anniversaire','Un anniversaire, c’est a birthday.')],ok:'c'}},
+  {t:'Être poli comme Paddington',body:()=>`<table class="voc">${Object.keys(PHR).map(k=>`<tr><td>${k}</td><td>${PHR[k]}</td></tr>`).join('')}</table>
+    <div class="rulebox">Pour demander : <b>Can I have a marmalade sandwich, please?</b><br>La devise de tante Lucy : <b>« If we’re kind and polite, the world will be right. »</b> (Si on est gentil et poli, le monde ira bien.)</div>`,
+   q:{p:'Quelqu’un te dit « Thank you! ». Tu réponds :',c:[C('w','You’re welcome.'),C('s','Sorry!','Sorry, c’est pour s’excuser.'),C('p','Please.','Please, c’est pour demander.')],ok:'w'}},
+  {t:'Se présenter (Paddington’s passport)',body:()=>`<p>Comme dans le manuel (p. 21), le douanier pose des questions à Paddington :</p>
+    <table class="voc">${QA.map(x=>`<tr><td>${x.q}</td><td>${x.a}</td></tr>`).join('')}</table>
+    <div class="rulebox"><b>Where are you from?</b> = d’où viens-tu ? → <b>I’m from Peru.</b><br><b>Where do you live?</b> = où habites-tu ? → <b>I live in London.</b></div>`,
+   q:{p:'Where are you from?',c:[C('f','I’m from Peru.'),C('l','I live in London.','Ça répond à « Where do you live? » (où habites-tu ?).'),C('n','My name is Paddington.','Ça répond à « What’s your name? ».')],ok:'f'}},
+  {t:'Décrire',body:()=>`<p>Comme en classe, l’adjectif se met <b>avant</b> le nom, et a / an dépend du mot juste après :</p>
+    <p>${en('a red hat')} · ${en('a blue coat')} · ${en('an old book')} · ${en('a small bear')}</p>
+    <p>Le caractère de Paddington :</p>
+    <table class="voc">${Object.keys(ADJ).map(k=>`<tr><td>${k}</td><td>${ADJ[k]}</td></tr>`).join('')}</table>`,
+   q:{p:'« un vieux livre »',c:[C('ok','an old book'),C('a','a old book','old commence par une voyelle : an.'),C('o','a book old','L’adjectif va avant le nom.')],ok:'ok'}},
+  {t:'À retenir',recap:true,body:()=>`<p>• Paddington vient du Pérou (<b>Peru</b>) et vit à <b>London</b> chez les Brown.</p>
+    <p>• Il cherche <b>a present</b> pour le <b>birthday</b> d’<b>Aunt Lucy</b>.</p>
+    <p>• Poli : <b>please</b>, <b>thank you</b>, <b>sorry</b>, <b>excuse me</b>.</p>
+    <p>• <b>Where are you from?</b> (d’où) ≠ <b>Where do you live?</b> (où tu habites).</p>
+    <p>• L’adjectif avant le nom : <b>a red hat</b>, <b>an old book</b>.</p>
+    <div class="rulebox"><b>Pendant le film</b>, essaie d’entendre : please · thank you · sorry · marmalade · Aunt Lucy · present · birthday · window · thief.</div>`}
+];
+const LEARN_COUNT=LEARN.length-1;
+
+/* ================= CONTENU : accueil ================= */
+function home(){
+  S={screen:'home'};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Paddington 2</h1>
+      <p>Hello! Prépare le film en VO, puis teste-toi après l’avoir vu.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="menu">
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>${LEARN_COUNT} fiches courtes, avec une question à chaque fois</span></button>
+        <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
+        <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>${EVAL_SKILLS.length} questions, sans aide, avec une note à la fin</span></button>
+        <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
+      </div>
+    </main>`);
+}
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+function record(q,ok,rep){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
+}
+function genQuestion(skill,level){
+  if(!skill||skill==='all')skill=pick(Object.keys(GEN));
+  return GEN[skill](level);
+}
+const LVL=Object.keys(LEVELS).map(Number);
+const MAXL=LVL[LVL.length-1];
+
+let S={screen:'home'};
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : Apprendre ================= */
+function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
+function renderLearn(){
+  const st=LEARN[S.ls];let body;
+  if(st.recap){
+    body=`<div class="card">${st.body()}</div>
+      <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
+  }else{
+    const q=st.q;
+    body=`${st.body()}<div class="card"><p class="q-prompt"><b>À toi :</b> ${q.p}</p>
+      <div class="choices">${shuffle(q.c.slice()).map(c=>`<button class="choice" data-act="lchoose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div><div id="lfb"></div></div>
+      <div class="btns" id="lacts"></div>`;
+  }
+  show(`${topbar('Apprendre')}<main class="wrap"><p class="small">Fiche ${S.ls+1} sur ${LEARN.length}</p><div class="dots" aria-hidden="true">${LEARN.map((x,i)=>`<i class="${i<S.ls?'done':i===S.ls?'cur':''}"></i>`).join('')}</div><h2>${st.t}</h2><div style="margin-top:8px">${body}</div></main>`);
+}
+function learnChoose(el){
+  const q=LEARN[S.ls].q,v=el.dataset.v,fb=document.getElementById('lfb');
+  if(v===q.ok){
+    app.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.classList.add('locked');});
+    el.classList.add('good');
+    fb.innerHTML=`<div class="fb good"><p><b>${pick(CHEER)}</b></p></div>`;
+    document.getElementById('lacts').innerHTML=`<button class="btn primary" data-act="lnext" data-primary>${S.ls<LEARN.length-2?'Fiche suivante':'Terminer'}</button>`;
+  }else{
+    el.classList.add('bad');el.disabled=true;
+    fb.innerHTML=`<div class="fb hint"><p><b>Pas tout à fait.</b> ${q.c.find(c=>c.v===v).why}</p></div>`;
+  }
+}
+
+/* ================= MOTEUR : entraînement / évaluation ================= */
+function levelChips(sel,mix){
+  let s='<div class="chips">';
+  if(mix)s+=`<button class="chip ${sel===0?'on':''}" data-act="lvl" data-v="0">Mixte<small>un peu de tout</small></button>`;
+  for(const i of LVL)s+=`<button class="chip ${sel===i?'on':''}" data-act="lvl" data-v="${i}">${LEVELS[i].t}<small>${LEVELS[i].d}</small></button>`;
+  return s+'</div>';
+}
+function skillChips(sel){
+  let s=`<div class="chips"><button class="chip ${sel==='all'?'on':''}" data-act="sk" data-v="all">Tout mélangé</button>`;
+  for(const k in SKILLS)s+=`<button class="chip ${sel===k?'on':''}" data-act="sk" data-v="${k}">${SKILLS[k].label}</button>`;
+  return s+'</div>';
+}
+function trainSetup(keep){
+  if(!keep||S.screen!=='trainSetup')S={screen:'trainSetup',level:S.level||1,skill:S.skillPref||'all'};
+  show(`${topbar("S'entraîner")}<main class="wrap">
+    <h2>Choisis ton niveau</h2>${levelChips(S.level,false)}
+    <h2>Que veux-tu travailler ?</h2>${skillChips(S.skill)}
+    <div class="btns"><button class="btn primary" data-act="trainStart" data-primary>Commencer</button></div></main>`);
+}
+function evalSetup(keep){
+  if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
+  show(`${topbar('Évaluation')}<main class="wrap">
+    <h2>On passe à l'évaluation ?</h2>
+    <p>${EVAL_SKILLS.length} questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
+    <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
+    <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
+}
+const hasPic=q=>q.choices.some(c=>String(c.label).indexOf('<svg')>=0);
+function qScreen(){
+  const q=S.q,ev=S.mode==='eval';
+  let head;
+  if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
+    head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
+  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  const last=ev&&S.i===S.total-1;
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
+    ${head}
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      <div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div></div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns" id="acts">
+      <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
+      ${ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'}
+    </div></main>`);
+  S.choice=null;S.attempts=0;q.t0=Date.now();
+}
+function setFb(html){document.getElementById('fb').innerHTML=html;}
+function lockChoices(){
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
+}
+function checkTrain(){
+  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  const q=S.q;S.attempts++;
+  const ok=S.choice===q.exp.c;
+  // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
+  if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
+  if(ok){
+    lockChoices();
+    let extra='';
+    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
+  }else if(S.attempts===1){
+    const c=q.choices.find(c=>c.v===S.choice);
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${c&&c.why?c.why:'Relis la question et réessaie.'}</p></div>`);
+    app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    S.choice=null;
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="check" data-primary>Réessayer</button><button class="btn ghost" data-act="hint">Un indice</button><button class="btn ghost" data-act="reveal">Voir la correction</button>`;
+  }else revealTrain();
+}
+function revealTrain(){
+  if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
+  lockChoices();
+  setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
+}
+function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
+
+function evalStart(){
+  const lvl=S.level;
+  // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
+  const qs=shuffle(EVAL_SKILLS.slice()).map((s,i)=>genQuestion(s,lvl===0?LVL[i%LVL.length]:lvl));
+  S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
+    cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
+  S.q=qs[0];qScreen();
+}
+function checkEval(){
+  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  S.i++;
+  if(S.i>=S.total){evalEnd();return;}
+  S.q=S.qs[S.i];qScreen();
+}
+const lblOf=(q,v)=>{const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+function evalEnd(){
+  const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
+  const duree=Math.round((Date.now()-S.t0)/1000);
+  const sk={};
+  res.forEach(r=>{const s=sk[r.q.skill]||(sk[r.q.skill]=[0,0]);s[1]++;if(r.ok)s[0]++;});
+  // l'évaluation est enregistrée d'un bloc à la fin : abandonnée au milieu, elle ne compte pas
+  if(window.miniprof)window.miniprof.reponse(res.map(r=>({competence:r.q.skill,juste:r.ok,mode:'v',difficulte:r.q.level,
+    question:r.q.skill,reponse:r.ans,duree:r.duree,evaluation:S.cle})));
+  let weakest=null,wp=2;for(const k in sk){const p=sk[k][0]/sk[k][1];if(p<wp){wp=p;weakest=k;}}
+  const pc=score/total;
+  const msg=pc>=.9?"Excellent ! Tu maîtrises ta leçon.":pc>=.7?"Très bien ! Il ne reste que quelques détails à revoir.":pc>=.5?"Bon début. Regarde les corrections, puis entraîne-toi encore un peu.":"Pas de panique : relis les fiches Apprendre, puis entraîne-toi.";
+  const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
+  const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
+    <div class="q-prompt">${r.q.prompt}</div>
+    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    <div class="fb info">${r.q.explain}</div></details>`).join('');
+  S.screen='result';S.weakest=weakest;
+  show(`${topbar('Résultat','home')}<main class="wrap">
+    <div class="card center"><div class="score">${score}<span style="font-size:1.6rem;color:var(--muted)"> / ${total}</span></div>
+      <p style="margin-top:10px">${msg}</p><p class="small">Temps : ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    <h2>Par compétence</h2><div style="margin-top:10px">${bars}</div>
+    <h2 style="margin:16px 0 6px">Les corrections</h2>${rev}
+    <div class="btns">
+      ${weakest&&wp<1?`<button class="btn primary" data-act="trainWeak" data-primary>Travailler : ${SKILLS[weakest].label}</button>`:''}
+      <button class="btn" data-act="evalSetup">Recommencer</button><button class="btn" data-act="bilan">Mon bilan</button><button class="btn ghost" data-act="home">Accueil</button>
+    </div></main>`);
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+// Ajouter ici les actions propres au module (ex. un labo) avant « default ».
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'learn':learn(0);break;
+    case 'lchoose':learnChoose(el);break;
+    case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
+    case 'trainSetup':trainSetup(false);break;
+    case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
+    case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
+    case 'evalSetup':evalSetup(false);break;
+    case 'evalStart':evalStart();break;
+    case 'quitEval':evalSetup(false);break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));break;
+    case 'check':S.mode==='eval'?checkEval():checkTrain();break;
+    case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
+    case 'reveal':revealTrain();break;
+    case 'next':nextTrain();break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>

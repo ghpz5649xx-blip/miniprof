@@ -36,6 +36,42 @@
       ]
     },
     {
+      "id": "anglais-6e-paddington-2",
+      "kind": "html",
+      "file": "anglais-6e-paddington-2.html",
+      "title": "Paddington 2 en VO",
+      "subject": "anglais",
+      "level": "6e",
+      "description": "Avant et après le film : les mots et les personnages de Paddington 2, être poli, se présenter, décrire, comprendre l'histoire.",
+      "skills": [
+        {
+          "id": "vocabulaire",
+          "label": "Les mots du film"
+        },
+        {
+          "id": "personnages",
+          "label": "Les personnages"
+        },
+        {
+          "id": "politesse",
+          "label": "Être poli comme Paddington"
+        },
+        {
+          "id": "se-presenter",
+          "label": "Se présenter"
+        },
+        {
+          "id": "decrire",
+          "label": "Décrire"
+        },
+        {
+          "id": "histoire",
+          "label": "L'histoire"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "maths-cm2-division-euclidienne",
       "kind": "json",
       "file": "maths-cm2-division-euclidienne.json",

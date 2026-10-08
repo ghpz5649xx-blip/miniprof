@@ -41,6 +41,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 6 oct. | Étape 12 allégée livrée : un nouveau module sort en brouillon, avec une question-réponse par compétence et par niveau à relire ; « valide » le rend visible aux enfants. Reste ta recette sur l'iPhone (12.7, 12.8) avec le module de ce week-end. |
 | 6 oct. | `README.md` refondu en documentation de reprise : comment tout marche (app, modules, rôle du LLM, gouvernance), mode d'emploi, carte du dépôt et des docs. |
 | 7 oct. | Besoin « listes de mots pour la dictée » (CE2/CM1) analysé à partir d'une ancienne conversation LLM : refaire toujours la même dictée fait apprendre le texte plutôt que les mots, et le LLM se trompait sur la couverture de la liste (5 mots jamais travaillés). Décision D8 : un module « dictée » fait par `/nouveau-module`. |
+| 8 oct. | Module « Paddington 2 en VO » (anglais 6e) créé à la demande du sponsor, pour préparer le film vu en VO sous-titrée : mots du film, personnages, politesse, se présenter, décrire, l'histoire (sans la fin). Publié **en brouillon**, à relire puis valider. |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
 et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
