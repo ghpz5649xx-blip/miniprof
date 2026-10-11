@@ -143,7 +143,7 @@
       "title": "Le circuit électrique",
       "subject": "sciences",
       "level": "6e",
-      "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit et sécurité, avec un labo pour expérimenter.",
+      "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit et sécurité, avec un labo pour expérimenter et des schémas à dessiner.",
       "skills": [
         {
           "id": "symboles",
@@ -176,6 +176,10 @@
         {
           "id": "fils",
           "label": "Compter les fils"
+        },
+        {
+          "id": "dessin",
+          "label": "Dessiner un schéma"
         }
       ]
     }

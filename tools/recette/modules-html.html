@@ -11,6 +11,8 @@ const f=document.getElementById('f');const ID='sciences-6e-circuit-electrique';
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const charger=async(url)=>{f.src='about:blank';await new Promise(r=>f.onload=r);f.src=url;await new Promise(r=>f.onload=r);await sleep(800);return f.contentDocument;};
 const clic=(d,sel)=>{const b=d.querySelector(sel);if(!b)throw new Error('absent : '+sel);b.click();};
+// répond à la question affichée : un choix, ou (question à dessiner) un fil posé sur la grille
+const repondre=d=>{const t=d.querySelector('[data-act="seg"]');if(t)t.dispatchEvent(new MouseEvent('click',{bubbles:true}));else clic(d,'.choice');};
 const accueil=d=>{for(let i=0;i<4&&!d.querySelector('.menu');i++)clic(d,'.topbar .back');if(!d.querySelector('.menu'))throw new Error('accueil introuvable');};
 const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
 (async()=>{try{
@@ -29,14 +31,14 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(b&&[...b.querySelectorAll('a')].some(a=>a.href.endsWith('/#/module/'+ID+'/bilan')),'lien bilan du bandeau');
   // entraînement : 6 questions
   clic(d,'[data-act="trainSetup"]');clic(d,'[data-act="trainStart"]');
-  for(let i=0;i<6;i++){clic(d,'.choice');clic(d,'[data-act="check"]');
+  for(let i=0;i<6;i++){repondre(d);clic(d,'[data-act="check"]');
     if(!d.querySelector('[data-act="next"]'))clic(d,'[data-act="reveal"]');clic(d,'[data-act="next"]');}
   let e=ev();
   log(e.length===6,'entraînement : 6 événements (trouvé '+e.length+')');
   log(e.every(l=>l[1]===ID&&l[5]==='e'&&l[9]===null&&typeof l[3]==='string'&&(l[4]===1)),'format entraînement : '+JSON.stringify(e[0]));
   // évaluation niveau Match (2)
   accueil(d);clic(d,'[data-act="evalSetup"]');clic(d,'[data-act="lvl"][data-v="2"]');clic(d,'[data-act="evalStart"]');
-  for(let i=0;i<10;i++){clic(d,'.choice');clic(d,'[data-act="check"]');}
+  for(let i=0;i<10;i++){repondre(d);clic(d,'[data-act="check"]');}
   log(!!d.querySelector('.score'),'écran de résultat de la page : '+(d.querySelector('.score')||{}).textContent);
   e=ev().filter(l=>l[5]==='v');
   log(e.length===10,'évaluation : 10 événements (trouvé '+e.length+')');

@@ -129,6 +129,10 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
   une combinaison rare d'un générateur aléatoire échappe à la relecture. Ce n'est pas exigé par
   `check_html.py` (le module circuit, plus ancien, ne l'a pas) ; le skill l'ajoute aux modules
   qu'il touche. L'outil voit la forme, pas le fond : les exemples affichés restent à relire.
+- **Questions sans choix** (le dessin de schéma du module circuit) : `tirage.py` ne sait vérifier
+  que des questions à choix. La page retire ces générateurs de ce qu'elle lui donne et lance à la
+  place son propre contrôle (`testDessin()` : chaque schéma modèle doit être reconnu juste par le
+  correcteur) ; une erreur y fait échouer le tirage.
 
 ## Pourquoi ces règles
 La page exécute du JS généré sur le même site que la progression des enfants. On ne relit pas ce

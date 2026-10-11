@@ -43,6 +43,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 7 oct. | Besoin « listes de mots pour la dictée » (CE2/CM1) analysé à partir d'une ancienne conversation LLM : refaire toujours la même dictée fait apprendre le texte plutôt que les mots, et le LLM se trompait sur la couverture de la liste (5 mots jamais travaillés). Décision D8 : un module « dictée » fait par `/nouveau-module`. |
 | 8 oct. | Module « Paddington 2 en VO » (anglais 6e) créé à la demande du sponsor, pour préparer le film vu en VO sous-titrée : mots du film, personnages, politesse, se présenter, décrire, l'histoire (sans la fin). Publié **en brouillon**, à relire puis valider. |
 | 8 oct. | Module « Paddington 2 en VO » validé par le sponsor : visible dans la bibliothèque. Première utilisation réelle du brouillon et de la validation (recette 12.7, 12.8). |
+| 11 oct. | Module « circuit électrique » corrigé à la demande du sponsor : nouvelle compétence **« Dessiner un schéma »**. L'élève pose fils et symboles sur une grille (choix du sponsor : grille plutôt que dessin libre, pour une correction automatique) ; toute disposition juste est acceptée, chaque erreur est expliquée (bout libre, court-circuit, série au lieu de dérivation…). Une question à dessiner dans chaque évaluation ; une fiche Apprendre en plus. Historique des enfants conservé (mêmes compétences, une ajoutée). |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
 et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
@@ -81,6 +82,7 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 | A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` : il sort en brouillon ; relire les questions-réponses données, essayer la page, puis répondre « valide » (recette 12.7 et 12.8). Ne pas envoyer l'URL à l'enfant avant. | Sponsor | ce week-end | à faire |
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
 | A10 | À la prochaine liste de mots : l'envoyer en photo avec `/nouveau-module` en précisant « dictée, niveau ** » ; Claude fabrique le module (phrases nouvelles à chaque séance, couverture vérifiée par programme, mots ratés en priorité), tu le relis puis « valide » | Sponsor, puis Claude | prochaine liste | à faire |
+| A11 | Essayer « S'entraîner > Dessiner un schéma » du module circuit sur l'iPhone : les traits de la grille se touchent-ils facilement au doigt ? (recette D.4) Si c'est gênant, me le dire : je corrige ou je reviens en arrière. | Sponsor | avant le prochain usage de l'enfant | à faire |
 
 Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée).
 

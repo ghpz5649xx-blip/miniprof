@@ -323,3 +323,17 @@ commun) et `tools/tirage.py` (milliers de questions tirées et vérifiées) ; po
 | G.3 | Gabarit copié dans `modules/`, puis module Zootopia, dans Chromium (390 px) : les fiches Apprendre, 15 questions d'entraînement, une évaluation | Les deux pages marchent, sans erreur JS ; « À retenir » en fin de fiches ; score sur 10 affiché. | ☑ |
 | G.4 | `python tools/recette_navigateur.py` (Chromium, `CHROME=/opt/pw-browsers/chromium`) | « ✔ 28 OK, 0 échec(s) ». | ☑ |
 | G.5 | Prochain `/nouveau-module` depuis l'iPhone | La session part du gabarit (`cp docs/gabarit-module.html …`), lance `tirage.py` et cite des exemples à relire dans sa réponse. | ☐ |
+
+## Module circuit : dessiner un schéma (11 octobre 2026)
+
+Demande du sponsor : que l'élève dessine des schémas électriques. Choix du sponsor : une grille
+à symboles (outil choisi, puis trait touché), corrigée automatiquement, plutôt qu'un dessin libre
+non corrigeable. La correction réduit le circuit dessiné en série / dérivation et compare au
+montage demandé : toute disposition juste est acceptée.
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| D.1 | `check_html.py`, `tirage.py` (dont `testDessin()` : les 11 schémas modèles donnent le circuit attendu), tests unitaires | Conforme, aucune erreur de forme, tous les tests passent. | ☑ |
+| D.2 | Correcteur dans node, 14 dessins : vide, sans pile, bout libre, court-circuit de la pile, lampe court-circuitée, autre disposition juste, interrupteur ouvert/fermé, série/dérivation inversées, interrupteur dans la mauvaise branche, lampe manquante, moteur au lieu d'une lampe, fils qui bouclent sans composant, trois branches | Chaque cas est accepté ou refusé avec la bonne phrase ; la disposition juste mais différente du modèle est acceptée. | ☑ |
+| D.3 | Chromium 390 px : un dessin faux (points entourés en rouge), « Voir la correction », un dessin juste (lampe allumée), une évaluation (le dessin y est, relu au corrigé), la fiche Apprendre 8 ; `recette_navigateur.py` | Pas d'erreur JS ; « ✔ 28 OK, 0 échec(s) » (la recette répond aux questions à dessiner en posant un fil). | ☑ |
+| D.4 | Sur l'iPhone, au doigt (action A11) | Les traits de la grille se touchent sans viser ; les outils se choisissent facilement. | ☐ |

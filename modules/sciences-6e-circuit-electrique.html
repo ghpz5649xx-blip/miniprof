@@ -11,7 +11,7 @@
   "title": "Le circuit électrique",
   "subject": "sciences",
   "level": "6e",
-  "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit et sécurité, avec un labo pour expérimenter.",
+  "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit et sécurité, avec un labo pour expérimenter et des schémas à dessiner.",
   "skills": [
     {"id": "symboles", "label": "Les symboles"},
     {"id": "fermeture", "label": "Circuit ouvert ou fermé"},
@@ -20,7 +20,8 @@
     {"id": "court", "label": "Le court-circuit"},
     {"id": "securite", "label": "La sécurité électrique"},
     {"id": "schema", "label": "Choisir le bon schéma"},
-    {"id": "fils", "label": "Compter les fils"}
+    {"id": "fils", "label": "Compter les fils"},
+    {"id": "dessin", "label": "Dessiner un schéma"}
   ]
 }
 </script>
@@ -150,6 +151,16 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 .sch .mt{font-size:17px}.sch .pm{font-size:21px}.sch .lb{font-size:15px}
 .sch .tap{cursor:pointer}.sch .hit{fill:transparent}
 .labcard .sch{width:100%;max-width:440px}
+/* éditeur de schéma : grille de traits à toucher */
+.pal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0}
+.pal .tool{border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:4px 2px;font-weight:700;font-size:.78rem;line-height:1.15;min-height:64px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--ink)}
+.pal .tool .sch{width:56px}
+.pal .tool.on{border-color:var(--pitch);background:var(--soft-good)}
+.drawzone{text-align:center}.drawzone .sch{width:100%;max-width:420px}
+.sch .seg0{stroke:var(--line);stroke-width:2;stroke-dasharray:5 6}
+.sch .gp{fill:var(--muted)}
+.sch .gpbad{fill:none;stroke:var(--bad);stroke-width:3}
+.sch .segtap{fill:transparent;cursor:pointer}
 .duo,.trio{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:10px 0}
 .duo>div{flex:1 1 140px;text-align:center}
 .trio>div{flex:1 1 120px;text-align:center}
@@ -371,7 +382,7 @@ function drawCircuit(c,o){
     s+=`<path d="M ${ax} ${ay} L ${ax+ox} ${ay+oy} L ${bx+ox} ${by+oy} L ${bx} ${by}" class="sh"/><circle cx="${ax}" cy="${ay}" r="4" class="shd"/><circle cx="${bx}" cy="${by}" r="4" class="shd"/>`;
   });
   c.dots.forEach(d=>{const [x,y]=P[d];s+=`<circle cx="${x}" cy="${y}" r="4.5" class="dot"/>`;});
-  return `<svg class="sch" viewBox="${minX} ${minY} ${W} ${H}" width="${Math.round(W*sc)}" role="img" aria-label="${esc(o.alt||'Schéma électrique')}">${s}${top}</svg>`;
+  return `<svg class="sch" viewBox="${minX} ${minY} ${W} ${H}" width="${Math.round(W*sc)}" role="img" aria-label="${esc(o.alt||'Schéma électrique')}">${o.under||''}${s}${top}${o.over||''}</svg>`;
 }
 /* un symbole seul, entre deux bouts de fil */
 function symbolSVG(type,scale){
@@ -394,7 +405,8 @@ const SKILLS={
   court:{label:'Le court-circuit'},
   securite:{label:'La sécurité électrique'},
   schema:{label:'Choisir le bon schéma'},
-  fils:{label:'Compter les fils'}
+  fils:{label:'Compter les fils'},
+  dessin:{label:'Dessiner un schéma'}
 };
 const LEVELS={1:{t:'Échauffement',d:'questions de base'},2:{t:'Match',d:'questions plus piégeuses'}};
 const SYM={
@@ -688,7 +700,190 @@ function genFils(level){
     ch,String(n),"<p>Chaque composant est relié au suivant par un fil, et le dernier revient à la pile.</p>",
     `<p>Il y a ${n} composants (la pile compte !), donc <b>${n} fils</b> : dans une boucle simple, autant de fils que de composants.</p>`);
 }
-const GEN={symboles:genSymboles,fermeture:genFermeture,serie:genSerie,derivation:genDerivation,court:genCourt,securite:genSecurite,schema:genSchema,fils:genFils};
+/* ================= dessiner un schéma (compétence « dessin ») =================
+   L'élève dessine sur une grille de 4 × 3 points : il choisit un outil (fil, pile, lampe…),
+   puis touche un trait de la grille pour y poser ce symbole. Pourquoi une grille plutôt qu'un
+   dessin libre au doigt : on peut corriger automatiquement et expliquer l'erreur (choix du
+   sponsor, 11/10/2026). La correction ne compare pas avec un dessin modèle : elle suit les
+   boucles du circuit dessiné (réduction série / dérivation), donc toute disposition juste est
+   acceptée, comme sur le cahier. */
+const GW=4,GH=3,GS=90;
+const DTYPES={fil:'Fil',pile:'Pile',lampe:'Lampe',moteur:'Moteur',ko:'Interr. ouvert',kf:'Interr. fermé',gomme:'Gomme'};
+const DLEAF={lampe:'L',moteur:'M',ko:'Ko',kf:'Kf'};
+const DNOM={lampe:'Une lampe est court-circuitée',moteur:'Le moteur est court-circuité',ko:'Un interrupteur est court-circuité',kf:'Un interrupteur est court-circuité'};
+/* un trait de la grille : « h2_0 » = horizontal partant du point (2,0) ; « v1_0 » = vertical */
+function segEnds(k){const [x,y]=k.slice(1).split('_').map(Number);return k[0]==='h'?[[x,y],[x+1,y]]:[[x,y],[x,y+1]];}
+function allSegs(){const r=[];for(let y=0;y<GH;y++)for(let x=0;x+1<GW;x++)r.push('h'+x+'_'+y);for(let y=0;y+1<GH;y++)for(let x=0;x<GW;x++)r.push('v'+x+'_'+y);return r;}
+const pid=(x,y)=>'p'+x+'_'+y;
+/* la grille dessinée devient un circuit comme les autres (pour drawCircuit et solve) */
+function gridCircuit(grid,crop){
+  const c=mk();
+  // crop : seulement les points utilisés (schéma modèle, sans la grille vide autour)
+  for(let y=0;y<GH;y++)for(let x=0;x<GW;x++)if(!crop)c.nodes[pid(x,y)]=[x*GS,y*GS];
+  let nl=0,nm=0,nk=0;const deg={};
+  Object.keys(grid).forEach(k=>{
+    const [[x1,y1],[x2,y2]]=segEnds(k),a=pid(x1,y1),b=pid(x2,y2),t=grid[k];
+    deg[a]=(deg[a]||0)+1;deg[b]=(deg[b]||0)+1;c.nodes[a]=[x1*GS,y1*GS];c.nodes[b]=[x2*GS,y2*GS];
+    if(t==='fil')c.edges.push({t:'wire',a,b});
+    else if(t==='pile')c.edges.push({t:'pile',id:'P',a,b,plus:'a'});
+    else if(t==='lampe')c.edges.push({t:'lamp',id:'L'+(++nl),a,b,lab:''});
+    else if(t==='moteur')c.edges.push({t:'moteur',id:'M'+(++nm),a,b});
+    else c.edges.push({t:'switch',id:'K'+(++nk),a,b,on:t==='kf'});
+  });
+  // un point où se rejoignent trois traits ou plus est un nœud : on le dessine en noir
+  for(const p in deg)if(deg[p]>=3)c.dots.push(p);
+  return c;
+}
+/* o.edit : zones à toucher ; o.lit : lampes allumées (schéma juste) ; o.bad : points entourés en rouge ;
+   o.crop : schéma modèle, sans la grille */
+function drawGrid(grid,o){
+  o=o||{};
+  const c=gridCircuit(grid,o.crop);
+  let under='',over='';
+  if(!o.crop)allSegs().forEach(k=>{
+    const [[x1,y1],[x2,y2]]=segEnds(k);
+    if(!grid[k])under+=`<line x1="${x1*GS}" y1="${y1*GS}" x2="${x2*GS}" y2="${y2*GS}" class="seg0"/>`;
+    if(o.edit)over+=k[0]==='h'
+      ?`<rect x="${x1*GS+12}" y="${y1*GS-24}" width="${GS-24}" height="48" class="segtap" data-act="seg" data-k="${k}" role="button" aria-label="trait"/>`
+      :`<rect x="${x1*GS-24}" y="${y1*GS+12}" width="48" height="${GS-24}" class="segtap" data-act="seg" data-k="${k}" role="button" aria-label="trait"/>`;
+  });
+  if(!o.crop)for(let y=0;y<GH;y++)for(let x=0;x<GW;x++)under+=`<circle cx="${x*GS}" cy="${y*GS}" r="3" class="gp"/>`;
+  const bad=(o.bad||[]).map(([x,y])=>`<circle cx="${x*GS}" cy="${y*GS}" r="11" class="gpbad"/>`).join('');
+  const res=o.lit&&Object.values(grid).filter(t=>t==='pile').length===1?solve(c):{byId:{}};
+  return drawCircuit(c,{res,under,over:bad+over,margin:34,alt:o.alt||'Ton schéma'});
+}
+/* arbre du circuit : feuilles L, M, Ko, Kf ; S = en série, P = en dérivation (ordre sans importance) */
+function mkT(kind,kids){let k=[];kids.forEach(x=>{if(x.k===kind)k=k.concat(x.c);else k.push(x);});return k.length===1?k[0]:{k:kind,c:k};}
+function tstr(t){return t.c?t.k+'('+t.c.map(tstr).sort().join(',')+')':t.k;}
+function tleaves(t,acc){acc=acc||{L:0,M:0,Ko:0,Kf:0};if(t.c)t.c.forEach(x=>tleaves(x,acc));else acc[t.k]++;return acc;}
+function hasP(t){return !!t.c&&(t.k==='P'||t.c.some(hasP));}
+const BOUCLE="Je n'arrive pas à suivre le courant : vérifie que chaque composant est sur une boucle complète qui part de la pile et y revient.";
+/* analyse d'un dessin : {tree} si c'est un vrai circuit, sinon {err, why, pts} */
+function analyse(grid){
+  const keys=Object.keys(grid);
+  if(!keys.length)return {err:'vide',why:'Ta grille est vide : dessine le circuit.'};
+  const deg={};keys.forEach(k=>segEnds(k).forEach(([x,y])=>{const p=pid(x,y);deg[p]=(deg[p]||0)+1;}));
+  const nPiles=keys.filter(k=>grid[k]==='pile').length;
+  if(!nPiles)return {err:'nopile',why:'Il manque la pile : sans générateur, aucun courant ne circule.'};
+  if(nPiles>1)return {err:'piles',why:"Ce montage n'a qu'une seule pile : enlève celle en trop."};
+  const free=Object.keys(deg).filter(p=>deg[p]===1);
+  if(free.length)return {err:'bout',why:"Un fil ou un composant a un bout libre (entouré en rouge) : la boucle n'est pas fermée, le courant ne peut pas circuler.",
+    pts:free.map(p=>p.slice(1).split('_').map(Number))};
+  // des points reliés par des fils ne font qu'un seul point électrique
+  const up={};const f=p=>{while(up[p])p=up[p];return p;};
+  // des fils qui se referment sur eux-mêmes ne servent à rien : sur le cahier, ils seraient comptés faux
+  let tour=false;
+  keys.forEach(k=>{if(grid[k]!=='fil')return;const [a,b]=segEnds(k).map(([x,y])=>f(pid(x,y)));if(a!==b)up[a]=b;else tour=true;});
+  if(tour)return {err:'fils',why:'Des fils forment une boucle sans aucun composant : efface les fils en trop.'};
+  const comps=keys.filter(k=>grid[k]!=='fil').map(k=>{const [a,b]=segEnds(k).map(([x,y])=>f(pid(x,y)));return {t:grid[k],a,b};});
+  const pile=comps.find(e=>e.t==='pile');
+  if(pile.a===pile.b)return {err:'ccpile',why:"Court-circuit de la pile : des fils relient directement ses deux bornes. Le courant devient très fort : danger d'incendie !"};
+  const cc=comps.find(e=>e.a===e.b);
+  if(cc)return {err:'cc',why:`${DNOM[cc.t]} : un fil relie ses deux bornes, le courant passe par ce fil au lieu du composant.`};
+  const used=new Set();comps.forEach(e=>{used.add(e.a);used.add(e.b);});
+  if(Object.keys(deg).some(p=>!used.has(f(p))))return {err:'fil',why:"Un morceau de fil n'est relié à aucun composant : efface-le."};
+  const A=pile.a,B=pile.b;
+  let E=comps.filter(e=>e!==pile).map(e=>({a:e.a,b:e.b,t:{k:DLEAF[e.t]}}));
+  for(let tour=0;tour<100;tour++){
+    if(E.some(e=>e.a===e.b))return {err:'boucle',why:BOUCLE};
+    let fait=false;
+    // dérivation : deux morceaux entre les deux mêmes points
+    for(let i=0;i<E.length&&!fait;i++)for(let j=i+1;j<E.length&&!fait;j++){
+      const e=E[i],g=E[j];
+      if((e.a===g.a&&e.b===g.b)||(e.a===g.b&&e.b===g.a)){E.splice(j,1);e.t=mkT('P',[e.t,g.t]);fait=true;}
+    }
+    if(fait)continue;
+    // série : un point (autre que les bornes de la pile) où seuls deux morceaux se touchent
+    const inc={};E.forEach(e=>{(inc[e.a]=inc[e.a]||[]).push(e);(inc[e.b]=inc[e.b]||[]).push(e);});
+    for(const n in inc){
+      if(n===A||n===B)continue;
+      if(inc[n].length===1)return {err:'boucle',why:BOUCLE};
+      if(inc[n].length===2){
+        const [e,g]=inc[n],oa=e.a===n?e.b:e.a,ob=g.a===n?g.b:g.a;
+        E=E.filter(x=>x!==e&&x!==g);E.push({a:oa,b:ob,t:mkT('S',[e.t,g.t])});fait=true;break;
+      }
+    }
+    if(!fait)break;
+  }
+  if(E.length===1&&((E[0].a===A&&E[0].b===B)||(E[0].a===B&&E[0].b===A)))return {tree:E[0].t};
+  return {err:'boucle',why:BOUCLE};
+}
+function nbx(n,mot,fem){
+  if(n===0)return (fem?'aucune ':'aucun ')+mot;
+  if(n===1)return (fem?'une ':'un ')+mot;
+  return (['','','deux','trois','quatre'][n]||String(n))+' '+mot+'s';
+}
+/* compare le dessin au montage demandé ; why : une phrase qui dit ce qui ne va pas */
+function judge(grid,q){
+  const r=analyse(grid);
+  if(r.err)return {ok:false,code:r.err,why:r.why,pts:r.pts};
+  const got=tstr(r.tree);
+  if(got===q.target)return {ok:true,code:got.slice(0,40)};
+  const a=tleaves(r.tree),b=tleaves(q.tt),nK=x=>x.Ko+x.Kf;
+  let why='';
+  if(a.L!==b.L)why=`Le montage demande ${nbx(b.L,'lampe',true)}, et ton schéma en a ${a.L}.`;
+  else if(a.M!==b.M)why=`Le montage demande ${nbx(b.M,'moteur')}, et ton schéma en a ${a.M}.`;
+  else if(nK(a)!==nK(b))why=nK(b)?`Le montage demande ${nbx(nK(b),'interrupteur')}, et ton schéma en a ${nK(a)}.`:"Ce montage n'a pas d'interrupteur.";
+  else if(a.Ko!==b.Ko)why=b.Ko>a.Ko?"Ton interrupteur est fermé, mais on le veut ouvert : un trait levé qui ne touche pas le deuxième point.":"Ton interrupteur est ouvert, mais on le veut fermé : un trait couché qui relie les deux points.";
+  else if(!hasP(q.tt))why="Ton circuit a plusieurs boucles (des branches, avec des nœuds) : c'est une dérivation. On veut un circuit en série, avec une seule boucle.";
+  else if(!hasP(r.tree))why="Ton circuit n'a qu'une seule boucle : il est en série. En dérivation, il faut des branches qui partent d'un nœud et se rejoignent.";
+  else why="Les bons composants sont là, mais pas au bon endroit : relis dans quelle branche va chaque composant (la branche principale est celle de la pile).";
+  return {ok:false,code:got.slice(0,40),why};
+}
+/* schémas modèles : un rectangle avec la pile à gauche (série), ou deux branches (dérivation) */
+function refSerie(items){const g={v0_0:'pile'};['h0_0','h1_0','v2_0','h1_1','h0_1'].forEach((k,i)=>g[k]=items[i]||'fil');return g;}
+function refDeriv(b1,b2,main){
+  const g={v0_0:'pile',h0_0:main||'fil',h1_0:'fil',v1_0:b1[0],v2_0:b2[0]};
+  if(b1.length>1||b2.length>1){g.v0_1='fil';g.v1_1=b1[1]||'fil';g.v2_1=b2[1]||'fil';g.h0_2='fil';g.h1_2='fil';}
+  else{g.h0_1='fil';g.h1_1='fil';}
+  return g;
+}
+/* les montages à dessiner ; t = l'arbre attendu (vérifié par testDessin au tirage) */
+const DCFG=[
+  {lv:1,d:'une pile, une lampe et un interrupteur fermé, branchés en série',t:'S(Kf,L)',ref:refSerie(['lampe','kf'])},
+  {lv:1,d:'une pile, un moteur et un interrupteur ouvert, branchés en série',t:'S(Ko,M)',ref:refSerie(['moteur','ko'])},
+  {lv:1,d:'une pile et deux lampes, branchées en série',t:'S(L,L)',ref:refSerie(['lampe','lampe'])},
+  {lv:1,d:'une pile, une lampe et un moteur, branchés en série',t:'S(L,M)',ref:refSerie(['lampe','moteur'])},
+  {lv:1,d:'une pile, un interrupteur ouvert et une lampe, branchés en série',t:'S(Ko,L)',ref:refSerie(['ko','lampe'])},
+  {lv:2,d:'une pile, deux lampes, un moteur et un interrupteur fermé, tous en série',t:'S(Kf,L,L,M)',ref:refSerie(['lampe','lampe','moteur','kf'])},
+  {lv:2,d:'une pile et deux lampes branchées en dérivation',t:'P(L,L)',ref:refDeriv(['lampe'],['lampe'])},
+  {lv:2,d:'une pile, une lampe et un moteur branchés en dérivation',t:'P(L,M)',ref:refDeriv(['lampe'],['moteur'])},
+  {lv:2,d:'une pile et deux lampes en dérivation, avec un interrupteur fermé sur la branche principale (celle de la pile)',t:'S(Kf,P(L,L))',ref:refDeriv(['lampe'],['lampe'],'kf'),main:true},
+  {lv:2,d:'une pile, une lampe et un moteur en dérivation, avec un interrupteur ouvert sur la branche principale (celle de la pile)',t:'S(Ko,P(L,M))',ref:refDeriv(['lampe'],['moteur'],'ko'),main:true},
+  {lv:2,d:"une pile et deux lampes en dérivation, avec un interrupteur ouvert dans la branche d'une seule des deux lampes",t:'P(L,S(Ko,L))',ref:refDeriv(['lampe'],['ko','lampe']),branche:true}
+];
+function genDessin(level){
+  const cf=pick(DCFG.filter(x=>x.lv===level));
+  const tt=analyse(cf.ref).tree,der=hasP(tt);
+  let concept=der?"<p>En <b>dérivation</b>, le circuit a plusieurs boucles : les branches partent d'un nœud (point noir) et se rejoignent.</p>"
+    :"<p>En <b>série</b>, tout est sur une seule boucle : la pile, puis chaque composant l'un après l'autre.</p>";
+  if(cf.main)concept+="<p>L'interrupteur sur la branche principale commande les deux branches.</p>";
+  if(cf.branche)concept+="<p>L'interrupteur dans une branche ne commande que la lampe de sa branche.</p>";
+  const hint=(der?"<p>Fais un rectangle avec la pile à gauche, puis ajoute une deuxième branche verticale entre le fil du haut et le fil du bas.</p>"
+    :"<p>Une seule boucle : pars de la pile, pose chaque composant l'un après l'autre sur le même chemin, puis reviens à la pile avec des fils.</p>")
+    +(cf.main?"<p>La branche principale, c'est celle où se trouve la pile.</p>":'');
+  return {skill:'dessin',level,draw:true,target:cf.t,tt,choices:[],exp:{c:cf.t},
+    prompt:`Dessine le schéma normalisé de ce montage : <b>${cf.d}</b>.`,hint,
+    explain:`${concept}<p>Un schéma juste :</p><div class="center">${drawGrid(cf.ref,{lit:true,crop:true,alt:'Un schéma juste'})}</div><p class="small">D'autres dispositions sont justes aussi : ce qui compte, ce sont les composants et les boucles.</p>`};
+}
+/* contrôle des schémas modèles, lancé par tools/tirage.py : une faute ici bloque la publication */
+function testDessin(){
+  DCFG.forEach(cf=>{const r=analyse(cf.ref);if(r.err||tstr(r.tree)!==cf.t)throw new Error('dessin : le modèle de « '+cf.d+' » donne '+(r.err||tstr(r.tree))+' au lieu de '+cf.t);});
+}
+/* éditeur affiché dans la question */
+function drawPal(){return Object.keys(DTYPES).map(t=>`<button class="tool ${S.tool===t?'on':''}" data-act="tool" data-v="${t}">${t==='gomme'?'<span style="font-size:1.5rem;line-height:56px">⌫</span>':symbolSVG(t,.6)}${DTYPES[t]}</button>`).join('');}
+function drawEditor(){
+  return `<div class="pal" id="pal">${drawPal()}</div>
+    <div class="drawzone" id="dz">${drawGrid(S.grid,{edit:!S.locked})}</div>
+    <p class="small center">Choisis un outil, puis touche un trait pointillé pour l'y poser. Touche-le encore pour l'enlever.</p>
+    <div class="center"><button class="btn ghost" data-act="clearGrid">Tout effacer</button></div>`;
+}
+function refreshDraw(){
+  const z=document.getElementById('dz');if(z)z.innerHTML=drawGrid(S.grid,{edit:!S.locked,bad:S.bad,lit:S.lit});
+  const p=document.getElementById('pal');if(p)p.innerHTML=drawPal();
+}
+const GEN={symboles:genSymboles,fermeture:genFermeture,serie:genSerie,derivation:genDerivation,court:genCourt,securite:genSecurite,schema:genSchema,fils:genFils,dessin:genDessin};
+const EVAL_SKILLS=['symboles','fermeture','fermeture','serie','serie','derivation','derivation','court','securite','schema','fils','dessin'];
 function genQuestion(skill,level){
   if(!skill||skill==='all')skill=pick(Object.keys(GEN));
   return GEN[skill](level);
@@ -724,7 +919,7 @@ function home(){
     </div></section>
     <main class="wrap">
       <div class="menu">
-        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en 7 fiches courtes, avec une question à chaque fois</span></button>
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en 8 fiches courtes, avec une question à chaque fois</span></button>
         <button class="mbtn m5" data-act="labo"><strong>Le labo</strong><span>Ouvre les interrupteurs, dévisse les lampes, ajoute un fil… et observe</span></button>
         <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
         <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>10 questions, sans aide, avec une note à la fin</span></button>
@@ -767,13 +962,19 @@ const LEARN=[
   {t:'La sécurité électrique',body:()=>`<p>Le courant peut être dangereux pour le corps à partir de <b>50 V</b> (en milieu sec). Les prises de la maison sont en <b>230 V</b> : elles sont dangereuses. Les piles de classe (4,5 V) sont sans danger, c'est pour ça qu'on les utilise.</p>
     <div class="rulebox"><b>Il ne faut surtout pas :</b><br>• mettre les doigts ou un objet conducteur dans une prise ;<br>• rincer un appareil encore branché ou l'utiliser avec les mains mouillées ;<br>• manipuler un fil électrique abîmé et branché.</div>`,
    q:{p:"Une prise de courant de la maison est-elle dangereuse ?",c:[C('o','Oui, elle est en 230 V'),C('n','Non, seulement les grosses machines',"Les prises sont en 230 V, bien plus que 50 V : elles peuvent électrocuter.")],ok:'o'}},
+  {t:'Dessiner un schéma',body:()=>`<p>Pour dessiner un schéma <b>normalisé</b> :</p>
+    <p>• un <b>symbole</b> pour chaque composant ;<br>• des fils en <b>traits droits</b>, avec des <b>angles droits</b> ;<br>• en dérivation, un <b>point noir</b> (un nœud) là où le courant se sépare.</p>
+    <div class="duo"><div>${drawGrid(refSerie(['lampe','kf']),{lit:true,crop:true,alt:'Schéma en série'})}<p class="small center">En série : une seule boucle.</p></div>
+    <div>${drawGrid(refDeriv(['lampe'],['lampe']),{lit:true,crop:true,alt:'Schéma en dérivation'})}<p class="small center">En dérivation : deux boucles, deux nœuds.</p></div></div>
+    <div class="rulebox"><b>À toi de dessiner :</b> dans « S'entraîner », choisis « Dessiner un schéma ». Tu prends un outil (fil, pile, lampe…), puis tu touches un trait de la grille pour l'y poser.</div>`,
+   q:{p:'Dans un schéma normalisé, les fils se dessinent…',c:[C('d','en traits droits, avec des angles droits'),C('c','avec des courbes, comme les vrais fils',"Non : un schéma simplifie. Traits droits et angles droits, pour que tout le monde le lise facilement."),C('n','on ne les dessine pas',"Si : les fils montrent le chemin du courant. Sans eux, pas de boucle.")],ok:'d'}},
   {t:'À retenir',recap:true}
 ];
 function learn(step){S={screen:'learn',ls:step||0,done:false};renderLearn();}
 function renderLearn(){
   const st=LEARN[S.ls];let body;
   if(st.recap){
-    body=`<div class="card"><p>• Un circuit a toujours un <b>générateur</b> et doit être <b>fermé</b>.</p><p>• Interrupteur <b>fermé</b> = le courant passe.</p><p>• <b>Série</b> : une seule boucle. 1 lampe normal, 2 faible, 3 très faible. Une lampe dévissée : tout s'éteint.</p><p>• <b>Dérivation</b> : plusieurs boucles, chaque lampe brille normalement et reste allumée si on dévisse l'autre.</p><p>• <b>Court-circuit</b> de la pile : risque d'incendie.</p><p>• Danger dès <b>50 V</b>, les prises sont en <b>230 V</b>.</p></div>
+    body=`<div class="card"><p>• Un circuit a toujours un <b>générateur</b> et doit être <b>fermé</b>.</p><p>• Interrupteur <b>fermé</b> = le courant passe.</p><p>• <b>Série</b> : une seule boucle. 1 lampe normal, 2 faible, 3 très faible. Une lampe dévissée : tout s'éteint.</p><p>• <b>Dérivation</b> : plusieurs boucles, chaque lampe brille normalement et reste allumée si on dévisse l'autre.</p><p>• <b>Court-circuit</b> de la pile : risque d'incendie.</p><p>• Danger dès <b>50 V</b>, les prises sont en <b>230 V</b>.</p><p>• Un <b>schéma</b> : un symbole par composant, des traits droits, des angles droits.</p></div>
       <div class="btns"><button class="btn primary" data-act="labo" data-primary>Aller au labo</button><button class="btn" data-act="trainSetup">Je m'entraîne</button></div>`;
   }else{
     const q=st.q;
@@ -853,7 +1054,7 @@ function trainSetup(keep){
 function evalSetup(keep){
   if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
   show(`${topbar('Évaluation')}<main class="wrap">
-    <h2>Prête pour l'évaluation ?</h2>
+    <h2>On passe à l'évaluation ?</h2>
     <p>10 questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
     <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
     <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
@@ -866,10 +1067,11 @@ function qScreen(){
     head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
   else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
   const last=ev&&S.i===S.total-1;
+  if(q.draw){S.grid={};S.tool=S.tool||'fil';S.bad=null;S.lit=false;S.locked=false;}
   show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
-      <div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCD'[i]}</span>`:''}${c.label}</button>`).join('')}</div></div>
+      ${q.draw?drawEditor():`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCD'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
     <div id="hint"></div><div id="fb"></div>
     <div class="btns" id="acts">
       <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
@@ -882,7 +1084,27 @@ function lockChoices(){
   app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
     if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
 }
+/* entraînement sur un dessin : on peut corriger son dessin autant de fois qu'on veut,
+   seul le premier essai compte dans le bilan (comme pour les autres questions) */
+function checkDrawTrain(){
+  const q=S.q;
+  if(!Object.keys(S.grid).length){setFb('<div class="fb hint">Dessine ton schéma, puis valide.</div>');return;}
+  const v=judge(S.grid,q);S.attempts++;
+  if(S.attempts===1){S.tried++;if(v.ok){S.okCount++;S.streak++;}else S.streak=0;record(q,v.ok,v.code);}
+  if(v.ok){
+    S.locked=true;S.lit=true;S.bad=null;refreshDraw();
+    let extra='';
+    if(S.streak>=5&&S.level<2)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau Match.</p>`;
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b> Ton schéma est juste${S.attempts>1?', après quelques corrections':''}.</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?'<button class="btn" data-act="levelup">Niveau Match</button>':''}`;
+  }else{
+    S.bad=v.pts||null;refreshDraw();
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${v.why}</p><p class="small">Corrige ton dessin, puis valide à nouveau.</p></div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="check" data-primary>Valider</button><button class="btn ghost" data-act="hint">Un indice</button><button class="btn ghost" data-act="reveal">Voir la correction</button>`;
+  }
+}
 function checkTrain(){
+  if(S.q.draw){checkDrawTrain();return;}
   if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
   const q=S.q;S.attempts++;
   const ok=S.choice===q.exp.c;
@@ -904,6 +1126,7 @@ function checkTrain(){
 function revealTrain(){
   if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
   lockChoices();
+  if(S.q.draw){S.locked=true;S.bad=null;refreshDraw();}
   setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
   document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
 }
@@ -911,8 +1134,9 @@ function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
 
 function evalStart(){
   const lvl=S.level;
-  const skills=shuffle(['symboles','fermeture','fermeture','serie','serie','derivation','derivation','court','securite','schema','fils']).slice(0,10);
+  const skills=shuffle(EVAL_SKILLS.slice()).slice(0,10);
   if(!skills.includes('derivation'))skills[0]='derivation';
+  if(!skills.includes('dessin'))skills[1]='dessin';
   const mix=[1,2,1,2,1,2,2,1,2,2];
   const qs=skills.map((s,i)=>genQuestion(s,lvl===0?mix[i]:lvl));
   S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
@@ -920,8 +1144,14 @@ function evalStart(){
   S.q=qs[0];qScreen();
 }
 function checkEval(){
-  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
-  S.results.push({q:S.q,ans:S.choice,ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  if(S.q.draw){
+    if(!Object.keys(S.grid).length){setFb('<div class="fb hint">Dessine ton schéma avant de continuer.</div>');return;}
+    const v=judge(S.grid,S.q);
+    S.results.push({q:S.q,ans:v.code,ok:v.ok,duree:secs(S.q),grid:Object.assign({},S.grid),why:v.why,pts:v.pts});
+  }else{
+    if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+    S.results.push({q:S.q,ans:S.choice,ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  }
   S.i++;
   if(S.i>=S.total){evalEnd();return;}
   S.q=S.qs[S.i];qScreen();
@@ -939,8 +1169,9 @@ function evalEnd(){
   const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
   const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
     <div class="q-prompt">${r.q.prompt}</div>
-    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
-    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    ${r.q.draw?`<p>Ton schéma :</p><div class="center">${drawGrid(r.grid,{bad:r.pts})}</div>${r.ok?'':`<p>${r.why}</p>`}`
+    :`<p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}`}
     <div class="fb info">${r.q.explain}</div></details>`).join('');
   S.screen='result';S.weakest=weakest;
   show(`${topbar('Résultat','home')}<main class="wrap">
@@ -989,12 +1220,22 @@ function act(a,el){
     case 'reveal':revealTrain();break;
     case 'next':nextTrain();break;
     case 'bilan':bilan();break;
+    case 'tool':S.tool=el.dataset.v;refreshDraw();break;
+    case 'seg':{if(S.locked)break;const k=el.dataset.k;
+      if(S.tool==='gomme'||S.grid[k]===S.tool)delete S.grid[k];else S.grid[k]=S.tool;
+      S.bad=null;refreshDraw();break;}
+    case 'clearGrid':if(!S.locked){S.grid={};S.bad=null;refreshDraw();}break;
   }
 }
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
 app.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.matches('input')){e.preventDefault();const p=app.querySelector('[data-primary]:not([disabled])');if(p)p.click();}
 });
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+// Les questions à dessiner n'ont pas de choix : tirage.py ne sait pas les vérifier, on les
+// retire de ce qu'on lui donne, et testDessin() contrôle à la place les schémas modèles.
+if(window.__miniprofTirage){testDessin();const G=Object.assign({},GEN);delete G.dessin;
+  window.__miniprofTirage({GEN:G,LEVELS,LEARN,SKILLS,EVAL_SKILLS:EVAL_SKILLS.filter(k=>k!=='dessin')});return;}
 home();
 
 })();
