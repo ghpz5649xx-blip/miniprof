@@ -25,7 +25,8 @@ photos sans rapport avec une leçon). Réponds en français, court.
 
 ## 2. Décider la fiche
 - **Niveau** : celui que donne le parent, sinon celui de la leçon (en-tête, manuel, programme).
-  Les enfants sont en CE2/CM1 et en 6e/5e.
+  En 2026-2027, le fils est en CM1 et la fille en 6e (`CLAUDE.md`) : « mon fils » = CM1,
+  « ma fille » = 6e, sans redemander.
 - **id** : `matiere-niveau-sujet` (minuscules, sans accents, tirets), ex. `maths-cm1-fractions`.
 - **Si `modules/<id>.html` existe déjà** : c'est une régénération. Garde le même id **et tous
   les ids de compétences existants** (l'historique des enfants y est rattaché) ; tu peux en

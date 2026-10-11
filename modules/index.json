@@ -71,6 +71,38 @@
       ]
     },
     {
+      "id": "francais-cm1-dictee-5-avoir-etre",
+      "kind": "html",
+      "file": "francais-cm1-dictee-5-avoir-etre.html",
+      "title": "Dictée 5 : Devinettes, avoir et être",
+      "subject": "francais",
+      "level": "CM1",
+      "description": "Les mots à savoir de la dictée 5 (Devinettes) : bien les écrire et reconnaître leur nature. Et le présent des verbes avoir et être.",
+      "skills": [
+        {
+          "id": "noms",
+          "label": "Écrire les noms"
+        },
+        {
+          "id": "mots",
+          "label": "Écrire les verbes et les petits mots"
+        },
+        {
+          "id": "nature",
+          "label": "Reconnaître la nature des mots"
+        },
+        {
+          "id": "avoir",
+          "label": "Avoir au présent"
+        },
+        {
+          "id": "etre",
+          "label": "Être au présent"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "maths-cm1-tables-3-6-9",
       "kind": "html",
       "file": "maths-cm1-tables-3-6-9.html",

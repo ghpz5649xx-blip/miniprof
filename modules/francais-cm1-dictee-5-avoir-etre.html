@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dictée 5 : Devinettes – avoir et être – Réviser, s'entraîner, s'évaluer</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "francais-cm1-dictee-5-avoir-etre",
+  "title": "Dictée 5 : Devinettes, avoir et être",
+  "subject": "francais",
+  "level": "CM1",
+  "description": "Les mots à savoir de la dictée 5 (Devinettes) : bien les écrire et reconnaître leur nature. Et le présent des verbes avoir et être.",
+  "skills": [
+    {"id": "noms", "label": "Écrire les noms"},
+    {"id": "mots", "label": "Écrire les verbes et les petits mots"},
+    {"id": "nature", "label": "Reconnaître la nature des mots"},
+    {"id": "avoir", "label": "Avoir au présent"},
+    {"id": "etre", "label": "Être au présent"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#2f5fc4; --pitch-ink:#ffffff; --stripe1:#2a54ad; --stripe2:#2f5fc4;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.5rem;font-weight:800}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+.blank{display:inline-block;min-width:4em;border-bottom:3px solid var(--pitch);color:transparent}
+.big-s{font-size:1.25rem;font-weight:700}
+table.conj{border-collapse:collapse;margin:10px 0;font-size:1.15rem}
+table.conj td{padding:4px 14px;border-bottom:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+// n éléments distincts de la liste, sans celui à exclure
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question : prompt et libellés en HTML écrit dans ce script (sinon passer par esc()).
+// choices : liste de C(valeur, libellé, pourquoi c'est faux) ; correct : la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+
+/* ================= CONTENU : données de la leçon ================= */
+// Dictée 5 « Devinettes » : seuls les mots surlignés et non barrés sur la feuille sont à savoir.
+// Pas à savoir (non surlignés ou barrés) : cochon, tour, observer, descendre, terminer, beau,
+// devant, beaucoup. On ne les met donc pas dans les questions.
+// Chaque mot : sa nature, une devinette (le thème de la dictée), une phrase à trous,
+// et des fautes fréquentes avec leur correction. Les fautes ne sont jamais de vrais mots
+// (sinon « un seul mot est mal écrit » aurait deux réponses).
+const NOMS=[
+  {m:'voiture',det:'une',dev:"J'ai quatre roues, un volant et des sièges pour toute la famille.",ph:'Maman gare la ___ devant la maison.',
+   faux:[['voitur',"Il manque le <b>e</b> muet à la fin : voitur<b>e</b>."],['voitture',"Un seul <b>t</b> : voi<b>t</b>ure."],['vwature',"Le son « oi » s'écrit <b>oi</b> : v<b>oi</b>ture."],['voiturre',"Un seul <b>r</b> : voitu<b>r</b>e."]]},
+  {m:'camion',det:'un',dev:'Je suis un gros véhicule qui transporte des marchandises sur la route.',ph:'Le ___ transporte de lourdes caisses.',
+   faux:[['camiom',"À la fin, le son « on » s'écrit <b>on</b> : cami<b>on</b>."],['cammion',"Un seul <b>m</b> : ca<b>m</b>ion."],['kamion',"Camion commence par un <b>c</b> : <b>c</b>amion."],['camiont',"Pas de lettre muette à la fin : camion."]]},
+  {m:'ambulance',det:'une',dev:"Avec ma sirène, j'emmène les malades à l'hôpital.",ph:"L'___ emmène le blessé à l'hôpital.",
+   faux:[['anbulance',"Devant <b>b</b>, on écrit <b>m</b> et pas n : a<b>m</b>bulance."],['ambulence',"La fin s'écrit <b>ance</b> : ambul<b>ance</b>."],['embulance',"Le début s'écrit <b>am</b> : <b>am</b>bulance."],['ambulanse',"Le son « s » s'écrit avec un <b>c</b> : ambulan<b>c</b>e."]]},
+  {m:'pompier',det:'un',dev:"Je porte un casque et j'éteins les incendies.",ph:'Le ___ éteint le feu.',
+   faux:[['ponpier',"Devant <b>p</b>, on écrit <b>m</b> et pas n : po<b>m</b>pier."],['pompié',"La fin s'écrit <b>ier</b> : pomp<b>ier</b>."],['pompiet',"La fin s'écrit <b>ier</b>, avec un r : pompie<b>r</b>."],['pompyer',"On écrit un <b>i</b>, pas un y : pomp<b>i</b>er."]]},
+  {m:'avion',det:'un',dev:"J'ai des ailes et je transporte des passagers dans le ciel.",ph:"L'___ vole au-dessus des nuages.",
+   faux:[['avillon',"Pas de <b>ll</b> : av<b>i</b>on."],['havion',"Pas de <b>h</b> au début : <b>a</b>vion."],['avionn',"Un seul <b>n</b> : avio<b>n</b>."],['avyon',"On écrit un <b>i</b>, pas un y : av<b>i</b>on."]]},
+  {m:'montre',det:'une',dev:"Je suis à ton poignet et je te donne l'heure.",ph:"Je regarde l'heure sur ma ___.",
+   faux:[['montr',"Il manque le <b>e</b> muet à la fin : montr<b>e</b>."],['mondre',"On entend « t » : mon<b>t</b>re."],['monttre',"Un seul <b>t</b> : mon<b>t</b>re."],['mantre',"Le son « on » s'écrit <b>on</b> : m<b>on</b>tre."]]}
+];
+const MOTS=[
+  {m:'conduire',nat:'verbe',conj:'je conduis',dev:"C'est ce que fait le chauffeur avec son volant (verbe à l'infinitif).",ph:'Il faut un permis pour ___ une voiture.',
+   faux:[['conduir',"À l'infinitif, ce verbe finit par <b>re</b> : condui<b>re</b>."],['condure',"N'oublie pas le <b>i</b> : cond<b>ui</b>re."],['condhuire',"Pas de <b>h</b> : cond<b>u</b>ire."],['conduirre',"Un seul <b>r</b> : condui<b>r</b>e."]]},
+  {m:'regarder',nat:'verbe',conj:'je regarde',dev:"C'est ce que tu fais avec tes yeux (verbe à l'infinitif).",ph:"J'aime ___ les étoiles le soir.",
+   faux:[['reguarder',"Pas de <b>u</b> après le g : re<b>g</b>arder."],['reggarder',"Un seul <b>g</b> : re<b>g</b>arder."],['regardre',"À l'infinitif, ce verbe finit par <b>er</b> : regard<b>er</b>."],['regarer',"N'oublie pas le <b>d</b> : regar<b>d</b>er."]]},
+  {m:"s'arrêter",nat:'verbe',conj:"je m'arrête",dev:"C'est ce que fait une voiture au feu rouge (verbe à l'infinitif).",ph:'Au feu rouge, la voiture doit ___.',
+   faux:[["s'arreter","N'oublie pas l'accent circonflexe : s'arr<b>ê</b>ter."],["s'arêter","Il faut deux <b>r</b> : s'a<b>rr</b>êter."],["s'arrèter","L'accent est un circonflexe (^) : s'arr<b>ê</b>ter."],['sarrêter',"N'oublie pas l'apostrophe : <b>s'</b>arrêter."]]},
+  {m:'long',nat:'adjectif',dev:"C'est le contraire de court.",ph:'Ce serpent est très ___.',
+   faux:[['lon',"Il y a un <b>g</b> muet à la fin : lon<b>g</b>. Pense à « longue »."],['lont',"La lettre muette est un <b>g</b> : lon<b>g</b>. Pense à « longue »."],['longt',"Pas de <b>t</b> à la fin : lon<b>g</b>."],['lomg',"Le son « on » s'écrit <b>on</b> : l<b>on</b>g."]]},
+  {m:'derrière',nat:'invariable',dev:"C'est le contraire de devant.",ph:'Le chat se cache ___ le rideau.',
+   faux:[['derière',"Il faut deux <b>r</b> : de<b>rr</b>ière."],['dérrière',"Pas d'accent sur le premier e : d<b>e</b>rrière."],['derriere',"N'oublie pas l'accent grave : derri<b>è</b>re."],['derrièr',"Il y a un <b>e</b> à la fin : derrièr<b>e</b>."]]},
+  {m:'au-dessus',nat:'invariable',dev:"C'est le contraire de au-dessous.",ph:"L'avion passe ___ de la maison.",
+   faux:[['au dessus',"N'oublie pas le trait d'union : au<b>-</b>dessus."],['au-dessu',"Il y a un <b>s</b> muet à la fin : au-dessu<b>s</b>."],['au-desus',"Il faut deux <b>s</b> au milieu : au-de<b>ss</b>us."],['au-déssus',"Pas d'accent sur le e : au-d<b>e</b>ssus."]]},
+  {m:'dans',nat:'invariable',dev:"Petit mot qui veut dire « à l'intérieur de ».",ph:'Le pompier monte ___ son camion.',
+   faux:[['dan',"Il y a un <b>s</b> muet à la fin : dan<b>s</b>."],['dant',"La lettre muette est un <b>s</b> : dan<b>s</b>."],['dens',"Le son « an » s'écrit <b>an</b> : d<b>an</b>s."],['dhans',"Pas de <b>h</b> : d<b>a</b>ns."]]}
+];
+NOMS.forEach(w=>{w.nat='nom';});
+const TOUS=NOMS.concat(MOTS);
+const NAT={nom:'un nom',verbe:'un verbe',adjectif:'un adjectif',invariable:'un mot invariable'};
+// Pourquoi ce mot a cette nature (même phrase dans les corrections et les fiches)
+function carNat(w){
+  if(w.nat==='nom')return `on peut dire « ${w.det} ${w.m} » : c'est <b>un nom</b>.`;
+  if(w.nat==='verbe')return `on peut le conjuguer (${w.conj}) : c'est <b>un verbe</b>.`;
+  if(w.nat==='adjectif')return `il dit comment est le nom (un camion ${w.m}) : c'est <b>un adjectif</b>.`;
+  return `il ne change jamais, ni au pluriel ni au féminin : c'est <b>un mot invariable</b>.`;
+}
+// Phrase de la leçon avec le mot en gras (le trou ___ rempli)
+const phraseAvec=w=>w.ph.replace('___',`<b>${w.m}</b>`);
+const trou=s=>s.replace('___','<span class="blank">______</span>');
+
+// Présent de avoir et être : une forme par personne (je, tu, il/elle/on, nous, vous, ils/elles)
+const FORMES={avoir:['ai','as','a','avons','avez','ont'],etre:['suis','es','est','sommes','êtes','sont']};
+const NOMV={avoir:'avoir',etre:'être'};
+const PERS=['je','tu','il, elle ou on','nous','vous','ils ou elles'];
+// Mots qui se prononcent comme une forme du verbe : le piège classique du CM1.
+const HOMO={
+  'à':"« à » avec un accent n'est pas un verbe : il dit où l'on va (à la maison). Le verbe avoir s'écrit <b>a</b>, sans accent.",
+  'et':"« et » relie deux mots (toi et moi) : ce n'est pas un verbe. Le verbe être s'écrit <b>est</b>.",
+  'on':"« on » est un pronom (on = quelqu'un) : ce n'est pas un verbe. Le verbe avoir s'écrit <b>ont</b>, avec un t.",
+  'son':"« son » veut dire « le sien » (son camion) : ce n'est pas un verbe. Le verbe être s'écrit <b>sont</b>, avec un t.",
+  'ais':"Avec je, avoir s'écrit sans s : j'<b>ai</b>.",
+  'etes':"Il manque l'accent circonflexe : vous <b>êtes</b>."
+};
+// Pièges du niveau 3 : 3 mauvaises réponses par verbe et par personne (toutes différentes de la bonne).
+const PIEGES={
+  avoir:[['ais','es','est'],['a','à','es'],['à','as','est'],['avez','ont','sommes'],['avons','êtes','ont'],['on','sont','a']],
+  etre:[['es','est','ai'],['est','et','as'],['et','es','a'],['êtes','sont','avons'],['sommes','etes','avez'],['son','ont','est']]
+};
+// Pourquoi ce mot ne va pas, pour le verbe v à la personne p
+function pourquoiForme(tok,v,p){
+  if(HOMO[tok])return HOMO[tok];
+  const i=FORMES[v].indexOf(tok);
+  if(i>=0)return `« ${tok} » va avec ${PERS[i]}. Ici, il faut la forme qui va avec ${PERS[p]}.`;
+  const autre=v==='avoir'?'etre':'avoir';
+  return `« ${tok} », c'est le verbe ${NOMV[autre]}. Ici, il faut le verbe ${NOMV[v]}.`;
+}
+// Pronom + forme, avec l'apostrophe de « j'ai »
+const avecPronom=(pr,v,f)=>pr==='je'&&v==='avoir'?`j'${f}`:`${pr} ${f}`;
+const avecPronomB=(pr,v,f)=>avecPronom(pr,v,`<b>${f}</b>`);
+// Sujet suivi du trou : « J'___ » pour je + avoir, sinon « Sujet ___ »
+function sujetTrou(s,v,p){
+  if(p===0&&v==='avoir')return s.replace(/je$/,"j'").replace(/^Je$/,"J'")+'<span class="blank">______</span>';
+  return s+' <span class="blank">______</span>';
+}
+// Sujets des phrases : [texte, personne 0..5, pronom qui le remplace]
+const SUJ2=[['Je',0,'je'],['Tu',1,'tu'],['Le pompier',2,'il'],['La conductrice',2,'elle'],['Mon frère',2,'il'],['On',2,'on'],
+  ['Nous',3,'nous'],['Vous',4,'vous'],['Les pompiers',5,'ils'],['Mes parents',5,'ils'],['Mes cousines',5,'elles'],['Il',2,'il']];
+// Niveau 3 : sujets à deux noms, et sujets où un nom proche du verbe trompe (piège : on accorde avec le vrai sujet).
+const SUJ3=[['Mon frère et moi',3,'nous'],['Papa et moi',3,'nous'],['Toi et ton amie',4,'vous'],['Ta sœur et toi',4,'vous'],
+  ['Le pompier et le chauffeur',5,'ils'],['Maman et papa',5,'ils'],['Ma cousine et sa mère',5,'elles'],
+  ['Les amis de mon frère',5,'ils',"Le sujet est « les amis » (plusieurs), pas « mon frère »."],
+  ['Le chauffeur des camions',2,'il',"Le sujet est « le chauffeur » (un seul), pas « les camions »."],
+  ['Ce matin, je',0,'je'],['Toi, tu',1,'tu']];
+// Compléments qui vont avec tous les sujets (personnes), pour que la phrase ait du sens
+const COMPL={avoir:['une montre neuve','un camion rouge','une longue voiture','peur des avions','rendez-vous chez le docteur'],
+  etre:['dans la voiture','derrière le camion',"dans l'ambulance",'en retard',"dans l'avion",'derrière la maison']};
+
+/* ================= CONTENU : un générateur par compétence ================= */
+// Écrire un mot : 1 = devinette, 3 choix ; 2 = phrase à trous, 4 choix ; 3 = trouver le mot mal écrit.
+function genEcrire(skill,liste,level){
+  if(level===3){
+    const mots=shuffle(liste.slice()).slice(0,4),k=R(0,3),f=pick(mots[k].faux);
+    const ch=mots.map((w,i)=>i===k?C(f[0],f[0]):C(w.m,w.m,`« ${w.m} » est bien écrit.`));
+    return Q(skill,level,`<p>Un seul mot est <b>mal écrit</b>. Lequel ?</p>`,ch,f[0],
+      `<p>Regarde bien les lettres muettes, les lettres doublées et les accents.</p>`,
+      `<p>« ${f[0]} » est mal écrit. ${f[1]} On écrit <b>${mots[k].m}</b>.</p>`);
+  }
+  const w=pick(liste),n=level===1?2:3;
+  const ch=[C(w.m,w.m)].concat(shuffle(w.faux.slice()).slice(0,n).map(f=>C(f[0],f[0],f[1])));
+  const prompt=level===1
+    ?`<p><b>Devinette :</b> ${w.dev}</p><p>Choisis le mot bien écrit.</p>`
+    :`<p>Complète avec le mot bien écrit :</p><p class="big-s">${trou(w.ph)}</p>`;
+  return Q(skill,level,prompt,ch,w.m,
+    `<p>Le mot commence par « ${w.m.slice(0,2)} ». Pense à la fiche Apprendre.</p>`,
+    `<p>On écrit <b>${w.m}</b> : ${phraseAvec(w)}</p>`);
+}
+const genNoms=level=>genEcrire('noms',NOMS,level);
+const genMots=level=>genEcrire('mots',MOTS,level);
+
+// Nature : 1 = un mot dans sa phrase ; 2 = lequel est un… ; 3 = l'intrus.
+// « montre » (il montre) et « derrière » (un derrière) peuvent changer de nature : on ne les
+// montre que dans leur phrase (niveau 1), jamais seuls, pour qu'il n'y ait qu'une bonne réponse.
+const SURS=TOUS.filter(w=>w.m!=='montre'&&w.m!=='derrière');
+function genNature(level){
+  if(level===1){
+    const w=pick(TOUS);
+    const ch=Object.keys(NAT).map(k=>k===w.nat?C(k,NAT[k]):C(k,NAT[k],`« ${w.m} » : ${carNat(w)}`));
+    return Q('nature',level,`<p>Dans la phrase :</p><p class="big-s">${phraseAvec(w)}</p><p>Le mot <b>${w.m}</b> est…</p>`,ch,w.nat,
+      `<p>Un nom : on peut mettre un ou une devant. Un verbe : on peut le conjuguer. Un adjectif : il dit comment est le nom. Un mot invariable ne change jamais.</p>`,
+      `<p>« ${w.m} » : ${carNat(w)}</p>`);
+  }
+  if(level===2){
+    // un mot de chaque nature : une seule bonne réponse
+    const mots=Object.keys(NAT).map(k=>pick(SURS.filter(w=>w.nat===k)));
+    const cible=pick(mots);
+    const ch=mots.map(w=>w===cible?C(w.m,w.m):C(w.m,w.m,`« ${w.m} » est ${NAT[w.nat]}.`));
+    return Q('nature',level,`<p>Lequel de ces mots est <b>${NAT[cible.nat]}</b> ?</p>`,ch,cible.m,
+      `<p>Essaie chaque mot : peux-tu mettre « un » devant ? le conjuguer ? le mettre après « un camion » ?</p>`,
+      `<p>« ${cible.m} » : ${carNat(cible)}</p>`);
+  }
+  // niveau 3 : trois noms ou trois verbes, et un intrus d'une autre nature
+  const groupe=pick(['nom','verbe']);
+  const trois=shuffle(SURS.filter(w=>w.nat===groupe)).slice(0,3);
+  const intrus=pick(SURS.filter(w=>w.nat!==groupe));
+  const ch=trois.map(w=>C(w.m,w.m,`« ${w.m} » est bien ${NAT[groupe]}.`)).concat([C(intrus.m,intrus.m)]);
+  return Q('nature',level,`<p>Trois mots sont de la même nature. <b>Lequel est l'intrus ?</b></p>`,ch,intrus.m,
+    `<p>Cherche d'abord la nature commune aux trois autres mots.</p>`,
+    `<p>Les trois autres sont des ${groupe}s. « ${intrus.m} » : ${carNat(intrus)}</p>`);
+}
+
+// Avoir et être : 1 = un pronom ; 2 = une phrase ; 3 = sujets pièges et mots qui se prononcent pareil.
+function genVerbe(v,level){
+  const nomV=NOMV[v];
+  if(level===1){
+    const p=R(0,5),pr=p===2?pick(['il','elle','on']):p===5?pick(['ils','elles']):PERS[p];
+    const f=FORMES[v][p];
+    const ch=[C(f,f)].concat(others(FORMES[v],f,3).map(x=>C(x,x,pourquoiForme(x,v,p))));
+    const debut=pr==='je'&&v==='avoir'?"j'":pr+' ';
+    return Q(v,level,`<p>Conjugue <b>${nomV}</b> au présent :</p><p class="big">${debut}<span class="blank">______</span></p>`,ch,f,
+      `<p>Récite dans l'ordre : ${avecPronom('je',v,FORMES[v][0])}, tu ${FORMES[v][1]}, il ${FORMES[v][2]}…</p>`,
+      `<p>Avec ${pr}, ${nomV} s'écrit <b>${f}</b> : ${avecPronomB(pr,v,f)}.</p>`);
+  }
+  const s=pick(level===2?SUJ2:SUJ3),p=s[1],f=FORMES[v][p],cpl=pick(COMPL[v]);
+  const faux=level===2?others(FORMES[v],f,3):PIEGES[v][p];
+  const ch=[C(f,f)].concat(faux.map(x=>C(x,x,pourquoiForme(x,v,p))));
+  const remplace=s[0].toLowerCase()===s[2]||/, /.test(s[0])?`Avec ${s[2]}`:`« ${s[0]} », c'est « ${s[2]} »`;
+  return Q(v,level,`<p>Complète avec le verbe <b>${nomV}</b> au présent :</p><p class="big-s">${sujetTrou(s[0],v,p)} ${cpl}.</p>`,ch,f,
+    `<p>Par quel pronom peux-tu remplacer le sujet ? Je, tu, il, nous, vous ou ils ?${level===3?' Rappel : … et moi = nous ; … et toi = vous.':''}</p>`,
+    `<p>${s[3]?s[3]+' ':''}${remplace} : ${avecPronomB(s[2],v,f)}.</p>`);
+}
+
+// Clés = ids des compétences de la fiche (même ordre).
+const SKILLS={noms:{label:'Écrire les noms'},mots:{label:'Écrire les verbes et les petits mots'},
+  nature:{label:'Reconnaître la nature des mots'},avoir:{label:'Avoir au présent'},etre:{label:'Être au présent'}};
+const GEN={noms:genNoms,mots:genMots,nature:genNature,avoir:l=>genVerbe('avoir',l),etre:l=>genVerbe('etre',l)};
+const LEVELS={1:{t:'Facile',d:'devinettes et pronoms'},2:{t:'Moyen',d:'des phrases à compléter'},3:{t:'Défi',d:'les pièges'}};
+// 10 questions : 2 par compétence
+const EVAL_SKILLS=['noms','noms','mots','mots','nature','nature','avoir','avoir','etre','etre'];
+const CHEER=['Bravo !','Bien joué !','Exact !','Parfait !'];
+
+/* ================= CONTENU : fiches Apprendre ================= */
+const tableVerbe=v=>`<table class="conj">${FORMES[v].map((f,i)=>`<tr><td>${['je','tu','il, elle, on','nous','vous','ils, elles'][i]}</td><td><b>${f}</b></td></tr>`).join('')}</table>`
+  .replace('<td>je</td><td><b>ai</b>','<td>j\'</td><td><b>ai</b>');
+const LEARN=[
+  {t:'Les noms à savoir',body:()=>`<p>Les 6 noms de la dictée :</p>
+    <div class="rulebox">une voiture · un camion · une ambulance<br>un pompier · un avion · une montre</div>
+    <p><b>Attention :</b> devant <b>m</b>, <b>b</b> et <b>p</b>, on écrit <b>m</b> (et pas n) : a<b>m</b>bulance, po<b>m</b>pier.</p>
+    <p>Lettres muettes : voitur<b>e</b>, montr<b>e</b>. Un seul m dans ca<b>m</b>ion.</p>`,
+   q:{p:'Quel mot est bien écrit ?',c:[C('ambulance','ambulance'),C('anbulance','anbulance',"Devant b, on écrit m : a<b>m</b>bulance.")],ok:'ambulance'}},
+  {t:'Les autres mots à savoir',body:()=>`<div class="rulebox"><b>Verbes :</b> conduire · regarder · s'arrêter<br><b>Adjectif :</b> long<br><b>Mots invariables :</b> derrière · au-dessus · dans</div>
+    <p>• s'arr<b>ê</b>ter : deux r et un accent circonflexe.</p>
+    <p>• lon<b>g</b> : le g muet s'entend dans « longue ».</p>
+    <p>• au<b>-</b>dessu<b>s</b> : un trait d'union et un s muet. dan<b>s</b> : un s muet.</p>
+    <p>• de<b>rr</b>i<b>è</b>re : deux r et un accent grave.</p>`,
+   q:{p:'Quel mot est bien écrit ?',c:[C('au-dessus','au-dessus'),C('au dessus','au dessus',"N'oublie pas le trait d'union : au<b>-</b>dessus.")],ok:'au-dessus'}},
+  {t:'La nature des mots',body:()=>`<p>Sur la feuille, les mots sont rangés par <b>nature</b> :</p>
+    <p>• un <b>nom</b> : on peut mettre un ou une devant (un avion).</p>
+    <p>• un <b>verbe</b> : on peut le conjuguer (je regarde). On l'apprend à l'infinitif : regarder.</p>
+    <p>• un <b>adjectif</b> : il dit comment est le nom (un camion <b>long</b>).</p>
+    <p>• un <b>mot invariable</b> : il ne change jamais (dans, derrière, au-dessus).</p>`,
+   q:{p:'« long » est…',c:[C('adjectif','un adjectif'),C('nom','un nom',"Un nom désigne une chose ; « long » dit comment est cette chose (un camion long)."),C('verbe','un verbe',"On ne peut pas conjuguer « long ».")],ok:'adjectif'}},
+  {t:'Avoir au présent',body:()=>`${tableVerbe('avoir')}<p>Remplace le sujet par un pronom : <i>Les pompiers</i> → ils → ils <b>ont</b>.</p>
+    <div class="rulebox">Ne confonds pas : il <b>a</b> (verbe) et <b>à</b> (à la maison) ; ils <b>ont</b> (verbe) et <b>on</b>.</div>`,
+   q:{p:'nous …',c:[C('avons','avons'),C('avez','avez',"« avez » va avec vous."),C('ont','ont',"« ont » va avec ils.")],ok:'avons'}},
+  {t:'Être au présent',body:()=>`${tableVerbe('etre')}<p>« Mon frère et moi » = nous → nous <b>sommes</b>. « Ta sœur et toi » = vous → vous <b>êtes</b>.</p>
+    <div class="rulebox">Ne confonds pas : il <b>est</b> (verbe) et <b>et</b> (toi et moi) ; ils <b>sont</b> (verbe) et <b>son</b> (son camion).</div>`,
+   q:{p:'Les pompiers … dans le camion.',c:[C('sont','sont'),C('son','son',"« son » veut dire « le sien ». Le verbe être avec ils : sont."),C('est','est',"« est » va avec il : ici, les pompiers = ils.")],ok:'sont'}},
+  {t:'À retenir',recap:true,body:()=>`<p>• Devant m, b, p : on écrit m (ambulance, pompier).</p>
+    <p>• Lettres muettes : voiture, montre, long, au-dessus, dans.</p>
+    <p>• Nom, verbe, adjectif, mot invariable : la nature d'un mot.</p>
+    <p>• Avoir : j'ai, tu as, il a, nous avons, vous avez, ils ont.</p>
+    <p>• Être : je suis, tu es, il est, nous sommes, vous êtes, ils sont.</p>`}
+];
+const LEARN_COUNT=LEARN.length-1;
+
+/* ================= CONTENU : accueil ================= */
+function home(){
+  S={screen:'home'};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Dictée 5 : Devinettes</h1>
+      <p>Les mots à savoir, et le présent d'avoir et être.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="menu">
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en ${LEARN_COUNT} fiche${LEARN_COUNT>1?'s':''} courte${LEARN_COUNT>1?'s':''}, avec une question à chaque fois</span></button>
+        <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
+        <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>${EVAL_SKILLS.length} questions, sans aide, avec une note à la fin</span></button>
+        <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
+      </div>
+    </main>`);
+}
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+function record(q,ok,rep){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
+}
+function genQuestion(skill,level){
+  if(!skill||skill==='all')skill=pick(Object.keys(GEN));
+  return GEN[skill](level);
+}
+const LVL=Object.keys(LEVELS).map(Number);
+const MAXL=LVL[LVL.length-1];
+
+let S={screen:'home'};
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : Apprendre ================= */
+function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
+function renderLearn(){
+  const st=LEARN[S.ls];let body;
+  if(st.recap){
+    body=`<div class="card">${st.body()}</div>
+      <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
+  }else{
+    const q=st.q;
+    body=`${st.body()}<div class="card"><p class="q-prompt"><b>À toi :</b> ${q.p}</p>
+      <div class="choices">${shuffle(q.c.slice()).map(c=>`<button class="choice" data-act="lchoose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div><div id="lfb"></div></div>
+      <div class="btns" id="lacts"></div>`;
+  }
+  show(`${topbar('Apprendre')}<main class="wrap"><p class="small">Fiche ${S.ls+1} sur ${LEARN.length}</p><div class="dots" aria-hidden="true">${LEARN.map((x,i)=>`<i class="${i<S.ls?'done':i===S.ls?'cur':''}"></i>`).join('')}</div><h2>${st.t}</h2><div style="margin-top:8px">${body}</div></main>`);
+}
+function learnChoose(el){
+  const q=LEARN[S.ls].q,v=el.dataset.v,fb=document.getElementById('lfb');
+  if(v===q.ok){
+    app.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.classList.add('locked');});
+    el.classList.add('good');
+    fb.innerHTML=`<div class="fb good"><p><b>${pick(CHEER)}</b></p></div>`;
+    document.getElementById('lacts').innerHTML=`<button class="btn primary" data-act="lnext" data-primary>${S.ls<LEARN.length-2?'Fiche suivante':'Terminer'}</button>`;
+  }else{
+    el.classList.add('bad');el.disabled=true;
+    fb.innerHTML=`<div class="fb hint"><p><b>Pas tout à fait.</b> ${q.c.find(c=>c.v===v).why}</p></div>`;
+  }
+}
+
+/* ================= MOTEUR : entraînement / évaluation ================= */
+function levelChips(sel,mix){
+  let s='<div class="chips">';
+  if(mix)s+=`<button class="chip ${sel===0?'on':''}" data-act="lvl" data-v="0">Mixte<small>un peu de tout</small></button>`;
+  for(const i of LVL)s+=`<button class="chip ${sel===i?'on':''}" data-act="lvl" data-v="${i}">${LEVELS[i].t}<small>${LEVELS[i].d}</small></button>`;
+  return s+'</div>';
+}
+function skillChips(sel){
+  let s=`<div class="chips"><button class="chip ${sel==='all'?'on':''}" data-act="sk" data-v="all">Tout mélangé</button>`;
+  for(const k in SKILLS)s+=`<button class="chip ${sel===k?'on':''}" data-act="sk" data-v="${k}">${SKILLS[k].label}</button>`;
+  return s+'</div>';
+}
+function trainSetup(keep){
+  if(!keep||S.screen!=='trainSetup')S={screen:'trainSetup',level:S.level||1,skill:S.skillPref||'all'};
+  show(`${topbar("S'entraîner")}<main class="wrap">
+    <h2>Choisis ton niveau</h2>${levelChips(S.level,false)}
+    <h2>Que veux-tu travailler ?</h2>${skillChips(S.skill)}
+    <div class="btns"><button class="btn primary" data-act="trainStart" data-primary>Commencer</button></div></main>`);
+}
+function evalSetup(keep){
+  if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
+  show(`${topbar('Évaluation')}<main class="wrap">
+    <h2>On passe à l'évaluation ?</h2>
+    <p>${EVAL_SKILLS.length} questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
+    <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
+    <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
+}
+const hasPic=q=>q.choices.some(c=>String(c.label).indexOf('<svg')>=0);
+function qScreen(){
+  const q=S.q,ev=S.mode==='eval';
+  let head;
+  if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
+    head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
+  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  const last=ev&&S.i===S.total-1;
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
+    ${head}
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      <div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div></div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns" id="acts">
+      <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
+      ${ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'}
+    </div></main>`);
+  S.choice=null;S.attempts=0;q.t0=Date.now();
+}
+function setFb(html){document.getElementById('fb').innerHTML=html;}
+function lockChoices(){
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
+}
+function checkTrain(){
+  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  const q=S.q;S.attempts++;
+  const ok=S.choice===q.exp.c;
+  // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
+  if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
+  if(ok){
+    lockChoices();
+    let extra='';
+    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
+  }else if(S.attempts===1){
+    const c=q.choices.find(c=>c.v===S.choice);
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${c&&c.why?c.why:'Relis la question et réessaie.'}</p></div>`);
+    app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    S.choice=null;
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="check" data-primary>Réessayer</button><button class="btn ghost" data-act="hint">Un indice</button><button class="btn ghost" data-act="reveal">Voir la correction</button>`;
+  }else revealTrain();
+}
+function revealTrain(){
+  if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
+  lockChoices();
+  setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
+}
+function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
+
+function evalStart(){
+  const lvl=S.level;
+  // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
+  const qs=shuffle(EVAL_SKILLS.slice()).map((s,i)=>genQuestion(s,lvl===0?LVL[i%LVL.length]:lvl));
+  S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
+    cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
+  S.q=qs[0];qScreen();
+}
+function checkEval(){
+  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  S.i++;
+  if(S.i>=S.total){evalEnd();return;}
+  S.q=S.qs[S.i];qScreen();
+}
+const lblOf=(q,v)=>{const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+function evalEnd(){
+  const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
+  const duree=Math.round((Date.now()-S.t0)/1000);
+  const sk={};
+  res.forEach(r=>{const s=sk[r.q.skill]||(sk[r.q.skill]=[0,0]);s[1]++;if(r.ok)s[0]++;});
+  // l'évaluation est enregistrée d'un bloc à la fin : abandonnée au milieu, elle ne compte pas
+  if(window.miniprof)window.miniprof.reponse(res.map(r=>({competence:r.q.skill,juste:r.ok,mode:'v',difficulte:r.q.level,
+    question:r.q.skill,reponse:r.ans,duree:r.duree,evaluation:S.cle})));
+  let weakest=null,wp=2;for(const k in sk){const p=sk[k][0]/sk[k][1];if(p<wp){wp=p;weakest=k;}}
+  const pc=score/total;
+  const msg=pc>=.9?"Excellent ! Tu maîtrises ta leçon.":pc>=.7?"Très bien ! Il ne reste que quelques détails à revoir.":pc>=.5?"Bon début. Regarde les corrections, puis entraîne-toi encore un peu.":"Pas de panique : relis les fiches Apprendre, puis entraîne-toi.";
+  const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
+  const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
+    <div class="q-prompt">${r.q.prompt}</div>
+    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    <div class="fb info">${r.q.explain}</div></details>`).join('');
+  S.screen='result';S.weakest=weakest;
+  show(`${topbar('Résultat','home')}<main class="wrap">
+    <div class="card center"><div class="score">${score}<span style="font-size:1.6rem;color:var(--muted)"> / ${total}</span></div>
+      <p style="margin-top:10px">${msg}</p><p class="small">Temps : ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    <h2>Par compétence</h2><div style="margin-top:10px">${bars}</div>
+    <h2 style="margin:16px 0 6px">Les corrections</h2>${rev}
+    <div class="btns">
+      ${weakest&&wp<1?`<button class="btn primary" data-act="trainWeak" data-primary>Travailler : ${SKILLS[weakest].label}</button>`:''}
+      <button class="btn" data-act="evalSetup">Recommencer</button><button class="btn" data-act="bilan">Mon bilan</button><button class="btn ghost" data-act="home">Accueil</button>
+    </div></main>`);
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+// Ajouter ici les actions propres au module (ex. un labo) avant « default ».
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'learn':learn(0);break;
+    case 'lchoose':learnChoose(el);break;
+    case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
+    case 'trainSetup':trainSetup(false);break;
+    case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
+    case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
+    case 'evalSetup':evalSetup(false);break;
+    case 'evalStart':evalStart();break;
+    case 'quitEval':evalSetup(false);break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));break;
+    case 'check':S.mode==='eval'?checkEval():checkTrain();break;
+    case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
+    case 'reveal':revealTrain();break;
+    case 'next':nextTrain();break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>

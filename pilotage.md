@@ -49,6 +49,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 11 oct. | DEL du module circuit relue par le sponsor : les 3 points signalés et les questions-réponses par niveau sont justes. |
 | 11 oct. | Premier module CM1 : « Les tables de 3, 6 et 9 » (table de 6 = double, table de 9 = triple de la table de 3, multiples), à la demande du sponsor, à partir du programme du cycle 3 (pas de photos ; le PDF du programme n'a pas pu être ouvert depuis la session). Publié **en brouillon**, à relire puis valider. |
 | 11 oct. | Module « Les tables de 3, 6 et 9 » (CM1) validé par le sponsor : visible dans la bibliothèque. |
+| 11 oct. | Module « Dictée 5 : Devinettes, avoir et être » (CM1, à partir de la photo de la liste de mots) : les 13 mots surlignés à écrire et à classer par nature, présent d'avoir et être. Publié **en brouillon**, à relire puis valider. Niveaux des enfants notés dans `CLAUDE.md` à la demande du sponsor. |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
 et grands nombres CM2 (JSON). Tables de 3, 6 et 9 CM1 (HTML).

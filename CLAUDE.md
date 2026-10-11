@@ -1,6 +1,7 @@
 # miniprof
 
-App web d'entraînement et d'évaluation pour 2 enfants (CE2/CM1 et 6e/5e), en français.
+App web d'entraînement et d'évaluation pour 2 enfants, en français. **Année 2026-2027 : le fils est
+en CM1, la fille en 6e** (à prendre par défaut pour un module, sans le redemander au sponsor).
 Le parent (à l'aise en Python, peu en JS) doit pouvoir **lire** le code (pas forcément le
 corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre.
 
