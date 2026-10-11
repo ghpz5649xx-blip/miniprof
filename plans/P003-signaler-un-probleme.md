@@ -62,8 +62,8 @@ Recette iPhone (partage réel, signalement avec et sans commentaire) : tâche du
 - Découpage en unités et recettes sur l'iPhone.
 
 ## Changements décidés pendant l'exécution
-- **Modules HTML** (décision du sponsor) : bouton « Signaler » **à côté de « Valider »**, avec
-  confirmation « La réponse attendue te semble fausse ? Oui / Non » ; miniprof garde **toute la
+- **Modules HTML** (décision du sponsor) : bouton « Une erreur ? » **à côté de « Valider »**, avec
+  confirmation « Tu penses qu'il y a une erreur dans cette question ? Oui / Non » ; miniprof garde **toute la
   question** (énoncé, choix, réponse attendue, réponse donnée), sans id de question (elles sont
   tirées au hasard). Le bandeau du haut n'est pas utilisé.
 - **Format** : au lieu de `flag_notes`, une clé **`miniprof.v1.signalements`** (liste d'objets avec
@@ -101,9 +101,13 @@ Contrat `docs/module-html.md` et `README.md` à jour.
 - Sur l'iPhone, écran « Sauvegarde » : « Exporter et partager » ouvre-t-il bien la feuille de
   partage, et le fichier arrive-t-il dans Messages ou AirDrop ? Si le bouton « Exporter et
   partager » n'apparaît pas, c'est que Safari refuse de partager un fichier JSON : le dire à Claude.
-- Dans un module HTML (par exemple la dictée) : appuyer sur « Signaler », répondre Non (rien ne se
+- Dans un module HTML (par exemple la dictée) : appuyer sur « Une erreur ? », répondre Non (rien ne se
   passe), puis Oui, écrire un commentaire. Faire de même sur une question d'un module JSON. Puis
   exporter et lancer `python tools/analyse.py` : les deux signalements doivent apparaître.
 
 ## Feed-back
-(aucun pour l'instant)
+- 11 oct. 2026 : textes des modules HTML jugés trop adultes. Bouton « Signaler » → « Une erreur ? » ;
+  confirmation « La réponse attendue te semble fausse ? » → « Tu penses qu'il y a une erreur dans
+  cette question ? ». Corrigé dans le gabarit et les 5 modules ; recette relancée.
+- Noté, non fait : le bouton des modules JSON garde « Cette question me semble fausse » (déjà
+  clair, autre écran) ; à aligner plus tard si le sponsor le souhaite.

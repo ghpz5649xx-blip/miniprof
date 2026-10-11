@@ -170,7 +170,7 @@ changer de téléphone la fait perdre. D'où la sauvegarde :
   Le ranger dans `exports/` sur le Mac : ce dossier et les fichiers `*.export.json` sont
   **ignorés par Git** (données personnelles).
 - **Signaler un problème** : l'enfant appuie sur « Cette question me semble fausse » (modules JSON,
-  après la correction) ou sur « Signaler » à côté de « Valider » (modules HTML), puis confirme
+  après la correction) ou sur « Une erreur ? » à côté de « Valider » (modules HTML), puis confirme
   « Oui » ou « Non ». Un commentaire facultatif peut suivre. Miniprof garde une copie de la
   question (`js/signalements.js`, clé `miniprof.v1.signalements`), qui voyage dans l'export et
   s'affiche en tête de `tools/analyse.py`. Dans un module JSON, la question signalée n'est plus tirée.

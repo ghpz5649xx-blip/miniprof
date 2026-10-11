@@ -558,16 +558,16 @@ function qScreen(){
     <div class="btns"><span id="acts" class="acts">
       <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
       ${ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'}
-    </span><button class="btn ghost" data-act="sig">Signaler</button></div><div id="sig"></div></main>`);
+    </span><button class="btn ghost" data-act="sig">Une erreur ?</button></div><div id="sig"></div></main>`);
   S.choice=null;S.attempts=0;q.t0=Date.now();
 }
 /* ================= MOTEUR : signaler un problème ================= */
-// Bouton « Signaler » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
+// Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
 // copie de la question (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
 // Pourquoi une copie : les questions sont tirées au hasard, sans identifiant à retrouver ensuite.
 const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
 function sigAsk(){
-  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>La réponse attendue te semble fausse ?</b></p>
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
     <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
 }
 function sigYes(){
