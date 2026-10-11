@@ -143,7 +143,7 @@
       "title": "Le circuit électrique",
       "subject": "sciences",
       "level": "6e",
-      "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit et sécurité, avec un labo pour expérimenter et des schémas à dessiner.",
+      "description": "Symboles, circuit ouvert ou fermé, série et dérivation, court-circuit, diode électroluminescente (DEL) et sécurité, avec un labo pour expérimenter et des schémas à dessiner.",
       "skills": [
         {
           "id": "symboles",
@@ -180,6 +180,10 @@
         {
           "id": "dessin",
           "label": "Dessiner un schéma"
+        },
+        {
+          "id": "del",
+          "label": "La diode électroluminescente (DEL)"
         }
       ]
     }
