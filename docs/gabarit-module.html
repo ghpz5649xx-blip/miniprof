@@ -389,10 +389,20 @@ function revealTrain(){
 }
 function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
 
+// Une évaluation ne pose jamais deux fois la même question : on retire une question déjà
+// sortie (jusqu'à 30 essais, au cas où une compétence aurait peu de questions).
+// Signalé par le sponsor le 12/10/2026 (la même question deux fois dans une évaluation).
+function tirerSansDoublon(skills,niveau){
+  const vus=new Set();
+  // même question = même énoncé ET mêmes choix (un énoncé comme « Lequel est l'intrus ? » revient
+  // légitimement avec d'autres mots)
+  const cle=q=>q.prompt+'|'+(q.choices||[]).map(c=>c.v).sort().join(',')+'|'+q.exp.c;
+  return skills.map((s,i)=>{let q,n=0;do{q=genQuestion(s,niveau(i));n++;}while(vus.has(cle(q))&&n<30);vus.add(cle(q));return q;});
+}
 function evalStart(){
   const lvl=S.level;
   // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
-  const qs=shuffle(EVAL_SKILLS.slice()).map((s,i)=>genQuestion(s,lvl===0?LVL[i%LVL.length]:lvl));
+  const qs=tirerSansDoublon(shuffle(EVAL_SKILLS.slice()),i=>lvl===0?LVL[i%LVL.length]:lvl);
   S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
     cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
   S.q=qs[0];qScreen();

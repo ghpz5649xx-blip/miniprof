@@ -352,3 +352,14 @@ dictée 5 est refaite (noms, mots, avoir, être à écrire ; nature des mots res
 | E.3 | Chromium 390 px : être, niveau 1, « ils ___ » ; taper « son », puis «   Sont » ; une évaluation avec une réponse tapée contenant du HTML | « son » refusé : « son veut dire le sien… être s'écrit sont, avec un t » ; « Sont » accepté (majuscule et espaces tolérés), avec l'astuce « ils étaient » ; champ avec `autocorrect="off"`, `autocomplete="off"`, `spellcheck="false"`, `autocapitalize="none"` ; au corrigé, la réponse tapée est affichée comme du texte ; pas d'erreur JS. | ☑ |
 | E.4 | `python tools/recette_navigateur.py` | « ✔ 28 OK » (l'app n'a pas changé). | ☑ |
 | E.5 | **iPhone** (action A16) : dictée 5, « S'entraîner > Être au présent » | Le clavier ne propose pas de mots et ne corrige pas « son » tout seul ; la touche « OK » valide. | ☐☑ (iPhone, sponsor, 12 oct. 2026 : le clavier ne propose rien) |
+
+## Évaluation sans question en double (12 octobre 2026)
+
+Retour du sponsor : « en évaluation, 2 fois la même question ». Cause : chaque question est tirée
+au hasard indépendamment des autres. Correction dans le gabarit et les 5 modules HTML :
+`tirerSansDoublon()` retire une question déjà sortie (même énoncé, mêmes choix, même réponse).
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| V.1 | Chromium : 15 évaluations par module HTML (5 modules), en comparant énoncé, choix et réponse ; avant puis après la correction | Avant : 11 questions en double (tables 4, Paddington 3, circuit 4). Après : 0. Pas d'erreur JS. | ☑ |
+| V.2 | `check_html.py` et `tirage.py` sur les 5 modules ; tests | Conformes, aucune erreur ; tests « ok ». | ☑ |
