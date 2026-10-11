@@ -86,7 +86,9 @@ Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` publie en
 ## Façon de travailler
 - **Synchronisé avec `origin/main`** : le hook `synchro.sh` met à jour en début de session (prévenir
   le sponsor s'il échoue) ; `git pull --rebase origin main` avant chaque push ; en cas de conflit,
-  s'arrêter et demander.
+  s'arrêter et demander. Tout message de synchro autre que « à jour » se traite **avant** de
+  travailler : prévenir le sponsor, ou vérifier par `git status -sb` qu'on est sur `main` à jour ;
+  ne jamais écrire sur une branche en retard (conflit du 11 oct. 2026).
 - **Tests avant un push** : seulement si le push touche du code ou du contenu (`js/`, `tools/`,
   `modules/`, `schema/`, `index.html`, `index.json`), une fois par unité, juste avant le push final.
   Un push de doc seule (`pilotage.md`, `plans/`, `README.md`, `CLAUDE.md`) ne se teste pas. Les

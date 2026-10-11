@@ -8,7 +8,29 @@
 
 cd "$CLAUDE_PROJECT_DIR" || exit 0
 
+echec() {
+  echo "Synchro : ÉCHEC ($1)."
+  echo "Prévenir le parent avant de travailler."
+  exit 0
+}
+
 branche=$(git branch --show-current)
+
+# Pas de branche (« HEAD détachée ») : c'est l'état d'une session cloud qui démarre. Sans ce
+# cas, la branche locale main peut rester des commits en retard et Claude risque d'y écrire
+# (conflit du 11 oct. 2026). On se place sur main, mais seulement si HEAD n'a aucun commit à
+# lui (sinon ces commits seraient perdus de vue) et sans jamais forcer.
+if [ -z "$branche" ]; then
+  git fetch -q origin main 2>/dev/null || echec "git fetch, réseau ?"
+  git merge-base --is-ancestor HEAD origin/main || echec "HEAD détachée avec des commits à elle"
+  if git show-ref -q --verify refs/heads/main; then
+    git checkout -q main 2>/dev/null || echec "impossible de passer sur main, modifications locales ?"
+  else
+    git checkout -q -b main origin/main 2>/dev/null || echec "impossible de créer main"
+  fi
+  branche=main
+fi
+
 if [ "$branche" != "main" ]; then
   echo "Synchro : branche $branche, pas de mise à jour automatique."
   exit 0
@@ -17,7 +39,6 @@ fi
 if git pull --ff-only -q origin main 2>/dev/null; then
   echo "Synchro : à jour avec origin/main ($(git log -1 --format=%h))."
 else
-  echo "Synchro : ÉCHEC de git pull --ff-only (réseau, modifications locales ou divergence)."
-  echo "Prévenir le parent avant de travailler."
+  echec "git pull --ff-only : réseau, modifications locales ou divergence"
 fi
 exit 0
