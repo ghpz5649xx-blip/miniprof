@@ -15,7 +15,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | # | Point | Temps | Ce qu'on attend de toi |
 |---|---|---|---|
 | 1 | Bilan de la période (synthèse ci-dessous) : brouillon et validation, README, premiers modules CM1 | 4 min | ton retour d'usage, validation des actions closes |
-| 2 | Retour d'usage : l'export (A4) dit-il si les modules aident ? | 6 min | l'export |
+| 2 | Revue d'usage n° 1 (exports du 11 oct., analyse ci-dessous) | 6 min | décision D14, action A13 |
 | 3 | Module « dictée » (D8) : retour d'usage ; faut-il l'évolution B4 ? | 4 min | ton retour |
 | 4 | Challenges et opportunités vus par le chef de projet | 12 min | décisions D9 à D13 |
 | 5 | Backlog : priorités | 2 min | arbitrage |
@@ -41,6 +41,47 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 - **Ce qui a moins bien marché** : des réponses envoyées dans la mauvaise session (sessions en
   parallèle) ; le tableau des faits marquants qui s'allonge ; aucune mesure encore de l'effet sur
   les enfants (A4 en attente).
+
+---
+
+## Revue d'usage n° 1 (exports des deux appareils, 11 octobre)
+
+Analyse faite avec `tools/analyse.py` ; les exports restent hors du dépôt (données personnelles).
+
+| | 6e | CM1 |
+|---|---|---|
+| Usage | 203 réponses : Zootopia (6 oct.), Paddington 2 (8 oct.) ; **rien depuis le 8 oct.** | 248 réponses du 11 oct. : tables (141), dictée 5 (107) |
+| Réussi | couleurs 100 %, animaux 88 %, épeler 81 %, he / she / it 81 % | tables de 3, 6 et 9 : **10/10 au niveau 3**, 96 % sur 85 essais de la table de 3 ; noms de la dictée 95 % |
+| À travailler | **« Décrire » (adjectif + a / an)** : 43 % dans Zootopia (28 essais), 36 % dans Paddington (11). Erreurs : l'article devant l'adjectif, puis l'ordre adjectif-nom | avoir et être (≈ 70 % : « êtes » sans accent, « sont ») ; nature des mots (69 %) ; écrire conduire, regarder, s'arrêter (69 %) |
+
+**Constats**
+1. **La difficulté de la 6e est la même dans deux modules** : décrire un nom avec un adjectif
+   (« an orange fox », « a big umbrella »). C'est un vrai point de la leçon, pas un défaut de
+   module. La correction du a / an (6 oct. après-midi) est arrivée après sa seule séance sur
+   Zootopia (6 oct. matin) : **on ne peut pas encore mesurer son effet**.
+2. **Évaluations enchaînées pour la note** : en 6e, 8 évaluations Zootopia en 11 minutes (4 à
+   9 secondes par question). Elle rejoue pour améliorer la note plutôt que pour réviser. En
+   Paddington, « personnages » à 40 % : questions sur des personnages d'un film peut-être pas
+   encore vu.
+3. **Données mélangées sur l'appareil du CM1** : le profil porte le prénom du sponsor, et ses
+   tests (circuit, Paddington, division : 160 réponses) s'y mêlent aux réponses de l'enfant. Le
+   bilan de l'enfant est faussé. Les modules CM1 permettent de les séparer à la main cette fois,
+   pas à l'avenir.
+
+**Actions et décision proposées**
+- **A13** (toi) : sur l'appareil du CM1, créer un profil à son prénom ; garder ton profil pour
+  tes essais (ou l'aperçu). Rien n'est perdu : l'historique reste sur ton profil.
+- **A14** (toi, puis la 6e) : lui proposer 10 questions « S'entraîner > Décrire », niveau
+  Échauffement, dans Zootopia (la méthode a / an y est expliquée pas à pas). Je mesure à la
+  prochaine revue ; si « Décrire » reste sous 60 %, je propose un petit module dédié.
+- **D14 — Évaluations rejouées en boucle** : (a) ne rien changer, en parler avec elle ; (b) dans
+  les modules HTML, après une évaluation, proposer d'abord de s'entraîner sur la compétence la
+  plus faible (le bouton existe), et afficher « Tu as déjà fait 3 évaluations : entraîne-toi
+  d'abord » à partir de la 4e en une heure ; (c) limiter à une évaluation par jour et par module.
+  Coût : (b) 1 session (gabarit + modules existants) ; (c) idem, mais frustrant.
+  **Recommandation : (a) d'abord**, (b) si ça continue à la prochaine revue.
+- **Prochains modules CM1** : les tables de 3, 6 et 9 sont sues ; la suite naturelle est la
+  table de 7 et 8. La prochaine dictée peut reprendre avoir et être.
 
 ---
 
@@ -149,12 +190,12 @@ ce niveau cette année).
 |---|---|---|---|---|
 | A2 | Au prochain `/nouveau-module` : vérifier que la réponse cite des exemples tirés à relire (recette G.5) | Sponsor | comité n° 2 | à confirmer (constaté sur Paddington 2) |
 | A3 | Jouer le module circuit sur l'iPhone (recette 8.5 à 8.8), seulement s'il doit être envoyé à un enfant | Sponsor | si besoin | à faire |
-| A4 | Faire un export des données de la 6e après une semaine d'usage (Sauvegarde > Exporter), puis me le transmettre en session | Sponsor | vers le 13 oct. | à faire |
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
 | A10 | Chaque nouvelle liste de mots : photo + `/nouveau-module` « dictée » ; tu relis puis « valide » (première fois faite : dictée 5) | Sponsor, puis Claude | chaque semaine | en cours |
-| A12 | Faire un export des **deux** enfants juste avant le comité n° 2 (Sauvegarde > Exporter, sur chaque appareil) | Sponsor | comité n° 2 | à faire |
+| A13 | Sur l'appareil du CM1 : créer un profil à son prénom ; ton profil reste pour tes essais | Sponsor | avant sa prochaine séance | à faire |
+| A14 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | Sponsor | cette semaine | à faire |
 
-Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A11 (grille du dessin facile au doigt, sur l'iPhone).
+Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A4 et A12 (exports des deux appareils, 11 oct., analysés : revue d'usage n° 1), A11 (grille du dessin facile au doigt, sur l'iPhone).
 
 ---
 
