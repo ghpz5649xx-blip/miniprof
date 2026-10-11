@@ -180,7 +180,11 @@ changer de téléphone la fait perdre. D'où la sauvegarde :
 - **Rappel** : la bibliothèque affiche un encadré orange si aucun export depuis 14 jours alors
   qu'il y a des résultats, ou si le stockage dépasse 70 % (environ 40 000 réponses).
 
-### Analyser la progression (sur le Mac)
+### Analyser la progression (sur le Mac, ou par Claude)
+
+Le plus simple : « Exporter et partager » sur l'iPhone, puis **joindre le fichier à la
+conversation Claude Code** (trombone ou « + ») ; Claude le reçoit dans sa session et lance
+l'analyse. Le fichier n'entre jamais dans le dépôt (public).
 
 ```bash
 python tools/analyse.py exports/miniprof-2026-10-04.export.json

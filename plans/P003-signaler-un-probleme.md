@@ -111,3 +111,7 @@ Contrat `docs/module-html.md` et `README.md` à jour.
   cette question ? ». Corrigé dans le gabarit et les 5 modules ; recette relancée.
 - Noté, non fait : le bouton des modules JSON garde « Cette question me semble fausse » (déjà
   clair, autre écran) ; à aligner plus tard si le sponsor le souhaite.
+- 11 oct. 2026 : recette iPhone faite par le sponsor, tout fonctionne (partage, signalement HTML
+  avec commentaire). Export joint à la conversation Claude Code : reçu, `analyse.py` affiche le
+  signalement. Circuit retenu pour transmettre un export à Claude : la pièce jointe dans la
+  conversation (pas de dépôt ni de Notion).

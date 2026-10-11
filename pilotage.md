@@ -56,5 +56,4 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | avant la prochaine dictée |
 | Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
-| Exporter les données des deux appareils (Sauvegarde > Exporter) pour la revue d'usage n° 2 | vers le 26 oct. |
-| Recette iPhone de P003 : « Exporter et partager » ouvre la feuille de partage ; « Signaler » (Non, puis Oui + commentaire) dans un module HTML et dans un module JSON ; `analyse.py` les affiche (détails : fiche P003) | cette semaine |
+| Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |
