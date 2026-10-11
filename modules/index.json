@@ -71,6 +71,38 @@
       ]
     },
     {
+      "id": "maths-cm1-tables-3-6-9",
+      "kind": "html",
+      "file": "maths-cm1-tables-3-6-9.html",
+      "title": "Les tables de 3, 6 et 9",
+      "subject": "maths",
+      "level": "CM1",
+      "description": "La table de 6 est le double de la table de 3, la table de 9 en est le triple : passe d'une table à l'autre et reconnais les multiples de 3, 6 et 9.",
+      "skills": [
+        {
+          "id": "table3",
+          "label": "La table de 3"
+        },
+        {
+          "id": "table6",
+          "label": "Table de 6 : le double"
+        },
+        {
+          "id": "table9",
+          "label": "Table de 9 : le triple"
+        },
+        {
+          "id": "relations",
+          "label": "Passer d'une table à l'autre"
+        },
+        {
+          "id": "multiples",
+          "label": "Les multiples de 3, 6 et 9"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "maths-cm2-division-euclidienne",
       "kind": "json",
       "file": "maths-cm2-division-euclidienne.json",

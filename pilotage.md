@@ -47,9 +47,10 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 11 oct. | Module circuit, « Dessiner un schéma » : le sponsor n'avait que des montages en série. Au niveau Échauffement, les 5 montages étaient tous en série. Corrigé : la dérivation arrive dès le niveau 1, et chaque question tire série ou dérivation à pile ou face (mesuré : environ 50/50). |
 | 11 oct. | Module circuit : nouvelle compétence **« La diode électroluminescente (DEL) »**, à la demande du sponsor. Une fiche Apprendre (symbole, sens passant / bloquant, patte la plus longue au +), un montage « DEL et lampe » au labo (on retourne la DEL au doigt), des questions sur 2 niveaux (sens passant ou bloquant, pile retournée, DEL et lampe en série ou en dérivation) et au moins une question DEL par évaluation. Le symbole DEL entre aussi dans « Les symboles ». Pas remis en brouillon (module déjà utilisé) : questions à relire dans la conversation. Historique conservé. |
 | 11 oct. | DEL du module circuit relue par le sponsor : les 3 points signalés et les questions-réponses par niveau sont justes. |
+| 11 oct. | Premier module CM1 : « Les tables de 3, 6 et 9 » (table de 6 = double, table de 9 = triple de la table de 3, multiples), à la demande du sponsor, à partir du programme du cycle 3 (pas de photos ; le PDF du programme n'a pas pu être ouvert depuis la session). Publié **en brouillon**, à relire puis valider. |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
-et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
+et grands nombres CM2 (JSON). Tables de 3, 6 et 9 CM1 (HTML, en brouillon).
 
 ---
 
