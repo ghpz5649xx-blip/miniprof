@@ -31,6 +31,8 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 
 | Sujet | Depuis | Priorité proposée | Fiche ou note |
 |---|---|---|---|
+| « Qui utilise miniprof ? » redemandé après 30 min (données mélangées entre profils) | 11 oct. 2026 | **haute**, prêt pour un go | `plans/P008-qui-utilise-miniprof.md` |
+| Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne, après P008 | idée ; voir P008 |
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
