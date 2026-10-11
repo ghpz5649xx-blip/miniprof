@@ -4,7 +4,7 @@ Support des comités de pilotage. **Claude le met à jour à la fin de chaque se
 suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUDE.md`,
 « Gouvernance ».
 
-**Évolution en cours : aucune.** Aucune autre évolution décidée : la suite se décide au comité n° 2.
+**Évolution en cours : questions à écrire (D15) : gabarit, `tirage.py`, dictée 5 refaite, skill.** Une session qui voit cette ligne ne lance pas d'autre évolution (D3).
 
 ---
 
@@ -236,3 +236,4 @@ Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), 
 | 6 oct. 2026 | n° 1 | Dans les échanges, Claude pose **une question à la fois**. |
 | 6 oct. 2026 | (hors comité) | Pas de synchronisation en ligne de la progression : coût (serveur ou tiers, contraintes à lever, données des enfants hors de la maison) trop élevé pour le besoin ; l'export par SMS et l'accès physique aux appareils suffisent. Fusion des sauvegardes au backlog (B3), priorité basse. |
 | 7 oct. 2026 | (hors comité) | D8 : listes de mots de la dictée (CE2/CM1) : option B, un module HTML « dictée » fait avec `/nouveau-module` (service courant). Le parent dicte depuis le téléphone, l'enfant écrit sur papier, le parent touche les mots ratés. Écartées pour l'instant : A (consigne à coller dans un LLM : couverture invérifiable) et C (évolution répétable, au backlog B4) : on la conçoit seulement après l'usage de B. |
+| 12 oct. 2026 | (hors comité) | D15 : questions « à écrire » dans les modules (orthographe, conjugaison, dictée), clavier sans suggestions ; évolution lancée tout de suite, avant la prochaine liste de mots. |
