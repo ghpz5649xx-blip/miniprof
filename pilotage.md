@@ -100,6 +100,25 @@ Analyse faite avec `tools/analyse.py` ; les exports restent hors du dépôt (don
   (nature des mots, choix entre deux formes).
 - **Recommandation** : oui, avant la prochaine liste de mots.
 
+**Décision D16 proposée — signaler un problème depuis l'app** (demande du sponsor, 12 oct.)
+- **Le besoin** : un enfant qui tombe sur une question fausse ou un problème le signale tout de
+  suite, avec un commentaire facultatif, pour que le sponsor le sache et que Claude corrige.
+- **L'existant** : les modules JSON ont déjà « Cette question me semble fausse » (la question
+  n'est plus tirée, le signalement va dans l'export), sans commentaire. Les modules HTML (tous
+  les modules récents) n'ont rien.
+- **La contrainte** : aucun serveur. Un signalement enregistré reste sur l'appareil de l'enfant ;
+  il ne te parvient que par un export, ou si tu regardes l'appareil.
+
+| Option | Contenu | Coût | Ce qu'on perd |
+|---|---|---|---|
+| A. Enregistré sur l'appareil | bouton « Signaler » sous chaque question (modules HTML et JSON), commentaire facultatif, enregistré avec la question ; visible dans l'export, `analyse.py` et un écran parent | 2 sessions ; ajout d'un commentaire au format des signalements (avec un test, sans casser les anciens) ; contrat `suivi.js` ; recette iPhone | tu ne l'apprends qu'à l'export suivant |
+| **B. Envoyé par message** | bouton « Signaler » qui ouvre l'app Messages avec un texte déjà rempli (module, question, réponse attendue, commentaire) ; l'enfant choisit le destinataire et envoie | 1 session (gabarit, modules HTML, écran des questions JSON) ; aucun changement de stockage ; recette iPhone | rien n'est gardé dans l'app ; il faut que l'appareil de l'enfant puisse envoyer des messages ; ton numéro n'est **pas** écrit dans la page (dépôt public) |
+| C. Les deux | A + B | 3 sessions | rien |
+
+**Recommandation : B.** Tu es prévenu tout de suite, avec la question exacte, et tu me la
+transmets pour correction. C'est le plus léger et sans risque pour les données. A reste possible
+ensuite si un enfant n'a pas de messagerie.
+
 ---
 
 ## Challenges et opportunités (regard du chef de projet)
