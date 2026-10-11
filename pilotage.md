@@ -32,6 +32,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 |---|---|---|---|
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | Signaler un problème, export plus simple à partager | 12 oct. 2026 | haute | `plans/P003-signaler-un-probleme.md` |
+| POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
 | Évaluations rejouées en boucle | 11 oct. 2026 | à revoir à la revue n° 2 | `plans/P007-evaluations-rejouees.md` |
 | Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |

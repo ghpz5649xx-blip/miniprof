@@ -17,6 +17,16 @@ commentaire facultatif, pour que le sponsor le sache et que Claude corrige.
 - Options écartées : B (le bouton ouvre Messages avec un texte rempli : rien n'est gardé dans
   l'app ; c'était la recommandation de Claude), C (A + B).
 
+## Décisions du 11 oct. 2026 (atelier de cadrage)
+- **Export plus simple = bouton « Partager » du système (iOS)** branché sur l'export : deux
+  touches vers Messages, AirDrop ou Mail, sans passer par Fichiers. Reste manuel, assumé.
+  Aucune contrainte du projet n'est touchée.
+- **Pas de base de données connectée** pour les données des enfants (synchronisation complète :
+  comptes, données chez un tiers, fin du « tout se recalcule en local » ; déjà écartée par P005).
+- **Canal à sens unique pour les seuls signalements** (id module, id question, commentaire, date,
+  sans prénom) : **POC isolé dans `poc/`, hors de P003**, ligne au backlog. Il demandera de lever
+  « aucune requête vers un tiers » pour ce seul cas : décision du sponsor après le POC.
+
 ## Contraintes connues
 - Aucun serveur : un signalement reste sur l'appareil de l'enfant jusqu'à l'export.
 - Les modules JSON ont déjà « Cette question me semble fausse » (`js/flags.js`, clé
