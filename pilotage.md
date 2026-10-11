@@ -20,6 +20,7 @@ voit un plan en cours n'en ouvre pas de nouveau (sauf un feed-back ou une sessio
 |---|---|---|
 | P001 Questions à écrire | 12 oct. 2026 | 26 oct. 2026 |
 | P002 Évaluation sans doublon | 12 oct. 2026 | 26 oct. 2026 |
+| P003 Signaler un problème, export à partager | 11 oct. 2026 | 25 oct. 2026 |
 
 ---
 
@@ -31,7 +32,6 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Sujet | Depuis | Priorité proposée | Fiche ou note |
 |---|---|---|---|
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
-| Signaler un problème, export plus simple à partager | 12 oct. 2026 | haute | `plans/P003-signaler-un-probleme.md` |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
 | Évaluations rejouées en boucle | 11 oct. 2026 | à revoir à la revue n° 2 | `plans/P007-evaluations-rejouees.md` |
@@ -57,3 +57,4 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter) pour la revue d'usage n° 2 | vers le 26 oct. |
+| Recette iPhone de P003 : « Exporter et partager » ouvre la feuille de partage ; « Signaler » (Non, puis Oui + commentaire) dans un module HTML et dans un module JSON ; `analyse.py` les affiche (détails : fiche P003) | cette semaine |

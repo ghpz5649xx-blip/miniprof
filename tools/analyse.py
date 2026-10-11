@@ -7,12 +7,15 @@ Usage :
 La sauvegarde vient de l'écran « Sauvegarde » de l'app (bouton « Exporter mes données »).
 Format (voir js/backup.js) :
     {"format": "miniprof-sauvegarde", "version": 1, "exported_at": <s>,
-     "profiles": [{"id", "name"}], "events": {<id profil>: [ligne, ...]}, "flags": [...]}
+     "profiles": [{"id", "name"}], "events": {<id profil>: [ligne, ...]}, "flags": [...],
+     "signalements": [{"id", "date", "module", "profil", "question", "enonce", "choix",
+                       "attendue", "reponse", "commentaire"}]}   (absent des anciens fichiers)
 Une ligne d'événement est un tableau court (voir js/events.js), colonnes dans cet ordre :
     date (s), module, question, compétence, difficulté, mode ("e" entraînement /
     "v" évaluation), juste (1/0), durée (s), réponse, évaluation (clé commune ou null)
 
-Affiche dans le terminal, par enfant : réussite et temps moyen par compétence, compétences
+Affiche d'abord les problèmes signalés par les enfants (« Signalements », le plus récent en
+premier), puis, par enfant : réussite et temps moyen par compétence, compétences
 en baisse, questions les plus ratées, notes des évaluations. Enregistre des graphiques PNG.
 Le dossier de sortie par défaut est sous exports/, ignoré par Git (données personnelles).
 """
@@ -20,6 +23,7 @@ Le dossier de sortie par défaut est sous exports/, ignoré par Git (données pe
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import matplotlib
@@ -69,6 +73,38 @@ def charger(path):
 # ---------------------------------------------------------------------------
 # Calculs
 # ---------------------------------------------------------------------------
+
+def charger_signalements(path):
+    """Problèmes signalés par les enfants, du plus récent au plus ancien (liste de dictionnaires).
+
+    Chaque signalement vient de `signalements` (avec la copie de la question et le commentaire)
+    ou, pour les anciens, de `flags` (module et question seulement : « enonce » est vide).
+    Un flag déjà couvert par un signalement de la même question n'est pas répété.
+    """
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    prenoms = {p["id"]: p["name"] for p in data.get("profiles", [])}
+    liste = []
+    for s in data.get("signalements") or []:
+        if not isinstance(s, dict):
+            continue  # défensif, comme l'app
+        liste.append({
+            "date": s.get("date"), "enfant": prenoms.get(s.get("profil"), s.get("profil") or "?"),
+            "module": s.get("module", ""), "question": s.get("question"),
+            "enonce": s.get("enonce", ""), "choix": s.get("choix") or [],
+            "attendue": s.get("attendue", ""), "reponse": s.get("reponse", ""),
+            "commentaire": s.get("commentaire", ""),
+        })
+    deja = {(s["module"], s["question"]) for s in liste if s["question"]}
+    for ligne in data.get("flags") or []:
+        if isinstance(ligne, list) and len(ligne) >= 2 and (ligne[0], ligne[1]) not in deja:
+            profil = ligne[3] if len(ligne) > 3 else None
+            liste.append({
+                "date": ligne[2] if len(ligne) > 2 else None, "enfant": prenoms.get(profil, profil or "?"),
+                "module": ligne[0], "question": ligne[1], "enonce": "", "choix": [],
+                "attendue": "", "reponse": "", "commentaire": "",
+            })
+    return sorted(liste, key=lambda s: s["date"] or 0, reverse=True)
+
 
 def est_en_baisse(justes):
     """`justes` : suite de booléens dans l'ordre chronologique."""
@@ -208,6 +244,24 @@ def afficher(df):
             print(n.drop(columns="enfant").to_string(index=False))
 
 
+def afficher_signalements(liste):
+    """Les signalements, un bloc par problème (rien d'affiché s'il n'y en a pas)."""
+    if not liste:
+        return
+    print(f"\n=== Signalements : {len(liste)} ===")
+    for s in liste:
+        date = datetime.fromtimestamp(s["date"]).strftime("%d/%m/%Y") if s["date"] else "date inconnue"
+        question = f" ({s['question']})" if s["question"] else ""
+        print(f"\n{date} · {s['enfant']} · {s['module']}{question}")
+        if s["enonce"]:
+            print(f"  Question : {s['enonce']}")
+        if s["choix"]:
+            print("  Choix : " + " | ".join(s["choix"]))
+        if s["attendue"] or s["reponse"]:
+            print(f"  Attendue : {s['attendue'] or '?'} · réponse de l'enfant : {s['reponse'] or '?'}")
+        print(f"  Commentaire : {s['commentaire'] or '(aucun)'}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Analyse une sauvegarde miniprof.")
     parser.add_argument("export", help="fichier exporté depuis l'app (.export.json)")
@@ -219,6 +273,7 @@ def main():
     except (OSError, ValueError) as e:
         print(f"✘ Sauvegarde illisible : {e}")
         sys.exit(1)
+    afficher_signalements(charger_signalements(args.export))
     if df.empty:
         print("Aucune réponse dans cette sauvegarde.")
         sys.exit(0)

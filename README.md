@@ -161,10 +161,19 @@ La progression est stockée dans le navigateur de chaque appareil : vider les do
 changer de téléphone la fait perdre. D'où la sauvegarde :
 
 - **Exporter** : écran des profils > « Sauvegarder ou restaurer les données » (ou le lien du
-  rappel dans la bibliothèque) > « Exporter mes données ». Le navigateur télécharge
-  `miniprof-AAAA-MM-JJ.export.json` (profils, résultats, questions signalées). Le ranger dans
-  `exports/` sur le Mac : ce dossier et les fichiers `*.export.json` sont **ignorés par Git**
-  (données personnelles).
+  rappel dans la bibliothèque). Sur iPhone, « Exporter et partager » ouvre la feuille de partage
+  (Messages, AirDrop, Mail, Fichiers) : le fichier part sans passer par Fichiers
+  (`js/partage.js`, seule exception à « asynchrone limité à la lecture de fichiers »). La date du
+  dernier export n'est notée que si le partage a abouti. « Télécharger le fichier » reste proposé,
+  et c'est le seul bouton quand le navigateur ne sait pas partager un fichier. Le fichier est
+  `miniprof-AAAA-MM-JJ.export.json` (profils, résultats, questions signalées, problèmes décrits).
+  Le ranger dans `exports/` sur le Mac : ce dossier et les fichiers `*.export.json` sont
+  **ignorés par Git** (données personnelles).
+- **Signaler un problème** : l'enfant appuie sur « Cette question me semble fausse » (modules JSON,
+  après la correction) ou sur « Signaler » à côté de « Valider » (modules HTML), puis confirme
+  « Oui » ou « Non ». Un commentaire facultatif peut suivre. Miniprof garde une copie de la
+  question (`js/signalements.js`, clé `miniprof.v1.signalements`), qui voyage dans l'export et
+  s'affiche en tête de `tools/analyse.py`. Dans un module JSON, la question signalée n'est plus tirée.
 - **Restaurer** (même écran, accessible sans profil, donc sur un appareil neuf) : choisir le
   fichier, vérifier le résumé, puis « Confirmer : remplacer les données ». Les données de
   l'appareil sont **remplacées**, pas fusionnées.
@@ -180,7 +189,9 @@ python tools/analyse.py exports/miniprof-2026-10-04.export.json
 Affiche par enfant la réussite, le nombre d'essais et le temps par compétence, les compétences
 « à travailler » (moins de 60 %, ou en baisse de plus de 15 points sur les 10 derniers essais :
 même règle que le bilan de l'app), les questions les plus ratées et les notes des évaluations.
-Enregistre des graphiques dans `exports/analyse/`.
+Enregistre des graphiques dans `exports/analyse/`. Avant cela, la section « Signalements »
+liste les problèmes signalés par les enfants (date, enfant, module, question copiée, réponse
+attendue et réponse donnée, commentaire), du plus récent au plus ancien.
 
 ### Créer un module JSON depuis le Mac (voie de secours, n'importe quel LLM)
 
@@ -283,7 +294,10 @@ Référence complète : `schema/module.schema.json` ; exemple :
 
 ### Format du journal (export et `tools/analyse.py`)
 
-Un export contient `profiles` (`id`, `name`), `events` (`{id du profil: [lignes]}`) et `flags`.
+Un export contient `profiles` (`id`, `name`), `events` (`{id du profil: [lignes]}`), `flags` et,
+depuis le plan P003, `signalements` (liste d'objets : `id`, `date`, `module`, `profil`,
+`question`, `enonce`, `choix`, `attendue`, `reponse`, `commentaire`). Un fichier d'avant P003 n'a
+pas `signalements` : il reste lisible.
 Une ligne du journal : `[date (s), module, question, compétence, difficulté, mode ("e"
 entraînement / "v" évaluation), juste (1/0), durée (s), réponse, clé d'évaluation]`.
 `tools/analyse.py` en fait un tableau pandas (colonnes : `COLONNES` en tête du fichier).

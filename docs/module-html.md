@@ -58,6 +58,13 @@ Contrôle : `python tools/check_html.py modules/<id>.html` (`--llm` : texte de c
    const cle = window.miniprof ? window.miniprof.debutEvaluation(niveau) : null;  // niveau : 1..4, ou 0 = mixte
    if (window.miniprof) window.miniprof.reponse(resultats.map((r) => ({ ...r, mode: "v", evaluation: cle })));
    ```
+   - `miniprof.signaler({ enonce, choix, attendue, reponse })` : l'enfant signale la question
+     affichée ; miniprof garde cette copie (textes bruts, sans balises) et renvoie l'id du
+     signalement, ou `null` si rien n'est enregistré. `miniprof.commenter(id, texte)` y ajoute
+     son commentaire facultatif. Le moteur du gabarit l'appelle depuis le bouton « Signaler »
+     à côté de « Valider » (confirmation « Oui / Non », puis champ « Tu veux dire pourquoi ? »).
+     Les questions étant tirées au hasard, sans id, c'est la copie qui permet de les retrouver
+     (`tools/analyse.py` les affiche). Un module sans ce bouton reste conforme.
    - `miniprof.profil()` : prénom du profil courant, ou `null`.
    - `miniprof.racine` : adresse de l'app. Le bilan du module est à
      `miniprof.racine + "#/module/" + miniprof.module + "/bilan"`. La page n'a pas de bilan à

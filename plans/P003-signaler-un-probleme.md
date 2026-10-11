@@ -1,6 +1,6 @@
 # P003 — Signaler un problème depuis l'app (et un export plus simple à partager)
 
-- **Statut** : à mûrir (option décidée le 12 oct. 2026, cadrage à faire).
+- **Statut** : exécuté le 11 oct. 2026 ; feed-back possible jusqu'au 25 oct. 2026, puis clos.
 - **Origine** : demande du sponsor, 12 oct. 2026.
 
 ## Besoin
@@ -55,11 +55,55 @@ Recette iPhone (partage réel, signalement avec et sans commentaire) : tâche du
   anciens signalements.
 - Modules HTML : passer par `js/suivi.js` (contrat `docs/module-html.md`), jamais par le stockage.
 
-## À cadrer en atelier
+## Points cadrés le 11 oct. 2026 (voir les décisions ci-dessus)
 - Ce que veut dire « plus simple à partager » pour l'export (partage iOS, envoi par message,
   fichier plus léger…).
 - Où le sponsor lit les signalements (écran parent, `analyse.py`, les deux).
 - Découpage en unités et recettes sur l'iPhone.
 
+## Changements décidés pendant l'exécution
+- **Modules HTML** (décision du sponsor) : bouton « Signaler » **à côté de « Valider »**, avec
+  confirmation « La réponse attendue te semble fausse ? Oui / Non » ; miniprof garde **toute la
+  question** (énoncé, choix, réponse attendue, réponse donnée), sans id de question (elles sont
+  tirées au hasard). Le bandeau du haut n'est pas utilisé.
+- **Format** : au lieu de `flag_notes`, une clé **`miniprof.v1.signalements`** (liste d'objets avec
+  la copie de la question et le commentaire), commune aux modules JSON et HTML. `flags` ne change
+  pas (il retire toujours la question du tirage des modules JSON).
+- **Exception à « asynchrone limité à la lecture de fichiers »** (décision du sponsor) :
+  `navigator.share()` est asynchrone ; il est confiné à `js/partage.js` et la date du dernier
+  export n'est notée que si le partage a abouti. `CLAUDE.md` mis à jour.
+- Règle de synchronisation de `CLAUDE.md` et `test_sync.py` : `js/suivi.js` écrit par
+  `addEvents()` et `addSignalement()` / `commentSignalement()`.
+- Les **5 modules HTML existants** ont reçu le bouton (même correctif que le gabarit, comme P002) ;
+  leur contenu pédagogique ne change pas.
+
+## Livré
+1. **Export partageable** : « Exporter et partager » (feuille de partage du système) quand le
+   navigateur sait partager un fichier ; « Télécharger le fichier » à côté, ou seul sinon.
+2. **Signalement avec commentaire** : modules JSON (après la correction, parcours (a) : enregistré
+   tout de suite, commentaire ensuite) et modules HTML (gabarit + 5 modules) ; export et
+   restauration (`signalements` facultatif : les anciens fichiers restent lisibles).
+3. **`tools/analyse.py`** : section « Signalements » en tête (date, enfant, module, question,
+   réponses, commentaire) ; les anciens `flags` sans copie y figurent aussi.
+Contrat `docs/module-html.md` et `README.md` à jour.
+
+## Vérifié (recette)
+- Tests : 77 OK. `check_html.py` et `tirage.py` sur les 5 modules HTML.
+- Recette navigateur (Chromium) : 45 OK, dont : « Non » n'enregistre rien ; copie de la question
+  et commentaire (module HTML et module JSON) ; export avec `signalements` ; restauration d'un
+  ancien fichier (questions et résultats gardés) ; partage simulé (abouti, annulé, en erreur,
+  absent).
+- Capture à 400 px de large (module de dictée) : « Valider · Un indice · Signaler » sur une ligne,
+  confirmation dessous.
+- Non vérifié ici : le vrai partage sur iPhone (voir les tâches du sponsor).
+
+## Tâches du sponsor
+- Sur l'iPhone, écran « Sauvegarde » : « Exporter et partager » ouvre-t-il bien la feuille de
+  partage, et le fichier arrive-t-il dans Messages ou AirDrop ? Si le bouton « Exporter et
+  partager » n'apparaît pas, c'est que Safari refuse de partager un fichier JSON : le dire à Claude.
+- Dans un module HTML (par exemple la dictée) : appuyer sur « Signaler », répondre Non (rien ne se
+  passe), puis Oui, écrire un commentaire. Faire de même sur une question d'un module JSON. Puis
+  exporter et lancer `python tools/analyse.py` : les deux signalements doivent apparaître.
+
 ## Feed-back
-(sans objet)
+(aucun pour l'instant)

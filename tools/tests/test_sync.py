@@ -5,8 +5,9 @@
 - normalize_text() ≡ normalizeText() de js/answers.js : voir test_normalisation.py et les cas
   partagés de fixtures/normalisation.json ;
 - aucun innerHTML dans le JS de l'app (risque R7 : injection de contenu de module) ;
-- js/suivi.js (modules HTML) écrit seulement par addEvents() de js/events.js : l'ordre des
-  cases d'un événement reste défini à un seul endroit ;
+- js/suivi.js (modules HTML) écrit seulement par addEvents() de js/events.js (résultats) et par
+  addSignalement() / commentSignalement() de js/signalements.js (problèmes signalés) : le format
+  de chaque liste reste défini à un seul endroit ;
 - le skill /nouveau-module et docs/parent-iphone.md ne citent que des fichiers qui existent, et
   le skill lance les trois contrôles avant de publier (une session mobile le suit à la lettre).
 """
@@ -61,8 +62,9 @@ class TestSynchronisation(unittest.TestCase):
     def test_suivi_passe_par_events(self):
         source = (JS / "suivi.js").read_text(encoding="utf-8")
         self.assertIn('import { addEvents, maintenant } from "./events.js"', source)
+        self.assertIn('import { addSignalement, commentSignalement } from "./signalements.js"', source)
         code = "\n".join(l.split("//")[0] for l in source.splitlines())
-        self.assertNotRegex(code, r"localStorage|writeKey", "suivi.js doit passer par addEvents()")
+        self.assertNotRegex(code, r"localStorage|writeKey", "suivi.js doit passer par addEvents() ou signalements.js")
 
     def test_skill_nouveau_module(self):
         skill = (ROOT / ".claude" / "skills" / "nouveau-module" / "SKILL.md").read_text(encoding="utf-8")

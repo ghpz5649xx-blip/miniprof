@@ -103,7 +103,7 @@ function correction(r, i, id, module) {
     el("p", {}, el("strong", {}, "Ta réponse : "), richText(answerText(r.q, r.reponse))),
     r.juste ? null : el("p", {}, el("strong", {}, "Bonne réponse : "), richText(correctAnswerText(r.q))),
     el("p", { class: "muted" }, richText(r.q.explanation)),
-    boutonSignaler(id, r.q),
+    boutonSignaler(id, r.q, answerText(r.q, r.reponse)),
   );
 }
 

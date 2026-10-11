@@ -16,6 +16,7 @@
 import { el, richText, message } from "./ui.js";
 import { parseNumber, isCorrectSimple } from "./answers.js";
 import { flagQuestion } from "./flags.js";
+import { addSignalement, commentSignalement } from "./signalements.js";
 import { currentProfile } from "./profiles.js";
 import { MESSAGE_ECHEC_SAUVEGARDE } from "./storage.js";
 
@@ -107,19 +108,52 @@ function nombreEnTexte(n) {
 }
 
 // « Cette question me semble fausse » : signale la question (elle ne sera plus
-// tirée) et se remplace par un remerciement. `id` : celui du module (adresse).
-export function boutonSignaler(id, q) {
+// tirée), garde une copie de ce que l'enfant voyait (js/signalements.js), puis
+// propose un commentaire facultatif. `id` : celui du module (adresse).
+// `reponse` : la réponse de l'enfant en texte, si l'écran la connaît.
+export function boutonSignaler(id, q, reponse) {
   const zone = el("div", {});
   const bouton = el("button", {
     class: "btn btn-link",
     onclick: () => {
       const ok = flagQuestion(id, q.id, currentProfile().id);
-      zone.replaceChildren(ok
-        ? message("info", "Merci ! Cette question ne te sera plus posée, un adulte va la vérifier.")
-        : message("error", MESSAGE_ECHEC_SAUVEGARDE));
+      if (!ok) {
+        zone.replaceChildren(message("error", MESSAGE_ECHEC_SAUVEGARDE));
+        return;
+      }
+      const note = addSignalement({
+        module: id,
+        question: q.id,
+        enonce: q.prompt,
+        choix: q.type === "choice" ? q.choices.map((c) => c.label) : [],
+        attendue: correctAnswerText(q),
+        reponse: reponse,
+      }, currentProfile().id);
+      zone.replaceChildren(message("info", "Merci ! Cette question ne te sera plus posée, un adulte va la vérifier."));
+      if (note) zone.append(champCommentaire(note));
     },
   }, "Cette question me semble fausse");
   zone.append(bouton);
+  return zone;
+}
+
+// Champ facultatif « Tu veux dire pourquoi ? » sous le remerciement. Sans commentaire,
+// le signalement est déjà enregistré : l'enfant n'est jamais bloqué.
+function champCommentaire(noteId) {
+  const zone = el("div", { class: "signalement-commentaire" });
+  const champ = el("input", {
+    type: "text", maxlength: "300", autocomplete: "off", "aria-label": "Tu veux dire pourquoi ?",
+    placeholder: "Tu veux dire pourquoi ? (facultatif)",
+  });
+  zone.append(champ, el("button", {
+    class: "btn btn-secondary",
+    onclick: () => {
+      const ok = champ.value.trim() === "" || commentSignalement(noteId, champ.value);
+      zone.replaceChildren(ok
+        ? message("info", "Merci, c'est noté.")
+        : message("error", MESSAGE_ECHEC_SAUVEGARDE));
+    },
+  }, "Envoyer"));
   return zone;
 }
 

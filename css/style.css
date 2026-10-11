@@ -319,3 +319,7 @@ input[type="file"] { max-width: 100%; min-height: 48px; margin-bottom: 12px; fon
   font-weight: 700;
   text-align: center;
 }
+
+/* Commentaire facultatif sous « Cette question me semble fausse » (js/question-view.js) */
+.signalement-commentaire { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+.signalement-commentaire input { flex: 1 1 200px; margin: 0; }

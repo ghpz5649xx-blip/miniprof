@@ -38,8 +38,8 @@ marche : `README.md`.
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework, de
   build, de npm, de serveur, de PWA ; polices système.
-- **Asynchrone limité à la lecture de fichiers** (`js/loader.js`) ; stockage, calculs, affichage
-  synchrones. Pas de worker, service worker, IndexedDB.
+- **Asynchrone limité à la lecture de fichiers** (`js/loader.js`) et au partage du système
+  (`js/partage.js`, décidé le 11 oct. 2026, plan P003) ; stockage, calculs, affichage synchrones. Pas de worker, service worker, IndexedDB.
 - **Sécurité** : jamais d'`innerHTML` avec du texte de module (`richText()` / `textContent`).
   Les **modules HTML** (JS généré par un LLM) ne sont acceptés que s'ils respectent le contrat
   `docs/module-html.md`, vérifié par `tools/check_html.py` ; ils sont jetables (on les régénère).
@@ -77,8 +77,9 @@ Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` publie en
   `tools/tests/fixtures/normalisation.json`.
 - Champs obligatoires du schéma ≡ `REQUIRED`, `REQUIRED_QUESTION`, `TYPES_CONNUS`, `BLOCS_CONNUS`
   de `js/check-module.js` ; pas d'`innerHTML` dans `js/`.
-- `js/suivi.js` n'écrit que par `addEvents()` ; le skill `/nouveau-module` lance `check_html.py`,
-  `build_index.py`, les tests, et ne cite que des fichiers qui existent.
+- `js/suivi.js` n'écrit que par `addEvents()` et `addSignalement()` / `commentSignalement()` ;
+  le skill `/nouveau-module` lance `check_html.py`, `build_index.py`, les tests, et ne cite que
+  des fichiers qui existent.
 - `tools/analyse.py` ≡ app : `COLONNES` ≡ cases de `js/events.js`, `est_en_baisse()` ≡ `js/stats.js`
   (non testé : à vérifier à la main).
 

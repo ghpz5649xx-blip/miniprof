@@ -9,7 +9,9 @@
 //     "exported_at": 1791000000,                 (secondes depuis 1970)
 //     "profiles": [{ "id": "p…", "name": "Léa" }, ...],
 //     "events": { "p…": [ligne, ligne, ...], ... }, (lignes compactes de js/events.js)
-//     "flags": [[module, question, date, profil], ...]  (voir js/flags.js)
+//     "flags": [[module, question, date, profil], ...],  (voir js/flags.js)
+//     "signalements": [{ id, date, module, enonce, commentaire… }, ...]  (js/signalements.js ;
+//       absent des fichiers d'avant le plan P003)
 //   }
 // Les lignes sont copiées telles quelles : pas de conversion, donc rien à
 // garder synchronisé à part l'ordre des colonnes, documenté dans events.js.
@@ -18,6 +20,7 @@ import { readKey, writeKey, removeKey, usedChars } from "./storage.js";
 import { listProfiles } from "./profiles.js";
 import { rawLines, replaceLines, maintenant } from "./events.js";
 import { allFlags, replaceFlags } from "./flags.js";
+import { allSignalements, replaceSignalements } from "./signalements.js";
 
 const FORMAT = "miniprof-sauvegarde";
 const VERSION = 1;
@@ -40,28 +43,44 @@ export function buildBackup() {
     profiles: profils,
     events: evenements,
     flags: allFlags(),
+    signalements: allSignalements(),
   };
+}
+
+// La sauvegarde prête à être écrite dans un fichier : nom, texte JSON et date.
+// Commun au téléchargement et au partage (js/partage.js).
+export function preparerSauvegarde() {
+  const data = buildBackup();
+  // ".export.json" : ignoré par Git (.gitignore), ce sont des données personnelles.
+  return {
+    nom: "miniprof-" + new Date().toISOString().slice(0, 10) + ".export.json",
+    texte: JSON.stringify(data),
+    date: data.exported_at,
+  };
+}
+
+// Note la date du dernier export (rappel de sauvegarde). Renvoie true si c'est écrit.
+export function noterExport(date) {
+  return writeKey("last_export", date);
 }
 
 // Fait télécharger la sauvegarde par le navigateur, puis note la date.
 // Synchrone : on fabrique un fichier en mémoire (Blob) et on « clique » un
 // lien de téléchargement vers lui.
 export function downloadBackup() {
-  const data = buildBackup();
-  const texte = JSON.stringify(data);
-  const blob = new Blob([texte], { type: "application/json" });
+  const sauvegarde = preparerSauvegarde();
+  const blob = new Blob([sauvegarde.texte], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const lien = document.createElement("a");
   lien.href = url;
-  // ".export.json" : ignoré par Git (.gitignore), ce sont des données personnelles.
-  lien.download = "miniprof-" + new Date().toISOString().slice(0, 10) + ".export.json";
+  lien.download = sauvegarde.nom;
   document.body.append(lien);
   lien.click();
   lien.remove();
   // On ne libère pas l'adresse du Blob (URL.revokeObjectURL) : la libérer
   // tout de suite fait échouer le téléchargement sur certains navigateurs, et
   // attendre demanderait un minuteur. Elle disparaît à la fermeture de la page.
-  return writeKey("last_export", data.exported_at);
+  return noterExport(sauvegarde.date);
 }
 
 // Date (s) du dernier export, ou null.
@@ -97,6 +116,10 @@ export function checkBackup(data) {
   if (!Array.isArray(data.flags)) {
     errors.push("La liste des questions signalées est abîmée.");
   }
+  // Facultatif : les fichiers d'avant le plan P003 n'ont pas de signalements.
+  if (data.signalements !== undefined && !Array.isArray(data.signalements)) {
+    errors.push("La liste des problèmes signalés est abîmée.");
+  }
   if (errors.length > 0) return { ok: false, errors };
 
   // Résumé affiché avant confirmation : le parent vérifie que c'est le bon fichier.
@@ -110,6 +133,9 @@ export function checkBackup(data) {
     lignes.push(p.name + " : " + n + " réponse(s)");
   }
   lignes.push(data.flags.length + " question(s) signalée(s)");
+  if (Array.isArray(data.signalements) && data.signalements.length > 0) {
+    lignes.push(data.signalements.length + " problème(s) décrit(s)");
+  }
   return { ok: true, resume: lignes.join("\n") };
 }
 
@@ -125,6 +151,8 @@ export function restoreBackup(data) {
     ok = replaceLines(p.id, lignes) && ok;
   }
   ok = replaceFlags(data.flags) && ok;
+  // Un fichier d'avant P003 n'a pas de signalements : la liste de l'appareil est remplacée, comme le reste.
+  ok = replaceSignalements(Array.isArray(data.signalements) ? data.signalements : []) && ok;
   // Ces données existent déjà dans un fichier : le rappel repart de sa date.
   if (typeof data.exported_at === "number") ok = writeKey("last_export", data.exported_at) && ok;
   // 3. Le profil choisi n'existe peut-être plus : on repassera par le choix.

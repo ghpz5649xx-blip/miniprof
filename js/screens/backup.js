@@ -9,6 +9,7 @@ import { currentProfile } from "../profiles.js";
 import { readJsonFile } from "../loader.js";
 import { MESSAGE_ECHEC_SAUVEGARDE } from "../storage.js";
 import { downloadBackup, lastExport, storageRatio, checkBackup, restoreBackup } from "../backup.js";
+import { peutPartager, partagerSauvegarde } from "../partage.js";
 
 // Sauvegarde lue et contrôlée, en attente de confirmation (ou null).
 let aRestaurer = null;
@@ -34,17 +35,46 @@ function blocExport() {
     el("p", { class: "muted" },
       "Dernier export : " + (derniere ? new Date(derniere * 1000).toLocaleDateString("fr-FR") : "jamais")
       + " · stockage utilisé : " + pourcent + " %"),
-    el("button", {
-      class: "btn btn-primary",
-      onclick: () => {
-        aRestaurer = null;
-        const ok = downloadBackup();
-        showBackup(ok
-          ? { type: "ok", texte: "Fichier téléchargé. Range-le en lieu sûr (ordinateur, clé USB, cloud)." }
-          : { type: "error", texte: MESSAGE_ECHEC_SAUVEGARDE });
-      },
-    }, "Exporter mes données"),
+    boutonsExport(),
   );
+}
+
+// Avec le partage du système (iPhone) : « Partager » est le bouton principal et le
+// téléchargement reste proposé à côté. Sinon, le téléchargement seul.
+function boutonsExport() {
+  const telecharger = (principal) => el("button", {
+    class: principal ? "btn btn-primary" : "btn btn-secondary",
+    onclick: () => {
+      aRestaurer = null;
+      const ok = downloadBackup();
+      showBackup(ok
+        ? { type: "ok", texte: "Fichier téléchargé. Range-le en lieu sûr (ordinateur, clé USB, cloud)." }
+        : { type: "error", texte: MESSAGE_ECHEC_SAUVEGARDE });
+    },
+  }, principal ? "Exporter mes données" : "Télécharger le fichier");
+  if (!peutPartager()) return telecharger(true);
+
+  const monAdresse = location.hash;
+  const partager = el("button", {
+    class: "btn btn-primary",
+    onclick: () => {
+      aRestaurer = null;
+      // Le résultat arrive après la fermeture de la feuille de partage.
+      partagerSauvegarde((resultat, enregistre) => {
+        if (location.hash !== monAdresse) return; // parti entre-temps
+        if (resultat === "ok") {
+          showBackup(enregistre
+            ? { type: "ok", texte: "Fichier partagé." }
+            : { type: "error", texte: MESSAGE_ECHEC_SAUVEGARDE });
+        } else if (resultat === "annule") {
+          showBackup({ type: "info", texte: "Partage annulé : rien n'a été envoyé." });
+        } else {
+          showBackup({ type: "error", texte: "Le partage a échoué. Utilise « Télécharger le fichier »." });
+        }
+      });
+    },
+  }, "Exporter et partager");
+  return el("div", { class: "actions" }, partager, telecharger(false));
 }
 
 function blocRestauration() {

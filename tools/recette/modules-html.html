@@ -43,6 +43,18 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   e=ev().filter(l=>l[5]==='v');
   log(e.length===10,'évaluation : 10 événements (trouvé '+e.length+')');
   log(e.length&&e.every(l=>l[9]===e[0][9])&&/^\d+\/2$/.test(e[0][9]),'clé commune : '+(e[0]||[])[9]);
+  // signaler un problème (plan P003) : confirmation Oui / Non, copie de la question, commentaire facultatif
+  const sg=()=>JSON.parse(localStorage.getItem('miniprof.v1.signalements')||'[]');
+  accueil(d);clic(d,'[data-act="trainSetup"]');clic(d,'[data-act="trainStart"]');
+  clic(d,'[data-act="sig"]');
+  log(!!d.querySelector('[data-act="sigyes"]')&&!!d.querySelector('[data-act="signo"]'),'signaler : confirmation Oui / Non');
+  clic(d,'[data-act="signo"]');
+  log(sg().length===0&&d.getElementById('sig').innerHTML==='','signaler : « Non » n\'enregistre rien');
+  repondre(d);clic(d,'[data-act="sig"]');clic(d,'[data-act="sigyes"]');
+  log(sg().length===1&&sg()[0].module===ID&&sg()[0].enonce.length>0&&sg()[0].profil==='ptest','signaler : copie de la question : '+JSON.stringify(sg()[0]).slice(0,200));
+  d.getElementById('sigtxt').value='la réponse est fausse';clic(d,'[data-act="sigsend"]');
+  log(sg().length===1&&sg()[0].commentaire==='la réponse est fausse','signaler : commentaire ajouté au même signalement');
+  log(ev().filter(l=>l[5]==='e').length===6,'signaler : n\'ajoute aucun événement au journal');
   // bouton Mon bilan -> miniprof
   accueil(d);clic(d,'[data-act="bilan"]');await sleep(1500);
   log(f.contentWindow.location.hash==='#/module/'+ID+'/bilan','bouton Mon bilan -> '+f.contentWindow.location.href);
@@ -69,6 +81,48 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(!d.getElementById('app').textContent.includes('illisible')&&d.querySelectorAll('a.card-link, a.card').length>0,'accueil du module JSON : '+d.getElementById('app').textContent.slice(0,80));
   d=await charger('index.html#/bilan');await sleep(800);
   log(d.getElementById('app').textContent.includes('Le circuit électrique'),'bilan tous modules : titre du module HTML');
+  // signaler un problème dans un module JSON : question retirée du tirage, copie gardée, commentaire facultatif
+  const qv=await import('/js/question-view.js');
+  const idJ='maths-cm2-division-euclidienne';
+  const modJ=await fetch('modules/'+idJ+'.json').then(r=>r.json());
+  const qJ=modJ.questions.find(x=>x.type==='choice')||modJ.questions[0];
+  const zoneJ=qv.boutonSignaler(idJ,qJ,'ma réponse');document.body.append(zoneJ);
+  zoneJ.querySelector('button').click();
+  const flags=JSON.parse(localStorage.getItem('miniprof.v1.flags')||'[]');
+  log(flags.length===1&&flags[0][0]===idJ&&flags[0][1]===qJ.id,'module JSON : question signalée (flags inchangé) : '+JSON.stringify(flags[0]));
+  log(sg().length===2&&sg()[1].question===qJ.id&&sg()[1].reponse==='ma réponse'&&sg()[1].attendue.length>0,'module JSON : copie gardée : '+JSON.stringify(sg()[1]).slice(0,160));
+  zoneJ.querySelector('input').value='il manque un cas';zoneJ.querySelector('.signalement-commentaire button').click();
+  log(sg()[1].commentaire==='il manque un cas','module JSON : commentaire ajouté');
+  zoneJ.remove();
+  // sauvegarde : le nouveau champ voyage, les anciens fichiers restent lisibles
+  const bk=await import('/js/backup.js');
+  const sauv=bk.buildBackup();
+  log(Array.isArray(sauv.signalements)&&sauv.signalements.length===2,'export : signalements inclus');
+  const ancien={...sauv};delete ancien.signalements;
+  log(bk.checkBackup(ancien).ok&&bk.checkBackup(sauv).ok&&!bk.checkBackup({...sauv,signalements:'x'}).ok,'sauvegarde : ancien fichier accepté, champ abîmé refusé');
+  bk.restoreBackup(ancien);
+  log(sg().length===0&&JSON.parse(localStorage.getItem('miniprof.v1.flags')).length===1&&ev().length>0,'restauration d\'un ancien fichier : questions et résultats gardés, signalements vides');
+  bk.restoreBackup(sauv);
+  log(sg().length===2,'restauration d\'un fichier récent : signalements rétablis');
+  // partage du système (simulé : le navigateur de recette ne partage pas de fichiers)
+  const pa=await import('/js/partage.js');
+  localStorage.setItem('miniprof.v1.last_export','1');
+  navigator.canShare=()=>true;
+  let envoye=null;navigator.share=async dn=>{envoye=dn;};
+  const lancer=()=>new Promise(r=>pa.partagerSauvegarde((res,ok)=>r([res,ok])));
+  let rp=await lancer();
+  log(pa.peutPartager()&&rp[0]==='ok'&&rp[1]===true&&envoye&&envoye.files[0].name.endsWith('.export.json'),'partage : fichier .export.json envoyé à la feuille de partage');
+  const apres=JSON.parse(localStorage.getItem('miniprof.v1.last_export'));
+  log(typeof apres==='number'&&apres>1,'partage abouti : date du dernier export notée ('+apres+')');
+  localStorage.setItem('miniprof.v1.last_export','1');
+  navigator.share=async()=>{const e=new Error('annulé');e.name='AbortError';throw e;};
+  rp=await lancer();
+  log(rp[0]==='annule'&&localStorage.getItem('miniprof.v1.last_export')==='1','partage annulé : date du dernier export inchangée');
+  navigator.share=async()=>{throw new Error('boum');};
+  rp=await lancer();
+  log(rp[0]==='erreur'&&localStorage.getItem('miniprof.v1.last_export')==='1','partage en erreur : signalé, date inchangée');
+  navigator.canShare=undefined;navigator.share=undefined;
+  log(pa.peutPartager()===false,'sans partage de fichiers : repli sur le téléchargement');
   // sans profil
   localStorage.removeItem('miniprof.v1.current');const n=ev().length;
   d=await charger('modules/'+ID+'.html');

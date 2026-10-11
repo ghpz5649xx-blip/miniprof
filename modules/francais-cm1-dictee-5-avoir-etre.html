@@ -86,6 +86,7 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 .btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
 .btn.ghost{background:transparent}
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.acts{display:contents}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
 .chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
@@ -517,11 +518,38 @@ function qScreen(){
         ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
         :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
     <div id="hint"></div><div id="fb"></div>
-    <div class="btns" id="acts">
+    <div class="btns"><span id="acts" class="acts">
       <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
       ${ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'}
-    </div></main>`);
+    </span><button class="btn ghost" data-act="sig">Signaler</button></div><div id="sig"></div></main>`);
   S.choice=null;S.attempts=0;q.t0=Date.now();
+}
+/* ================= MOTEUR : signaler un problème ================= */
+// Bouton « Signaler » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
+// copie de la question (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+// Pourquoi une copie : les questions sont tirées au hasard, sans identifiant à retrouver ensuite.
+const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
+function sigAsk(){
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>La réponse attendue te semble fausse ?</b></p>
+    <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
+}
+function sigYes(){
+  const q=S.q||{},ch=q.choices||[],zone=document.getElementById('sig');
+  const lab=v=>{const c=ch.find(c=>c.v===v);return c?(txt(c.label)||'(image)'):'';};
+  const champ=document.getElementById('rep');
+  const att=q.write?String(q.write.ok[0]):(q.exp&&q.exp.c!==undefined?lab(q.exp.c):'');
+  const id=window.miniprof?window.miniprof.signaler({enonce:txt(q.prompt),choix:ch.map(c=>txt(c.label)||'(image)'),
+    attendue:att,reponse:champ?champ.value:(S.choice?lab(S.choice):'')}):null;
+  zone.innerHTML=id
+    ?`<div class="fb good"><p><b>Merci !</b> Un adulte va vérifier cette question.</p>
+      <div style="margin:10px 0"><input id="sigtxt" style="width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)" type="text" maxlength="300" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Tu veux dire pourquoi ?" placeholder="Tu veux dire pourquoi ? (facultatif)"></div>
+      <div class="btns"><button class="btn" data-act="sigsend" data-id="${esc(id)}">Envoyer</button></div></div>`
+    :`<div class="fb bad"><p>Le signalement n'a pas pu être enregistré.</p></div>`;
+}
+function sigSend(el){
+  const t=document.getElementById('sigtxt'),zone=document.getElementById('sig');
+  if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
+  zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
 }
 function setFb(html){document.getElementById('fb').innerHTML=html;}
 function lockChoices(){
@@ -647,6 +675,10 @@ function act(a,el){
     case 'check':S.mode==='eval'?checkEval():checkTrain();break;
     case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
     case 'reveal':revealTrain();break;
+    case 'sig':sigAsk();break;
+    case 'signo':document.getElementById('sig').innerHTML='';break;
+    case 'sigyes':sigYes();break;
+    case 'sigsend':sigSend(el);break;
     case 'next':nextTrain();break;
     case 'bilan':bilan();break;
     default:break;

@@ -12,12 +12,17 @@
 //   miniprof.profil()                    prénom du profil courant, ou null ;
 //   miniprof.debutEvaluation(niveau)     clé commune aux réponses d'une évaluation ;
 //   miniprof.reponse(r) / reponse([r…])  enregistre une ou plusieurs réponses, avec
-//     r = { competence, juste, mode: "e"|"v", difficulte, question, reponse, duree, evaluation }.
+//     r = { competence, juste, mode: "e"|"v", difficulte, question, reponse, duree, evaluation } ;
+//   miniprof.signaler(s)                 l'enfant signale la question affichée : copie de ce qu'il
+//     voyait, s = { enonce, choix: [libellés], attendue, reponse } (textes bruts) ; renvoie l'id
+//     du signalement, ou null s'il n'est pas enregistré ;
+//   miniprof.commenter(id, texte)        ajoute son commentaire facultatif à ce signalement.
 // L'id du module est lu dans la fiche de la page (#miniprof-module) : la page
 // ne peut pas écrire au nom d'un autre module par erreur.
 
 import { currentProfile } from "./profiles.js";
 import { addEvents, maintenant } from "./events.js";
+import { addSignalement, commentSignalement } from "./signalements.js";
 import { el } from "./ui.js";
 
 // Adresse de l'app, calculée depuis ce fichier (js/ est à la racine du site) :
@@ -65,6 +70,21 @@ function reponse(r) {
   return addEvents(profil.id, liste.map(versEvenement));
 }
 
+// Signalement d'une question (js/signalements.js). Les questions d'un module HTML n'ont pas
+// d'id stable : on garde l'énoncé, les choix et les réponses. Enregistré même sans profil
+// (profil null) : un problème de question compte pour tout le monde.
+function signaler(s) {
+  if (!fiche || s === null || typeof s !== "object") return null;
+  const profil = currentProfile();
+  return addSignalement({
+    module: fiche.id, enonce: s.enonce, choix: s.choix, attendue: s.attendue, reponse: s.reponse,
+  }, profil ? profil.id : null);
+}
+
+function commenter(id, texte) {
+  return typeof id === "string" && commentSignalement(id, texte);
+}
+
 // Même clé que les évaluations des modules JSON : "<date de début>/<niveau>".
 function debutEvaluation(niveau) {
   return maintenant() + "/" + (niveau ? String(niveau) : "mixte");
@@ -92,5 +112,5 @@ function bandeau() {
   return el("div", { class: "miniprof-bandeau", style: style }, ...contenu);
 }
 
-window.miniprof = { profil, reponse, debutEvaluation, racine: RACINE, module: fiche ? fiche.id : null };
+window.miniprof = { profil, reponse, debutEvaluation, signaler, commenter, racine: RACINE, module: fiche ? fiche.id : null };
 document.body.prepend(bandeau());
