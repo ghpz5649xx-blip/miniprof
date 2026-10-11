@@ -27,6 +27,9 @@ commentaire facultatif, pour que le sponsor le sache et que Claude corrige.
   sans prénom) : **POC isolé dans `poc/`, hors de P003**, ligne au backlog. Il demandera de lever
   « aucune requête vers un tiers » pour ce seul cas : décision du sponsor après le POC.
 
+- **Lecture des signalements : `tools/analyse.py` seulement**, à partir de l'export. Pas d'écran
+  parent dans l'app (pourra venir plus tard si le besoin se fait sentir).
+
 ## Contraintes connues
 - Aucun serveur : un signalement reste sur l'appareil de l'enfant jusqu'à l'export.
 - Les modules JSON ont déjà « Cette question me semble fausse » (`js/flags.js`, clé
