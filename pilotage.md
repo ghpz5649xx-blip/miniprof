@@ -83,9 +83,8 @@ et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.
 | A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` : il sort en brouillon ; relire les questions-réponses données, essayer la page, puis répondre « valide » (recette 12.7 et 12.8). Ne pas envoyer l'URL à l'enfant avant. | Sponsor | ce week-end | à faire |
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
 | A10 | À la prochaine liste de mots : l'envoyer en photo avec `/nouveau-module` en précisant « dictée, niveau ** » ; Claude fabrique le module (phrases nouvelles à chaque séance, couverture vérifiée par programme, mots ratés en priorité), tu le relis puis « valide » | Sponsor, puis Claude | prochaine liste | à faire |
-| A11 | Essayer « S'entraîner > Dessiner un schéma » du module circuit sur l'iPhone : les traits de la grille se touchent-ils facilement au doigt ? (recette D.4) Si c'est gênant, me le dire : je corrige ou je reviens en arrière. | Sponsor | avant le prochain usage de l'enfant | à faire |
 
-Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée).
+Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A11 (grille du dessin facile au doigt, sur l'iPhone).
 
 ---
 
