@@ -84,8 +84,12 @@ Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` publie en
 
 ## Façon de travailler
 - **Synchronisé avec `origin/main`** : le hook `synchro.sh` met à jour en début de session (prévenir
-  le sponsor s'il échoue) ; `git pull --rebase origin main` et tests juste avant chaque push ; en
-  cas de conflit, s'arrêter et demander.
+  le sponsor s'il échoue) ; `git pull --rebase origin main` avant chaque push ; en cas de conflit,
+  s'arrêter et demander.
+- **Tests avant un push** : seulement si le push touche du code ou du contenu (`js/`, `tools/`,
+  `modules/`, `schema/`, `index.html`, `index.json`), une fois par unité, juste avant le push final.
+  Un push de doc seule (`pilotage.md`, `plans/`, `README.md`, `CLAUDE.md`) ne se teste pas. Les
+  tests et le push sont deux commandes séparées : s'ils échouent, on ne pousse pas.
 - **Une unité est finie** quand : les tests passent ; les contrôles concernés passent et
   `modules/index.json` est régénéré ; la recette (`tools/recette_navigateur.py`, plus ce qu'il
   faut regarder à l'écran) est écrite dans la fiche du plan ; `plans/index.md`, `pilotage.md` et
