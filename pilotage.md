@@ -14,13 +14,76 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 
 | # | Point | Temps | Ce qu'on attend de toi |
 |---|---|---|---|
-| 1 | Bilan de l'étape 12 allégée (si livrée) : un vrai module publié en brouillon puis validé | 5 min | ton retour d'usage |
-| 2 | Refonte du `README.md` (A6, livrée) : est-ce que tu t'y retrouves ? | 3 min | ta relecture |
-| 3 | Retour d'usage de la 6e : l'export (A4) dit-il si la correction du a / an a aidé ? | 7 min | l'export |
-| 4 | Premier module CE2/CM1 : comment ça s'est passé | 5 min | ton retour |
-| 4 bis | Module « dictée » (D8) : retour d'usage ; faut-il l'évolution B4, et comment la concevoir ? | 5 min | ton retour |
-| 5 | Backlog : priorités | 3 min | arbitrage |
+| 1 | Bilan de la période (synthèse ci-dessous) : brouillon et validation, README, premiers modules CM1 | 4 min | ton retour d'usage, validation des actions closes |
+| 2 | Retour d'usage : l'export (A4) dit-il si les modules aident ? | 6 min | l'export |
+| 3 | Module « dictée » (D8) : retour d'usage ; faut-il l'évolution B4 ? | 4 min | ton retour |
+| 4 | Challenges et opportunités vus par le chef de projet | 12 min | décisions D9 à D13 |
+| 5 | Backlog : priorités | 2 min | arbitrage |
 | 6 | Relevé des décisions et des actions | 2 min | validation |
+
+---
+
+## Synthèse de la période (6 au 11 octobre)
+
+**Ce qui s'est passé**
+- **Gouvernance** : comités de pilotage, `pilotage.md` seul support, une question à la fois,
+  service courant à la demande, une seule évolution à la fois, cadre des POC (comité n° 1).
+- **Livré** : relecture avant les enfants (un nouveau module sort en brouillon, avec une
+  question-réponse par compétence et par niveau ; « valide » le publie), gabarit commun et
+  `tools/tirage.py`, `README.md` refondu en documentation de reprise.
+- **Service courant, à ton rythme** : 4 modules créés (Paddington 2, tables de 3-6-9, dictée 5,
+  et le premier module CM1), 4 corrections (a / an expliqué pas à pas ; circuit : dessin de
+  schéma, dérivation dès le niveau 1, DEL). Chaque nouveau module est passé par le brouillon puis
+  ta validation, une fois après une correction (« au-déssus »).
+- **Ce qui a bien marché** : la boucle courte « tu signales, je corrige, c'est en ligne dans la
+  minute » (série / dérivation corrigée et mesurée le jour même) ; la relecture des
+  questions-réponses tirées du vrai code.
+- **Ce qui a moins bien marché** : des réponses envoyées dans la mauvaise session (sessions en
+  parallèle) ; le tableau des faits marquants qui s'allonge ; aucune mesure encore de l'effet sur
+  les enfants (A4 en attente).
+
+---
+
+## Challenges et opportunités (regard du chef de projet)
+
+**Challenges**
+1. **On ne mesure pas encore si ça marche.** On produit des modules, mais personne ne regarde le
+   bilan des enfants. Sans revue d'usage, on ne sait pas quoi corriger ni quoi refaire (D9).
+2. **Le contenu sans source vérifiée.** Paddington 2 (faits du film) et les tables CM1 (programme
+   non lu) reposent sur ma seule connaissance. La relecture te revient : elle doit rester rapide
+   pour ne pas devenir une corvée.
+3. **Le module circuit grossit** : 10 compétences et 105 Ko, pour un contrat qui en prévoit 2 à 8.
+   Chaque ajout se fait par correction d'une page « jetable » de plus en plus lourde : risque de
+   régression et de lecture difficile pour l'enfant (D12).
+4. **Les sessions en parallèle se croisent** : une réponse arrive dans une autre session que celle
+   qui a posé la question. Le service courant en parallèle reste utile, mais une session doit
+   finir par une question claire, rattachée à son module.
+5. **`pilotage.md` s'allonge** : le tableau des faits marquants dépasse 20 lignes (D13).
+
+**Opportunités**
+1. **La dictée lue par le téléphone.** La synthèse vocale du navigateur (sans réseau sur
+   l'iPhone) permettrait à ton fils de faire sa dictée seul, le téléphone lisant les phrases.
+   C'est la question idéale pour un POC (D10).
+2. **Réviser au bon moment.** Une rubrique « À revoir aujourd'hui » dans la bibliothèque, qui
+   ressort les compétences ratées de tous les modules quelques jours plus tard (révision
+   espacée). Gros gain pédagogique, mais évolution de l'app : à décider après la revue d'usage
+   (D11).
+3. **Une routine hebdomadaire** : la liste de mots et la leçon de la semaine deviennent chacune un
+   module, le week-end. C'est déjà ce qui se dessine ; B4 la rendrait plus fiable.
+4. **Ranger la bibliothèque** : les deux modules CM2 (JSON) ne correspondent à aucun des enfants
+   cette année. Les cacher alléger la bibliothèque, sans rien perdre (ils restent dans le dépôt).
+
+### Décisions proposées pour le comité n° 2
+
+| # | Proposition | Coût | Ce qu'on perd | Recommandation |
+|---|---|---|---|---|
+| D9 | **Revue d'usage à chaque comité** : tu fais un export des deux enfants avant le comité, je l'analyse (`tools/analyse.py`) et j'en tire 3 constats et 1 à 3 corrections de modules | 2 minutes pour toi par comité ; 10 minutes de comité | rien | oui |
+| D10 | **POC « dictée lue par le téléphone »** (synthèse vocale locale, dans `poc/dictee-vocale/`) : voir si la voix française de l'iPhone lit bien une dictée, phrase par phrase | 1 session ; 10 minutes d'essai pour toi | rien (un POC n'est jamais mis en production tel quel) | oui |
+| D11 | **« À revoir aujourd'hui »** (révision espacée dans la bibliothèque) | 2 à 3 sessions, 1 recette iPhone ; aucun changement du format des données (tout est recalculé depuis le journal) | rien | au backlog, à reprendre après 2 revues d'usage (D9) |
+| D12 | **Limite de taille des modules** : au-delà de 8 compétences, un nouvel ajout va dans un deuxième module (ex. « circuit électrique 2 : DEL et dessin ») ; on n'enlève rien au module actuel | aucun aujourd'hui | un module unique par chapitre | oui |
+| D13 | **Hygiène de `pilotage.md`** : je ne garde que les faits marquants depuis le comité précédent ; les plus anciens restent dans l'historique Git | aucun | la liste complète à l'écran (elle reste dans Git et le README) | oui |
+
+**Action proposée** : cacher aux enfants les deux modules CM2 (une ligne dans un fichier, réversible). À confirmer en comité (point 5).
 
 ---
 
@@ -52,19 +115,20 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 11 oct. | Module « Dictée 5 : Devinettes, avoir et être » (CM1, à partir de la photo de la liste de mots) : les 13 mots surlignés à écrire et à classer par nature, présent d'avoir et être. Publié **en brouillon**, à relire puis valider. Niveaux des enfants notés dans `CLAUDE.md` à la demande du sponsor. |
 | 11 oct. | Module « Dictée 5 : Devinettes, avoir et être » (CM1) validé par le sponsor après retrait d'une faute proposée (« au-déssus ») : visible dans la bibliothèque. |
 
-Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
-et grands nombres CM2 (JSON). Tables de 3, 6 et 9 CM1 (HTML).
+Modules en ligne : 6e : anglais Zootopia, Paddington 2, circuit électrique (HTML). CM1 : tables
+de 3, 6 et 9, dictée 5 (HTML). CM2 : division euclidienne, grands nombres (JSON, aucun enfant à
+ce niveau cette année).
 
 ---
 
 ## Regard du chef de projet
 
-- **Priorité du moment** : ta recette de l'étape 12 avec le module CE2/CM1 de ce week-end
-  (A8). C'est le premier module publié en brouillon, relu par toi avant ton enfant.
+- **Priorité du moment** : la revue d'usage (A4, D9). Les modules sont là ; il faut maintenant
+  savoir s'ils servent et où les enfants butent.
 - **Le vrai risque reste la qualité du contenu** (une réponse fausse apprise par un enfant) :
   l'étape 12 y répond directement.
-- **Vérifications sur l'iPhone en retard** (A2, A3) : elles se feront naturellement avec le
-  module de ce week-end.
+- **Recette de l'étape 12 faite en usage réel** : 3 modules sont passés par le brouillon puis ta
+  validation (Paddington 2, tables, dictée 5).
 
 ---
 
@@ -83,14 +147,14 @@ et grands nombres CM2 (JSON). Tables de 3, 6 et 9 CM1 (HTML).
 
 | # | Action | Porteur | Échéance | Statut |
 |---|---|---|---|---|
-| A2 | Au prochain `/nouveau-module` : vérifier que la réponse cite des exemples tirés à relire (recette G.5) | Sponsor | ce week-end | à faire |
+| A2 | Au prochain `/nouveau-module` : vérifier que la réponse cite des exemples tirés à relire (recette G.5) | Sponsor | comité n° 2 | à confirmer (constaté sur Paddington 2) |
 | A3 | Jouer le module circuit sur l'iPhone (recette 8.5 à 8.8), seulement s'il doit être envoyé à un enfant | Sponsor | si besoin | à faire |
 | A4 | Faire un export des données de la 6e après une semaine d'usage (Sauvegarde > Exporter), puis me le transmettre en session | Sponsor | vers le 13 oct. | à faire |
-| A8 | Créer le premier module CE2/CM1 avec `/nouveau-module` : il sort en brouillon ; relire les questions-réponses données, essayer la page, puis répondre « valide » (recette 12.7 et 12.8). Ne pas envoyer l'URL à l'enfant avant. | Sponsor | ce week-end | à faire |
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
-| A10 | À la prochaine liste de mots : l'envoyer en photo avec `/nouveau-module` en précisant « dictée, niveau ** » ; Claude fabrique le module (phrases nouvelles à chaque séance, couverture vérifiée par programme, mots ratés en priorité), tu le relis puis « valide » | Sponsor, puis Claude | prochaine liste | à faire |
+| A10 | Chaque nouvelle liste de mots : photo + `/nouveau-module` « dictée » ; tu relis puis « valide » (première fois faite : dictée 5) | Sponsor, puis Claude | chaque semaine | en cours |
+| A12 | Faire un export des **deux** enfants juste avant le comité n° 2 (Sauvegarde > Exporter, sur chaque appareil) | Sponsor | comité n° 2 | à faire |
 
-Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A11 (grille du dessin facile au doigt, sur l'iPhone).
+Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A11 (grille du dessin facile au doigt, sur l'iPhone).
 
 ---
 
