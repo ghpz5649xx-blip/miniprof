@@ -215,9 +215,8 @@ ce niveau cette année).
 | A13 | Sur l'appareil du CM1 : créer un profil « Test » pour tes essais ; l'enfant garde le profil actuel (son historique y est) | Sponsor | avant ton prochain essai de module | à faire |
 | A14 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | Sponsor | cette semaine | à faire |
 | A15 | Pour que Claude puisse lire des ressources de référence (Eduscol, manuels) : dans l'environnement cloud de Claude Code (menu de l'environnement dans le titre de la session, puis Edit), section Network access, choisir un accès plus large ou ajouter les domaines voulus aux « Allowed domains ». Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | Sponsor | avant la prochaine dictée | à faire |
-| A16 | Sur l'iPhone, dictée 5 > S'entraîner > Être au présent : vérifier que le clavier ne propose pas de mots et ne corrige pas « son » tout seul (recette E.5), puis la faire faire au CM1 | Sponsor | avant la prochaine dictée | à faire |
 
-Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A4 et A12 (exports des deux appareils, 11 oct., analysés : revue d'usage n° 1), A11 (grille du dessin facile au doigt, sur l'iPhone).
+Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A4 et A12 (exports des deux appareils, 11 oct., analysés : revue d'usage n° 1), A11 (grille du dessin facile au doigt, sur l'iPhone), A16 (clavier sans suggestions vérifié sur l'iPhone).
 
 ---
 
