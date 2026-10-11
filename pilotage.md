@@ -44,6 +44,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 8 oct. | Module « Paddington 2 en VO » (anglais 6e) créé à la demande du sponsor, pour préparer le film vu en VO sous-titrée : mots du film, personnages, politesse, se présenter, décrire, l'histoire (sans la fin). Publié **en brouillon**, à relire puis valider. |
 | 8 oct. | Module « Paddington 2 en VO » validé par le sponsor : visible dans la bibliothèque. Première utilisation réelle du brouillon et de la validation (recette 12.7, 12.8). |
 | 11 oct. | Module « circuit électrique » corrigé à la demande du sponsor : nouvelle compétence **« Dessiner un schéma »**. L'élève pose fils et symboles sur une grille (choix du sponsor : grille plutôt que dessin libre, pour une correction automatique) ; toute disposition juste est acceptée, chaque erreur est expliquée (bout libre, court-circuit, série au lieu de dérivation…). Une question à dessiner dans chaque évaluation ; une fiche Apprendre en plus. Historique des enfants conservé (mêmes compétences, une ajoutée). |
+| 11 oct. | Module circuit, « Dessiner un schéma » : le sponsor n'avait que des montages en série. Au niveau Échauffement, les 5 montages étaient tous en série. Corrigé : la dérivation arrive dès le niveau 1, et chaque question tire série ou dérivation à pile ou face (mesuré : environ 50/50). |
 
 Modules en ligne : anglais 6e (Zootopia), circuit électrique 6e (HTML) ; division euclidienne
 et grands nombres CM2 (JSON). Aucun module encore au niveau CE2/CM1.

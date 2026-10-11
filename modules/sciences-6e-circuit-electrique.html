@@ -845,21 +845,26 @@ const DCFG=[
   {lv:1,d:'une pile et deux lampes, branchées en série',t:'S(L,L)',ref:refSerie(['lampe','lampe'])},
   {lv:1,d:'une pile, une lampe et un moteur, branchés en série',t:'S(L,M)',ref:refSerie(['lampe','moteur'])},
   {lv:1,d:'une pile, un interrupteur ouvert et une lampe, branchés en série',t:'S(Ko,L)',ref:refSerie(['ko','lampe'])},
+  {lv:1,d:'une pile et deux lampes branchées en dérivation',t:'P(L,L)',ref:refDeriv(['lampe'],['lampe'])},
+  {lv:1,d:'une pile, une lampe et un moteur branchés en dérivation',t:'P(L,M)',ref:refDeriv(['lampe'],['moteur'])},
   {lv:2,d:'une pile, deux lampes, un moteur et un interrupteur fermé, tous en série',t:'S(Kf,L,L,M)',ref:refSerie(['lampe','lampe','moteur','kf'])},
-  {lv:2,d:'une pile et deux lampes branchées en dérivation',t:'P(L,L)',ref:refDeriv(['lampe'],['lampe'])},
-  {lv:2,d:'une pile, une lampe et un moteur branchés en dérivation',t:'P(L,M)',ref:refDeriv(['lampe'],['moteur'])},
+  {lv:2,d:'une pile, une lampe, un moteur et un interrupteur ouvert, tous en série',t:'S(Ko,L,M)',ref:refSerie(['lampe','moteur','ko'])},
   {lv:2,d:'une pile et deux lampes en dérivation, avec un interrupteur fermé sur la branche principale (celle de la pile)',t:'S(Kf,P(L,L))',ref:refDeriv(['lampe'],['lampe'],'kf'),main:true},
   {lv:2,d:'une pile, une lampe et un moteur en dérivation, avec un interrupteur ouvert sur la branche principale (celle de la pile)',t:'S(Ko,P(L,M))',ref:refDeriv(['lampe'],['moteur'],'ko'),main:true},
   {lv:2,d:"une pile et deux lampes en dérivation, avec un interrupteur ouvert dans la branche d'une seule des deux lampes",t:'P(L,S(Ko,L))',ref:refDeriv(['lampe'],['ko','lampe']),branche:true}
 ];
 function genDessin(level){
-  const cf=pick(DCFG.filter(x=>x.lv===level));
-  const tt=analyse(cf.ref).tree,der=hasP(tt);
-  let concept=der?"<p>En <b>dérivation</b>, le circuit a plusieurs boucles : les branches partent d'un nœud (point noir) et se rejoignent.</p>"
+  // D'abord série ou dérivation à pile ou face, puis un montage de ce type : sans ça, le tirage
+  // suivait le nombre de montages de chaque sorte (au niveau 1, il n'y avait que des séries ;
+  // signalé par le sponsor le 11/10/2026).
+  const pool=DCFG.filter(x=>x.lv===level),der=pool.filter(x=>x.t.indexOf('P(')>=0),ser=pool.filter(x=>x.t.indexOf('P(')<0);
+  const cf=pick(der.length&&ser.length?(Math.random()<.5?der:ser):pool);
+  const tt=analyse(cf.ref).tree,estDer=hasP(tt);
+  let concept=estDer?"<p>En <b>dérivation</b>, le circuit a plusieurs boucles : les branches partent d'un nœud (point noir) et se rejoignent.</p>"
     :"<p>En <b>série</b>, tout est sur une seule boucle : la pile, puis chaque composant l'un après l'autre.</p>";
   if(cf.main)concept+="<p>L'interrupteur sur la branche principale commande les deux branches.</p>";
   if(cf.branche)concept+="<p>L'interrupteur dans une branche ne commande que la lampe de sa branche.</p>";
-  const hint=(der?"<p>Fais un rectangle avec la pile à gauche, puis ajoute une deuxième branche verticale entre le fil du haut et le fil du bas.</p>"
+  const hint=(estDer?"<p>Fais un rectangle avec la pile à gauche, puis ajoute une deuxième branche verticale entre le fil du haut et le fil du bas.</p>"
     :"<p>Une seule boucle : pars de la pile, pose chaque composant l'un après l'autre sur le même chemin, puis reviens à la pile avec des fils.</p>")
     +(cf.main?"<p>La branche principale, c'est celle où se trouve la pile.</p>":'');
   return {skill:'dessin',level,draw:true,target:cf.t,tt,choices:[],exp:{c:cf.t},
