@@ -49,6 +49,13 @@ liste pour toi les notions et les exercices des photos, puis les erreurs que fon
 élèves de ce niveau sur ces notions. Chaque niveau de difficulté vise un piège précis, et chaque
 mauvais choix a son « pourquoi » qui corrige cette erreur-là.
 
+**Écrire plutôt que choisir** (décision D15) : pour l'orthographe, la conjugaison, la dictée
+(tout ce que l'enfant devra écrire sur sa copie), fais des questions **à écrire** avec `W()` du
+gabarit : réponses acceptées, et fautes prévues avec leur pourquoi (homophones : son / sont,
+on / ont, a / à, et / est…). Garde le choix (`Q()`) pour reconnaître une notion (nature d'un
+mot, série ou dérivation…). Retour d'usage : un module de dictée tout en choix n'a pas corrigé
+« son » au lieu de « sont ».
+
 Respecte `docs/module-html.md` (contrat + règles pédagogiques + pièges). En bref : une seule page,
 tout dedans (CSS, JS, SVG), polices système, aucune URL externe, aucun accès au stockage, suivi
 uniquement par `window.miniprof`, et la page doit marcher sans miniprof.

@@ -126,6 +126,12 @@ details.rev summary{cursor:pointer;font-weight:700}
 details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
 .ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
 .ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
 .blank{display:inline-block;min-width:4em;border-bottom:3px solid var(--pitch);color:transparent}
 .big-s{font-size:1.25rem;font-weight:700}
 table.conj{border-collapse:collapse;margin:10px 0;font-size:1.15rem}
@@ -150,6 +156,24 @@ function Q(skill,level,prompt,choices,correct,hint,explain){
   return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
 }
 const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15) : l'enfant tape sa réponse au lieu de la choisir.
+// Pourquoi : pour l'orthographe et la conjugaison, reconnaître le bon mot parmi des choix ne
+// suffit pas, il faut l'écrire (« son » au lieu de « sont » a résisté à un module en QCM).
+// ok : réponses acceptées (la première est montrée en correction) ; erreurs : {faute prévue : pourquoi}.
+// Correction stricte sur les lettres, les accents, le trait d'union ; souple sur les majuscules,
+// les espaces en trop et la forme de l'apostrophe (’ ou ').
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe. Relis ton mot lettre par lettre.'};
+}
 
 /* ================= CONTENU : données de la leçon ================= */
 // Dictée 5 « Devinettes » : seuls les mots surlignés et non barrés sur la feuille sont à savoir.
@@ -250,23 +274,27 @@ const COMPL={avoir:['une montre neuve','un camion rouge','une longue voiture','p
   etre:['dans la voiture','derrière le camion',"dans l'ambulance",'en retard',"dans l'avion",'derrière la maison']};
 
 /* ================= CONTENU : un générateur par compétence ================= */
-// Écrire un mot : 1 = devinette, 3 choix ; 2 = phrase à trous, 4 choix ; 3 = trouver le mot mal écrit.
+// Écrire un mot (questions à écrire, décision D15 : écrire le mot, pas le choisir) :
+// 1 = devinette ; 2 = phrase à trous ; 3 = un mot mal écrit à corriger.
+// Les fautes fréquentes de chaque mot (w.faux) deviennent des fautes prévues, avec leur pourquoi.
+function fautesMot(w){const e={};w.faux.forEach(f=>{e[f[0]]=f[1];});return e;}
 function genEcrire(skill,liste,level){
+  const w=pick(liste),e=fautesMot(w);
+  // pour un nom, on accepte aussi le mot avec son déterminant (« une voiture »)
+  const ok=w.det?[w.m,`${w.det} ${w.m}`]:[w.m];
+  const fin=`<p>On écrit <b>${w.m}</b> : ${phraseAvec(w)}</p>`;
   if(level===3){
-    const mots=shuffle(liste.slice()).slice(0,4),k=R(0,3),f=pick(mots[k].faux);
-    const ch=mots.map((w,i)=>i===k?C(f[0],f[0]):C(w.m,w.m,`« ${w.m} » est bien écrit.`));
-    return Q(skill,level,`<p>Un seul mot est <b>mal écrit</b>. Lequel ?</p>`,ch,f[0],
+    const f=pick(w.faux);
+    e[f[0]]="Tu as recopié le mot mal écrit : cherche la faute et corrige-la.";
+    return W(skill,level,`<p>Ce mot est <b>mal écrit</b> : <span class="big-s">${f[0]}</span></p><p>Écris-le correctement.</p>`,ok,e,
       `<p>Regarde bien les lettres muettes, les lettres doublées et les accents.</p>`,
-      `<p>« ${f[0]} » est mal écrit. ${f[1]} On écrit <b>${mots[k].m}</b>.</p>`);
+      `<p>${f[1]}</p>${fin}`);
   }
-  const w=pick(liste),n=level===1?2:3;
-  const ch=[C(w.m,w.m)].concat(shuffle(w.faux.slice()).slice(0,n).map(f=>C(f[0],f[0],f[1])));
   const prompt=level===1
-    ?`<p><b>Devinette :</b> ${w.dev}</p><p>Choisis le mot bien écrit.</p>`
-    :`<p>Complète avec le mot bien écrit :</p><p class="big-s">${trou(w.ph)}</p>`;
-  return Q(skill,level,prompt,ch,w.m,
-    `<p>Le mot commence par « ${w.m.slice(0,2)} ». Pense à la fiche Apprendre.</p>`,
-    `<p>On écrit <b>${w.m}</b> : ${phraseAvec(w)}</p>`);
+    ?`<p><b>Devinette :</b> ${w.dev}</p><p>Écris le mot.</p>`
+    :`<p>Écris le mot qui manque :</p><p class="big-s">${trou(w.ph)}</p>`;
+  return W(skill,level,prompt,ok,e,
+    `<p>Le mot commence par « ${w.m.slice(0,2)} ». Pense à la fiche Apprendre.</p>`,fin);
 }
 const genNoms=level=>genEcrire('noms',NOMS,level);
 const genMots=level=>genEcrire('mots',MOTS,level);
@@ -302,32 +330,45 @@ function genNature(level){
     `<p>Les trois autres sont des ${groupe}s. « ${intrus.m} » : ${carNat(intrus)}</p>`);
 }
 
-// Avoir et être : 1 = un pronom ; 2 = une phrase ; 3 = sujets pièges et mots qui se prononcent pareil.
+// Avoir et être (questions à écrire, D15) : 1 = un pronom ; 2 = une phrase ;
+// 3 = sujets pièges. L'enfant écrit la forme ; les autres formes et les mots qui se prononcent
+// pareil (son / sont, on / ont, à / a, et / est) sont des fautes prévues, avec leur pourquoi.
+const HOMOV={'à':'avoir','on':'avoir','ais':'avoir','et':'etre','son':'etre','etes':'etre'};
+function fautesVerbe(v,p){
+  const f=FORMES[v][p],e={};
+  FORMES.avoir.concat(FORMES.etre).concat(Object.keys(HOMOV).filter(k=>HOMOV[k]===v))
+    .forEach(k=>{if(k!==f&&!e[k])e[k]=pourquoiForme(k,v,p);});
+  return e;
+}
+// Astuce pour les pluriels qui se prononcent comme un autre mot (sont / son, ont / on)
+function astuce(v,p){
+  if(p!==5)return '';
+  return v==='etre'?" Astuce : si tu peux dire « ils <b>étaient</b> », c'est le verbe être : <b>sont</b>, avec un t."
+    :" Astuce : si tu peux dire « ils <b>avaient</b> », c'est le verbe avoir : <b>ont</b>, avec un t.";
+}
 function genVerbe(v,level){
   const nomV=NOMV[v];
   if(level===1){
     const p=R(0,5),pr=p===2?pick(['il','elle','on']):p===5?pick(['ils','elles']):PERS[p];
     const f=FORMES[v][p];
-    const ch=[C(f,f)].concat(others(FORMES[v],f,3).map(x=>C(x,x,pourquoiForme(x,v,p))));
     const debut=pr==='je'&&v==='avoir'?"j'":pr+' ';
-    return Q(v,level,`<p>Conjugue <b>${nomV}</b> au présent :</p><p class="big">${debut}<span class="blank">______</span></p>`,ch,f,
+    return W(v,level,`<p>Conjugue <b>${nomV}</b> au présent. Écris le verbe :</p><p class="big">${debut}<span class="blank">______</span></p>`,
+      [f,avecPronom(pr,v,f)],fautesVerbe(v,p),
       `<p>Récite dans l'ordre : ${avecPronom('je',v,FORMES[v][0])}, tu ${FORMES[v][1]}, il ${FORMES[v][2]}…</p>`,
-      `<p>Avec ${pr}, ${nomV} s'écrit <b>${f}</b> : ${avecPronomB(pr,v,f)}.</p>`);
+      `<p>Avec ${pr}, ${nomV} s'écrit <b>${f}</b> : ${avecPronomB(pr,v,f)}.${astuce(v,p)}</p>`);
   }
   const s=pick(level===2?SUJ2:SUJ3),p=s[1],f=FORMES[v][p],cpl=pick(COMPL[v]);
-  const faux=level===2?others(FORMES[v],f,3):PIEGES[v][p];
-  const ch=[C(f,f)].concat(faux.map(x=>C(x,x,pourquoiForme(x,v,p))));
   const remplace=s[0].toLowerCase()===s[2]||/, /.test(s[0])?`Avec ${s[2]}`:`« ${s[0]} », c'est « ${s[2]} »`;
-  return Q(v,level,`<p>Complète avec le verbe <b>${nomV}</b> au présent :</p><p class="big-s">${sujetTrou(s[0],v,p)} ${cpl}.</p>`,ch,f,
+  return W(v,level,`<p>Écris le verbe <b>${nomV}</b> au présent :</p><p class="big-s">${sujetTrou(s[0],v,p)} ${cpl}.</p>`,[f],fautesVerbe(v,p),
     `<p>Par quel pronom peux-tu remplacer le sujet ? Je, tu, il, nous, vous ou ils ?${level===3?' Rappel : … et moi = nous ; … et toi = vous.':''}</p>`,
-    `<p>${s[3]?s[3]+' ':''}${remplace} : ${avecPronomB(s[2],v,f)}.</p>`);
+    `<p>${s[3]?s[3]+' ':''}${remplace} : ${avecPronomB(s[2],v,f)}.${astuce(v,p)}</p>`);
 }
 
 // Clés = ids des compétences de la fiche (même ordre).
 const SKILLS={noms:{label:'Écrire les noms'},mots:{label:'Écrire les verbes et les petits mots'},
   nature:{label:'Reconnaître la nature des mots'},avoir:{label:'Avoir au présent'},etre:{label:'Être au présent'}};
 const GEN={noms:genNoms,mots:genMots,nature:genNature,avoir:l=>genVerbe('avoir',l),etre:l=>genVerbe('etre',l)};
-const LEVELS={1:{t:'Facile',d:'devinettes et pronoms'},2:{t:'Moyen',d:'des phrases à compléter'},3:{t:'Défi',d:'les pièges'}};
+const LEVELS={1:{t:'Facile',d:'devinettes et pronoms'},2:{t:'Moyen',d:'des phrases à compléter'},3:{t:'Défi',d:'corriger les fautes, sujets pièges'}};
 // 10 questions : 2 par compétence
 const EVAL_SKILLS=['noms','noms','mots','mots','nature','nature','avoir','avoir','etre','etre'];
 const CHEER=['Bravo !','Bien joué !','Exact !','Parfait !'];
@@ -471,7 +512,10 @@ function qScreen(){
   show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
-      <div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div></div>
+      ${q.write
+        // clavier de l'iPhone sans suggestions ni correction automatique : l'enfant écrit seul
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
     <div id="hint"></div><div id="fb"></div>
     <div class="btns" id="acts">
       <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
@@ -481,13 +525,19 @@ function qScreen(){
 }
 function setFb(html){document.getElementById('fb').innerHTML=html;}
 function lockChoices(){
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(S.q.write&&judgeWrite(S.q,inp.value).ok?'good':'bad');}
   app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
     if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
 }
+// la réponse tapée (question à écrire), coupée à 60 caractères pour le journal
+function lireEcrit(){const i=document.getElementById('rep');return i?i.value.slice(0,60):'';}
 function checkTrain(){
-  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  let v=null;
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse.</div>');return;}v=judgeWrite(S.q,S.choice);}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
   const q=S.q;S.attempts++;
-  const ok=S.choice===q.exp.c;
+  const ok=v?v.ok:S.choice===q.exp.c;
   // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
   if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
   if(ok){
@@ -496,10 +546,12 @@ function checkTrain(){
     if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
     setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
     document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
-  }else if(S.attempts===1){
-    const c=q.choices.find(c=>c.v===S.choice);
-    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${c&&c.why?c.why:'Relis la question et réessaie.'}</p></div>`);
-    app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+  }else if(S.attempts===1||(v&&S.attempts<3)){
+    // une question à écrire laisse 3 essais : l'enfant corrige son mot lui-même
+    const c=v?null:q.choices.find(c=>c.v===S.choice);
+    const why=v?v.why+'<br><span class="small">Corrige ta réponse, puis valide à nouveau.</span>':(c&&c.why?c.why:'Relis la question et réessaie.');
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${why}</p></div>`);
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
     S.choice=null;
     document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="check" data-primary>Réessayer</button><button class="btn ghost" data-act="hint">Un indice</button><button class="btn ghost" data-act="reveal">Voir la correction</button>`;
   }else revealTrain();
@@ -521,13 +573,14 @@ function evalStart(){
   S.q=qs[0];qScreen();
 }
 function checkEval(){
-  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
-  S.results.push({q:S.q,ans:S.choice,ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse avant de continuer.</div>');return;}}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.q.write?judgeWrite(S.q,S.choice).ok:S.choice===S.q.exp.c,duree:secs(S.q)});
   S.i++;
   if(S.i>=S.total){evalEnd();return;}
   S.q=S.qs[S.i];qScreen();
 }
-const lblOf=(q,v)=>{const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+const lblOf=(q,v)=>{if(q.write)return esc(v);const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
 function evalEnd(){
   const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
   const duree=Math.round((Date.now()-S.t0)/1000);
@@ -590,6 +643,8 @@ function act(a,el){
   }
 }
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b)b.click();}});
 
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.

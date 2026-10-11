@@ -16,7 +16,8 @@ Avertissement (ne bloque pas) : un mauvais choix sans « pourquoi », une compé
 On affiche aussi quelques exemples par compétence et niveau, à relire : l'outil voit les erreurs
 de forme, pas une réponse fausse sur le fond (un calcul faux reste « une seule bonne réponse »).
 
-La page doit suivre docs/gabarit-module.html : questions faites par Q() et C(), et, à la fin du
+La page doit suivre docs/gabarit-module.html : questions faites par Q() et C() (choix) ou W()
+(à écrire), et, à la fin du
 script, la ligne qui donne { GEN, LEVELS, LEARN, SKILLS, EVAL_SKILLS } à window.__miniprofTirage.
 Sortie : 0 si aucune erreur, 1 sinon, 2 si node est introuvable ou si la page ne se charge pas.
 """
@@ -53,8 +54,31 @@ const texte=s=>String(s).replace(/<svg[\s\S]*?<\/svg>/g,'[dessin]').replace(/<[^
 // Une erreur par sorte et par endroit, avec le nombre de fois et un exemple
 function note(table,ou,msg,ex){const k=ou+' : '+msg;const e=table[k]||(table[k]={n:0,ex:ex||''});e.n++;}
 const MOTS_INTERDITS=/undefined|NaN|\[object Object\]|\bnull\b/;
+// Question « à écrire » (W() du gabarit) : des réponses acceptées, et des fautes prévues qui ne
+// doivent jamais être une bonne réponse (sinon l'enfant serait compté faux en écrivant juste).
+const normW=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function verifierEcrit(q,k,lv,ou){
+  const ok=q.write.ok||[],err=q.write.erreurs||{};
+  const ex=texte(q.prompt)+' → '+ok.join(' / ');
+  if(q.skill!==k)note(out.erreurs,ou,`compétence « ${q.skill} » au lieu de « ${k} »`,ex);
+  if(q.level!==lv)note(out.erreurs,ou,`niveau ${q.level} au lieu de ${lv}`,ex);
+  if(!ok.length||ok.some(x=>!normW(x)))note(out.erreurs,ou,'question à écrire sans réponse acceptée',ex);
+  if(String(q.exp.c)!==String(ok[0]))note(out.erreurs,ou,'exp.c doit être la première réponse acceptée',ex);
+  Object.keys(err).forEach(f=>{
+    if(ok.some(x=>normW(x)===normW(f)))note(out.erreurs,ou,`la faute prévue « ${f} » est aussi une bonne réponse`,ex);
+    if(!texte(err[f]))note(out.avertissements,ou,'une faute prévue sans « pourquoi »',ex+' ; '+f);
+  });
+  const tout=[q.prompt,q.hint,q.explain].concat(ok,Object.keys(err),Object.values(err)).map(String).join(' ');
+  const m=texte(tout).match(MOTS_INTERDITS);
+  if(m)note(out.erreurs,ou,`« ${m[0]} » dans le texte`,ex);
+  if(!texte(q.explain||''))note(out.erreurs,ou,'pas de correction (explain vide)',ex);
+  if(!texte(q.hint||''))note(out.avertissements,ou,"pas d'indice (hint vide)",ex);
+  const liste=out.exemples[ou]||(out.exemples[ou]={});
+  if(Object.keys(liste).length<PARAM.exemples)liste[texte(q.prompt)]='(à écrire) '+ok.join(' ou ');
+}
 function verifierQuestion(q,k,lv,ou){
-  if(!q||typeof q!=='object'||!Array.isArray(q.choices)||!q.exp){note(out.erreurs,ou,'question sans choices ni exp : faire la question avec Q()');return;}
+  if(q&&q.write&&q.exp){verifierEcrit(q,k,lv,ou);return;}
+  if(!q||typeof q!=='object'||!Array.isArray(q.choices)||!q.exp){note(out.erreurs,ou,'question sans choices ni exp : faire la question avec Q() ou W()');return;}
   const vs=q.choices.map(c=>String(c.v)),ls=q.choices.map(c=>texte(c.label));
   const ex=texte(q.prompt)+' ['+ls.join(' / ')+']';
   if(q.skill!==k)note(out.erreurs,ou,`compétence « ${q.skill} » au lieu de « ${k} »`,ex);

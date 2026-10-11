@@ -90,6 +90,13 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
 - **Niveaux** : 2 à 4 niveaux de difficulté (`difficulte` 1 à 4), du plus direct (application
   de la règle) au plus piégeux (erreurs fréquentes, plusieurs étapes). L'évaluation propose
   chaque niveau et un mélange (`debutEvaluation(0)`).
+- **Écrire plutôt que choisir** (décision D15, 12 oct. 2026) : pour ce que l'enfant devra écrire
+  sur sa copie (orthographe, conjugaison, dictée), des questions **à écrire** (`W()` du
+  gabarit) : champ de saisie, clavier de l'iPhone sans suggestions ni correction automatique
+  (`autocorrect`, `autocomplete`, `spellcheck` coupés), correction stricte sur les lettres et
+  les accents, souple sur les majuscules et les espaces, fautes prévues avec leur pourquoi. Le
+  choix (`Q()`) reste pour reconnaître une notion. Pourquoi : un module de dictée tout en choix
+  n'a pas corrigé « son » au lieu de « sont » ; reconnaître le bon mot n'apprend pas à l'écrire.
 - **Questions tirées au hasard** par des générateurs (un par compétence) quand la notion s'y
   prête ; chaque réponse attendue est **vérifiée** (recalculée, une seule bonne réponse, pas de
   choix en double).

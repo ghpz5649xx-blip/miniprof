@@ -79,7 +79,7 @@ partie asynchrone : lire un fichier).
 
 | | **Module HTML** (la voie normale depuis octobre 2026) | **Module JSON** (la première voie) |
 |---|---|---|
-| Fichier | `modules/<id>.html` : une page autonome, avec son propre JavaScript (schémas, animations, questions tirées au hasard) | `modules/<id>.json` : une liste fixe de questions, jouée par les écrans de l'app |
+| Fichier | `modules/<id>.html` : une page autonome, avec son propre JavaScript (schémas, animations, questions tirées au hasard, à choisir ou **à écrire** : orthographe, conjugaison, dictée) | `modules/<id>.json` : une liste fixe de questions, jouée par les écrans de l'app |
 | Fabriqué par | Claude Code, avec le skill `/nouveau-module` | n'importe quel LLM, avec `tools/prompt.py` |
 | Contrôlé par | `tools/check_html.py` (le contrat) et `tools/tirage.py` (milliers de questions tirées) | `tools/validate.py` (le schéma `schema/module.schema.json`) |
 | Suivi | la page appelle `window.miniprof` (`js/suivi.js`), qui écrit dans le même journal | l'app écrit directement dans le journal |

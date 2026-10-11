@@ -54,6 +54,14 @@ class TestTirage(unittest.TestCase):
         r, _ = self.tirer_texte(TEXTE.replace("function genComparer(level){", "function genComparer(level){null.x;"))
         self.assertTrue(any("plante" in k for k in r["erreurs"]))
 
+    def test_question_a_ecrire(self):
+        # Le gabarit contient une question à écrire (W) : elle est tirée et vérifiée.
+        r, _ = tirer(GABARIT, tirages=300, exemples=5)
+        self.assertTrue(any("(à écrire)" in rep for rep in r["exemples"]["exemple, niveau 2"].values()))
+        # Une faute prévue égale à la bonne réponse est refusée (l'enfant serait compté faux en écrivant juste).
+        r, _ = self.tirer_texte(TEXTE.replace("{[s+10]:", "{[s]:'faux',[s+10]:"))
+        self.assertTrue(any("aussi une bonne réponse" in k for k in r["erreurs"]))
+
     def test_page_sans_point_de_tirage(self):
         r, _ = self.tirer_texte(TEXTE.replace("if(window.__miniprofTirage)", "if(false)"))
         self.assertTrue(any("__miniprofTirage" in k for k in r["erreurs"]))

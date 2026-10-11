@@ -4,7 +4,7 @@ Support des comités de pilotage. **Claude le met à jour à la fin de chaque se
 suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUDE.md`,
 « Gouvernance ».
 
-**Évolution en cours : questions à écrire (D15) : gabarit, `tirage.py`, dictée 5 refaite, skill.** Une session qui voit cette ligne ne lance pas d'autre évolution (D3).
+**Évolution en cours : aucune.** Dernière livrée : questions à écrire (D15).
 
 ---
 
@@ -173,6 +173,7 @@ Analyse faite avec `tools/analyse.py` ; les exports restent hors du dépôt (don
 | 11 oct. | Module « Dictée 5 : Devinettes, avoir et être » (CM1, à partir de la photo de la liste de mots) : les 13 mots surlignés à écrire et à classer par nature, présent d'avoir et être. Publié **en brouillon**, à relire puis valider. Niveaux des enfants notés dans `CLAUDE.md` à la demande du sponsor. |
 | 11 oct. | Module « Dictée 5 : Devinettes, avoir et être » (CM1) validé par le sponsor après retrait d'une faute proposée (« au-déssus ») : visible dans la bibliothèque. |
 | 12 oct. | Retour du sponsor sur la dictée 5 : le texte (4 devinettes, par étapes) a bien marché ; **le module d'entraînement a eu peu d'effet** : le CM1 écrit toujours « son » pour « sont ». Cause : tout est en QCM (reconnaître le bon mot), alors qu'il faut **écrire** le mot pour s'entraîner. Les ressources de référence du net n'ont pas pu être lues : le réseau de l'environnement cloud les bloque. |
+| 12 oct. | **Questions à écrire livrées (D15)** : le gabarit sait poser une question où l'enfant tape sa réponse (clavier de l'iPhone sans suggestions ni correction automatique, correction stricte sur l'orthographe et les accents, souple sur les majuscules) ; chaque faute prévue a son pourquoi (« son » → « sont » : si tu peux dire « ils étaient »…). Dictée 5 refaite : noms, mots, avoir et être à écrire ; la nature des mots reste en choix. `tirage.py` vérifie aussi ces questions ; le skill impose l'écriture pour l'orthographe, la conjugaison et la dictée. Historique conservé (mêmes compétences). |
 
 Modules en ligne : 6e : anglais Zootopia, Paddington 2, circuit électrique (HTML). CM1 : tables
 de 3, 6 et 9, dictée 5 (HTML). CM2 : division euclidienne, grands nombres (JSON, aucun enfant à
@@ -214,6 +215,7 @@ ce niveau cette année).
 | A13 | Sur l'appareil du CM1 : créer un profil « Test » pour tes essais ; l'enfant garde le profil actuel (son historique y est) | Sponsor | avant ton prochain essai de module | à faire |
 | A14 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | Sponsor | cette semaine | à faire |
 | A15 | Pour que Claude puisse lire des ressources de référence (Eduscol, manuels) : dans l'environnement cloud de Claude Code (menu de l'environnement dans le titre de la session, puis Edit), section Network access, choisir un accès plus large ou ajouter les domaines voulus aux « Allowed domains ». Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | Sponsor | avant la prochaine dictée | à faire |
+| A16 | Sur l'iPhone, dictée 5 > S'entraîner > Être au présent : vérifier que le clavier ne propose pas de mots et ne corrige pas « son » tout seul (recette E.5), puis la faire faire au CM1 | Sponsor | avant la prochaine dictée | à faire |
 
 Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A4 et A12 (exports des deux appareils, 11 oct., analysés : revue d'usage n° 1), A11 (grille du dessin facile au doigt, sur l'iPhone).
 

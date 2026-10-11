@@ -8,7 +8,8 @@
   À faire en le copiant dans modules/<id>.html :
     1. la fiche (id, titre, matière, niveau, compétences) et le <title> ;
     2. les couleurs (:root, thème sombre) si on veut ;
-    3. la partie « CONTENU » du script : données de la leçon, un générateur par compétence,
+    3. la partie « CONTENU » du script : données de la leçon, un générateur par compétence
+       (questions à choisir : Q() et C() ; questions à écrire : W(), voir genExemple),
        GEN, LEVELS, LEARN, EVAL_SKILLS, l'accueil ;
     4. supprimer ce commentaire.
   Le reste (« MOTEUR ») se garde tel quel. Il marche avec 2 à 4 niveaux.
@@ -137,6 +138,12 @@ details.rev summary{cursor:pointer;font-weight:700}
 details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
 .ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
 .ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
 </style>
 </head>
 <body>
@@ -157,6 +164,24 @@ function Q(skill,level,prompt,choices,correct,hint,explain){
   return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
 }
 const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15) : l'enfant tape sa réponse au lieu de la choisir.
+// Pourquoi : pour l'orthographe et la conjugaison, reconnaître le bon mot parmi des choix ne
+// suffit pas, il faut l'écrire (« son » au lieu de « sont » a résisté à un module en QCM).
+// ok : réponses acceptées (la première est montrée en correction) ; erreurs : {faute prévue : pourquoi}.
+// Correction stricte sur les lettres, les accents, le trait d'union ; souple sur les majuscules,
+// les espaces en trop et la forme de l'apostrophe (’ ou ').
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe. Relis ton mot lettre par lettre.'};
+}
 
 /* ================= CONTENU : données de la leçon ================= */
 // Ici : listes de mots, de nombres, de cas tirés des photos de la leçon.
@@ -167,6 +192,13 @@ const C=(v,label,why)=>({v:String(v),label,why:why||''});
 // Le niveau 1 applique la règle ; les niveaux suivants ajoutent les pièges de la leçon.
 function genExemple(level){
   const a=level===1?R(2,9):R(12,49),b=level===1?R(2,9):R(12,49),s=a+b;
+  // Exemple de question « à écrire » (W) : la réponse est tapée, pas choisie. Pour l'orthographe,
+  // la conjugaison, la dictée, c'est la règle (D15) ; les fautes prévues ont chacune leur pourquoi.
+  if(level===2&&Math.random()<.5)
+    return W('exemple',level,`Écris le résultat : <span class="big">${a} + ${b} = ?</span>`,[s],
+      {[s+10]:`Tu as ajouté une dizaine de trop : ${a} + ${b} = ${s}.`,[s-10]:`Il manque la retenue : ${a} + ${b} = ${s}.`},
+      `<p>Commence par les unités, et n'oublie pas la retenue.</p>`,
+      `<p>${a} + ${b} = <b>${s}</b>.</p>`);
   // distracteurs construits à partir des erreurs fréquentes, puis dédoublonnés
   const faux=[s+1,s-1,s+10,a*b].filter((x,i,t)=>x!==s&&x>0&&t.indexOf(x)===i).slice(0,3);
   return Q('exemple',level,`Combien font <span class="big">${a} + ${b}</span> ?`,
@@ -305,7 +337,10 @@ function qScreen(){
   show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
-      <div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div></div>
+      ${q.write
+        // clavier de l'iPhone sans suggestions ni correction automatique : l'enfant écrit seul
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
     <div id="hint"></div><div id="fb"></div>
     <div class="btns" id="acts">
       <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
@@ -315,13 +350,19 @@ function qScreen(){
 }
 function setFb(html){document.getElementById('fb').innerHTML=html;}
 function lockChoices(){
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(S.q.write&&judgeWrite(S.q,inp.value).ok?'good':'bad');}
   app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
     if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
 }
+// la réponse tapée (question à écrire), coupée à 60 caractères pour le journal
+function lireEcrit(){const i=document.getElementById('rep');return i?i.value.slice(0,60):'';}
 function checkTrain(){
-  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  let v=null;
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse.</div>');return;}v=judgeWrite(S.q,S.choice);}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
   const q=S.q;S.attempts++;
-  const ok=S.choice===q.exp.c;
+  const ok=v?v.ok:S.choice===q.exp.c;
   // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
   if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
   if(ok){
@@ -330,10 +371,12 @@ function checkTrain(){
     if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
     setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
     document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
-  }else if(S.attempts===1){
-    const c=q.choices.find(c=>c.v===S.choice);
-    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${c&&c.why?c.why:'Relis la question et réessaie.'}</p></div>`);
-    app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+  }else if(S.attempts===1||(v&&S.attempts<3)){
+    // une question à écrire laisse 3 essais : l'enfant corrige son mot lui-même
+    const c=v?null:q.choices.find(c=>c.v===S.choice);
+    const why=v?v.why+'<br><span class="small">Corrige ta réponse, puis valide à nouveau.</span>':(c&&c.why?c.why:'Relis la question et réessaie.');
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${why}</p></div>`);
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
     S.choice=null;
     document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="check" data-primary>Réessayer</button><button class="btn ghost" data-act="hint">Un indice</button><button class="btn ghost" data-act="reveal">Voir la correction</button>`;
   }else revealTrain();
@@ -355,13 +398,14 @@ function evalStart(){
   S.q=qs[0];qScreen();
 }
 function checkEval(){
-  if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
-  S.results.push({q:S.q,ans:S.choice,ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse avant de continuer.</div>');return;}}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.q.write?judgeWrite(S.q,S.choice).ok:S.choice===S.q.exp.c,duree:secs(S.q)});
   S.i++;
   if(S.i>=S.total){evalEnd();return;}
   S.q=S.qs[S.i];qScreen();
 }
-const lblOf=(q,v)=>{const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+const lblOf=(q,v)=>{if(q.write)return esc(v);const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
 function evalEnd(){
   const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
   const duree=Math.round((Date.now()-S.t0)/1000);
@@ -424,6 +468,8 @@ function act(a,el){
   }
 }
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b)b.click();}});
 
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.

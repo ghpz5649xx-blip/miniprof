@@ -338,3 +338,17 @@ montage demandé : toute disposition juste est acceptée.
 | D.3 | Chromium 390 px : un dessin faux (points entourés en rouge), « Voir la correction », un dessin juste (lampe allumée), une évaluation (le dessin y est, relu au corrigé), la fiche Apprendre 8 ; `recette_navigateur.py` | Pas d'erreur JS ; « ✔ 28 OK, 0 échec(s) » (la recette répond aux questions à dessiner en posant un fil). | ☑ |
 | D.4 | Sur l'iPhone, au doigt (action A11) | Les traits de la grille se touchent sans viser ; les outils se choisissent facilement. | ☑ (iPhone, sponsor, 11 oct. 2026) |
 | D.5 | Retour du sponsor (11 oct.) : « que des séries après 7 questions ». Cause : au niveau 1, les 5 montages étaient tous en série. Correction : 2 montages en dérivation passent au niveau 1, un montage en série est ajouté au niveau 2, et chaque question tire d'abord série ou dérivation à pile ou face. Chromium : 40 questions par niveau | Niveau 1 : 24 séries, 16 dérivations ; niveau 2 : 21 séries, 19 dérivations ; pas d'erreur JS ; schémas modèles vérifiés par `tirage.py`. | ☑ |
+
+## Questions à écrire (D15, 12 octobre 2026)
+
+Retour du sponsor : la dictée 5, tout en choix, n'a pas corrigé « son » au lieu de « sont ».
+Le gabarit reçoit un type de question « à écrire » (`W()`), `tirage.py` le vérifie, et la
+dictée 5 est refaite (noms, mots, avoir, être à écrire ; nature des mots reste en choix).
+
+| # | Vérification | Résultat attendu | OK |
+|---|---|---|---|
+| E.1 | `python -m unittest discover tools/tests -v` | Tous « ok », dont `test_question_a_ecrire` : la question à écrire du gabarit est tirée, et une faute prévue égale à la bonne réponse est refusée. | ☑ |
+| E.2 | `python tools/tirage.py modules/francais-cm1-dictee-5-avoir-etre.html` | 30 000 questions, aucune erreur ; noms, mots, avoir et être en « (à écrire) », nature en choix. | ☑ |
+| E.3 | Chromium 390 px : être, niveau 1, « ils ___ » ; taper « son », puis «   Sont » ; une évaluation avec une réponse tapée contenant du HTML | « son » refusé : « son veut dire le sien… être s'écrit sont, avec un t » ; « Sont » accepté (majuscule et espaces tolérés), avec l'astuce « ils étaient » ; champ avec `autocorrect="off"`, `autocomplete="off"`, `spellcheck="false"`, `autocapitalize="none"` ; au corrigé, la réponse tapée est affichée comme du texte ; pas d'erreur JS. | ☑ |
+| E.4 | `python tools/recette_navigateur.py` | « ✔ 28 OK » (l'app n'a pas changé). | ☑ |
+| E.5 | **iPhone** (action A16) : dictée 5, « S'entraîner > Être au présent » | Le clavier ne propose pas de mots et ne corrige pas « son » tout seul ; la touche « OK » valide. | ☐ |
