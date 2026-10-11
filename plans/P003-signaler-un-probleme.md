@@ -30,6 +30,23 @@ commentaire facultatif, pour que le sponsor le sache et que Claude corrige.
 - **Lecture des signalements : `tools/analyse.py` seulement**, à partir de l'export. Pas d'écran
   parent dans l'app (pourra venir plus tard si le besoin se fait sentir).
 
+- **Parcours de l'enfant (a)** : il appuie sur « Cette question me semble fausse », le signalement
+  est enregistré tout de suite ; un champ facultatif apparaît ensuite (« Tu veux dire pourquoi ? »)
+  avec « Envoyer ». Sans commentaire, le signalement est déjà pris en compte.
+- **Format** : nouvelle clé `miniprof.v1.flag_notes` pour les commentaires, les lignes de
+  `miniprof.v1.flags` ne changent pas ; incluse dans l'export et la restauration ; test sur
+  anciens et nouveaux signalements.
+
+## Découpage proposé (à valider par un go)
+1. **Export partageable** : `navigator.share` avec le fichier d'export (repli sur le
+   téléchargement actuel si le partage n'existe pas) ; test de la logique de repli.
+2. **Commentaire de signalement** : clé `flag_notes`, champ après le signalement, export /
+   restauration, test de compatibilité ; modules JSON puis modules HTML (contrat
+   `docs/module-html.md`, via `js/suivi.js`).
+3. **`tools/analyse.py`** : section « Signalements » (module, question, profil, date,
+   commentaire) ; test.
+Recette iPhone (partage réel, signalement avec et sans commentaire) : tâche du sponsor.
+
 ## Contraintes connues
 - Aucun serveur : un signalement reste sur l'appareil de l'enfant jusqu'à l'export.
 - Les modules JSON ont déjà « Cette question me semble fausse » (`js/flags.js`, clé
