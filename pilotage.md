@@ -69,8 +69,10 @@ Analyse faite avec `tools/analyse.py` ; les exports restent hors du dépôt (don
    pas à l'avenir.
 
 **Actions et décision proposées**
-- **A13** (toi) : sur l'appareil du CM1, créer un profil à son prénom ; garder ton profil pour
-  tes essais (ou l'aperçu). Rien n'est perdu : l'historique reste sur ton profil.
+- **A13** (toi) : le sponsor a confirmé (11 oct.) que c'est le CM1 qui joue sur ce profil. Le
+  plus simple : **l'enfant garde ce profil** (tout son historique y est, son bilan des modules CM1
+  est juste) et tu crées un profil « Test » pour tes essais. Seul défaut : le profil porte ton
+  prénom ; l'app ne sait pas renommer un profil (backlog B5).
 - **A14** (toi, puis la 6e) : lui proposer 10 questions « S'entraîner > Décrire », niveau
   Échauffement, dans Zootopia (la méthode a / an y est expliquée pas à pas). Je mesure à la
   prochaine revue ; si « Décrire » reste sous 60 %, je propose un petit module dédié.
@@ -180,6 +182,7 @@ ce niveau cette année).
 | B1 | Pipeline sans Claude Code : robot de contrôle GitHub, puis POC de l'API Claude payée à l'usage | assessment du comité n° 1 (D7) | basse | l'assessment complet (options, SWOT, coûts) est dans l'historique de ce fichier, commit « Pilotage : retours du sponsor, assessment… » |
 | B2 | Étape 12, unités 2 et 3 : fiche de contrôle dans l'app (modules JSON, puis HTML) | plan de l'étape 12 | basse | inutiles tant que la relecture dans la conversation suffit (D5) |
 | B3 | Fusion des sauvegardes : restaurer un export **sans écraser** la progression déjà sur l'appareil (utile si un même enfant joue sur plusieurs appareils) | sponsor, 6 oct. | basse | à ressortir seulement si un enfant joue sur deux appareils. Synchronisation en ligne étudiée et écartée : iCloud (CloudKit JS : compte Apple Developer 99 $/an), Cloudflare Workers + D1 gratuit (le plus solide), Supabase (pause après une semaine), Firebase ; toutes lèvent « statique, aucun tiers, aucun compte » pour un besoin couvert par l'export envoyé par SMS. En attendant : ne restaurer l'export d'un enfant que sur un appareil vide ou le sien, car la restauration écrase tout. |
+| B5 | Renommer un profil (« Gérer les profils ») : le profil du CM1 porte le prénom du sponsor | revue d'usage n° 1, 11 oct. | basse | l'historique est rattaché à l'id du profil, pas au prénom (`js/profiles.js`) : renommer ne touche pas aux données |
 | B4 | Évolution « dictée » : rendre répétable le module de D8 (contrôle de couverture par un outil de `tools/`, skill adapté : une photo de liste suffit) | sponsor et Claude, 7 oct. | à décider au comité n° 2 | seulement si le module de D8 a servi ; la forme reste à concevoir à partir de son retour d'usage. Leçons de l'ancienne méthode : phrases nouvelles à chaque séance, courtes, au présent, sans les mots *** ; couverture vérifiée par programme, jamais par le LLM. |
 
 ---
@@ -192,7 +195,7 @@ ce niveau cette année).
 | A3 | Jouer le module circuit sur l'iPhone (recette 8.5 à 8.8), seulement s'il doit être envoyé à un enfant | Sponsor | si besoin | à faire |
 | A9 | Relire le nouveau `README.md` (environ 10 minutes) : comprends-tu comment tout marche, et ce que tu dois faire ? | Sponsor | comité n° 2 | à faire |
 | A10 | Chaque nouvelle liste de mots : photo + `/nouveau-module` « dictée » ; tu relis puis « valide » (première fois faite : dictée 5) | Sponsor, puis Claude | chaque semaine | en cours |
-| A13 | Sur l'appareil du CM1 : créer un profil à son prénom ; ton profil reste pour tes essais | Sponsor | avant sa prochaine séance | à faire |
+| A13 | Sur l'appareil du CM1 : créer un profil « Test » pour tes essais ; l'enfant garde le profil actuel (son historique y est) | Sponsor | avant ton prochain essai de module | à faire |
 | A14 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | Sponsor | cette semaine | à faire |
 
 Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), A6 (README refondu), A7 (étape 12 allégée livrée), A8 (premiers modules CM1 publiés en brouillon puis validés : tables, dictée 5), A4 et A12 (exports des deux appareils, 11 oct., analysés : revue d'usage n° 1), A11 (grille du dessin facile au doigt, sur l'iPhone).
