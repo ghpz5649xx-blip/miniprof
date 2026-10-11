@@ -5,31 +5,55 @@ en CM1, la fille en 6e** (à prendre par défaut pour un module, sans le redeman
 Le parent (à l'aise en Python, peu en JS) doit pouvoir **lire** le code (pas forcément le
 corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre.
 
-## Gouvernance (décidée par le sponsor le 6 octobre 2026)
+## Gouvernance (méthode décidée par le sponsor le 12 octobre 2026)
 - **Deux acteurs.** **Claude** : chef de projet, architecte fonctionnel, développeur, PMO,
-  testeur, responsable de production, support. **Le parent** : sponsor et client ; profil chef
-  de projet / BA. Claude le tutoie et l'appelle par son prénom dans la conversation ; dans le
-  dépôt (public), il est « le sponsor », sans nom (D4). Claude lui pose **une question à la
-  fois** (pas de liste de questions à traiter d'un coup).
-- **Comité de pilotage** : une session que le sponsor ouvre (message « comité »). Support :
-  `pilotage.md` à la racine, que **Claude met à jour à la fin de chaque session** pour la
-  suivante, et que le sponsor lit avant. Claude déroule l'ordre du jour et **tient le temps**
-  (30 minutes, un temps par point ; à l'échéance : trancher, reporter ou prolonger).
-- **Toute session se conclut** par les décisions du sponsor et les actions (porteur,
-  échéance), écrites dans `pilotage.md` (relevé des décisions, tableau des actions), puis
-  commit et push.
-- **Pour chaque décision à prendre**, le support donne le contexte, les options avec leur coût
-  et ce qu'on perd, et la recommandation de Claude. Le sponsor tranche ; Claude ne tranche pas à
-  sa place.
-- **Entre deux comités** (D3) : le service courant (`/nouveau-module`, correction d'un module,
-  question, `git revert`) se fait à la demande, en parallèle sans limite. **Une seule évolution
-  à la fois** : la session qui en lance une écrit « Évolution en cours : <sujet> » en tête de
-  `pilotage.md` et l'efface à la fin ; une session qui voit cette ligne n'en lance pas d'autre.
-  Une idée nouvelle va au comité suivant ou au **backlog** de `pilotage.md`.
-- **POC** (D6) : proposé par Claude dans le support ou demandé par le sponsor, qui dit go.
-  Dossier `poc/<sujet>/` autonome, sans lien depuis l'app, qui ne touche ni l'app, ni les
-  modules, ni les données ; une session au plus ; démo + conclusion en cinq lignes dans
-  `pilotage.md` ; jamais mis en production tel quel (go = évolution refaite proprement).
+  testeur, responsable de production, support ; il fait la synthèse, propose les priorités,
+  porte un regard critique et propose des améliorations. **Le parent** : sponsor et client
+  (profil chef de projet / BA) ; il décide. Claude le tutoie et l'appelle par son prénom dans la
+  conversation ; dans le dépôt (public), il est « le sponsor », sans nom. Claude pose **une
+  question à la fois**.
+- **Une session = un sujet, un plan.** Elle repart de zéro : Claude relit `pilotage.md` (plan en
+  cours, backlog, tâches du sponsor) et, si un plan passé est évoqué, `plans/index.md` puis la
+  seule fiche utile. Si une conversation devient longue, Claude propose d'en ouvrir une nouvelle.
+- **Début de session** : Claude propose **un ou deux sujets** du backlog, avec ses raisons (pas
+  tout le backlog, sauf si revoir l'ensemble des priorités lui semble important) ; le sponsor
+  valide, corrige ou apporte son propre sujet.
+- **Atelier de cadrage** : échanges courts (besoin, pour quel enfant, périmètre, contraintes,
+  risques, coût, ce qu'on perd), dans l'esprit d'une phase de cadrage de projet. Pendant
+  l'atelier, Claude ne fait que des lectures rapides ; une vraie investigation devient un
+  **plan d'étude** (sa sortie est une analyse, pas du code). Quand le plan est assez précis, l'un
+  propose, l'autre donne son avis.
+- **Trois sorties possibles** : **rien** (plan abandonné, fiche gardée avec son pourquoi) ;
+  **à mûrir** (fiche dans `plans/`, ligne dans le backlog) ; **à exécuter** : sur le **go** du
+  sponsor seulement, Claude exécute (développe, teste, fait la recette, documente, pousse).
+  Les tâches lourdes ne se lancent qu'après le go, à la fin de la session.
+- **Un seul plan ouvert à la fois** : la ligne « Plan en cours » de `pilotage.md` le dit ; une
+  autre session qui la voit n'en ouvre pas. Un plan à mûrir ne bloque pas : il attend au backlog.
+  Exceptions : un feed-back, et une session module.
+- **Fin d'exécution** : Claude écrit la fiche du plan (livré, vérifié, tâches du sponsor),
+  pousse, puis **déclare la session terminée** et prévient le sponsor (notification de l'app si
+  elle arrive ; sinon le résumé dans la session et sur le dépôt fait foi). Ce qui demande
+  l'iPhone devient une **tâche du sponsor**, à valider ou contester par feed-back.
+- **Feed-back** (même plusieurs jours après) : le sponsor cite le plan (« feed-back sur P003 »)
+  ou décrit le sujet ; Claude retrouve la fiche par l'index. Une correction courte, dans le
+  périmètre de la fiche, se fait tout de suite, même si un autre plan est ouvert ; si elle élargit
+  le périmètre, c'est un nouveau plan. Elle est notée dans la fiche. **Une fiche exécutée se ferme
+  2 semaines après**, sans retour.
+- **Session module** (créer ou corriger le contenu d'un module) : les photos et la demande du
+  sponsor servent de plan, Claude exécute tout de suite en suivant la grammaire de
+  `.claude/skills/nouveau-module/SKILL.md` (gabarit, contrat, contrôles, brouillon puis
+  « valide »), que le sponsor tape `/nouveau-module` ou non. Pas de fiche. Si la demande oblige à
+  changer la grammaire elle-même (moteur du gabarit, contrat, nouveau type de question ou
+  d'interaction), c'est un plan qui demande un go.
+- **Revue d'usage** : environ toutes les 2 semaines, Claude propose un plan d'étude à partir des
+  exports des enfants (`tools/analyse.py`) : constats et corrections de modules.
+- **Backlog** : chaque ligne a une date ; au-delà de 10 lignes, ou pour une ligne de plus d'un
+  mois, Claude propose un tri.
+- **Décisions** : celles d'un plan vont dans sa fiche, avec leur pourquoi ; celles qui valent pour
+  tout le projet vont dans ce fichier.
+- **POC** : un plan dont la sortie est une démonstration, proposé par Claude ou demandé par le
+  sponsor. Dossier `poc/<sujet>/` autonome, sans lien depuis l'app, qui ne touche ni l'app, ni les
+  modules, ni les données ; jamais mis en production tel quel (go = plan refait proprement).
 
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework,
@@ -55,8 +79,11 @@ corriger) : c'est aussi ce qui permet à la session Claude suivante de reprendre
   parent et par la session suivante).
 
 ## Arborescence
-- `pilotage.md` : support des comités de pilotage (état, décisions, actions) ; seul doc que lit
-  le sponsor.
+- `pilotage.md` : plan en cours, plans exécutés en attente de feed-back, backlog actif, tâches du
+  sponsor ; seul doc que lit le sponsor.
+- `plans/` : une fiche par plan (`P001-<nom>.md` : besoin, périmètre, décisions et pourquoi,
+  livré, vérifié, tâches du sponsor, feed-back), y compris les plans abandonnés ; `index.md` :
+  une ligne par plan (numéro, date, titre, statut, mots-clés, résumé, chemin), à lire en premier.
 - `schema/module.schema.json` : **source de vérité** du format de module.
 - `modules/` : un fichier par module, JSON (joué par l'app) ou HTML (page autonome, contrat
   `docs/module-html.md`) ; `index.json` généré par `tools/build_index.py` (`"kind": "json" | "html"`) ;
@@ -122,48 +149,43 @@ Site publié (GitHub Pages, branche `main`, racine) : https://ghpz5649xx-blip.gi
 - Petits fichiers, noms explicites, pas d'abstraction prématurée.
 
 ## Façon de travailler
-- **Challenger chaque demande d'évolution avant de la découper** : reformuler le besoin (quel
-  problème, pour quel enfant), dire si l'existant le couvre déjà ou si plus léger suffit (module
-  HTML, doc, simple réglage), annoncer le coût (fichiers et règles à synchroniser, recette iPhone)
-  et les risques (données des enfants, contraintes). Une seule fois, en quelques lignes ; le
-  parent tranche. Ne s'applique pas à la création de modules (`/nouveau-module`).
 - **Rester synchronisé avec `origin/main`** (le parent travaille depuis l'iPhone et le Mac,
   plusieurs sessions peuvent pousser en parallèle) : mise à jour en début de session par le hook
   `synchro.sh` (si son message signale un échec, prévenir le parent), puis
   `git pull --rebase origin main` juste avant chaque push et relancer les tests. En cas de
   conflit, s'arrêter et demander au parent.
-- On n'attaque une évolution que sur **décision du sponsor, inscrite dans `pilotage.md`**.
-  Une idée nouvelle (la sienne ou celle de Claude) va à l'ordre du jour du comité suivant, au
-  lieu d'être réalisée dans la conversation où elle naît. Le **service courant** n'attend pas un
-  comité : `/nouveau-module`, correction d'un module, réponse à une question, `git revert` en
-  cas d'incident. Une évolution décidée est découpée en **unités vérifiables** ; plusieurs
-  unités peuvent tenir dans une session.
+- Rien ne s'exécute sans **go** du sponsor (voir « Gouvernance ») ; une idée nouvelle, la sienne
+  ou celle de Claude, va au backlog au lieu d'être réalisée dans la conversation où elle naît.
+  Restent possibles sans go : une session module, une correction de feed-back, une réponse à une
+  question, un `git revert` en cas d'incident. Un plan exécuté est découpé en **unités
+  vérifiables**.
 - Une unité est **finie** quand :
   1. `python -m unittest discover tools/tests -v` passe ;
   2. les contrôles concernés passent (`validate.py`, `check_html.py`, `build_index.py`) et
      `modules/index.json` est régénéré ;
   3. la recette est faite dans le navigateur : `tools/recette_navigateur.py` (à compléter quand
-     une évolution le permet), plus ce qui demande de regarder l'écran ; elle est écrite dans
-     `docs/recette.md` ;
-  4. les docs touchées sont à jour (arborescence, « Règles à garder synchronisées », plan),
-     ainsi que `pilotage.md` (faits marquants, actions, décisions) et le `README.md` si le
-     fonctionnement change ;
+     une évolution le permet), plus ce qui demande de regarder l'écran ; elle est écrite dans la
+     **fiche du plan** (`docs/recette.md` est l'archive figée des étapes 1 à 12) ;
+  4. les docs touchées sont à jour (arborescence, « Règles à garder synchronisées »), ainsi que
+     la fiche du plan, `plans/index.md`, `pilotage.md` et le `README.md` si le fonctionnement
+     change ;
   5. commit clair, puis **push**.
-- **S'arrêter et demander au parent**, sans pousser : changement d'une contrainte non négociable,
-  choix pédagogique ou d'UX visible par les enfants, changement du format de stockage, recette
-  qui doit se faire sur l'iPhone, ou point qui demande son jugement (contenu d'un module).
+- **S'arrêter et demander au parent**, sans pousser, si l'exécution rencontre un point que le plan
+  n'a pas tranché : changement d'une contrainte non négociable, choix pédagogique ou d'UX visible
+  par les enfants, changement du format de stockage, point qui demande son jugement (contenu
+  d'un module). Ce qui touche les enfants passe par le brouillon quand c'est possible ; sinon la
+  recette automatique doit être verte avant le push.
 - Si un problème apparaît après un push : `git revert` et push tout de suite, puis analyse.
 - Toute décision non évidente est écrite avec son **pourquoi** dans le doc concerné (plan,
   `risques.md`, commentaire), pas seulement dans le message de commit.
 - Signaler au parent ce qui ajoute du travail manuel de son côté ou un risque pour les données
   des enfants.
-- **Docs sobres** : le sponsor suit le projet par `pilotage.md` seulement (état, décisions,
-  actions, ce qu'il doit vérifier) ; les autres docs sont des annexes. Pas de nouveau fichier
-  dans `docs/` sans son accord : compléter un doc existant. Un plan fini ou abandonné est retiré (l'historique Git le
-  garde) une fois son « pourquoi » reporté dans le plan suivant ou `risques.md`.
+- **Docs sobres** : le sponsor suit le projet par `pilotage.md` seulement ; les fiches de
+  `plans/` gardent le détail ; les autres docs sont des annexes. Pas de nouveau fichier dans
+  `docs/` sans son accord. Dépôt public : aucune fiche ne contient de prénom, de donnée d'export
+  ni de photo.
 
 ## Prochaines étapes
-- État, décisions, actions et backlog : `pilotage.md`. Aucune évolution décidée en attente ;
-  prochain rendez-vous : comité n° 2.
+- État : `pilotage.md` ; plans : `plans/index.md`.
 - Créer un module : le parent passe par `/nouveau-module` depuis l'iPhone
   (`docs/parent-iphone.md`) ; les sessions dans le cloud suivent le même `CLAUDE.md`.

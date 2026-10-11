@@ -115,12 +115,13 @@ leçon en module. Aujourd'hui :
 Deux acteurs. **Claude** est chef de projet, architecte, développeur, testeur, responsable de
 production et support. **Le parent** est sponsor et client : il décide.
 
-- Le projet est piloté en **comités** : des sessions de 30 minutes ouvertes par le sponsor, sur
-  la base de `pilotage.md` (état, décisions à prendre avec options et recommandation, actions,
-  backlog, relevé des décisions).
-- Entre deux comités, le **service courant** (créer ou corriger un module) se fait à la demande ;
-  une **évolution** de l'app ne démarre que sur décision inscrite dans `pilotage.md`, une seule à
-  la fois.
+- **Une session = un sujet, un plan.** Claude propose un ou deux sujets du backlog ; un atelier
+  court cadre le besoin ; le plan finit **abandonné**, **à mûrir** (au backlog) ou **exécuté** sur
+  le go du sponsor. Un seul plan ouvert à la fois.
+- `pilotage.md` montre le plan en cours, le backlog et les tâches du sponsor ; `plans/` garde une
+  fiche par plan (besoin, décisions, livré, vérifié, feed-back), avec un index.
+- Créer ou corriger un module est une session courte : les photos servent de plan, Claude
+  exécute avec `/nouveau-module`, le sponsor relit puis valide.
 - Le détail est dans `CLAUDE.md`, « Gouvernance ».
 
 ---
@@ -230,7 +231,8 @@ pas lire les fichiers de modules.
 
 | Chemin | Contenu |
 |---|---|
-| `pilotage.md` | état du projet, décisions, actions, backlog (pour le sponsor) |
+| `pilotage.md` | plan en cours, backlog, tâches du sponsor |
+| `plans/` | une fiche par plan et un index (`plans/index.md`) |
 | `CLAUDE.md` | règles du dépôt pour Claude : gouvernance, contraintes, commandes, conventions |
 | `index.html`, `css/`, `js/` | l'app |
 | `modules/` | les modules, `index.json` (généré), `brouillons.json` |

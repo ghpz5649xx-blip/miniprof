@@ -1,5 +1,8 @@
 # Recette
 
+> **Archive figée** (étapes 1 à 12 et évolutions jusqu'au 12 oct. 2026). Depuis, la recette
+> d'un plan est écrite dans sa fiche (`plans/`).
+
 Ce qui a été vérifié à chaque étape, et comment. ☑ = vérifié ; ☐ = pas coché.
 
 Ce qui reste à vérifier par le sponsor est dans les actions de `pilotage.md`.

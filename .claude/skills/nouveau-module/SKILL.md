@@ -38,7 +38,7 @@ photos sans rapport avec une leçon). Réponds en français, court.
   brouillon : ajoute son id à la liste de `modules/brouillons.json`. Il est caché dans la
   bibliothèque des enfants tant que le parent ne l'a pas relu et validé (section 7) ; son URL
   marche, pour que le parent l'essaie. Pourquoi : une réponse fausse apprise par un enfant est
-  le risque principal du projet (décision D5 du comité n° 1, `pilotage.md`). Une correction
+  le risque principal du projet (décidé par le sponsor le 6 oct. 2026). Une correction
   d'un module déjà validé ne le remet pas en brouillon (l'enfant s'en sert déjà).
 
 ## 3. Écrire `modules/<id>.html`
@@ -97,8 +97,9 @@ git add modules/<id>.html modules/index.json modules/brouillons.json pilotage.md
 git commit -m "Module : <titre> (<niveau>)"
 git push
 ```
-- Avant : ajoute une ligne au tableau « Faits marquants » de `pilotage.md` (date, module créé ou
-  corrigé, et pourquoi en quelques mots). C'est du service courant : pas de comité nécessaire.
+- Avant : ajoute aux « Tâches du sponsor » de `pilotage.md` la relecture du module (« relire puis
+  valider <titre> »). Une session module n'a pas de fiche de plan (voir `CLAUDE.md`,
+  « Gouvernance ») : le commit et cette ligne suffisent.
 - Ne committe que ces fichiers (jamais de photo, d'export, de fichier de travail).
 - Si la session travaille sur une branche (session web ou mobile) : pousse la branche, ouvre une
   PR vers `main` si tu le peux (`gh pr create`), sinon donne le lien
@@ -127,8 +128,7 @@ mêmes compétences, refais les contrôles et republie.
    arrête-toi).
 2. `python tools/build_index.py` (le module n'a plus `"brouillon": true`), puis
    `python -m unittest discover tools/tests`.
-3. Ajoute une ligne aux « Faits marquants » de `pilotage.md` (« module <titre> validé par le
-   sponsor »), puis :
+3. Retire la ligne « relire puis valider <titre> » des « Tâches du sponsor » de `pilotage.md`, puis :
    ```bash
    git add modules/brouillons.json modules/index.json pilotage.md
    git commit -m "Validation : <titre> (<niveau>)"
