@@ -18,6 +18,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 | 2 | Revue d'usage n° 1 (exports du 11 oct., analyse ci-dessous) | 6 min | décision D14, action A13 |
 | 3 | Module « dictée » (D8) : retour d'usage ; faut-il l'évolution B4 ? | 4 min | ton retour |
 | 4 | Challenges et opportunités vus par le chef de projet | 12 min | décisions D9 à D13 |
+| 4 bis | Signaler un problème (D16, option A décidée) : ce qu'il faut revoir dans l'export, puis le découpage | 5 min | ton besoin sur l'export |
 | 5 | Backlog : priorités | 2 min | arbitrage |
 | 6 | Relevé des décisions et des actions | 2 min | validation |
 
@@ -115,7 +116,12 @@ Analyse faite avec `tools/analyse.py` ; les exports restent hors du dépôt (don
 | **B. Envoyé par message** | bouton « Signaler » qui ouvre l'app Messages avec un texte déjà rempli (module, question, réponse attendue, commentaire) ; l'enfant choisit le destinataire et envoie | 1 session (gabarit, modules HTML, écran des questions JSON) ; aucun changement de stockage ; recette iPhone | rien n'est gardé dans l'app ; il faut que l'appareil de l'enfant puisse envoyer des messages ; ton numéro n'est **pas** écrit dans la page (dépôt public) |
 | C. Les deux | A + B | 3 sessions | rien |
 
-**Recommandation : B.** Tu es prévenu tout de suite, avec la question exacte, et tu me la
+**Décision du sponsor (12 oct.) : option A, avec une condition : revoir la fonction export**
+(aujourd'hui, un signalement n'arrive au sponsor que par un export ; l'export doit donc être
+revu pour que ce circuit marche). Pas de développement avant le comité n° 2, où l'on précise ce
+qu'il faut changer dans l'export et le découpage.
+
+Recommandation initiale de Claude : B. Tu es prévenu tout de suite, avec la question exacte, et tu me la
 transmets pour correction. C'est le plus léger et sans risque pour les données. A reste possible
 ensuite si un enfant n'a pas de messagerie.
 
@@ -258,3 +264,4 @@ Actions closes : A1 (support lu), A5 (décisions du comité n° 1 appliquées), 
 | 6 oct. 2026 | (hors comité) | Pas de synchronisation en ligne de la progression : coût (serveur ou tiers, contraintes à lever, données des enfants hors de la maison) trop élevé pour le besoin ; l'export par SMS et l'accès physique aux appareils suffisent. Fusion des sauvegardes au backlog (B3), priorité basse. |
 | 7 oct. 2026 | (hors comité) | D8 : listes de mots de la dictée (CE2/CM1) : option B, un module HTML « dictée » fait avec `/nouveau-module` (service courant). Le parent dicte depuis le téléphone, l'enfant écrit sur papier, le parent touche les mots ratés. Écartées pour l'instant : A (consigne à coller dans un LLM : couverture invérifiable) et C (évolution répétable, au backlog B4) : on la conçoit seulement après l'usage de B. |
 | 12 oct. 2026 | (hors comité) | D15 : questions « à écrire » dans les modules (orthographe, conjugaison, dictée), clavier sans suggestions ; évolution lancée tout de suite, avant la prochaine liste de mots. |
+| 12 oct. 2026 | (hors comité) | D16 : signaler un problème depuis l'app : **option A** (bouton « Signaler » sous chaque question, commentaire facultatif, enregistré sur l'appareil, visible dans l'export et un écran parent), **à condition de revoir la fonction export**. Besoin sur l'export et découpage à préciser au comité n° 2 ; aucun développement avant. |
