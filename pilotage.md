@@ -71,7 +71,7 @@ suivante. Le sponsor le lit avant le comité. Règles de la gouvernance : `CLAUD
 3. **Une routine hebdomadaire** : la liste de mots et la leçon de la semaine deviennent chacune un
    module, le week-end. C'est déjà ce qui se dessine ; B4 la rendrait plus fiable.
 4. **Ranger la bibliothèque** : les deux modules CM2 (JSON) ne correspondent à aucun des enfants
-   cette année. Les cacher alléger la bibliothèque, sans rien perdre (ils restent dans le dépôt).
+   cette année. Les cacher allégerait la bibliothèque, sans rien perdre (ils restent dans le dépôt).
 
 ### Décisions proposées pour le comité n° 2
 
