@@ -118,8 +118,9 @@ Analyse faite avec `tools/analyse.py` ; les exports restent hors du dépôt (don
 
 **Décision du sponsor (12 oct.) : option A, avec une condition : revoir la fonction export**
 (aujourd'hui, un signalement n'arrive au sponsor que par un export ; l'export doit donc être
-revu pour que ce circuit marche). Pas de développement avant le comité n° 2, où l'on précise ce
-qu'il faut changer dans l'export et le découpage.
+revu pour que ce circuit marche). **Besoin exprimé par le sponsor : l'export doit être plus
+simple à envoyer et à partager d'un appareil à un autre.** Pas de développement avant le comité
+n° 2, où l'on en reparle et où l'on fixe le découpage.
 
 Recommandation initiale de Claude : B. Tu es prévenu tout de suite, avec la question exacte, et tu me la
 transmets pour correction. C'est le plus léger et sans risque pour les données. A reste possible
