@@ -85,9 +85,9 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 .btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
 #ok[hidden]{display:inline-block;visibility:hidden}
 .qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
-/* « Une erreur ? » : large, rouge, tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+/* « Une erreur ? » : large, discret (pointillé gris), tout en bas de l'écran (ou juste après la question si l'écran est petit) */
 .qwrap .sigbar{margin-top:auto;padding-top:28px}
-.sigbtn{width:100%;background:var(--bad);border-color:var(--bad);color:var(--bg)}
+.sigbtn{width:100%;background:transparent;border:2px dashed var(--muted);color:var(--muted)}
 /* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
 button,input,.choice{touch-action:manipulation}
 .btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
@@ -525,7 +525,7 @@ function qScreen(){
         :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
     <div id="hint"></div><div id="fb"></div>
     <div class="btns"><span id="acts" class="acts"></span></div>
-    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">Une erreur ?</button></div></main>`);
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
   S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
 }
 /* ================= MOTEUR : signaler un problème ================= */
