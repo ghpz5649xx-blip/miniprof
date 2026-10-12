@@ -37,7 +37,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | Gamification : règles génériques (points sur l'effort utile, maîtrise espacée, mission du jour, « Réparé ») | 11 oct. 2026 | moyenne, après P008 et la revue n° 2 | `plans/P009-gamification.md` |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
-| Tirage adaptatif par compétence fine (maîtrise de 0 à 1, tirage proportionnel à ce qui reste à acquérir, arbre de compétences par enfant) : le tirage actuel répète (« est » une fois sur deux en Être niv. 2) | 12 oct. 2026 | **haute** (atelier de cadrage, session dédiée) | idée ; analyse de la session du 12 oct. dans la conversation |
+| Entraînement adaptatif : le moteur choisit compétence et difficulté, « Je choisis » discret ; départ conjugaison CM1 + gabarit | 12 oct. 2026 | **haute** (seuils à valider par le sponsor, puis go) | `plans/P011-entrainement-adaptatif.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
 | Évaluations rejouées en boucle | 11 oct. 2026 | à revoir à la revue n° 2 | `plans/P007-evaluations-rejouees.md` |
 | Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |
