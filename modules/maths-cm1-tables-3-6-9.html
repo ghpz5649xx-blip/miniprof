@@ -537,17 +537,13 @@ function qScreen(){
   if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
     head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
   else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
-  const last=ev&&S.i===S.total-1;
   show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
       <div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div></div>
     <div id="hint"></div><div id="fb"></div>
-    <div class="btns"><span id="acts" class="acts">
-      <button class="btn primary" data-act="check" data-primary>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>
-      ${ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'}
-    </span><button class="btn ghost" data-act="sig">Une erreur ?</button></div><div id="sig"></div></main>`);
-  S.choice=null;S.attempts=0;q.t0=Date.now();
+    <div class="btns"><span id="acts" class="acts"></span><button class="btn ghost" data-act="sig">Une erreur ?</button></div><div id="sig"></div></main>`);
+  S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
 }
 /* ================= MOTEUR : signaler un problème ================= */
 // Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
@@ -576,6 +572,33 @@ function sigSend(el){
   if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
   zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
 }
+// Boutons de la question (P010, 12/10/2026). « Valider » n'apparaît que lorsque l'élève a proposé
+// une réponse (mot tapé, choix, dessin non vide). Après une erreur, « Réessayer » efface sa
+// proposition ; « Valider » revient (caché) tant qu'il n'a rien reproposé.
+function aReponse(){
+  if(S.q&&S.q.draw)return Object.keys(S.grid||{}).length>0;
+  const i=document.getElementById('rep');
+  return i?!!norm(i.value):!!S.choice;
+}
+function majValider(){const b=document.getElementById('ok');if(b)b.hidden=!aReponse();}
+function boutons(){
+  const ev=S.mode==='eval',last=ev&&S.i===S.total-1;
+  const aide=ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'+(S.attempts>0?'<button class="btn ghost" data-act="reveal">Voir la correction</button>':'');
+  const principal=S.retry
+    ?'<button class="btn primary" data-act="retry" data-primary>Réessayer</button>'
+    :`<button class="btn primary" id="ok" data-act="check" data-primary hidden>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>`;
+  document.getElementById('acts').innerHTML=principal+aide;
+  majValider();
+}
+// L'élève propose (ou modifie) une réponse : si « Réessayer » attendait, « Valider » reprend sa place.
+function surProposition(){if(S.retry){S.retry=false;boutons();}else majValider();}
+function reessayer(){
+  S.retry=false;S.choice=null;
+  const i=document.getElementById('rep');
+  if(i){i.value='';i.focus();}
+  app.querySelectorAll('.choice.sel').forEach(c=>c.classList.remove('sel'));
+  boutons();
+}
 function setFb(html){document.getElementById('fb').innerHTML=html;}
 function lockChoices(){
   app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
@@ -598,7 +621,7 @@ function checkTrain(){
     setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${c&&c.why?c.why:'Relis la question et réessaie.'}</p></div>`);
     app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
     S.choice=null;
-    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="check" data-primary>Réessayer</button><button class="btn ghost" data-act="hint">Un indice</button><button class="btn ghost" data-act="reveal">Voir la correction</button>`;
+    S.retry=true;boutons();
   }else revealTrain();
 }
 function revealTrain(){
@@ -687,7 +710,8 @@ function act(a,el){
     case 'evalSetup':evalSetup(false);break;
     case 'evalStart':evalStart();break;
     case 'quitEval':evalSetup(false);break;
-    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));surProposition();break;
+    case 'retry':reessayer();break;
     case 'check':S.mode==='eval'?checkEval():checkTrain();break;
     case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
     case 'reveal':revealTrain();break;
@@ -701,6 +725,8 @@ function act(a,el){
   }
 }
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// un mot tapé = une proposition : « Valider » apparaît
+app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
 
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.

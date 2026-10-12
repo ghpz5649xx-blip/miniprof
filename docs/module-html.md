@@ -95,7 +95,8 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
 - **Corrections expliquées** (comme le circuit) : après une réponse fausse, dire en une phrase
   pourquoi ce choix est faux, puis « Réessayer », « Un indice » ou « Voir la correction ». La
   correction donne la bonne réponse **et pourquoi**, en une ou deux phrases, aussi quand
-  l'enfant a trouvé.
+  l'enfant a trouvé. Le bouton « Valider » n'apparaît qu'une fois une réponse proposée ; « Réessayer »
+  efface la proposition (le gabarit s'en charge : ne pas le réécrire).
 - **Niveaux** : 2 à 4 niveaux de difficulté (`difficulte` 1 à 4), du plus direct (application
   de la règle) au plus piégeux (erreurs fréquentes, plusieurs étapes). L'évaluation propose
   chaque niveau et un mélange (`debutEvaluation(0)`).

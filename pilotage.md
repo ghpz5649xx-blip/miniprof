@@ -22,6 +22,7 @@ voit un plan en cours n'en ouvre pas de nouveau (sauf un feed-back ou une sessio
 | P002 Évaluation sans doublon | 12 oct. 2026 | 26 oct. 2026 |
 | P003 Signaler un problème, export à partager | 11 oct. 2026 | 25 oct. 2026 |
 | P008 « Qui utilise miniprof ? » après 30 min | 12 oct. 2026 | 26 oct. 2026 |
+| P010 Valider et Réessayer | 12 oct. 2026 | 26 oct. 2026 |
 
 ---
 
@@ -36,6 +37,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | Gamification : règles génériques (points sur l'effort utile, maîtrise espacée, mission du jour, « Réparé ») | 11 oct. 2026 | moyenne, après P008 et la revue n° 2 | `plans/P009-gamification.md` |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
+| Tirage adaptatif par compétence fine (maîtrise de 0 à 1, tirage proportionnel à ce qui reste à acquérir, arbre de compétences par enfant) : le tirage actuel répète (« est » une fois sur deux en Être niv. 2) | 12 oct. 2026 | **haute** (atelier de cadrage, session dédiée) | idée ; analyse de la session du 12 oct. dans la conversation |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
 | Évaluations rejouées en boucle | 11 oct. 2026 | à revoir à la revue n° 2 | `plans/P007-evaluations-rejouees.md` |
 | Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |
@@ -59,5 +61,6 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | avant la prochaine dictée |
 | Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
 | Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche) | cette semaine |
+| Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert | cette semaine |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |
