@@ -323,3 +323,6 @@ input[type="file"] { max-width: 100%; min-height: 48px; margin-bottom: 12px; fon
 /* Commentaire facultatif sous « Cette question me semble fausse » (js/question-view.js) */
 .signalement-commentaire { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
 .signalement-commentaire input { flex: 1 1 200px; margin: 0; }
+
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}

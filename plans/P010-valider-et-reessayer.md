@@ -43,3 +43,11 @@ jusqu'à ce que l'élève propose autre chose.
   (`visibility`, plus de décalage quand il apparaît) et un toucher sur un bouton d'action ne retire plus le
   focus du champ (le clavier qui se ferme décalait la page). Recette navigateur en mode tactile
   (390 px) : OK. **À confirmer sur l'iPhone** ; sinon, nouveau retour avec la séquence exacte.
+- **12 oct. 2026, 2e retour (sponsor, iPhone)** : « Réessayer » et « Question suivante » ne réagissent
+  parfois pas au premier toucher ; remonter la page puis retoucher fonctionne. Cause **supposée**, non
+  reproduite hors iPhone : le bouton suivant apparaît exactement là où l'on vient de toucher
+  (Valider -> Réessayer, Valider -> Question suivante) ; l'iPhone prend deux touchers rapides au même
+  endroit pour un double-tap (zoom) et perd le second. Corrigé par `touch-action: manipulation`
+  (boutons, champs, choix) dans le gabarit, les 5 modules et `css/style.css`. J'ai retiré l'essai du
+  retour précédent (`mousedown` sans effet prouvé). **À confirmer sur l'iPhone.** Si le défaut
+  persiste : piste suivante = clavier ouvert qui décale la page (fermer le clavier à la validation).

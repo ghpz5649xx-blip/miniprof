@@ -99,6 +99,8 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 
 .btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
 #ok[hidden]{display:inline-block;visibility:hidden}
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}
 .btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
 .btn.ghost{background:transparent}
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
@@ -1429,9 +1431,6 @@ const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
 app.addEventListener('pointerdown',effacerSiReessai);
 app.addEventListener('focusin',effacerSiReessai);
 app.addEventListener('beforeinput',effacerSiReessai);
-// Toucher un bouton d'action ne retire pas le focus du champ : sur iPhone, le clavier qui se ferme décalait la page
-// et le premier toucher sur « Valider » était perdu.
-app.addEventListener('mousedown',e=>{if(e.target.closest('#acts button'))e.preventDefault();});
 app.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.matches('input')){e.preventDefault();const p=app.querySelector('[data-primary]:not([disabled]):not([hidden])');if(p)p.click();}
 });
