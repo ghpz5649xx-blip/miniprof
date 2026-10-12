@@ -69,8 +69,10 @@ Contrôle : `python tools/check_html.py modules/<id>.html` (`--llm` : texte de c
    - `miniprof.racine` : adresse de l'app. Le bilan du module est à
      `miniprof.racine + "#/module/" + miniprof.module + "/bilan"`. La page n'a pas de bilan à
      elle : un bouton « Mon bilan » y mène.
-   - Sans profil choisi, rien n'est enregistré. `suivi.js` ajoute en haut de la page un bandeau
-     (« Tu es Léa · changer · mon bilan » ou « Choisis ton profil »).
+   - Sans profil choisi, ou si l'appareil n'a pas servi depuis 30 minutes, `suivi.js` renvoie vers
+     « Qui utilise miniprof ? » puis revient à la page (rien n'est enregistré entre-temps, et une
+     page restée ouverte plus de 30 minutes ne reçoit plus les touchers). Il ajoute en haut de la
+     page un bandeau (« Tu es Léa · changer · mon bilan »). Aucun module à régénérer.
 
 ## Ce qui est interdit (refusé par `check_html.py`)
 - Toute requête réseau : `fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `import()`.

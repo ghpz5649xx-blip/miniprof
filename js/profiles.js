@@ -3,11 +3,13 @@
 // Stockage :
 //   miniprof.v1.profiles = [{ "id": "p1a2b3c", "name": "Léa" }, ...]
 //   miniprof.v1.current  = "p1a2b3c"   (profil choisi en dernier sur cet appareil)
+//   miniprof.v1.derniere_activite       (voir js/activite.js : le profil est redemandé après 30 min)
 // L'id ne change jamais : l'historique (js/events.js) y est rattaché, on
 // pourra donc renommer un profil sans le perdre.
 
 import { readKey, writeKey } from "./storage.js";
 import { deleteEvents } from "./events.js";
+import { activiteRecente, toucher } from "./activite.js";
 
 export const MAX_NAME = 20;
 
@@ -26,8 +28,16 @@ export function currentProfile() {
   return getProfile(readKey("current", null));
 }
 
+// Profil courant ET utilisé il y a moins de 30 minutes (js/activite.js), sinon null : c'est
+// lui qu'on interroge pour savoir « qui utilise miniprof ? ». currentProfile() ne regarde pas
+// l'heure : elle sert aux écrans, déjà protégés par garderSession().
+export function profilActif() {
+  return activiteRecente() ? currentProfile() : null;
+}
+
 export function setCurrent(id) {
-  return writeKey("current", id);
+  // Choisir un profil compte comme une activité : sans elle, il serait aussitôt « expiré ».
+  return writeKey("current", id) && toucher(true);
 }
 
 // Crée un profil. Renvoie { ok: true, profile } ou { ok: false, error: "message" }.

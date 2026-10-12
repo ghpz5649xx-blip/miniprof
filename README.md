@@ -150,9 +150,10 @@ questions ne change jamais**.
 
 ### Côté enfant
 
-L'enfant ouvre l'URL du module (ou le site, puis la bibliothèque) et choisit son profil une
-fois par appareil. Une page HTML affiche en haut « Tu es <prénom> · changer · mon bilan » ;
-sans profil choisi, rien n'est enregistré. « Mon bilan » montre la réussite par compétence et
+L'enfant ouvre l'URL du module (ou le site, puis la bibliothèque) et choisit son profil ; il est
+redemandé après 30 minutes sans utilisation (lien direct vers un module compris : choix, puis
+retour à la page). Une page HTML affiche en haut « Tu es <prénom> · changer · mon bilan » ;
+sans profil actif, rien n'est enregistré. « Mon bilan » montre la réussite par compétence et
 les évaluations.
 
 ### Sauvegarder et restaurer

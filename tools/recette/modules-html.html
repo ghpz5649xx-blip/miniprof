@@ -19,6 +19,8 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   localStorage.clear();
   localStorage.setItem('miniprof.v1.profiles',JSON.stringify([{id:'ptest',name:'Léa'}]));
   localStorage.setItem('miniprof.v1.current',JSON.stringify('ptest'));
+  const actif=(ago=0)=>localStorage.setItem('miniprof.v1.derniere_activite',JSON.stringify(Math.floor(Date.now()/1000)-ago));
+  actif();
   let d=await charger('modules/'+ID+'.html');
   const w=f.contentWindow;
   log(!!w.miniprof,'window.miniprof chargé');
@@ -123,11 +125,40 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(rp[0]==='erreur'&&localStorage.getItem('miniprof.v1.last_export')==='1','partage en erreur : signalé, date inchangée');
   navigator.canShare=undefined;navigator.share=undefined;
   log(pa.peutPartager()===false,'sans partage de fichiers : repli sur le téléchargement');
-  // sans profil
+  // « Qui utilise miniprof ? » après 30 minutes (plan P008). Le délai est simulé en reculant la
+  // dernière activité. Sans profil : choix du profil, puis retour à la page du module.
+  const retourHash=()=>decodeURIComponent((f.contentWindow.location.hash.split('retour=')[1]||''));
   localStorage.removeItem('miniprof.v1.current');const n=ev().length;
   d=await charger('modules/'+ID+'.html');
-  const b2=d.querySelector('.miniprof-bandeau');log(b2&&b2.textContent.includes('Choisis ton profil'),'sans profil : '+(b2&&b2.textContent));
-  log(f.contentWindow.miniprof.reponse({competence:'serie',juste:true})===false&&ev().length===n,'sans profil : rien n\'est enregistré');
+  log(!f.contentWindow.location.pathname.endsWith('.html')&&retourHash()==='modules/'+ID+'.html','sans profil : page du module -> choix du profil, retour prévu : '+f.contentWindow.location.hash);
+  clic(d,'.btn-big');await sleep(1500);
+  log(f.contentWindow.location.pathname.endsWith('/'+ID+'.html')&&f.contentWindow.miniprof&&f.contentWindow.miniprof.profil()==='Léa','profil choisi -> retour à la page du module');
+  log(f.contentWindow.miniprof.reponse({competence:'serie',juste:true})===true&&ev().length===n+1,'profil actif : la réponse est enregistrée');
+  actif(25*60);d=await charger('modules/'+ID+'.html');
+  log(f.contentWindow.location.pathname.endsWith('/'+ID+'.html')&&!!f.contentWindow.miniprof.profil(),'25 min sans utilisation : profil gardé');
+  actif(31*60);d=await charger('modules/'+ID+'.html');
+  log(!f.contentWindow.location.pathname.endsWith('.html')&&retourHash()==='modules/'+ID+'.html','31 min sans utilisation : profil redemandé, retour prévu : '+f.contentWindow.location.hash);
+  log(JSON.parse(localStorage.getItem('miniprof.v1.current'))==='ptest','le profil courant n\'est pas effacé (aucune migration)');
+  // page restée ouverte plus de 30 minutes : la réponse suivante n'est pas enregistrée
+  actif();d=await charger('modules/'+ID+'.html');const m0=ev().length;
+  actif(31*60);
+  log(f.contentWindow.miniprof.reponse({competence:'serie',juste:true})===false&&ev().length===m0,'page restée ouverte : réponse refusée');
+  clic(d,'[data-act="trainSetup"]');await sleep(1500);
+  log(!f.contentWindow.location.pathname.endsWith('.html')&&retourHash()==='modules/'+ID+'.html'&&ev().length===m0,'page restée ouverte : le toucher envoie vers le choix du profil, rien d\'enregistré');
+  // lien direct vers un module JSON : choix, puis retour à ce module
+  actif(31*60);d=await charger('index.html#/module/maths-cm2-division-euclidienne');
+  log(f.contentWindow.location.hash.startsWith('#/?retour=')&&retourHash()==='#/module/maths-cm2-division-euclidienne','lien direct (app) : choix du profil d\'abord : '+f.contentWindow.location.hash);
+  clic(d,'.btn-big');await sleep(800);
+  log(f.contentWindow.location.hash==='#/module/maths-cm2-division-euclidienne','lien direct (app) : retour au module après le choix');
+  // adresse de retour piégée : refusée, on retombe sur la bibliothèque
+  actif(31*60);d=await charger('index.html#/?retour='+encodeURIComponent('https://example.org/'));
+  clic(d,'.btn-big');await sleep(800);
+  log(f.contentWindow.location.hash==='#/biblio','adresse de retour d\'un autre site : ignorée');
+  // page de l'app restée ouverte
+  actif();d=await charger('index.html#/biblio');await sleep(500);
+  actif(31*60);const carte=d.querySelector('a.card-link');carte.click();await sleep(800);
+  log(f.contentWindow.location.hash.startsWith('#/?retour='),'app restée ouverte : le toucher suivant envoie vers le choix du profil : '+f.contentWindow.location.hash);
+  actif();
   // création de profil : on entre directement dans le profil créé (retour du 1er essai sur iPhone)
   d=await charger('index.html#/');
   const ajouter=async nom=>{d.getElementById('nouveau-prenom').value=nom;d.querySelector('form.add-profile').requestSubmit();await sleep(800);d=f.contentDocument;};

@@ -21,6 +21,7 @@ voit un plan en cours n'en ouvre pas de nouveau (sauf un feed-back ou une sessio
 | P001 Questions à écrire | 12 oct. 2026 | 26 oct. 2026 |
 | P002 Évaluation sans doublon | 12 oct. 2026 | 26 oct. 2026 |
 | P003 Signaler un problème, export à partager | 11 oct. 2026 | 25 oct. 2026 |
+| P008 « Qui utilise miniprof ? » après 30 min | 12 oct. 2026 | 26 oct. 2026 |
 
 ---
 
@@ -31,8 +32,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 
 | Sujet | Depuis | Priorité proposée | Fiche ou note |
 |---|---|---|---|
-| « Qui utilise miniprof ? » redemandé après 30 min (données mélangées entre profils) | 11 oct. 2026 | **haute**, prêt pour un go | `plans/P008-qui-utilise-miniprof.md` |
-| Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne, après P008 | idée ; voir P008 |
+| Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne (P008 est livré) | idée ; voir P008 |
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | Gamification : règles génériques (points sur l'effort utile, maîtrise espacée, mission du jour, « Réparé ») | 11 oct. 2026 | moyenne, après P008 et la revue n° 2 | `plans/P009-gamification.md` |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
@@ -58,5 +58,6 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | cette semaine |
 | Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | avant la prochaine dictée |
 | Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
+| Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche) | cette semaine |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |

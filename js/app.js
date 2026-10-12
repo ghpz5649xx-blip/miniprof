@@ -17,7 +17,8 @@
 // navigateur ou du téléphone marche tout seul, et recharger la page garde
 // l'écran courant. Aucun serveur n'est nécessaire (GitHub Pages ignore le #).
 
-import { currentProfile } from "./profiles.js";
+import { profilActif } from "./profiles.js";
+import { toucher, garderSession, retourValide } from "./activite.js";
 import { showProfiles } from "./screens/profiles.js";
 import { showLibrary } from "./screens/library.js";
 import { showModuleHome } from "./screens/module-home.js";
@@ -29,13 +30,26 @@ import { showExam } from "./screens/exam.js";
 import { showReport } from "./screens/report.js";
 import { showBackup } from "./screens/backup.js";
 
+// Écrans qui n'ont pas besoin de profil : le choix lui-même (avec son éventuel ?retour=…) et la
+// sauvegarde.
+function sansProfil(hash) {
+  const chemin = hash.split("?")[0];
+  return chemin === "#/" || chemin === "#/sauvegarde";
+}
+
+// Page restée ouverte plus de 30 minutes : le toucher suivant est intercepté (js/activite.js)
+// et envoie vers « Qui utilise miniprof ? », qui ramène ici ensuite.
+garderSession(() => sansProfil(location.hash), () => {
+  location.hash = "#/?retour=" + encodeURIComponent(location.hash);
+});
+
 function route() {
-  const hash = location.hash;
+  const hash = location.hash.split("?")[0]; // sans le ?retour=… de l'écran de choix
 
   // Première ouverture (aucun #) : si un profil a déjà été choisi sur cet
   // appareil, on va directement à sa bibliothèque.
   if (hash === "" || hash === "#") {
-    location.replace(currentProfile() ? "#/biblio" : "#/");
+    location.replace(profilActif() ? "#/biblio" : "#/");
     return; // replace() redéclenche route() via l'événement hashchange
   }
 
@@ -46,11 +60,13 @@ function route() {
     return;
   }
 
-  // Les écrans suivants ont besoin d'un profil : sinon, retour au choix.
-  if (hash !== "#/" && !currentProfile()) {
-    location.replace("#/");
+  // Les écrans suivants ont besoin d'un profil utilisé il y a moins de 30 minutes : sinon, choix
+  // du profil, puis retour à cet écran (lien direct vers un module compris).
+  if (hash !== "#/" && !profilActif()) {
+    location.replace(retourValide(hash) ? "#/?retour=" + encodeURIComponent(hash) : "#/");
     return;
   }
+  if (hash !== "#/") toucher(false);
 
   const parties = hash.slice(2).split("/"); // "#/module/abc" -> ["module", "abc"]
   if (hash === "#/") {

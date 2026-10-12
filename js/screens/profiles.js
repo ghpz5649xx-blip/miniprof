@@ -3,6 +3,7 @@
 import { el, clear, message } from "../ui.js";
 import { listProfiles, createProfile, deleteProfile, setCurrent, MAX_NAME } from "../profiles.js";
 import { MESSAGE_ECHEC_SAUVEGARDE } from "../storage.js";
+import { revenir } from "../activite.js";
 
 // État de l'écran, gardé entre deux affichages :
 // - modeGestion : vrai quand on affiche les boutons « Supprimer » ;
@@ -58,7 +59,8 @@ function choisir(id) {
     showProfiles(MESSAGE_ECHEC_SAUVEGARDE);
     return;
   }
-  location.hash = "#/biblio";
+  // Lien direct ou page restée ouverte : retour à la page demandée (#/?retour=…), sinon bibliothèque.
+  revenir("#/biblio");
 }
 
 // Ajoute le formulaire « Ajouter un profil » à l'écran et renvoie son champ.

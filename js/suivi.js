@@ -20,7 +20,8 @@
 // L'id du module est lu dans la fiche de la page (#miniprof-module) : la page
 // ne peut pas écrire au nom d'un autre module par erreur.
 
-import { currentProfile } from "./profiles.js";
+import { profilActif } from "./profiles.js";
+import { toucher, garderSession, adresseChoix } from "./activite.js";
 import { addEvents, maintenant } from "./events.js";
 import { addSignalement, commentSignalement } from "./signalements.js";
 import { el } from "./ui.js";
@@ -42,6 +43,21 @@ function lireFiche() {
 
 const fiche = lireFiche();
 
+// Page de ce module, pour y revenir après le choix du profil ("modules/<id>.html").
+function adresseDeRetour() {
+  const chemin = location.href.split(/[?#]/)[0];
+  return chemin.startsWith(RACINE) ? chemin.slice(RACINE.length) : null;
+}
+
+// Profil absent ou pas utilisé depuis 30 minutes (plan P008) : choix du profil, puis retour ici.
+// Une question perdue plutôt qu'un résultat chez la mauvaise personne.
+function redemanderProfil() {
+  location.replace(adresseChoix(adresseDeRetour()));
+}
+if (fiche && !profilActif()) redemanderProfil();
+// Page restée ouverte : le toucher suivant n'atteint pas la page (js/activite.js).
+garderSession(() => false, redemanderProfil);
+
 // Une réponse de la page -> un événement au format de js/events.js.
 // Défensif : la page est générée, on ne garde que des valeurs du bon type.
 function versEvenement(r) {
@@ -60,11 +76,12 @@ function versEvenement(r) {
   };
 }
 
-// Renvoie true si c'est enregistré. Sans profil (ou sans fiche), rien n'est
-// enregistré : l'enfant peut quand même réviser, le bandeau l'a prévenu.
+// Renvoie true si c'est enregistré. Sans profil actif (ou sans fiche), rien n'est enregistré
+// (la page a normalement déjà renvoyé vers le choix du profil, voir plus haut).
 function reponse(r) {
-  const profil = currentProfile();
+  const profil = profilActif();
   if (!profil || !fiche) return false;
+  toucher(false);
   const liste = (Array.isArray(r) ? r : [r]).filter((x) => x && typeof x.competence === "string");
   if (liste.length === 0) return false;
   return addEvents(profil.id, liste.map(versEvenement));
@@ -75,7 +92,7 @@ function reponse(r) {
 // (profil null) : un problème de question compte pour tout le monde.
 function signaler(s) {
   if (!fiche || s === null || typeof s !== "object") return null;
-  const profil = currentProfile();
+  const profil = profilActif();
   return addSignalement({
     module: fiche.id, enonce: s.enonce, choix: s.choix, attendue: s.attendue, reponse: s.reponse,
   }, profil ? profil.id : null);
@@ -91,14 +108,14 @@ function debutEvaluation(niveau) {
 }
 
 function profil() {
-  const p = currentProfile();
+  const p = profilActif();
   return p ? p.name : null;
 }
 
 // Bandeau en haut de la page : qui est enregistré, et les liens vers miniprof.
 // Styles en ligne : la page a ses propres styles, qu'on ne connaît pas.
 function bandeau() {
-  const p = currentProfile();
+  const p = profilActif();
   const style = "display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center;justify-content:center;"
     + "padding:6px 12px;font:600 0.9rem system-ui,-apple-system,sans-serif;"
     + "background:#1f3b57;color:#fff;";
