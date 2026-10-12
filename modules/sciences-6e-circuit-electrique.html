@@ -99,6 +99,10 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 
 .btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
 #ok[hidden]{display:inline-block;visibility:hidden}
+.qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
+/* « Une erreur ? » : large, rouge, tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+.qwrap .sigbar{margin-top:auto;padding-top:28px}
+.sigbtn{width:100%;background:var(--bad);border-color:var(--bad);color:var(--bg)}
 /* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
 button,input,.choice{touch-action:manipulation}
 .btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
@@ -1197,12 +1201,13 @@ function qScreen(){
     head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
   else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
   if(q.draw){S.grid={};S.tool=S.tool||'fil';S.bad=null;S.lit=false;S.locked=false;}
-  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap">
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
       ${q.draw?drawEditor():`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCD'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
     <div id="hint"></div><div id="fb"></div>
-    <div class="btns"><span id="acts" class="acts"></span><button class="btn ghost" data-act="sig">Une erreur ?</button></div><div id="sig"></div></main>`);
+    <div class="btns"><span id="acts" class="acts"></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">Une erreur ?</button></div></main>`);
   S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
 }
 /* ================= MOTEUR : signaler un problème ================= */

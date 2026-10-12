@@ -115,3 +115,6 @@ Contrat `docs/module-html.md` et `README.md` à jour.
   avec commentaire). Export joint à la conversation Claude Code : reçu, `analyse.py` affiche le
   signalement. Circuit retenu pour transmettre un export à Claude : la pièce jointe dans la
   conversation (pas de dépôt ni de Notion).
+
+## Retour P003 / P010 du 12 oct. 2026 (sponsor)
+Le bouton « Une erreur ? » gênait à côté de « Valider ». Il est maintenant **large, rouge, tout en bas de l'écran** (poussé en bas par `margin-top:auto` ; juste après la question si l'écran est petit). Gabarit et 5 modules HTML ; l'app (modules JSON) inchangée. Recette navigateur 55 OK ; Chromium 390×844 et 390×480 : bouton à sa place, confirmation Oui / Non ouverte au-dessus. À regarder sur l'iPhone.
