@@ -319,6 +319,46 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
 - **Décisions à prendre après ces retours** : garder le hibou et la pousse ou en changer ; la
   6e trouve-t-elle cela « bébé » ; l'attente de 3 s est-elle acceptée. Ensuite, proposer L1.
 
+## L1-pilote — Le parcours dans le module « Dictée 5 : Devinettes » (cadrage du 12 oct. 2026)
+Demande du sponsor : implémenter le POC **dans ce seul module** (CM1), pour le tester avec
+l'enfant et collecter des données ; le moteur choisit les compétences de façon adaptative.
+« Un module = un paysage ; chaque étape commence par une compétence (sans la nommer) ; dès
+qu'une étoile est gagnée, on continue sur une autre compétence. »
+
+### Ce que propose Claude
+- **Le paysage du module** : une route dans une petite ville, avec les mots de la dictée
+  (voiture, camion, ambulance, pompier, avion, montre). Chaque **étape** est un lieu (caserne,
+  hôpital, aéroport…). La carte ne nomme pas la compétence ; elle montre les étoiles gagnées,
+  l'étape en cours et un bout de route encore à découvrir.
+- **Une étape = une compétence, jusqu'à une étoile** : pratique groupée (§3), jauge de 40
+  points, gain Fibonacci(série) plafonné à 8, deuxième chance qui sauve la série (D6). Une étape
+  peut se finir un autre jour (la jauge est gardée). La série, elle, repart de zéro à chaque
+  nouvelle séance (30 min sans réponse) : une série qui dure des jours ferait peur de revenir.
+- **Choix adaptatif de l'étape suivante** (calculé depuis le journal du module, ancien compris) :
+  1. d'abord les compétences **sans étoile**, la plus fragile en premier (réussite du premier
+     coup, récente plus lourde) ; jamais deux fois la même compétence de suite ;
+  2. quand toutes ont une étoile : des étapes de **révision**, sur la compétence dont la
+     dernière étoile est la plus ancienne (au moins 1 jour), un niveau au-dessus.
+  Le parcours n'a donc pas de fin : 5 étapes pour le premier tour, puis des révisions.
+- **Difficulté dans une étape** : départ selon la maîtrise (niveau 1 sous 60 %, 2 sous 85 %,
+  sinon 3) ; on monte après 3 bonnes réponses du premier coup sur les 4 dernières, on descend
+  après 2 erreurs de suite (P011).
+- **Mini** donne l'indice (le texte d'indice existant du module) au-dessus de « Ta série de N
+  est en jeu ! ». Pas de minuteur.
+- **Accueil du module** : le paysage devient l'écran principal. « Revoir la leçon » ouvre la fiche
+  Apprendre de la compétence de l'étape. L'ancien entraînement libre et l'évaluation restent
+  accessibles par un lien discret « Autres exercices » (pas de suppression dans ce pilote).
+- **Interface app → module** (évolution du contrat, documentée dans `docs/module-html.md`) :
+  `miniprof.historique()` renvoie, en lecture seule, les réponses de **ce** module pour le
+  profil courant. Le gabarit et les autres modules ne changent pas.
+- **Où c'est testé** : la branche de travail sert de brouillon ; rien n'arrive chez l'enfant avant
+  la fusion dans `main`, sur décision du sponsor.
+
+### Point à trancher par le sponsor avant d'écrire le code
+- **Stockage de la deuxième chance** : aujourd'hui le journal ne garde que le premier essai.
+  Pour recalculer la série (sauvée ou perdue), il faut garder le résultat de la deuxième chance.
+  Voir la question posée dans la conversation.
+
 ## Feed-back
 ### 12 oct. 2026 — sponsor, sur le POC L0 : « la série en jeu » remplace la demi-étoile
 - **Retour** : la démo plaît. Plutôt qu'une demi-étoile pour un essai réparé, créer un **enjeu
