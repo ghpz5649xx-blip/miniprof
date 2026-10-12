@@ -35,11 +35,10 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 |---|---|---|---|
 | Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne (P008 est livré) | idée ; voir P008 |
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
-| Gamification : règles génériques (points sur l'effort utile, maîtrise espacée, mission du jour, « Réparé ») | 11 oct. 2026 | moyenne, après P008 et la revue n° 2 | `plans/P009-gamification.md` |
+| **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **haute** (une question au sponsor : par quelle livraison commencer) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
-| Entraînement adaptatif : le moteur choisit compétence et difficulté, « Je choisis » discret ; départ conjugaison CM1 + gabarit | 12 oct. 2026 | **haute** (seuils à valider par le sponsor, puis go) | `plans/P011-entrainement-adaptatif.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
-| Évaluations rejouées en boucle | 11 oct. 2026 | à revoir à la revue n° 2 | `plans/P007-evaluations-rejouees.md` |
+| Évaluations rejouées en boucle | 11 oct. 2026 | sans objet si P012 supprime l'évaluation | `plans/P007-evaluations-rejouees.md` |
 | Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |
 | Cacher aux enfants les deux modules CM2 (aucun enfant à ce niveau) | 11 oct. 2026 | basse | idée (réversible) |
 | POC « dictée lue par le téléphone » (synthèse vocale locale) | 11 oct. 2026 | basse | idée |

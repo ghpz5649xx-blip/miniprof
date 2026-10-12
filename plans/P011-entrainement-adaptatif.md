@@ -1,6 +1,8 @@
 # P011 — Entraînement adaptatif : le moteur choisit la compétence et la difficulté
 
-- **Statut** : cadrage terminé le 12 oct. 2026 ; **à mûrir** (aucun code, aucun go demandé).
+- **Statut** : cadrage terminé le 12 oct. 2026 ; **à mûrir**, **révisé dans P012** le 12 oct. 2026
+  (une compétence cible par séance, pratique groupée puis rappel mélangé ; D2 « rien de visible »
+  modifié ; voir `plans/P012-engagement-au-service-de-la-pedagogie.md`, §3). Ne plus l'exécuter seul.
 - **Origine** : sponsor, 12 oct. 2026. Le tirage se répète (« est » une fois sur deux en Être
   niveau 2) ; l'enfant choisit lui-même sa compétence, donc évite ce qui est fragile.
 - **Constat dans le code** : le tirage vit dans chaque module HTML (`__miniprofTirage`, générateurs

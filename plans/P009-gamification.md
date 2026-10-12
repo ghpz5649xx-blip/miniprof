@@ -1,6 +1,8 @@
 # P009 — Gamification : étude du comportement et règles génériques
 
-- **Statut** : plan d'étude terminé le 11 oct. 2026 ; **à mûrir** (aucun code, aucun go demandé).
+- **Statut** : plan d'étude terminé le 11 oct. 2026 ; **à mûrir**, **intégré dans P012** le 12 oct. 2026
+  (l'évaluation est supprimée, R4 devient « Réparé » à l'échelle de la question ; voir
+  `plans/P012-engagement-au-service-de-la-pedagogie.md`). Ne plus l'exécuter seul.
 - **Origine** : sponsor, 11 oct. 2026. Question : quelles règles de jeu pour pousser les enfants
   vers le comportement qui profite le plus à leur révision ?
 - **Données** : un export (un seul profil, les deux enfants et des essais du sponsor mélangés :
