@@ -1,6 +1,7 @@
 # P012 — Engagement au service de la pédagogie (cadre commun de P009 et P011)
 
-- **Statut** : cadrage ouvert le 12 oct. 2026 ; **à mûrir** (aucun code, aucun go demandé).
+- **Statut** : cadrage ouvert le 12 oct. 2026 ; **plan en cours** : L0 (POC visuel) exécuté le
+  12 oct. 2026 sur le go du sponsor ; L1 à L7 restent à mûrir.
 - **Origine** : sponsor, 12 oct. 2026. Demande de revoir P009 (gamification) et P011
   (entraînement adaptatif) comme **un seul plan générique** : augmenter l'engagement *au service*
   des bénéfices pédagogiques de miniprof.
@@ -293,6 +294,26 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
 - [Kulik et al. (1990), mastery learning (résumé)](https://www.academia.edu/81783373/Effectiveness_of_Mastery_Learning_Programs_A_Meta_Analysis)
 - [Deci, Koestner, Ryan (1999)](https://journals.sagepub.com/doi/10.3102/00346543071001001) ; [Eisenberger & Cameron (1996)](https://journals.sagepub.com/doi/10.3102/00346543064003363) (références, résultats non relus)
 - Durée d'attention par âge : blogs de tutorat (faible valeur) ; à ne pas citer comme norme.
+
+## L0 — POC visuel (exécuté le 12 oct. 2026)
+- **Livré** : `poc/parcours/index.html`, une page isolée (aucun import de `js/`, aucun
+  `localStorage`, aucune ressource externe, polices système). Quatre écrans fictifs : la carte
+  des modules (bibliothèque) avec étoiles et défi du jour ; le parcours d'un module (3 marches
+  ★ / ★★ / ★★★, compétence cible, pousse qui grandit avec les étoiles, « Revoir la leçon ») ;
+  une question avec l'indice incontournable (bouton actif après 3 s ou un tap sur l'indice,
+  étoile ou demi-étoile de séance) ; un défi « quasi sans faute » simulé (12 questions, 2 erreurs
+  permises, « Presque ! »). Bascule de thème **CM1** (rond, vert menthe, hibou « Mini ») /
+  **6e** (net, indigo, Mini à lunettes) ; thèmes clair et sombre ; mouvement réduit respecté.
+- **Où le voir** : la branche de travail n'est pas `main`, donc GitHub Pages ne sert pas encore la
+  page. Copie privée consultable sur iPhone : lien donné au sponsor dans la conversation
+  (artifact claude.ai). Après fusion dans `main` : `…/miniprof/poc/parcours/`.
+- **Vérifié** (Chromium sans fenêtre, 390 px et 1300 px, clair et sombre) : aucune erreur
+  console, pas de défilement horizontal ; « a » → indice, bouton inactif puis actif après 3 s ;
+  « As » → « Réparé ! Une demi-étoile » ; défi : 3 erreurs → « Presque ! 6 justes ».
+- **Tâches du sponsor** : regarder le POC sur l'iPhone, puis le montrer à chaque enfant (thème de
+  son niveau) et noter ses réactions spontanées : personnage, carte, demi-étoile, défi.
+- **Décisions à prendre après ces retours** : garder le hibou et la pousse ou en changer ; la
+  6e trouve-t-elle cela « bébé » ; l'attente de 3 s est-elle acceptée. Ensuite, proposer L1.
 
 ## Feed-back
 (sans objet)
