@@ -202,6 +202,9 @@ entre parenthèses pour 80 %) :
   pas de notification.
 
 ## 6. Retry payant : faire lire l'indice
+> **Remplacé le 12 oct. 2026** par « la série en jeu » (voir Feed-back) ; le texte ci-dessous
+> reste comme trace du raisonnement.
+
 Constat du sponsor : l'indice du LLM après la première erreur est bon mais rarement lu. La
 recherche (2.2) donne trois leviers, du moins intrusif au plus :
 
@@ -316,4 +319,34 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
   6e trouve-t-elle cela « bébé » ; l'attente de 3 s est-elle acceptée. Ensuite, proposer L1.
 
 ## Feed-back
-(sans objet)
+### 12 oct. 2026 — sponsor, sur le POC L0 : « la série en jeu » remplace la demi-étoile
+- **Retour** : la démo plaît. Plutôt qu'une demi-étoile pour un essai réparé, créer un **enjeu
+  sur la deuxième chance** pour que l'enfant lise l'indice. Pas de minuteur.
+- **Règle (sponsor)** : une étoile se gagne en remplissant une **jauge**. La jauge ne se remplit
+  qu'avec une réponse juste **du premier coup** ; la n-ième réussite d'affilée rapporte
+  **Fibonacci(n)** (1, 1, 2, 3, 5, 8…). Après une erreur : la deuxième chance ne rapporte rien,
+  mais la réussir **garde la série** ; la rater **remet la série à zéro**. L'enjeu (« ta série de 5
+  est en jeu ») s'affiche juste avant l'indice.
+- **Proposition de Claude, appliquée dans le POC, à valider** : **plafonner le gain à 8**
+  (série de 6 et plus). Simulation de 20 000 séances de 10 questions (2e chance réussie un peu
+  moins souvent que la 1re) :
+
+  | Réussite du 1er coup | Sans plafond : médiane (10e – 90e centile) | Plafond 8 |
+  |---|---|---|
+  | 90 % | 88 (24 – 143) | 44 (24 – 52) |
+  | 80 % | 54 (11 – 143) | 36 (11 – 52) |
+  | 70 % | 20 (7 – 88) | 20 (7 – 44) |
+
+  Sans plafond, une longue série écrase tout : l'écart entre deux séances de même niveau va du
+  simple au sextuple (la chance pèse plus que l'effort), une série perdue devient très coûteuse
+  (anxiété), et la récompense favorise le contenu facile, ce que P009 voulait éviter. Avec le
+  plafond, l'enjeu reste réel (une série de 5 vaut 8 points par réponse, contre 1 après sa perte).
+- **Jauge** : 40 points dans le POC, soit environ une étoile par séance de 10 questions à
+  85-90 % de réussite. À calibrer sur les exports.
+- **POC mis à jour** : écran 3 (jauge, série, enjeu, indice, deuxième chance, cinq questions
+  sur être et avoir) ; minuteur et demi-étoile supprimés. « j'ai » est accepté comme « ai ».
+  Vérifié dans Chromium à 390 px : séquence complète (gain, série sauvée, série perdue, étoile
+  gagnée), aucune erreur console, pas de défilement horizontal.
+- **Conséquence sur le plan** : §6 (retry payant) remplacé par cette règle ; la question
+  voisine reposée plus tard (§6, point 3) est conservée. Les étoiles de module (§5) restent des
+  jalons de maîtrise ; l'étoile de jauge s'y ajoute (lien entre les deux : à trancher en L1).
