@@ -35,4 +35,11 @@ jusqu'à ce que l'élève propose autre chose.
   champ est vide, que « Valider » a disparu et que le clavier reste ouvert.
 
 ## Feed-back
-(aucun pour l'instant)
+- **12 oct. 2026 (sponsor, iPhone)** : (a) toucher ou taper dans le champ après une erreur ne faisait
+  rien tant qu'on n'avait pas appuyé sur « Réessayer » ; (b) le premier toucher sur « Valider »
+  semblait perdu. Corrigé : toucher ou taper dans le champ efface l'ancien mot et remplace
+  « Réessayer » par « Valider » (caché tant que rien n'est tapé) ; choisir une autre réponse à un QCM
+  le faisait déjà. Pour (b), cause non reproduite hors iPhone : « Valider » caché garde sa place
+  (`visibility`, plus de décalage quand il apparaît) et un toucher sur un bouton d'action ne retire plus le
+  focus du champ (le clavier qui se ferme décalait la page). Recette navigateur en mode tactile
+  (390 px) : OK. **À confirmer sur l'iPhone** ; sinon, nouveau retour avec la séquence exacte.

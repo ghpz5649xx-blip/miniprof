@@ -83,6 +83,7 @@ button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 .m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
 
 .btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+#ok[hidden]{display:inline-block;visibility:hidden}
 .btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
 .btn.ghost{background:transparent}
 .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
@@ -727,6 +728,14 @@ function act(a,el){
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
 // un mot tapé = une proposition : « Valider » apparaît
 app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
+// Après une erreur, toucher le champ ou y taper efface l'ancien mot, comme « Réessayer » (P010, retour du 12/10).
+const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
+app.addEventListener('pointerdown',effacerSiReessai);
+app.addEventListener('focusin',effacerSiReessai);
+app.addEventListener('beforeinput',effacerSiReessai);
+// Toucher un bouton d'action ne retire pas le focus du champ : sur iPhone, le clavier qui se ferme décalait la page
+// et le premier toucher sur « Valider » était perdu.
+app.addEventListener('mousedown',e=>{if(e.target.closest('#acts button'))e.preventDefault();});
 
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
