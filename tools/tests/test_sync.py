@@ -61,7 +61,8 @@ class TestSynchronisation(unittest.TestCase):
 
     def test_suivi_passe_par_events(self):
         source = (JS / "suivi.js").read_text(encoding="utf-8")
-        self.assertIn('import { addEvents, maintenant } from "./events.js"', source)
+        # listEvents() : lecture seule, pour miniprof.historique() (parcours du plan P012).
+        self.assertIn('import { addEvents, listEvents, maintenant } from "./events.js"', source)
         self.assertIn('import { addSignalement, commentSignalement } from "./signalements.js"', source)
         code = "\n".join(l.split("//")[0] for l in source.splitlines())
         self.assertNotRegex(code, r"localStorage|writeKey", "suivi.js doit passer par addEvents() ou signalements.js")

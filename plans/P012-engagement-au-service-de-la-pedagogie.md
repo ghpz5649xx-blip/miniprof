@@ -1,7 +1,8 @@
 # P012 — Engagement au service de la pédagogie (cadre commun de P009 et P011)
 
-- **Statut** : cadrage ouvert le 12 oct. 2026 ; **plan en cours** : L0 (POC visuel) exécuté le
-  12 oct. 2026 sur le go du sponsor ; L1 à L7 restent à mûrir.
+- **Statut** : cadrage ouvert le 12 oct. 2026 ; **plan en cours** : L0 (POC visuel) et le pilote
+  du parcours dans le module Dictée 5 exécutés le 12 oct. 2026 sur le go du sponsor ; le reste
+  (autres modules, défis du jour, carnet, fusion leçon + entraînement) reste à mûrir.
 - **Origine** : sponsor, 12 oct. 2026. Demande de revoir P009 (gamification) et P011
   (entraînement adaptatif) comme **un seul plan générique** : augmenter l'engagement *au service*
   des bénéfices pédagogiques de miniprof.
@@ -277,6 +278,7 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
 | D3 | Rendre le retry payant (indice lu) | 12 oct. 2026 (formes en 6, à choisir) |
 | D4 | Ajouter personnages et parcours | 12 oct. 2026 (formes en 7, POC d'abord) |
 | D5 | P009 et P011 deviennent des briques de P012 | 12 oct. 2026 |
+| D7 | Deuxième chance stockée comme ligne « r » du journal ; pilote du parcours dans le seul module Dictée 5 | 12 oct. 2026 |
 | D6 | « La série en jeu » remplace la demi-étoile : jauge remplie seulement au premier coup, gain Fibonacci(série) **plafonné à 8**, deuxième chance qui sauve la série sans rapporter, pas de minuteur | 12 oct. 2026 |
 
 ## 11. Questions ouvertes (une à la fois avec le sponsor)
@@ -319,7 +321,7 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
 - **Décisions à prendre après ces retours** : garder le hibou et la pousse ou en changer ; la
   6e trouve-t-elle cela « bébé » ; l'attente de 3 s est-elle acceptée. Ensuite, proposer L1.
 
-## L1-pilote — Le parcours dans le module « Dictée 5 : Devinettes » (cadrage du 12 oct. 2026)
+## L1-pilote — Le parcours dans le module « Dictée 5 : Devinettes » (exécuté le 12 oct. 2026)
 Demande du sponsor : implémenter le POC **dans ce seul module** (CM1), pour le tester avec
 l'enfant et collecter des données ; le moteur choisit les compétences de façon adaptative.
 « Un module = un paysage ; chaque étape commence par une compétence (sans la nommer) ; dès
@@ -354,10 +356,55 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
 - **Où c'est testé** : la branche de travail sert de brouillon ; rien n'arrive chez l'enfant avant
   la fusion dans `main`, sur décision du sponsor.
 
-### Point à trancher par le sponsor avant d'écrire le code
-- **Stockage de la deuxième chance** : aujourd'hui le journal ne garde que le premier essai.
-  Pour recalculer la série (sauvée ou perdue), il faut garder le résultat de la deuxième chance.
-  Voir la question posée dans la conversation.
+### Décision du sponsor (12 oct. 2026)
+- **D7 — La deuxième chance est une ligne du journal, mode « r »** (même clé
+  `miniprof.v1.events.<profil>`, même format de ligne). Pourquoi : tout reste recalculable,
+  la ligne part dans la sauvegarde et l'export, et `analyse.py` peut mesurer si l'indice est lu.
+  L'app ne lisait déjà que « e » et « v » : le bilan, les statistiques et les notes ne changent
+  pas. Les réponses du parcours ont une question `parcours/<compétence>` (même format), ce qui
+  sépare le parcours de l'entraînement libre.
+
+### Livré
+- `modules/francais-cm1-dictee-5-avoir-etre.html` : la carte est l'écran d'accueil (route, lieux
+  de la ville, étoiles, Mini près de l'étape en cours, compteur d'étoiles) ; la carte d'étape
+  (jauge, série, « Commencer / Continuer », « Revoir la leçon ») ; l'écran de question (jauge et
+  série en haut ; après une erreur, l'enjeu, le pourquoi de l'erreur, l'indice de Mini, « Ma
+  deuxième chance » ; toucher le champ ou un autre choix ouvre aussi la deuxième chance) ;
+  l'écran « Étoile gagnée ! » ; « Autres exercices » mène à l'ancien menu (Apprendre,
+  entraînement libre, évaluation, bilan), qui ramène à la carte. Les questions, les fiches et
+  les générateurs ne changent pas. Moteur pur (`PARCOURS`) : `etatParcours` rejoue le journal,
+  `prochaineEtape` choisit l'étape, `niveauApres` règle la difficulté.
+- `js/events.js` : `listEvents(profil, avecDeuxiemeChance)` ; sans le second argument, rien ne
+  change. `js/suivi.js` : `miniprof.historique()` (lecture seule) et le mode « r ».
+- `tools/analyse.py` : les réussites ne comptent que le premier essai ; nouvelle section
+  « Deuxième chance » (erreurs du premier coup, chances tentées, sauvées).
+- Contrat (`docs/module-html.md`) et `README.md` (format du journal) à jour. Le gabarit et les
+  autres modules ne changent pas.
+
+### Vérifié
+- `python -m unittest discover tools/tests` : tout passe, dont `test_parcours.py` (7 tests :
+  gains Fibonacci plafonnés, étoile à 40, deuxième chance sauvée ou ratée, série perdue si la
+  page est quittée, pause de 30 min, réponses libres ignorées, choix de l'étape, révision,
+  difficulté) et 3 tests ajoutés à `test_analyse.py`.
+- `check_html.py` conforme ; `tirage.py` : aucune erreur de forme.
+- `tools/recette_navigateur.py` (Chromium) : **70 OK, 0 échec**, dont 15 nouvelles
+  vérifications du parcours (carte, étoile recalculée, étape choisie, carte sans nom de
+  compétence, lignes « e » puis « r », indice et deuxième chance, retour, « Autres exercices »,
+  bilan qui ignore la deuxième chance).
+- Rendu regardé à 390 px, clair et sombre : pas de défilement horizontal, aucune erreur.
+
+### Recette à faire par le sponsor (iPhone, profil « Test »)
+1. Ouvrir « Dictée 5 » : la carte s'affiche, étape 1 « La caserne des pompiers ».
+2. Répondre juste plusieurs fois : la jauge monte de 1, 1, 2, 3, 5, 8, 8…
+3. Se tromper : « Ta série de N est en jeu ! », l'indice de Mini, « Ma deuxième chance ».
+   Réussir : « Série sauvée ». Se tromper encore : la bonne réponse, série à 0.
+4. Remplir la jauge : « Étoile gagnée ! », puis la carte avec une 2e étape (un autre lieu).
+5. « Autres exercices » : l'ancien menu ; « Retour » : la carte.
+
+### Limites connues du pilote
+- Une étape commencée reste l'étape en cours jusqu'à son étoile, même plusieurs jours après.
+- Les réglages (jauge 40, plafond 8, seuils de difficulté et de choix) sont à ajuster sur les
+  exports : `python tools/analyse.py <export>` donne la section « Deuxième chance ».
 
 ## Feed-back
 ### 12 oct. 2026 — sponsor, sur le POC L0 : « la série en jeu » remplace la demi-étoile

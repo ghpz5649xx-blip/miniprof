@@ -10,9 +10,10 @@ chacun leur fiche dans `plans/` (index : `plans/index.md`). La méthode de trava
 ## Plan en cours
 
 **P012 — Engagement au service de la pédagogie** (`plans/P012-engagement-au-service-de-la-pedagogie.md`).
-L0 (POC visuel `poc/parcours/`) livré le 12 oct. 2026 ; en attente des réactions du sponsor et des
-enfants avant de proposer L1 (calcul des étoiles). Une autre session n'ouvre pas de nouveau plan
-(sauf un feed-back ou une session module).
+L0 (POC visuel) et le **pilote du parcours dans le module Dictée 5** (carte, étoiles, série en
+jeu, choix adaptatif de l'étape) livrés le 12 oct. 2026 sur la branche de travail, en attente
+de la fusion dans `main` (décision du sponsor), puis de la recette sur l'iPhone et des premières
+données. Une autre session n'ouvre pas de nouveau plan (sauf un feed-back ou une session module).
 
 ---
 
@@ -37,7 +38,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 |---|---|---|---|
 | Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne (P008 est livré) | idée ; voir P008 |
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
-| **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **en cours** (L0 livré ; L1 après les retours sur le POC) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
+| **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **en cours** (L0 et pilote Dictée 5 livrés ; réglages après les premières données) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
 | POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
 | Évaluations rejouées en boucle | 11 oct. 2026 | sans objet si P012 supprime l'évaluation | `plans/P007-evaluations-rejouees.md` |
@@ -63,6 +64,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
 | Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche) | cette semaine |
 | Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert | cette semaine |
-| Regarder le POC « Parcours miniprof » (lien dans la conversation) sur l'iPhone, puis le montrer à chaque enfant dans le thème de son niveau ; noter ses réactions (personnage, carte, demi-étoile, défi, « bébé » ?) | cette semaine |
+| Recette du parcours Dictée 5 sur l'iPhone, profil « Test » (5 étapes dans la fiche P012), puis laisser le CM1 jouer sur son profil | après la fusion dans `main` |
+| Exporter les données du CM1 après une semaine de parcours et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes) | vers le 20 oct. |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |

@@ -304,5 +304,9 @@ depuis le plan P003, `signalements` (liste d'objets : `id`, `date`, `module`, `p
 `question`, `enonce`, `choix`, `attendue`, `reponse`, `commentaire`). Un fichier d'avant P003 n'a
 pas `signalements` : il reste lisible.
 Une ligne du journal : `[date (s), module, question, compétence, difficulté, mode ("e"
-entraînement / "v" évaluation), juste (1/0), durée (s), réponse, clé d'évaluation]`.
+entraînement / "v" évaluation / "r" deuxième chance), juste (1/0), durée (s), réponse, clé
+d'évaluation]`. Le mode "r" (plan P012) n'existe que dans le parcours du module Dictée 5 : c'est
+la deuxième chance après une erreur du premier coup. Le bilan de l'app et les réussites de
+`analyse.py` l'ignorent (on ne mesure que le premier essai) ; `analyse.py` en tire la section
+« Deuxième chance ». Les réponses du parcours ont une question `parcours/<compétence>`.
 `tools/analyse.py` en fait un tableau pandas (colonnes : `COLONNES` en tête du fichier).

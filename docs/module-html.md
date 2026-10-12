@@ -66,6 +66,13 @@ Contrôle : `python tools/check_html.py modules/<id>.html` (`--llm` : texte de c
      Les questions étant tirées au hasard, sans id, c'est la copie qui permet de les retrouver
      (`tools/analyse.py` les affiche). Un module sans ce bouton reste conforme.
    - `miniprof.profil()` : prénom du profil courant, ou `null`.
+   - `miniprof.historique()` : les réponses déjà enregistrées pour **ce** module et ce profil
+     (copies, lecture seule, de la plus ancienne à la plus récente ; objets `date`, `question`,
+     `skill`, `difficulty`, `mode`, `juste`…). Sert au **parcours** (plan P012, pilote dans
+     `modules/francais-cm1-dictee-5-avoir-etre.html` seulement) : étapes, jauge et série s'en
+     recalculent, sans rien stocker d'autre. Liste vide sans profil.
+   - `mode: "r"` : la **deuxième chance** après une erreur du premier coup (parcours seulement).
+     Le bilan de miniprof l'ignore ; `tools/analyse.py` la compte à part.
    - `miniprof.racine` : adresse de l'app. Le bilan du module est à
      `miniprof.racine + "#/module/" + miniprof.module + "/bilan"`. La page n'a pas de bilan à
      elle : un bouton « Mon bilan » y mène.

@@ -12,7 +12,8 @@
 // (risque R4 : ≈ 5 Mo par site) :
 //   [date, module, question, compétence, difficulté, mode, juste, durée, réponse, évaluation]
 //   date       : secondes depuis 1970 (Date.now() / 1000) ;
-//   mode       : "e" (entraînement, premier essai seulement) ou "v" (évaluation) ;
+//   mode       : "e" (entraînement, premier essai seulement), "v" (évaluation) ou "r"
+//                (deuxième chance après une erreur du premier coup, parcours du plan P012) ;
 //   juste      : 1 ou 0 ;
 //   durée      : secondes passées sur la question ;
 //   réponse    : telle que lue par question-view.js ({ q: 5, r: 3 }, "b", "Paris") ;
@@ -58,10 +59,13 @@ function lignes(profilId) {
 // Événements d'un profil, du plus ancien au plus récent. Défensif : une ligne
 // abîmée (modifiée à la main, import raté) est ignorée au lieu de faire
 // planter le bilan.
-export function listEvents(profilId) {
+// Les lignes "r" (deuxième chance) ne sont rendues que si on les demande : le bilan, les
+// statistiques et les notes ne comptent que le premier essai, comme avant (plan P012).
+export function listEvents(profilId, avecDeuxiemeChance = false) {
   return lignes(profilId)
     .filter((l) => Array.isArray(l) && typeof l[0] === "number" && typeof l[1] === "string"
-      && typeof l[3] === "string" && (l[5] === "e" || l[5] === "v"))
+      && typeof l[3] === "string"
+      && (l[5] === "e" || l[5] === "v" || (avecDeuxiemeChance && l[5] === "r")))
     .map(depuisLigne);
 }
 

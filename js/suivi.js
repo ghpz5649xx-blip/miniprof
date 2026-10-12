@@ -16,13 +16,17 @@
 //   miniprof.signaler(s)                 l'enfant signale la question affichée : copie de ce qu'il
 //     voyait, s = { enonce, choix: [libellés], attendue, reponse } (textes bruts) ; renvoie l'id
 //     du signalement, ou null s'il n'est pas enregistré ;
-//   miniprof.commenter(id, texte)        ajoute son commentaire facultatif à ce signalement.
+//   miniprof.commenter(id, texte)        ajoute son commentaire facultatif à ce signalement ;
+//   miniprof.historique()                les réponses déjà enregistrées pour ce module et ce profil
+//     (lecture seule, deuxièmes chances comprises) : le parcours du plan P012 en recalcule
+//     ses étapes, sa jauge et sa série, sans rien stocker d'autre.
+// mode "r" : deuxième chance après une erreur du premier coup (le bilan l'ignore).
 // L'id du module est lu dans la fiche de la page (#miniprof-module) : la page
 // ne peut pas écrire au nom d'un autre module par erreur.
 
 import { profilActif } from "./profiles.js";
 import { toucher, garderSession, adresseChoix } from "./activite.js";
-import { addEvents, maintenant } from "./events.js";
+import { addEvents, listEvents, maintenant } from "./events.js";
 import { addSignalement, commentSignalement } from "./signalements.js";
 import { el } from "./ui.js";
 
@@ -61,7 +65,7 @@ garderSession(() => false, redemanderProfil);
 // Une réponse de la page -> un événement au format de js/events.js.
 // Défensif : la page est générée, on ne garde que des valeurs du bon type.
 function versEvenement(r) {
-  const mode = r.mode === "v" ? "v" : "e";
+  const mode = r.mode === "v" || r.mode === "r" ? r.mode : "e";
   return {
     date: maintenant(),
     module: fiche.id,
@@ -107,6 +111,14 @@ function debutEvaluation(niveau) {
   return maintenant() + "/" + (niveau ? String(niveau) : "mixte");
 }
 
+// Réponses de ce module pour le profil courant, de la plus ancienne à la plus récente.
+// Des copies : la page ne peut pas modifier le journal par ce biais.
+function historique() {
+  const p = profilActif();
+  if (!p || !fiche) return [];
+  return listEvents(p.id, true).filter((e) => e.module === fiche.id).map((e) => ({ ...e }));
+}
+
 function profil() {
   const p = profilActif();
   return p ? p.name : null;
@@ -129,5 +141,8 @@ function bandeau() {
   return el("div", { class: "miniprof-bandeau", style: style }, ...contenu);
 }
 
-window.miniprof = { profil, reponse, debutEvaluation, signaler, commenter, racine: RACINE, module: fiche ? fiche.id : null };
+window.miniprof = {
+  profil, reponse, debutEvaluation, signaler, commenter, historique,
+  racine: RACINE, module: fiche ? fiche.id : null,
+};
 document.body.prepend(bandeau());

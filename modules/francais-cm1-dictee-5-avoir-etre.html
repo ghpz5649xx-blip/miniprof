@@ -29,6 +29,9 @@
   --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
   --bad:#c63a32; --good:#178a4c;
   --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  /* parcours (plan P012) : herbe, route, étoiles, le hibou Mini */
+  --grass:#c4e6cf; --road:#e3d2a8; --tree:#3f9b5a; --star:#f2b705; --star-off:#d5dce8;
+  --owl:#9a6b4f; --owl-belly:#e9cfae; --eye:#ffffff;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -40,6 +43,8 @@
     --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
     --bad:#ff8077; --good:#4fd88b;
     --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+    --grass:#1e3d34; --road:#5e5641; --tree:#6cc788; --star:#ffcc33; --star-off:#2e384d;
+    --owl:#b58566; --owl-belly:#e6c9a6; --eye:#f4f1ea;
   }
 }
 :root[data-theme="dark"]{
@@ -48,6 +53,8 @@
   --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
   --bad:#ff8077; --good:#4fd88b;
   --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  --grass:#1e3d34; --road:#5e5641; --tree:#6cc788; --star:#ffcc33; --star-off:#2e384d;
+  --owl:#b58566; --owl-belly:#e6c9a6; --eye:#f4f1ea;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
@@ -144,9 +151,53 @@ details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)
 .big-s{font-size:1.25rem;font-weight:700}
 table.conj{border-collapse:collapse;margin:10px 0;font-size:1.15rem}
 table.conj td{padding:4px 14px;border-bottom:1px solid var(--line)}
+/* ===== Parcours (plan P012) : la carte, la jauge, la série, Mini ===== */
+.map{display:block;width:100%;height:auto;border-radius:18px;background:var(--grass);margin:14px 0}
+.map .route{fill:none;stroke:var(--road);stroke-width:20;stroke-linecap:round}
+.map .tirets{fill:none;stroke:var(--surface);stroke-width:2;stroke-dasharray:2 10;stroke-linecap:round;opacity:.8}
+.map .stop{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.map .stop.cur{stroke:var(--pitch);stroke-width:4}
+.map .stop.futur{stroke-dasharray:4 4;fill:var(--grass)}
+.map .ico{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.map .ico .plein{fill:var(--ink);stroke:none}
+.map .nom{fill:var(--ink);font:700 13px system-ui,-apple-system,sans-serif}
+.map .sous{fill:var(--muted);font:600 11px system-ui,-apple-system,sans-serif}
+.map .deco{fill:var(--tree);opacity:.35}
+.map .halo{fill:none;stroke:var(--pitch);stroke-width:3;transform-box:fill-box;transform-origin:center;animation:halo 2.4s ease-out infinite}
+@keyframes halo{from{transform:scale(1);opacity:.6}to{transform:scale(1.5);opacity:0}}
+.etoile{fill:var(--star)}.etoile.off{fill:var(--star-off)}
+.compte{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.22);border-radius:999px;padding:4px 12px;font-weight:800;margin-top:10px}
+.compte svg{width:20px;height:20px}
+.jauge{position:relative;height:18px;border-radius:999px;background:var(--star-off);margin:6px 18px 6px 0}
+.jauge i{display:block;height:100%;border-radius:999px;background:var(--star);transition:width .5s ease-out}
+.jauge svg{position:absolute;right:-18px;top:50%;transform:translateY(-50%);width:30px;height:30px}
+.serie{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline;font-size:.95rem;color:var(--muted);margin:0}
+.serie b{color:var(--ink);font-size:1.05rem}
+.serie .gain{color:var(--pitch);font-weight:800}
+.guide{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;margin:12px 0}
+.guide svg{width:64px;height:64px}
+.bulle{background:var(--soft-hint);border:2px solid var(--c3);border-radius:14px;padding:10px 12px}
+.bulle p{margin:0}
+.lien-discret{display:block;width:100%;margin-top:18px;background:transparent;border:0;color:var(--muted);text-decoration:underline;font-weight:700;padding:10px;cursor:pointer;min-height:44px}
+.gagne{text-align:center}
+.gagne svg{width:84px;height:84px}
+#hibou .corps{fill:var(--owl)}#hibou .ventre{fill:var(--owl-belly)}#hibou .oeil{fill:var(--eye)}
+#hibou .pupille{fill:var(--ink)}#hibou .bec{fill:var(--star)}
+@media (prefers-reduced-motion: reduce){.map .halo{animation:none;opacity:.5}.jauge i{transition:none}}
 </style>
 </head>
 <body>
+<!-- Symboles du parcours (plan P012) : l'étoile et le hibou « Mini », dessinés une fois. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="etoile" viewBox="0 0 24 24"><path d="M12 2.2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.1l-5.9 3.2 1.3-6.6L2.5 9.1l6.6-.8z"/></symbol>
+  <symbol id="hibou" viewBox="0 0 100 100">
+    <path class="corps" d="M22 36 L28 14 L40 28 Q50 24 60 28 L72 14 L78 36 Q86 52 82 70 Q76 94 50 94 Q24 94 18 70 Q14 52 22 36 Z"/>
+    <ellipse class="ventre" cx="50" cy="72" rx="20" ry="18"/>
+    <circle class="oeil" cx="38" cy="46" r="11"/><circle class="oeil" cx="62" cy="46" r="11"/>
+    <circle class="pupille" cx="39" cy="47" r="5"/><circle class="pupille" cx="61" cy="47" r="5"/>
+    <path class="bec" d="M45 56 H55 L50 64 Z"/>
+  </symbol>
+</defs></svg>
 <div id="app"></div>
 <script>
 (function(){
@@ -417,9 +468,10 @@ const LEARN=[
 const LEARN_COUNT=LEARN.length-1;
 
 /* ================= CONTENU : accueil ================= */
+// Accueil classique : depuis le parcours (plan P012), c'est le lien « Autres exercices ».
 function home(){
-  S={screen:'home'};
-  show(`<section class="hero"><div class="hero-in">
+  S={screen:'home'};ACCUEIL='home';
+  show(`${topbar('Autres exercices','parcours')}<section class="hero"><div class="hero-in">
       <h1>Dictée 5 : Devinettes</h1>
       <p>Les mots à savoir, et le présent d'avoir et être.</p>
     </div></section>
@@ -450,8 +502,10 @@ const MAXL=LVL[LVL.length-1];
 
 let S={screen:'home'};
 function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+// Écran d'où l'on vient : le parcours, ou les autres exercices (le retour y ramène).
+let ACCUEIL='parcours';
 function topbar(title,backAct){
-  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||ACCUEIL}">← Retour</button><span class="ttl">${title}</span></div></div>`;
 }
 
 /* ================= MOTEUR : Apprendre ================= */
@@ -680,6 +734,263 @@ function evalEnd(){
     </div></main>`);
 }
 
+/* ================= PARCOURS (plan P012, pilote) ================= */
+// Le module est un paysage : une route, des étapes. Une étape = une compétence, travaillée
+// d'affilée jusqu'à une étoile (pratique groupée, P012 §3). L'étoile se gagne en remplissant
+// une jauge de 40 points ; seule une réponse juste du PREMIER coup la remplit, et elle rapporte
+// d'autant plus que la série est longue : Fibonacci(série), plafonné à 8 (décision D6).
+// Après une erreur, la série est « en jeu » : la deuxième chance ne rapporte rien mais la sauve ;
+// la rater remet la série à zéro. C'est cet enjeu qui donne envie de lire l'indice de Mini.
+// Tout se recalcule depuis le journal (miniprof.historique()) : rien d'autre n'est stocké.
+// Les réponses du parcours ont une question « parcours/<compétence> » ; la deuxième chance a le
+// mode "r" (décision du sponsor du 12 oct. 2026).
+const P={JAUGE:40,PLAFOND:8,PAUSE:30*60,JOUR:24*3600};
+const QPARCOURS='parcours/';
+const estParcours=e=>typeof e.question==='string'&&e.question.indexOf(QPARCOURS)===0;
+function fib(n){let a=1,b=1;for(let i=1;i<n;i++){const t=a+b;a=b;b=t;}return a;}
+const gainSerie=n=>Math.min(fib(n),P.PLAFOND);
+
+// Difficulté dans une étape (P011) : on monte après 3 bonnes réponses du premier coup sur les
+// 4 dernières, on descend après 2 erreurs de suite. « recents » repart à zéro à chaque changement.
+function niveauApres(niv,recents){
+  const n=recents.length;
+  if(n>=2&&!recents[n-1]&&!recents[n-2])return {niv:Math.max(LVL[0],niv-1),change:niv>LVL[0]};
+  if(recents.slice(-4).filter(Boolean).length>=3&&niv<MAXL)return {niv:niv+1,change:true};
+  return {niv,change:false};
+}
+
+// Rejoue le journal : étapes passées (avec ou sans étoile), étape ouverte, série, dernier gain.
+function etatParcours(evts){
+  const ev=evts.filter(e=>e&&typeof e.date==='number').slice().sort((a,b)=>a.date-b.date);
+  const etapes=[];let ouverte=null,serie=0,enJeu=false,derniere=null,recents=[],dernier=null;
+  for(const e of ev){
+    if(!estParcours(e)||(e.mode!=='e'&&e.mode!=='r'))continue;
+    // nouvelle séance (30 min sans réponse) : la série repart de zéro, pas la jauge
+    if(derniere!==null&&e.date-derniere>P.PAUSE){serie=0;enJeu=false;}
+    derniere=e.date;
+    if(e.mode==='r'){
+      if(enJeu){enJeu=false;if(!e.juste)serie=0;dernier={type:e.juste?'sauvee':'perdue',gain:0,etoile:false};}
+      continue;
+    }
+    // une erreur sans deuxième chance (page quittée) : la série est perdue
+    if(enJeu){enJeu=false;serie=0;}
+    if(!ouverte||ouverte.skill!==e.skill){
+      // une étape commencée sur une autre compétence et jamais finie disparaît de la route
+      if(ouverte)etapes.pop();
+      ouverte={skill:e.skill,points:0,etoile:false,debut:e.date,fin:null,niveau:e.difficulty,
+        revision:etapes.some(t=>t.etoile&&t.skill===e.skill)};
+      etapes.push(ouverte);recents=[];
+    }
+    let g=0;
+    if(e.juste){serie++;g=gainSerie(serie);ouverte.points+=g;}else enJeu=true;
+    recents.push(!!e.juste);
+    const nv=niveauApres(e.difficulty,recents);ouverte.niveau=nv.niv;if(nv.change)recents=[];
+    dernier={type:e.juste?'gain':'enjeu',gain:g,etoile:false};
+    if(ouverte.points>=P.JAUGE){ouverte.points=P.JAUGE;ouverte.etoile=true;ouverte.fin=e.date;dernier.etoile=true;ouverte=null;}
+  }
+  return {etapes,ouverte,serie,enJeu,derniere,dernier,etoiles:etapes.filter(t=>t.etoile).length};
+}
+// Série affichée maintenant : zéro si la dernière réponse date d'une autre séance.
+const serieActuelle=(etat,now)=>etat.derniere!==null&&now-etat.derniere>P.PAUSE?0:etat.serie;
+
+// Maîtrise d'une compétence (0 à 1) : réussite du premier coup sur les 10 dernières réponses
+// (entraînement, parcours et évaluations, ancien historique compris), les plus récentes pèsent
+// plus. null avec moins de 3 réponses.
+function maitrise(evts,skill){
+  const r=evts.filter(e=>e&&e.skill===skill&&(e.mode==='e'||e.mode==='v')).sort((a,b)=>a.date-b.date).slice(-10);
+  if(r.length<3)return null;
+  let s=0,t=0;r.forEach((e,i)=>{const w=Math.pow(0.8,r.length-1-i);t+=w;if(e.juste)s+=w;});
+  return s/t;
+}
+function niveauDepart(m){return Math.min(MAXL,m===null||m<0.6?1:m<0.85?2:3);}
+
+// L'étape suivante, choisie par le moteur :
+// 1. l'étape ouverte si elle existe ;
+// 2. sinon une compétence sans étoile, la plus fragile d'abord, jamais la même que la précédente ;
+// 3. quand toutes ont leur étoile : une révision, sur la compétence dont l'étoile est la plus
+//    ancienne (au moins un jour si possible), un niveau au-dessus.
+function prochaineEtape(etat,evts,now){
+  if(etat.ouverte)return {skill:etat.ouverte.skill,niveau:etat.ouverte.niveau,revision:etat.ouverte.revision,points:etat.ouverte.points};
+  const skills=Object.keys(SKILLS);
+  const etoile={};
+  etat.etapes.forEach(t=>{if(t.etoile)etoile[t.skill]={fin:t.fin,niveau:t.niveau};});
+  const prec=etat.etapes.length?etat.etapes[etat.etapes.length-1].skill:null;
+  const sauf=l=>l.length>1?l.filter(k=>k!==prec):l;
+  const m=k=>{const x=maitrise(evts,k);return x===null?0.5:x;};
+  const sans=sauf(skills.filter(k=>!etoile[k]));
+  if(sans.length){
+    const k=sans.slice().sort((a,b)=>m(a)-m(b)||skills.indexOf(a)-skills.indexOf(b))[0];
+    return {skill:k,niveau:niveauDepart(maitrise(evts,k)),revision:false,points:0};
+  }
+  const rev=sauf(skills);
+  const mures=rev.filter(k=>now-etoile[k].fin>=P.JOUR);
+  const k=(mures.length?mures:rev).slice().sort((a,b)=>etoile[a].fin-etoile[b].fin)[0];
+  return {skill:k,niveau:Math.min(MAXL,Math.max(etoile[k].niveau+1,niveauDepart(maitrise(evts,k)))),revision:true,points:0};
+}
+const PARCOURS={P,fib,gainSerie,niveauApres,etatParcours,serieActuelle,maitrise,niveauDepart,prochaineEtape};
+
+/* ---------- Parcours : affichage ---------- */
+// Les lieux de la ville de la dictée ; la carte ne nomme jamais la compétence.
+const LIEUX=[
+  {nom:'La caserne des pompiers',ico:'<path d="M-9 8V-3L0-10L9-3V8Z"/><path d="M-4 8V1H4V8"/>'},
+  {nom:"L'hôpital",ico:'<rect x="-9" y="-9" width="18" height="18" rx="3"/><path d="M0-5V5M-5 0H5"/>'},
+  {nom:"L'aéroport",ico:'<path d="M0-10V9M-10 1L0-3L10 1M-4 8L0 6L4 8"/>'},
+  {nom:'La grande horloge',ico:'<circle r="9"/><path d="M0-5V0L4 3"/>'},
+  {nom:'Le garage',ico:'<path d="M-10 4H10V-1L6-6H-6L-10-1Z"/><circle class="plein" cx="-5" cy="6" r="2.5"/><circle class="plein" cx="5" cy="6" r="2.5"/>'},
+  {nom:'Le pont',ico:'<path d="M-10 6V0Q0-10 10 0V6M-10 0H10"/>'},
+  {nom:'La gare des camions',ico:'<path d="M-10 5V-5H3V5M3-1H8L10 2V5"/><circle class="plein" cx="-5" cy="6" r="2.5"/><circle class="plein" cx="6" cy="6" r="2.5"/>'},
+  {nom:'Le parc',ico:'<circle r="7" cy="-3"/><path d="M0 4V10"/>'}
+];
+const lieu=i=>LIEUX[i%LIEUX.length];
+const LECON={noms:0,mots:1,nature:2,avoir:3,etre:4};  // fiche Apprendre de chaque compétence
+const svgEtoile=(cls,x,y,t)=>`<use href="#etoile" class="etoile ${cls}" x="${x}" y="${y}" width="${t}" height="${t}"/>`;
+
+// Journal en mémoire : l'historique lu une fois au chargement, puis chaque réponse ajoutée ici
+// en même temps qu'au journal de miniprof (la page marche aussi sans miniprof).
+let JOURNAL=[];
+function chargerJournal(){
+  try{JOURNAL=window.miniprof&&window.miniprof.historique?window.miniprof.historique():[];}catch(e){JOURNAL=[];}
+  if(!Array.isArray(JOURNAL))JOURNAL=[];
+}
+const maintenantS=()=>Math.round(Date.now()/1000);
+function noter(q,ok,rep,mode){
+  const e={date:maintenantS(),question:QPARCOURS+q.skill,skill:q.skill,difficulty:q.level,mode,juste:ok};
+  JOURNAL.push(e);
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode,difficulte:q.level,
+    question:e.question,reponse:rep==null?null:rep,duree:secs(q)});
+}
+
+function carte(etat,proch){
+  // les 4 dernières étapes passées, l'étape en cours, puis 2 étapes à découvrir
+  const passees=etat.etapes.filter(t=>t!==etat.ouverte);
+  const debut=Math.max(0,passees.length-4);
+  const stops=passees.slice(debut).map((t,j)=>({i:debut+j,etat:'passee',etoile:t.etoile}));
+  const cur=passees.length;
+  stops.push({i:cur,etat:'cur'},{i:cur+1,etat:'futur'},{i:cur+2,etat:'futur'});
+  const H=70,DY=96,W=360;
+  const pos=k=>({x:k%2?W-96:96,y:H/2+20+k*DY});
+  let route='';
+  stops.forEach((s,k)=>{const p=pos(k);if(!k)route=`M${p.x} ${p.y}`;else{const a=pos(k-1);route+=` C${a.x} ${a.y+DY/2} ${p.x} ${p.y-DY/2} ${p.x} ${p.y}`;}});
+  const h=pos(stops.length-1).y+H/2+10;
+  let g=`<circle class="deco" cx="30" cy="40" r="16"/><circle class="deco" cx="${W-30}" cy="${h/2}" r="18"/><circle class="deco" cx="34" cy="${h-40}" r="14"/>`;
+  g+=`<path class="route" d="${route}"/><path class="tirets" d="${route}"/>`;
+  stops.forEach((s,k)=>{
+    const p=pos(k),L=lieu(s.i),droite=p.x<W/2,tx=droite?p.x+38:p.x-38,anc=droite?'start':'end';
+    if(s.etat==='cur')g+=`<circle class="halo" cx="${p.x}" cy="${p.y}" r="28"/>`;
+    g+=`<circle class="stop ${s.etat}" cx="${p.x}" cy="${p.y}" r="28"/>`;
+    if(s.etat==='futur'){g+=`<text class="sous" x="${p.x}" y="${p.y+4}" text-anchor="middle">?</text>`;return;}
+    g+=`<g class="ico" transform="translate(${p.x} ${p.y})">${L.ico}</g>`;
+    g+=`<text class="nom" x="${tx}" y="${p.y-4}" text-anchor="${anc}">${L.nom}</text>`;
+    if(s.etat==='passee')g+=svgEtoile(s.etoile?'':'off',droite?tx:tx-18,p.y+4,18);
+    else g+=`<text class="sous" x="${tx}" y="${p.y+16}" text-anchor="${anc}">${proch.revision?'révision':'étape en cours'}</text>`;
+    if(s.etat==='cur')g+=`<use href="#hibou" x="${droite?p.x-80:p.x+36}" y="${p.y-26}" width="44" height="44"/>`;
+  });
+  return `<svg class="map" viewBox="0 0 ${W} ${h}" role="img" aria-label="Ton parcours : ${etat.etoiles} étoile${etat.etoiles>1?'s':''}">${g}</svg>`;
+}
+function jauge(points,serie){
+  return `<div class="jauge" role="progressbar" aria-label="Jauge de l'étoile" aria-valuemin="0" aria-valuemax="${P.JAUGE}" aria-valuenow="${points}"><i style="width:${Math.round(100*points/P.JAUGE)}%"></i><svg aria-hidden="true">${svgEtoile('',0,0,30)}</svg></div>
+    <p class="serie"><b>Série : ${serie}</b><span class="gain">1er coup juste : +${gainSerie(serie+1)}</span><span>${points} / ${P.JAUGE}</span></p>`;
+}
+
+// Écran principal du module : la carte.
+function parcours(){
+  ACCUEIL='parcours';
+  const now=maintenantS(),etat=etatParcours(JOURNAL),proch=prochaineEtape(etat,JOURNAL,now);
+  const n=etat.etapes.length-(etat.ouverte?1:0);
+  S={screen:'parcours',etat,proch,lieu:lieu(n)};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Dictée 5 : Devinettes</h1>
+      <p>Ton parcours dans la ville. Chaque étape te donne une étoile.</p>
+      <span class="compte"><svg aria-hidden="true">${svgEtoile('',0,0,20)}</svg>${etat.etoiles} étoile${etat.etoiles>1?'s':''}</span>
+    </div></section>
+    <main class="wrap">
+      ${carte(etat,proch)}
+      <div class="card" data-etape="${proch.skill}" data-niveau="${proch.niveau}">
+        <p class="small">Étape ${n+1}${proch.revision?' · révision':''}</p>
+        <h2>${S.lieu.nom}</h2>
+        ${jauge(proch.points,serieActuelle(etat,now))}
+        <div class="btns"><button class="btn primary" data-act="pGo" data-primary>${proch.points?'Continuer':'Commencer'}</button>
+          <button class="btn" data-act="pLecon">Revoir la leçon</button></div>
+      </div>
+      <button class="lien-discret" data-act="home">Autres exercices</button>
+    </main>`);
+}
+
+// Une question du parcours. Évite de reposer tout de suite la même question.
+function pNouvelle(){
+  const pr=S.proch;let q,n=0;
+  do{q=GEN[pr.skill](pr.niveau);n++;}while(S.derniere&&q.prompt===S.derniere&&n<10);
+  S.screen='pq';S.derniere=q.prompt;S.q=q;S.choice=null;S.attempts=0;S.retry=false;S.chance=false;
+  const now=maintenantS(),etat=etatParcours(JOURNAL);
+  show(`${topbar(S.lieu.nom,'parcours')}<main class="wrap qwrap">
+    <div id="pj">${jauge(pr.points,serieActuelle(etat,now))}</div>
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      ${q.write
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices">${q.choices.map(c=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div>`}</div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="pCheck" data-primary hidden>Valider</button></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  q.t0=Date.now();
+}
+function pCheck(){
+  const q=S.q;let v=null;
+  if(q.write){S.choice=lireEcrit();if(!norm(S.choice))return;v=judgeWrite(q,S.choice);}
+  else if(!S.choice)return;
+  S.attempts++;
+  const ok=v?v.ok:S.choice===q.exp.c,premier=S.attempts===1;
+  const serieAvant=serieActuelle(etatParcours(JOURNAL),maintenantS());
+  noter(q,ok,S.choice,premier?'e':'r');
+  const now=maintenantS(),etat=etatParcours(JOURNAL),d=etat.dernier||{};
+  // jauge de l'étape (fermée si l'étoile vient d'être gagnée)
+  const pts=d.etoile?P.JAUGE:(etat.ouverte?etat.ouverte.points:0);
+  if(etat.ouverte){S.proch.points=etat.ouverte.points;S.proch.niveau=etat.ouverte.niveau;}
+  document.getElementById('pj').innerHTML=jauge(pts,serieActuelle(etat,now));
+  const acts=document.getElementById('acts');
+  if(premier&&ok){
+    lockChoices();
+    setFb(`<div class="fb good"><p><b>Du premier coup ! +${d.gain}</b> Ta série passe à ${etat.serie}.</p>${q.explain}</div>`);
+  }else if(premier){
+    // la série est en jeu : l'enjeu, puis l'indice de Mini, puis la deuxième chance
+    const why=v?v.why:((q.choices.find(c=>c.v===S.choice)||{}).why||'');
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    else{const i=document.getElementById('rep');i.classList.add('bad');}
+    S.choice=null;
+    setFb(`<div class="fb bad"><p><b>${serieAvant>0?`Ta série de ${serieAvant} est en jeu !`:'Pas tout à fait.'}</b> ${why}</p></div>
+      <div class="guide"><svg aria-hidden="true"><use href="#hibou"/></svg><div class="bulle"><p><b>L'indice de Mini :</b></p>${q.hint}</div></div>`);
+    acts.innerHTML='<button class="btn primary" data-act="pChance" data-primary>Ma deuxième chance</button>';
+    S.chance=true;
+    return;
+  }else if(ok){
+    lockChoices();
+    setFb(`<div class="fb good"><p><b>${serieAvant>0?`Série sauvée ! Ta série de ${serieAvant} continue.`:'Bien corrigé !'}</b> La deuxième chance ne remplit pas la jauge.</p>${q.explain}</div>`);
+  }else{
+    lockChoices();
+    setFb(`<div class="fb info"><p><b>La bonne réponse : ${esc(q.exp.c)}</b>${serieAvant>0?` Ta série de ${serieAvant} repart de zéro. Ce n'est rien : on recommence.`:''}</p>${q.explain}</div>`);
+  }
+  if(d.etoile){
+    acts.innerHTML='<button class="btn primary" data-act="pEtoile" data-primary>Voir mon étoile</button>';
+  }else acts.innerHTML='<button class="btn primary" data-act="pSuivante" data-primary>Question suivante</button>';
+}
+// Deuxième chance : le champ se vide, l'indice reste affiché pendant qu'on réécrit. Elle s'ouvre
+// par le bouton, ou dès que l'enfant touche le champ ou un autre choix (comme « Réessayer », P010).
+function pChance(){
+  if(!S.chance)return;
+  S.chance=false;
+  const i=document.getElementById('rep');
+  if(i){i.value='';i.classList.remove('bad');if(document.activeElement!==i)i.focus();}
+  document.getElementById('acts').innerHTML='<button class="btn primary" id="ok" data-act="pCheck" data-primary hidden>Valider</button>';
+  majValider();
+}
+function pEtoile(){
+  const etat=etatParcours(JOURNAL);
+  show(`${topbar(S.lieu.nom,'parcours')}<main class="wrap">
+    <div class="card gagne"><svg aria-hidden="true">${svgEtoile('',0,0,84)}</svg>
+      <h2>Étoile gagnée !</h2><p>Tu as rempli la jauge de l'étape « ${S.lieu.nom} ».</p>
+      <p class="small">Tu as ${etat.etoiles} étoile${etat.etoiles>1?'s':''} sur ton parcours.</p></div>
+    <div class="btns"><button class="btn primary" data-act="parcours" data-primary>Continuer le parcours</button></div></main>`);
+}
+
 /* ================= MOTEUR : bilan (celui de miniprof) ================= */
 function bilan(){
   const m=window.miniprof;
@@ -691,6 +1002,13 @@ function bilan(){
 function act(a,el){
   switch(a){
     case 'home':home();break;
+    case 'parcours':parcours();break;
+    case 'pGo':pNouvelle();break;
+    case 'pLecon':learn(LECON[S.proch.skill]||0);break;
+    case 'pCheck':pCheck();break;
+    case 'pChance':pChance();break;
+    case 'pSuivante':pNouvelle();break;
+    case 'pEtoile':pEtoile();break;
     case 'learn':learn(0);break;
     case 'lchoose':learnChoose(el);break;
     case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
@@ -703,7 +1021,7 @@ function act(a,el){
     case 'evalSetup':evalSetup(false);break;
     case 'evalStart':evalStart();break;
     case 'quitEval':evalSetup(false);break;
-    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));surProposition();break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));if(S.chance)pChance();else surProposition();break;
     case 'retry':reessayer();break;
     case 'check':S.mode==='eval'?checkEval():checkTrain();break;
     case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
@@ -721,7 +1039,7 @@ app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t
 // un mot tapé = une proposition : « Valider » apparaît
 app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
 // Après une erreur, toucher le champ ou y taper efface l'ancien mot, comme « Réessayer » (P010, retour du 12/10).
-const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
+const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();else if(S.chance&&e.target.id==='rep')pChance();};
 app.addEventListener('pointerdown',effacerSiReessai);
 app.addEventListener('focusin',effacerSiReessai);
 app.addEventListener('beforeinput',effacerSiReessai);
@@ -730,8 +1048,11 @@ app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.pr
 
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
-if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
-home();
+// PARCOURS : les calculs purs du parcours, testés par tools/tests/test_parcours.py.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS,PARCOURS});return;}
+// Le parcours s'ouvre une fois miniprof chargé (suivi.js est un module, exécuté après ce script).
+function demarrer(){chargerJournal();parcours();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',demarrer);else demarrer();
 
 })();
 </script>

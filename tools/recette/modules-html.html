@@ -125,6 +125,44 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(rp[0]==='erreur'&&localStorage.getItem('miniprof.v1.last_export')==='1','partage en erreur : signalé, date inchangée');
   navigator.canShare=undefined;navigator.share=undefined;
   log(pa.peutPartager()===false,'sans partage de fichiers : repli sur le téléchargement');
+  // Parcours du module Dictée 5 (plan P012, pilote) : carte, étoiles recalculées depuis le journal,
+  // série en jeu, deuxième chance enregistrée en mode "r", ignorée par le bilan.
+  const IDD='francais-cm1-dictee-5-avoir-etre';
+  actif();
+  const t0=Math.floor(Date.now()/1000)-2*24*3600;
+  const graine=[];for(let i=0;i<9;i++)graine.push([t0+i*10,IDD,'parcours/noms','noms',1,'e',1,3,'voiture',null]);
+  localStorage.setItem('miniprof.v1.events.ptest',JSON.stringify(ev().concat(graine)));
+  d=await charger('modules/'+IDD+'.html');
+  log(!!d.querySelector('svg.map'),'parcours : la carte est l\'écran d\'accueil du module');
+  log((d.querySelector('.compte')||{}).textContent===' 1 étoile'||(d.querySelector('.compte')||{textContent:''}).textContent.includes('1 étoile'),'parcours : 1 étoile recalculée depuis le journal');
+  const etp=d.querySelector('[data-etape]');
+  log(etp&&etp.dataset.etape==='mots','parcours : étape suivante choisie par le moteur, autre compétence ('+(etp&&etp.dataset.etape)+')');
+  log(!/noms|nature|avoir|être|verbes/i.test(d.querySelector('svg.map').textContent),'parcours : la carte ne nomme pas les compétences');
+  clic(d,'[data-act="pGo"]');
+  const n0=ev().length;
+  const ecrire=v=>{const i=d.getElementById('rep');i.value=v;i.dispatchEvent(new Event('input',{bubbles:true}));};
+  ecrire('zzzz');clic(d,'#ok');
+  let der=ev()[ev().length-1];
+  log(ev().length===n0+1&&der[1]===IDD&&der[2]==='parcours/mots'&&der[5]==='e'&&der[6]===0,'parcours : premier essai faux enregistré en "e" : '+JSON.stringify(der));
+  log(d.getElementById('fb').textContent.includes('indice de Mini')&&!!d.querySelector('[data-act="pChance"]'),'parcours : après l\'erreur, l\'indice de Mini et « Ma deuxième chance »');
+  clic(d,'[data-act="pChance"]');
+  log(d.getElementById('rep').value===''&&d.getElementById('fb').textContent.includes('indice de Mini'),'deuxième chance : champ vidé, indice toujours affiché');
+  ecrire('zzzz');clic(d,'#ok');
+  der=ev()[ev().length-1];
+  log(ev().length===n0+2&&der[5]==='r'&&der[6]===0&&der[2]==='parcours/mots'&&der[9]===null,'deuxième chance ratée enregistrée en "r" : '+JSON.stringify(der));
+  log(d.getElementById('fb').textContent.includes('bonne réponse')&&!!d.querySelector('[data-act="pSuivante"]'),'deuxième chance ratée : correction, puis « Question suivante »');
+  log(!!d.querySelector('[data-act="sig"]'),'parcours : bouton « Une erreur ? » présent');
+  clic(d,'[data-act="pSuivante"]');
+  log(!!d.getElementById('rep')&&!!d.getElementById('pj').textContent.includes('Série : 0'),'question suivante : série à 0');
+  clic(d,'.topbar .back');
+  log(!!d.querySelector('svg.map')&&d.querySelector('[data-etape]').dataset.etape==='mots','retour : la carte, même étape en cours');
+  clic(d,'[data-act="home"]');
+  log(!!d.querySelector('.menu')&&!!d.querySelector('[data-act="evalSetup"]'),'« Autres exercices » : l\'ancien menu (entraînement libre, évaluation)');
+  clic(d,'.topbar .back');
+  log(!!d.querySelector('svg.map'),'« Autres exercices » -> retour à la carte');
+  d=await charger('index.html#/module/'+IDD+'/bilan');await sleep(800);
+  const tb=d.getElementById('app').textContent;
+  log(tb.includes('Bilan de Léa')&&tb.includes('10 questions traitées'),'bilan : la deuxième chance n\'est pas comptée ('+(d.querySelector('.report-summary')||{}).textContent+')');
   // « Qui utilise miniprof ? » après 30 minutes (plan P008). Le délai est simulé en reculant la
   // dernière activité. Sans profil : choix du profil, puis retour à la page du module.
   const retourHash=()=>decodeURIComponent((f.contentWindow.location.hash.split('retour=')[1]||''));

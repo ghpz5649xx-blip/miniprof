@@ -12,11 +12,15 @@ Format (voir js/backup.js) :
                        "attendue", "reponse", "commentaire"}]}   (absent des anciens fichiers)
 Une ligne d'événement est un tableau court (voir js/events.js), colonnes dans cet ordre :
     date (s), module, question, compétence, difficulté, mode ("e" entraînement /
-    "v" évaluation), juste (1/0), durée (s), réponse, évaluation (clé commune ou null)
+    "v" évaluation / "r" deuxième chance du parcours), juste (1/0), durée (s), réponse,
+    évaluation (clé commune ou null)
+Les lignes "r" (plan P012) ne comptent pas dans les réussites, comme dans l'app : on ne mesure
+que le premier essai. Elles servent à la section « Deuxième chance » : l'enfant lit-il l'indice ?
 
 Affiche d'abord les problèmes signalés par les enfants (« Signalements », le plus récent en
 premier), puis, par enfant : réussite et temps moyen par compétence, compétences
-en baisse, questions les plus ratées, notes des évaluations. Enregistre des graphiques PNG.
+en baisse, questions les plus ratées, notes des évaluations, deuxièmes chances du parcours.
+Enregistre des graphiques PNG.
 Le dossier de sortie par défaut est sous exports/, ignoré par Git (données personnelles).
 """
 
@@ -106,6 +110,27 @@ def charger_signalements(path):
     return sorted(liste, key=lambda s: s["date"] or 0, reverse=True)
 
 
+def premiers_essais(df):
+    """Sans les deuxièmes chances (mode "r") : les réussites ne comptent que le premier essai."""
+    return df[df["mode"] != "r"]
+
+
+def deuxiemes_chances(df):
+    """Parcours (plan P012) : par enfant, module et compétence, les erreurs du premier coup,
+    les deuxièmes chances tentées et réussies. Une deuxième chance réussie = indice utile."""
+    parcours = df[df["question"].astype(str).str.startswith("parcours/")]
+    if parcours.empty:
+        return pd.DataFrame(columns=["enfant", "module", "competence", "erreurs", "chances",
+                                     "sauvees", "sauvees_pct"])
+    cles = ["enfant", "module", "competence"]
+    erreurs = parcours[(parcours["mode"] == "e") & ~parcours["juste"]].groupby(cles).size().rename("erreurs")
+    r = parcours[parcours["mode"] == "r"].groupby(cles)["juste"]
+    resultat = pd.concat([erreurs, r.size().rename("chances"), r.sum().rename("sauvees")], axis=1)
+    resultat = resultat.fillna(0).astype(int)
+    resultat["sauvees_pct"] = (100 * resultat["sauvees"] / resultat["chances"].where(resultat["chances"] > 0)).round(0)
+    return resultat.reset_index()
+
+
 def est_en_baisse(justes):
     """`justes` : suite de booléens dans l'ordre chronologique."""
     justes = list(justes)
@@ -118,6 +143,7 @@ def est_en_baisse(justes):
 
 def par_competence(df):
     """Par enfant, module et compétence : essais, réussite (%), temps moyen (s), en baisse."""
+    df = premiers_essais(df)
     groupes = df.groupby(["enfant", "module", "competence"], sort=False)
     resultat = groupes.agg(
         essais=("juste", "size"),
@@ -133,6 +159,7 @@ def par_competence(df):
 
 def plus_ratees(df, n=10):
     """Les `n` questions les plus ratées par enfant (au moins un échec)."""
+    df = premiers_essais(df)
     stats = df.groupby(["enfant", "module", "question"]).agg(
         essais=("juste", "size"), echecs=("juste", lambda s: int((~s).sum())))
     stats = stats[stats["echecs"] > 0].reset_index()
@@ -142,6 +169,7 @@ def plus_ratees(df, n=10):
 
 def evolution_hebdo(df):
     """Réussite (%) par enfant, compétence et semaine (lundi de la semaine)."""
+    df = premiers_essais(df)
     semaine = df["date"].dt.to_period("W").dt.start_time.rename("semaine")
     resultat = df.groupby(["enfant", "competence", semaine])["juste"].mean() * 100
     return resultat.round(0).rename("reussite").reset_index()
@@ -228,8 +256,10 @@ def afficher(df):
     scores = par_competence(df)
     ratees = plus_ratees(df)
     notes = evaluations(df)
+    chances = deuxiemes_chances(df)
+    premiers = premiers_essais(df)
     for enfant in df["enfant"].unique():
-        print(f"\n=== {enfant} : {int((df['enfant'] == enfant).sum())} réponses ===")
+        print(f"\n=== {enfant} : {int((premiers['enfant'] == enfant).sum())} réponses ===")
         s = scores[scores["enfant"] == enfant].drop(columns="enfant")
         print("\nPar compétence :")
         print(s.to_string(index=False))
@@ -242,6 +272,10 @@ def afficher(df):
         if not n.empty:
             print("\nÉvaluations :")
             print(n.drop(columns="enfant").to_string(index=False))
+        c = chances[chances["enfant"] == enfant]
+        if not c.empty:
+            print("\nDeuxième chance (parcours) : erreurs du premier coup, chances tentées, sauvées :")
+            print(c.drop(columns="enfant").to_string(index=False))
 
 
 def afficher_signalements(liste):
