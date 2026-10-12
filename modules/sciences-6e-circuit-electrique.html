@@ -1256,7 +1256,8 @@ function reessayer(){
   S.retry=false;S.choice=null;
   const i=document.getElementById('rep');
   if(i){i.value='';i.focus();}
-  app.querySelectorAll('.choice.sel').forEach(c=>c.classList.remove('sel'));
+  // QCM : la réponse fausse repasse en neutre (elle était rouge et grisée)
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.remove('sel','bad');c.disabled=false;});
   boutons();
 }
 function setFb(html){document.getElementById('fb').innerHTML=html;}

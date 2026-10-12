@@ -51,3 +51,4 @@ jusqu'à ce que l'élève propose autre chose.
   (boutons, champs, choix) dans le gabarit, les 5 modules et `css/style.css`. J'ai retiré l'essai du
   retour précédent (`mousedown` sans effet prouvé). **À confirmer sur l'iPhone.** Si le défaut
   persiste : piste suivante = clavier ouvert qui décale la page (fermer le clavier à la validation).
+- **12 oct. 2026, 3e retour (sponsor)** : en QCM, « Réessayer » laissait la réponse fausse en rouge. Corrigé : elle redevient neutre et cliquable (gabarit et 5 modules). Recette Chromium OK.
