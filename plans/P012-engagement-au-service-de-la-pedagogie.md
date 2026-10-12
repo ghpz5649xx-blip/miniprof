@@ -277,6 +277,7 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
 | D3 | Rendre le retry payant (indice lu) | 12 oct. 2026 (formes en 6, à choisir) |
 | D4 | Ajouter personnages et parcours | 12 oct. 2026 (formes en 7, POC d'abord) |
 | D5 | P009 et P011 deviennent des briques de P012 | 12 oct. 2026 |
+| D6 | « La série en jeu » remplace la demi-étoile : jauge remplie seulement au premier coup, gain Fibonacci(série) **plafonné à 8**, deuxième chance qui sauve la série sans rapporter, pas de minuteur | 12 oct. 2026 |
 
 ## 11. Questions ouvertes (une à la fois avec le sponsor)
 1. Faut-il commencer par le **POC visuel** (L0, sans risque, rapide à juger) ou par le **calcul des
@@ -327,7 +328,7 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
   **Fibonacci(n)** (1, 1, 2, 3, 5, 8…). Après une erreur : la deuxième chance ne rapporte rien,
   mais la réussir **garde la série** ; la rater **remet la série à zéro**. L'enjeu (« ta série de 5
   est en jeu ») s'affiche juste avant l'indice.
-- **Proposition de Claude, appliquée dans le POC, à valider** : **plafonner le gain à 8**
+- **Plafond du gain à 8** (proposé par Claude, **validé par le sponsor le 12 oct. 2026**)
   (série de 6 et plus). Simulation de 20 000 séances de 10 questions (2e chance réussie un peu
   moins souvent que la 1re) :
 
