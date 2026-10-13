@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le verbe – Réviser, s'entraîner, s'évaluer</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "francais-6e-le-verbe",
+  "title": "Le verbe",
+  "subject": "francais",
+  "level": "6e",
+  "description": "Reconnaître un verbe, verbe d'état ou d'action, radical et terminaison, temps simples et composés, auxiliaires et les trois groupes.",
+  "skills": [
+    {"id": "reconnaitre", "label": "Reconnaître un verbe"},
+    {"id": "etat-action", "label": "Verbe d'état ou d'action"},
+    {"id": "radical", "label": "Radical et terminaison"},
+    {"id": "temps", "label": "Temps simples et composés"},
+    {"id": "auxiliaire", "label": "Auxiliaire et participe passé"},
+    {"id": "infinitif", "label": "Trouver l'infinitif"},
+    {"id": "groupes", "label": "Les trois groupes"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#2f5fc4; --pitch-ink:#ffffff; --stripe1:#2a54ad; --stripe2:#2f5fc4;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.5rem;font-weight:800}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+#ok[hidden]{display:inline-block;visibility:hidden}
+.qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
+/* « Une erreur ? » : large, discret (pointillé gris), tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+.qwrap .sigbar{margin-top:auto;padding-top:28px}
+.sigbtn{width:100%;background:transparent;border:2px dashed var(--muted);color:var(--muted)}
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.acts{display:contents}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+// n éléments distincts de la liste, sans celui à exclure
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question : prompt et libellés en HTML écrit dans ce script (sinon passer par esc()).
+// choices : liste de C(valeur, libellé, pourquoi c'est faux) ; correct : la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15) : l'enfant tape sa réponse au lieu de la choisir.
+// Pourquoi : pour l'orthographe et la conjugaison, reconnaître le bon mot parmi des choix ne
+// suffit pas, il faut l'écrire (« son » au lieu de « sont » a résisté à un module en QCM).
+// ok : réponses acceptées (la première est montrée en correction) ; erreurs : {faute prévue : pourquoi}.
+// Correction stricte sur les lettres, les accents, le trait d'union ; souple sur les majuscules,
+// les espaces en trop et la forme de l'apostrophe (’ ou ').
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe. Relis ton mot lettre par lettre.'};
+}
+
+/* ================= CONTENU : données de la leçon ================= */
+const u=w=>`<u>${w}</u>`;
+// Phrases à un temps simple : [phrase, verbe, phrase négative, trois autres mots de la phrase]
+const SIMPLES=[
+  ["Le petit chat dort sur le canapé.","dort","Le petit chat ne dort pas sur le canapé.",["chat","petit","canapé"]],
+  ["Les enfants jouent dans la cour.","jouent","Les enfants ne jouent pas dans la cour.",["enfants","cour","dans"]],
+  ["Ma sœur lit un livre passionnant.","lit","Ma sœur ne lit pas un livre passionnant.",["sœur","livre","passionnant"]],
+  ["Ulysse navigue vers Ithaque.","navigue","Ulysse ne navigue pas vers Ithaque.",["Ulysse","vers","Ithaque"]],
+  ["Pénélope attend son mari avec patience.","attend","Pénélope n'attend pas son mari avec patience.",["Pénélope","mari","patience"]],
+  ["Le vent souffle très fort.","souffle","Le vent ne souffle pas très fort.",["vent","très","fort"]],
+  ["Nous mangeons une pomme rouge.","mangeons","Nous ne mangeons pas une pomme rouge.",["pomme","rouge","une"]]
+];
+// Phrases à un temps composé : [sujet, auxiliaire, participe passé, suite, infinitif de l'auxiliaire].
+// Tous les auxiliaires commencent par une voyelle : la négation s'écrit toujours « n' ».
+const CMP=[
+  ["Ulysse","a","nagé","vigoureusement","avoir"],
+  ["Pénélope","a","attendu","son mari","avoir"],
+  ["Les élèves","ont","écouté","la leçon","avoir"],
+  ["Nous","avons","mangé","une pomme","avoir"],
+  ["Elle","est","partie","hier","être"],
+  ["Vous","avez","chanté","très fort","avoir"],
+  ["Tu","as","fini","ton travail","avoir"],
+  ["Le facteur","est","passé","ce matin","être"],
+  ["Ulysse","est","revenu","à Ithaque","être"]
+];
+// Verbes d'état : [début, verbe, fin, la même phrase avec « être »]
+const ETAT=[
+  ["Ulysse","semble","épuisé.","Ulysse est épuisé."],
+  ["Le vent","devient","féroce.","Le vent est féroce."],
+  ["Pénélope","paraît","inquiète.","Pénélope est inquiète."],
+  ["Le ciel","reste","gris.","Le ciel est gris."],
+  ["Les enfants","semblent","fatigués.","Les enfants sont fatigués."],
+  ["Ma sœur","devient","plus grande.","Ma sœur est plus grande."],
+  ["La mer","est","calme.","La mer est calme."]
+];
+// Verbes d'action : [début, verbe, fin]
+const ACTION=[
+  ["Ulysse","retrouve","Pénélope."],["Le chat","mange","sa pâtée."],["Les enfants","courent","dans le jardin."],
+  ["Pénélope","tisse","une toile."],["Le vent","casse","une branche."],["Nous","visitons","un musée."],
+  ["Ma sœur","ouvre","la fenêtre."]
+];
+// Temps simples / composés. Simple : [forme, mot du verbe]. Composé : [forme, auxiliaire, participe passé].
+const TS1=[["je rêvais","rêvais"],["nous mangeons","mangeons"],["il chante","chante"],["tu dormais","dormais"]];
+const TC1=[["j'avais rêvé","avais","rêvé"],["nous avons mangé","avons","mangé"],["il a chanté","a","chanté"],["tu as dormi","as","dormi"]];
+const TS2=[["vous finirez","finirez"],["nous irons","irons"],["ils prenaient","prenaient"],["tu étais","étais"],["j'avais","avais"],["il est","est"]];
+const TC2=[["elle est venue","est","venue"],["ils ont fini","ont","fini"],["il avait pris","avait","pris"],["elles sont arrivées","sont","arrivées"],["nous avons vu","avons","vu"],["je suis tombé","suis","tombé"]];
+// Comme l'exercice 8 : un verbe, trois phrases à un temps simple, deux à un temps composé.
+// simple : [phrase, mot du verbe] ; composé : [phrase, auxiliaire, participe passé]
+const EX8=[
+  {inf:"identifier",s:[["Vous identifiez bien le problème.","identifiez"],["Identifiez le problème rapidement.","Identifiez"],["Nous identifions le problème.","identifions"]],
+   c:[["Vous avez bien identifié le problème.","avez","identifié"],["Quand aurez-vous identifié le problème ?","aurez","identifié"]]},
+  {inf:"chanter",s:[["Elle chante une chanson.","chante"],["Nous chantions en chœur.","chantions"],["Chantez plus fort !","Chantez"]],
+   c:[["Elle a chanté une chanson.","a","chanté"],["Ils auront chanté avant midi.","auront","chanté"]]},
+  {inf:"finir",s:[["Tu finis ton devoir.","finis"],["Nous finissions tard.","finissions"],["Finis ton assiette !","Finis"],["Ils finiront demain.","finiront"]],
+   c:[["Tu as fini ton devoir.","as","fini"],["Nous avions fini tard.","avions","fini"]]},
+  {inf:"partir",s:[["Elles partent demain.","partent"],["Je partais tôt.","partais"],["Pars vite !","Pars"]],
+   c:[["Elles sont parties hier.","sont","parties"],["Il était parti sans bruit.","était","parti"]]}
+];
+// Verbes pour les groupes : [infinitif, « nous » au présent, groupe]
+const VERBES=[
+  ["chanter","chantons",1],["jouer","jouons",1],["dessiner","dessinons",1],["manger","mangeons",1],
+  ["finir","finissons",2],["réussir","réussissons",2],["grandir","grandissons",2],
+  ["prendre","prenons",3],["vendre","vendons",3],["venir","venons",3],
+  ["choisir","choisissons",2],["bondir","bondissons",2],["rougir","rougissons",2],["vieillir","vieillissons",2],
+  ["partir","partons",3],["dormir","dormons",3],["courir","courons",3],["ouvrir","ouvrons",3],["cueillir","cueillons",3],
+  ["aller","allons",3],["apercevoir","apercevons",3],["croire","croyons",3],["voir","voyons",3],["dire","disons",3],["vouloir","voulons",3]
+];
+const NIV1=[0,1,2,3,4,5,6,7,8,9],NIV2=[10,11,12,13,14,15,16,17,18],NIV3=[19,20,21,22,23,24];
+const VM={};VERBES.forEach(v=>{VM[v[0]]=v;});
+// Formes conjuguées : [forme, infinitif, auxiliaire (ou ""), niveau]
+const FORMES=[
+  ["nous chantons","chanter","",1],["je dessinais","dessiner","",1],["ils mangent","manger","",1],["elle finit","finir","",1],["vous réussissez","réussir","",1],["tu jouais","jouer","",1],
+  ["jouant","jouer","",2],["venez","venir","",2],["il vieillira","vieillir","",2],["nous réussissons","réussir","",2],["ils choisissent","choisir","",2],["vous prenez","prendre","",2],["elle voulait","vouloir","",2],["je pars","partir","",2],["nous allons","aller","",2],
+  ["tu as cru","croire","avoir",3],["il aperçoit","apercevoir","",3],["elle a dit","dire","avoir",3],["nous avons vu","voir","avoir",3],["ils sont venus","venir","être",3],["j'ai fini","finir","avoir",3],["tu as bondi","bondir","avoir",3],["elles sont parties","partir","être",3],["il a mangé","manger","avoir",3],["ils ouvrent","ouvrir","",3],["tu cours","courir","",3],["elle dort","dormir","",3],["nous cueillons","cueillir","",3],["il a pris","prendre","avoir",3]
+];
+// Radical : verbes dont on cherche le radical (niveaux 1 et 2)
+const RAD1=[["parler","parl"],["chanter","chant"],["danser","dans"],["regarder","regard"],["jouer","jou"],["utiliser","utilis"],["imaginer","imagin"],["dessiner","dessin"]];
+const RAD2=[["finir","fin"],["choisir","chois"],["grandir","grand"],["partir","part"],["vendre","vend"],["attendre","attend"],["prendre","prend"],["vouloir","voul"],["pouvoir","pouv"],["savoir","sav"]];
+// Terminaison : [forme, radical, terminaison]
+const TERM=[["nous chantons","chant","ons"],["tu parles","parl","es"],["ils jouent","jou","ent"],["vous dansez","dans","ez"],["je regarde","regard","e"],["il utilise","utilis","e"],["nous imaginons","imagin","ons"]];
+// Radical qui ne change pas / qui change quand on conjugue au présent : [infinitif, « je », « nous »]
+const REG=[["utiliser","j'utilise","nous utilisons"],["imaginer","j'imagine","nous imaginons"],["chanter","je chante","nous chantons"],["danser","je danse","nous dansons"],["regarder","je regarde","nous regardons"],["jouer","je joue","nous jouons"]];
+const IRR=[["vouloir","je veux","nous voulons"],["prendre","je prends","nous prenons"],["venir","je viens","nous venons"],["pouvoir","je peux","nous pouvons"]];
+
+/* ================= CONTENU : un générateur par compétence ================= */
+// 1. Reconnaître un verbe (ne … pas encadre le verbe ; à un temps composé, il encadre l'auxiliaire)
+function genReconnaitre(level){
+  if(level===1){
+    const [txt,v,neg,autres]=pick(SIMPLES);
+    return Q('reconnaitre',1,`Dans la phrase <b>« ${txt} »</b>, quel mot est le verbe ?`,
+      [C(v,v)].concat(autres.map(w=>C(w,w,`« ${w} » n'est pas le verbe : on ne peut pas l'encadrer par <b>ne … pas</b>.`))),v,
+      `<p>Le verbe est le seul mot qui peut être encadré par <b>ne … pas</b>.</p>`,
+      `<p>Le verbe est <b>${v}</b> : « ${neg} »</p>`);
+  }
+  const [S,A,P,rest]=pick(CMP);
+  const neg=`${S} n'${A} pas ${P} ${rest}.`;
+  if(level===2){
+    return Q('reconnaitre',2,`Mets à la forme négative : <b>« ${S} ${A} ${P} ${rest}. »</b>`,[
+      C(neg,neg),
+      C(`${S} n'${A} ${P} pas ${rest}.`,`${S} n'${A} ${P} pas ${rest}.`,`<b>pas</b> se place juste après l'auxiliaire (<b>${A}</b>), avant le participe passé.`),
+      C(`${S} ne ${P} pas ${rest}.`,`${S} ne ${P} pas ${rest}.`,`Il manque l'auxiliaire <b>${A}</b> : à un temps composé, la négation encadre l'auxiliaire.`),
+      C(`${S} ${A} ne pas ${P} ${rest}.`,`${S} ${A} ne pas ${P} ${rest}.`,`<b>ne</b> se place avant l'auxiliaire : « n'${A} pas ».`)
+    ],neg,
+      `<p>À un temps composé, la négation <b>encadre l'auxiliaire</b> : ne … pas autour de « ${A} ».</p>`,
+      `<p><b>${neg}</b> La négation encadre l'auxiliaire (${A}), puis vient le participe passé (${P}).</p>`);
+  }
+  if(Math.random()<.25){
+    return Q('reconnaitre',3,`Pour reconnaître un verbe dans une phrase, quelle astuce marche ?`,[
+      C('ne','L\'encadrer par <b>ne … pas</b>'),
+      C('tres','Le faire précéder de l\'adverbe <b>très</b>','<i>très</i> se place devant un adjectif ou un adverbe (très grand, très bien), pas devant un verbe.'),
+      C('pluriel','Le mettre au pluriel','Les noms et les adjectifs se mettent aussi au pluriel : ce n\'est pas l\'astuce du cours.')
+    ],'ne',`<p>Un seul mot de la phrase peut être encadré par une négation.</p>`,
+      `<p>Le verbe est le seul mot qui peut être précédé ou encadré par la négation <b>ne … pas</b>.</p>`);
+  }
+  const f=`${A} ${P}`;
+  return Q('reconnaitre',3,`Dans <b>« ${neg} »</b>, quels mots forment le verbe ?`,[
+    C(f,f),
+    C(`n'${A} pas`,`n'${A} pas`,`<b>ne … pas</b> est la négation, elle encadre le verbe. Et il manque le participe passé <b>${P}</b>.`),
+    C(P,P,`<b>${P}</b> est le participe passé, mais il faut aussi l'auxiliaire <b>${A}</b> : le verbe a deux mots.`),
+    C(`n'${A} pas ${P}`,`n'${A} pas ${P}`,`<b>n'</b> et <b>pas</b> sont la négation : ils encadrent le verbe mais n'en font pas partie.`)
+  ],f,`<p>À un temps composé, le verbe a deux mots : l'auxiliaire et le participe passé. La négation n'en fait pas partie.</p>`,
+    `<p>Le verbe est <b>${f}</b> : l'auxiliaire ${A} + le participe passé ${P}. Les mots <i>n'</i> et <i>pas</i> sont la négation.</p>`);
+}
+
+// 2. Verbe d'état ou verbe d'action
+function genEtat(level){
+  const isEtat=Math.random()<.5;
+  const x=pick(isEtat?(level===1?ETAT:ETAT.filter(e=>e[1]!=='est')):ACTION);
+  const [a,v,b,est]=x,ph=`${a} ${u(v)} ${b}`;
+  const whyAction=`« ${v} » dit ce que fait le sujet : c'est une action. On ne peut pas le remplacer par <i>être</i> sans changer le sens.`;
+  const whyEtat=`« ${v} » ne dit pas une action : il décrit comment est le sujet. On peut le remplacer par <i>être</i> : « ${est} »`;
+  const expl=isEtat
+    ?`<p><b>${v}</b> est un verbe d'<b>état</b> : on peut le remplacer par <i>être</i> (« ${est} »).</p>`
+    :`<p><b>${v}</b> est un verbe d'<b>action</b> : on ne peut pas le remplacer par <i>être</i> sans changer le sens.</p>`;
+  const hint=`<p>Essaie de remplacer le verbe par <i>être</i>. Si la phrase garde son sens, c'est un verbe d'état.</p>`;
+  if(level===1)
+    return Q('etat-action',1,`Dans <b>${ph}</b>, le verbe souligné est-il un verbe d'état ou un verbe d'action ?`,[
+      C('etat',`Un verbe d'état`,isEtat?'':whyAction),C('action',`Un verbe d'action`,isEtat?whyEtat:'')
+    ],isEtat?'etat':'action',hint,expl);
+  if(level===2)
+    return Q('etat-action',2,`Dans <b>${ph}</b>, peut-on remplacer le verbe souligné par le verbe <i>être</i> ?`,[
+      C('oui',`Oui : c'est un verbe d'état`,isEtat?'':whyAction),C('non',`Non : c'est un verbe d'action`,isEtat?whyEtat:'')
+    ],isEtat?'oui':'non',hint,expl);
+  if(isEtat)
+    return Q('etat-action',3,`Dans <b>${ph}</b>, <b>${v}</b> est un verbe d'état. Pourquoi ?`,[
+      C('a',`On peut le remplacer par <i>être</i> : « ${est} »`),
+      C('b',`On ne peut pas le remplacer par <i>être</i>`,`C'est le contraire : on peut dire « ${est} »`),
+      C('c',`Il dit ce que fait le sujet`,`Un verbe d'action dit ce que fait le sujet. Ici, ${v} décrit comment il est.`)
+    ],'a',hint,expl);
+  return Q('etat-action',3,`Dans <b>${ph}</b>, <b>${v}</b> est un verbe d'action. Pourquoi ?`,[
+    C('a',`On ne peut pas le remplacer par <i>être</i> sans changer le sens`),
+    C('b',`On peut le remplacer par <i>être</i>`,`Si on le remplace par <i>être</i>, la phrase ne veut plus dire la même chose (comme « Ulysse retrouve Pénélope » et « Ulysse est Pénélope »).`),
+    C('c',`Il décrit comment est le sujet`,`Un verbe d'état décrit comment est le sujet. Ici, ${v} dit ce que fait le sujet.`)
+  ],'a',hint,expl);
+}
+
+// 3. Radical et terminaison (à écrire au niveaux 1 et 2)
+function genRadical(level){
+  if(level<3){
+    const [inf,rad]=pick(level===1?RAD1:RAD2);
+    const fin=inf.slice(rad.length);
+    const err={};
+    err[inf.slice(0,-1)]=`Il reste encore une lettre de la terminaison. Supprime toute la terminaison <b>-${fin}</b>.`;
+    err[inf]=`C'est l'infinitif entier. Le radical, on le trouve en supprimant la terminaison de l'infinitif (<b>-${fin}</b>).`;
+    return W('radical',level,`Écris le radical du verbe <span class="big">${inf}</span>`,[rad,rad+'-'],err,
+      `<p>Supprime la terminaison de l'infinitif (<b>-${fin}</b>) : ce qui reste est le radical.</p>`,
+      `<p><b>${inf}</b> : on supprime <b>-${fin}</b>, il reste le radical <b>${rad}-</b>. Le radical porte le sens du verbe.</p>`);
+  }
+  if(Math.random()<.5){
+    const [form,rad,term]=pick(TERM);const last=form.split(' ').pop();
+    const err={};err[last]=`C'est le verbe entier. La terminaison, c'est seulement ce qui s'ajoute au radical <b>${rad}-</b>.`;
+    return W('radical',3,`Dans <b>« ${form} »</b>, le radical est <b>${rad}-</b>. Écris la terminaison.`,[term,'-'+term],err,
+      `<p>La terminaison est ce qui s'ajoute au radical : enlève le radical <b>${rad}-</b>.</p>`,
+      `<p><b>${last}</b> = radical <b>${rad}-</b> + terminaison <b>-${term}</b>. La terminaison varie selon le sujet, le temps et le mode.</p>`);
+  }
+  const irr=pick(IRR),reg=shuffle(REG.slice()).slice(0,3);
+  return Q('radical',3,`Quel verbe change de radical quand on le conjugue au présent ?`,
+    [C(irr[0],irr[0])].concat(reg.map(r=>C(r[0],r[0],`${r[0]} : « ${r[1]} », « ${r[2]} » : le radical ne change pas.`))),irr[0],
+    `<p>Conjugue chaque verbe avec <i>je</i> et avec <i>nous</i> : le début du verbe reste-t-il le même ?</p>`,
+    `<p><b>${irr[0]}</b> : « ${irr[1]} », « ${irr[2]} » : le radical change de forme.</p>`);
+}
+
+// 4. Temps simples et temps composés
+function genTemps(level){
+  if(level<3){
+    const S=level===1?TS1:TS2,Cm=level===1?TC1:TC2;
+    const comp=Math.random()<.5,x=pick(comp?Cm:S),f=x[0];
+    return Q('temps',level,`Le verbe est-il conjugué à un temps simple ou à un temps composé ? <span class="big">« ${f} »</span>`,[
+      C('simple','Un temps simple',comp?`« ${f} » a deux mots de verbe : l'auxiliaire <b>${x[1]}</b> + le participe passé <b>${x[2]}</b>. C'est un temps composé.`:''),
+      C('compose','Un temps composé',comp?'':`Dans « ${f} », il n'y a qu'un seul mot de verbe (<b>${x[1]}</b>), sans participe passé après : c'est un temps simple.`)
+    ],comp?'compose':'simple',
+      `<p>Aux temps composés, le verbe a deux mots : un auxiliaire (être ou avoir) et un participe passé.</p>`,
+      comp?`<p><b>${f}</b> : l'auxiliaire <i>${x[1]}</i> + le participe passé <i>${x[2]}</i> : temps <b>composé</b>.</p>`
+          :`<p><b>${f}</b> : le verbe est conjugué en un seul mot (<i>${x[1]}</i>) : temps <b>simple</b>.</p>`);
+  }
+  const e=pick(EX8),c=pick(e.c),s=shuffle(e.s.slice()).slice(0,3);
+  return Q('temps',3,`Dans quelle phrase le verbe <b>${e.inf}</b> est-il conjugué à un temps composé ?`,
+    [C(c[0],c[0])].concat(s.map(x=>C(x[0],x[0],`Dans cette phrase, le verbe est conjugué en un seul mot (<i>${x[1]}</i>) : c'est un temps simple.`))),c[0],
+    `<p>Cherche la phrase où le verbe a deux mots : un auxiliaire et un participe passé.</p>`,
+    `<p><b>${c[0]}</b> : l'auxiliaire <i>${c[1]}</i> + le participe passé <i>${c[2]}</i> : temps composé. Dans les autres phrases, le verbe est en un seul mot.</p>`);
+}
+
+// 5. Auxiliaire et participe passé
+function genAuxiliaire(level){
+  const [S,A,P,rest,inf]=pick(CMP),ph=`${S} ${A} ${P} ${rest}.`;
+  const expl=`<p>Dans <b>« ${S} ${A} ${P} »</b>, <b>${A}</b> est l'auxiliaire (une forme de <i>${inf}</i>) et <b>${P}</b> est le participe passé.</p>`;
+  if(level===1)
+    return Q('auxiliaire',1,`Dans <b>« ${ph} »</b>, quel verbe joue le rôle d'auxiliaire ?`,[
+      C('avoir','avoir',inf==='avoir'?'':`Ici l'auxiliaire est « ${A} » : c'est une forme d'être.`),
+      C('être','être',inf==='être'?'':`Ici l'auxiliaire est « ${A} » : c'est une forme d'avoir.`),
+      C('aller','aller',`Aller n'est pas un auxiliaire : seuls <i>être</i> et <i>avoir</i> aident à former les temps composés.`)
+    ],inf,`<p>Seuls deux verbes sont auxiliaires. Regarde le mot qui est juste avant le participe passé.</p>`,expl);
+  if(level===2)
+    return Q('auxiliaire',2,`Dans <b>« ${ph} »</b>, quel mot est le participe passé ?`,[
+      C(P,P),C(A,A,`<b>${A}</b> est l'auxiliaire : il se conjugue. Le participe passé est le mot du verbe qui vient après.`),
+      C(S,S,`<b>${S}</b> est le sujet du verbe, pas le participe passé.`)
+    ],P,`<p>Le participe passé est le mot qui suit l'auxiliaire et qui « porte le sens » du verbe.</p>`,expl);
+  const neg=`${S} n'${A} pas ${P} ${rest}.`;
+  return Q('auxiliaire',3,`Dans <b>« ${neg} »</b>, quel mot est l'auxiliaire ?`,[
+    C(A,A),C('pas','pas','<b>pas</b> fait partie de la négation <i>ne … pas</i>, qui encadre l\'auxiliaire.'),
+    C(P,P,`<b>${P}</b> est le participe passé, pas l'auxiliaire.`),C(S,S,`<b>${S}</b> est le sujet du verbe.`)
+  ],A,`<p>La négation encadre l'auxiliaire : c'est le mot juste après <i>n'</i>.</p>`,expl);
+}
+
+// 6. Trouver l'infinitif (écrit)
+function genInfinitif(level){
+  const [form,inf,aux]=pick(FORMES.filter(f=>f[3]===level));
+  const last=form.split(' ').pop(),err={};
+  if(last!==inf)err[last]=`C'est la forme conjuguée. Il faut écrire l'<b>infinitif</b> du verbe.`;
+  if(aux)err[aux]=`<b>${aux}</b> n'est que l'auxiliaire. Le verbe, c'est le participe passé : cherche son infinitif.`;
+  return W('infinitif',level,`Écris l'infinitif du verbe : <span class="big">« ${form} »</span>`,[inf],err,
+    aux?`<p>Le verbe est le participe passé (le dernier mot) : à quel infinitif correspond-il ?</p>`
+       :`<p>Enlève le pronom, puis cherche le verbe qui se termine par -er, -ir, -re ou -oir.</p>`,
+    `<p><b>${form}</b> → <b>${inf}</b>.${aux?` L'auxiliaire (${aux}) sert seulement à former le temps composé.`:''}</p>`);
+}
+
+// 7. Les trois groupes
+function pourquoiGroupe(inf,nous,g,c){
+  if(c===1)return inf==='aller'?`Aller se termine en -er, mais c'est l'exception : il est du 3e groupe.`:`« ${inf} » ne se termine pas en -er : ce n'est pas le 1er groupe.`;
+  if(c===2)return inf.endsWith('ir')?`Au présent, on dit « nous ${nous} », pas -issons : ce n'est pas le 2e groupe.`:`« ${inf} » ne se termine pas en -ir : ce n'est pas le 2e groupe.`;
+  return g===1?`Le 3e groupe, ce sont les autres verbes. Or « ${inf} » se termine en -er (et n'est pas aller).`:`« nous ${nous} » est en -issons : c'est le 2e groupe, pas le 3e.`;
+}
+function genGroupes(level){
+  let inf,nous,g,ph,hint;
+  if(level<3||Math.random()<.4){
+    const v=VERBES[pick(level===1?NIV1:level===2?NIV2:NIV3)];[inf,nous,g]=v;
+    ph=`Le verbe <b>${inf}</b> appartient à quel groupe ?`;
+  }else{
+    const f=pick(FORMES.filter(f=>f[3]===3||f[3]===2));inf=f[1];nous=VM[inf][1];g=VM[inf][2];
+    ph=`Le verbe de <b>« ${f[0]} »</b> appartient à quel groupe ? <span class="small">(cherche d'abord son infinitif)</span>`;
+  }
+  const expl=g===1?`<p><b>${inf}</b> : l'infinitif se termine en -er (et ce n'est pas aller) : <b>1er groupe</b>.</p>`
+    :g===2?`<p><b>${inf}</b> : l'infinitif se termine en -ir et « nous ${nous} » est en -issons : <b>2e groupe</b>.</p>`
+    :inf==='aller'?`<p><b>aller</b> se termine en -er, mais c'est l'exception : <b>3e groupe</b>.</p>`
+    :inf.endsWith('ir')?`<p><b>${inf}</b> se termine en -ir, mais « nous ${nous} » n'est pas en -issons : <b>3e groupe</b>.</p>`
+    :`<p><b>${inf}</b> ne se termine ni en -er ni en -ir : c'est un des « autres verbes », <b>3e groupe</b>.</p>`;
+  hint=`<p>1er groupe : -er (sauf aller). 2e groupe : -ir avec « nous … -issons ». 3e groupe : tous les autres.</p>`;
+  return Q('groupes',level,ph,[1,2,3].map(c=>c===g?C(c,`${c===1?'1er':c+'e'} groupe`):C(c,`${c===1?'1er':c+'e'} groupe`,pourquoiGroupe(inf,nous,g,c))),String(g),hint,expl);
+}
+
+// Clés = ids des compétences de la fiche (même ordre).
+const SKILLS={
+  'reconnaitre':{label:'Reconnaître un verbe'},
+  'etat-action':{label:"Verbe d'état ou d'action"},
+  'radical':{label:'Radical et terminaison'},
+  'temps':{label:'Temps simples et composés'},
+  'auxiliaire':{label:'Auxiliaire et participe passé'},
+  'infinitif':{label:"Trouver l'infinitif"},
+  'groupes':{label:'Les trois groupes'}
+};
+const GEN={'reconnaitre':genReconnaitre,'etat-action':genEtat,'radical':genRadical,'temps':genTemps,'auxiliaire':genAuxiliaire,'infinitif':genInfinitif,'groupes':genGroupes};
+const LEVELS={1:{t:'Échauffement',d:'questions de base'},2:{t:'Entraînement',d:'un peu plus de réflexion'},3:{t:'Défi',d:'les pièges de la leçon'}};
+const EVAL_SKILLS=['reconnaitre','etat-action','etat-action','radical','temps','temps','auxiliaire','infinitif','groupes','groupes'];
+const CHEER=['Bravo !','Bien joué !','Exact !','Parfait !'];
+
+/* ================= CONTENU : fiches Apprendre ================= */
+const LEARN=[
+  {t:'Reconnaître un verbe',body:()=>`<p>Le verbe est le <b>seul mot</b> qui peut être précédé ou encadré par la négation <b>ne … pas</b>.</p>
+    <div class="rulebox">Ulysse <u>nage</u> vigoureusement. → Ulysse <b>ne nage pas</b> vigoureusement.</div>
+    <p>À un <b>temps composé</b>, la négation encadre l'<b>auxiliaire</b>.</p>
+    <div class="rulebox">Ulysse <b>n'a pas</b> nagé vigoureusement.</div>`,
+   q:{p:'Dans « Le chat dort sur le canapé », quel mot est le verbe ?',c:[C('dort','dort'),C('chat','chat','On ne peut pas dire « ne chat pas ».'),C('canapé','canapé','On ne peut pas dire « ne canapé pas ».')],ok:'dort'}},
+  {t:"Verbe d'état et verbe d'action",body:()=>`<p>Les <b>verbes d'état</b> : <i>être, sembler, devenir</i>, etc. et les verbes qui peuvent être <b>remplacés par être</b> (verbes attributifs).</p>
+    <div class="rulebox">Ulysse <b>semble</b> épuisé = Ulysse <b>est</b> épuisé : <i>semble</i> est un verbe d'état.</div>
+    <p>Les <b>verbes d'action</b> : tous les autres.</p>
+    <div class="rulebox">Ulysse <b>retrouve</b> Pénélope ≠ Ulysse <b>est</b> Pénélope : <i>retrouve</i> est un verbe d'action.</div>`,
+   q:{p:'« Le vent devient féroce » : <i>devient</i> est un verbe…',c:[C('etat',"d'état"),C('action',"d'action",'On peut dire « Le vent est féroce » : devient peut être remplacé par être.')],ok:'etat'}},
+  {t:'Radical et terminaison',body:()=>`<p>Un verbe se conjugue en ajoutant une <b>terminaison</b> au <b>radical</b>.</p>
+    <p>Le radical porte le sens du verbe : on le trouve en <b>supprimant la terminaison de l'infinitif</b>.</p>
+    <div class="rulebox">parler → <b>parl-</b></div>
+    <p>La terminaison varie en fonction du sujet du verbe, du temps et du mode.</p>`,
+   q:{p:'Quel est le radical de <i>chanter</i> ?',c:[C('chant','chant-'),C('chante','chante-','Il faut supprimer toute la terminaison -er.'),C('chanter','chanter','C\'est l\'infinitif entier : il faut supprimer la terminaison -er.')],ok:'chant'}},
+  {t:'Les modes et les temps',body:()=>`<p>Il existe deux catégories de <b>modes</b> : les modes <b>personnels</b> (le verbe varie selon la personne) et les modes <b>impersonnels</b>.</p>
+    <p>Il existe deux catégories de <b>temps</b> :</p>
+    <p>• Aux <b>temps simples</b>, le verbe est conjugué en un seul mot : <i>je rêvais</i>.</p>
+    <p>• Aux <b>temps composés</b>, la forme verbale est composée d'un <b>auxiliaire</b> (être ou avoir), qui se conjugue, et du <b>participe passé</b> du verbe : <i>j'avais rêvé</i>.</p>`,
+   q:{p:'« Elle avait pris » est un temps…',c:[C('compose','composé'),C('simple','simple','Il y a deux mots de verbe : l\'auxiliaire avait + le participe passé pris.')],ok:'compose'}},
+  {t:'Les trois groupes de verbes',body:()=>`<p><b>1er groupe</b> : les verbes dont l'infinitif se termine en <i>-er</i>, sauf <i>aller</i>.</p>
+    <p><b>2e groupe</b> : les verbes dont l'infinitif se termine en <i>-ir</i> et qui ont une 1re personne du pluriel au présent en <i>-issons</i> (finissons).</p>
+    <p><b>3e groupe</b> : tous les autres verbes, dont le verbe <i>aller</i>.</p>
+    <p>Les verbes <i>être</i> et <i>avoir</i>, quand ils aident à former des temps composés, sont appelés des <b>auxiliaires</b> : <i>Il est venu. Elle avait pris.</i></p>`,
+   q:{p:'À quel groupe appartient <i>finir</i> (nous finissons) ?',c:[C('2','2e groupe'),C('1','1er groupe','Le 1er groupe, ce sont les verbes en -er.'),C('3','3e groupe','« nous finissons » est en -issons : c\'est le 2e groupe.')],ok:'2'}},
+  {t:'À retenir',recap:true,body:()=>`<p>• Le verbe se reconnaît avec <b>ne … pas</b> ; à un temps composé, la négation encadre l'auxiliaire.</p>
+    <p>• Verbe d'<b>état</b> : on peut le remplacer par <i>être</i>. Verbe d'<b>action</b> : tous les autres.</p>
+    <p>• Radical = infinitif sans sa terminaison (parler → parl-).</p>
+    <p>• Temps simple : un seul mot. Temps composé : auxiliaire (être ou avoir) + participe passé.</p>
+    <p>• 1er groupe : -er (sauf aller). 2e : -ir et -issons. 3e : tous les autres, dont aller.</p>`}
+];
+const LEARN_COUNT=LEARN.length-1;
+
+/* ================= CONTENU : accueil ================= */
+function home(){
+  S={screen:'home'};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Le verbe</h1>
+      <p>Reconnaître un verbe, ses temps, ses groupes : révise ta leçon, puis teste-toi.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="menu">
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en ${LEARN_COUNT} fiche${LEARN_COUNT>1?'s':''} courte${LEARN_COUNT>1?'s':''}, avec une question à chaque fois</span></button>
+        <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
+        <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>${EVAL_SKILLS.length} questions, sans aide, avec une note à la fin</span></button>
+        <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
+      </div>
+    </main>`);
+}
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+function record(q,ok,rep){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
+}
+function genQuestion(skill,level){
+  if(!skill||skill==='all')skill=pick(Object.keys(GEN));
+  return GEN[skill](level);
+}
+const LVL=Object.keys(LEVELS).map(Number);
+const MAXL=LVL[LVL.length-1];
+
+let S={screen:'home'};
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : Apprendre ================= */
+function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
+function renderLearn(){
+  const st=LEARN[S.ls];let body;
+  if(st.recap){
+    body=`<div class="card">${st.body()}</div>
+      <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
+  }else{
+    const q=st.q;
+    body=`${st.body()}<div class="card"><p class="q-prompt"><b>À toi :</b> ${q.p}</p>
+      <div class="choices">${shuffle(q.c.slice()).map(c=>`<button class="choice" data-act="lchoose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div><div id="lfb"></div></div>
+      <div class="btns" id="lacts"></div>`;
+  }
+  show(`${topbar('Apprendre')}<main class="wrap"><p class="small">Fiche ${S.ls+1} sur ${LEARN.length}</p><div class="dots" aria-hidden="true">${LEARN.map((x,i)=>`<i class="${i<S.ls?'done':i===S.ls?'cur':''}"></i>`).join('')}</div><h2>${st.t}</h2><div style="margin-top:8px">${body}</div></main>`);
+}
+function learnChoose(el){
+  const q=LEARN[S.ls].q,v=el.dataset.v,fb=document.getElementById('lfb');
+  if(v===q.ok){
+    app.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.classList.add('locked');});
+    el.classList.add('good');
+    fb.innerHTML=`<div class="fb good"><p><b>${pick(CHEER)}</b></p></div>`;
+    document.getElementById('lacts').innerHTML=`<button class="btn primary" data-act="lnext" data-primary>${S.ls<LEARN.length-2?'Fiche suivante':'Terminer'}</button>`;
+  }else{
+    el.classList.add('bad');el.disabled=true;
+    fb.innerHTML=`<div class="fb hint"><p><b>Pas tout à fait.</b> ${q.c.find(c=>c.v===v).why}</p></div>`;
+  }
+}
+
+/* ================= MOTEUR : entraînement / évaluation ================= */
+function levelChips(sel,mix){
+  let s='<div class="chips">';
+  if(mix)s+=`<button class="chip ${sel===0?'on':''}" data-act="lvl" data-v="0">Mixte<small>un peu de tout</small></button>`;
+  for(const i of LVL)s+=`<button class="chip ${sel===i?'on':''}" data-act="lvl" data-v="${i}">${LEVELS[i].t}<small>${LEVELS[i].d}</small></button>`;
+  return s+'</div>';
+}
+function skillChips(sel){
+  let s=`<div class="chips"><button class="chip ${sel==='all'?'on':''}" data-act="sk" data-v="all">Tout mélangé</button>`;
+  for(const k in SKILLS)s+=`<button class="chip ${sel===k?'on':''}" data-act="sk" data-v="${k}">${SKILLS[k].label}</button>`;
+  return s+'</div>';
+}
+function trainSetup(keep){
+  if(!keep||S.screen!=='trainSetup')S={screen:'trainSetup',level:S.level||1,skill:S.skillPref||'all'};
+  show(`${topbar("S'entraîner")}<main class="wrap">
+    <h2>Choisis ton niveau</h2>${levelChips(S.level,false)}
+    <h2>Que veux-tu travailler ?</h2>${skillChips(S.skill)}
+    <div class="btns"><button class="btn primary" data-act="trainStart" data-primary>Commencer</button></div></main>`);
+}
+function evalSetup(keep){
+  if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
+  show(`${topbar('Évaluation')}<main class="wrap">
+    <h2>On passe à l'évaluation ?</h2>
+    <p>${EVAL_SKILLS.length} questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
+    <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
+    <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
+}
+const hasPic=q=>q.choices.some(c=>String(c.label).indexOf('<svg')>=0);
+function qScreen(){
+  const q=S.q,ev=S.mode==='eval';
+  let head;
+  if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
+    head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
+  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
+    ${head}
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      ${q.write
+        // clavier de l'iPhone sans suggestions ni correction automatique : l'enfant écrit seul
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
+}
+/* ================= MOTEUR : signaler un problème ================= */
+// Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
+// copie de la question (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+// Pourquoi une copie : les questions sont tirées au hasard, sans identifiant à retrouver ensuite.
+const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
+function sigAsk(){
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
+    <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
+}
+function sigYes(){
+  const q=S.q||{},ch=q.choices||[],zone=document.getElementById('sig');
+  const lab=v=>{const c=ch.find(c=>c.v===v);return c?(txt(c.label)||'(image)'):'';};
+  const champ=document.getElementById('rep');
+  const att=q.write?String(q.write.ok[0]):(q.exp&&q.exp.c!==undefined?lab(q.exp.c):'');
+  const id=window.miniprof?window.miniprof.signaler({enonce:txt(q.prompt),choix:ch.map(c=>txt(c.label)||'(image)'),
+    attendue:att,reponse:champ?champ.value:(S.choice?lab(S.choice):'')}):null;
+  zone.innerHTML=id
+    ?`<div class="fb good"><p><b>Merci !</b> Un adulte va vérifier cette question.</p>
+      <div style="margin:10px 0"><input id="sigtxt" style="width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)" type="text" maxlength="300" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Tu veux dire pourquoi ?" placeholder="Tu veux dire pourquoi ? (facultatif)"></div>
+      <div class="btns"><button class="btn" data-act="sigsend" data-id="${esc(id)}">Envoyer</button></div></div>`
+    :`<div class="fb bad"><p>Le signalement n'a pas pu être enregistré.</p></div>`;
+}
+function sigSend(el){
+  const t=document.getElementById('sigtxt'),zone=document.getElementById('sig');
+  if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
+  zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
+}
+// Boutons de la question (P010, 12/10/2026). « Valider » n'apparaît que lorsque l'élève a proposé
+// une réponse (mot tapé, choix, dessin non vide). Après une erreur, « Réessayer » efface sa
+// proposition ; « Valider » revient (caché) tant qu'il n'a rien reproposé.
+function aReponse(){
+  if(S.q&&S.q.draw)return Object.keys(S.grid||{}).length>0;
+  const i=document.getElementById('rep');
+  return i?!!norm(i.value):!!S.choice;
+}
+function majValider(){const b=document.getElementById('ok');if(b)b.hidden=!aReponse();}
+function boutons(){
+  const ev=S.mode==='eval',last=ev&&S.i===S.total-1;
+  const aide=ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'+(S.attempts>0?'<button class="btn ghost" data-act="reveal">Voir la correction</button>':'');
+  const principal=S.retry
+    ?'<button class="btn primary" data-act="retry" data-primary>Réessayer</button>'
+    :`<button class="btn primary" id="ok" data-act="check" data-primary hidden>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>`;
+  document.getElementById('acts').innerHTML=principal+aide;
+  majValider();
+}
+// L'élève propose (ou modifie) une réponse : si « Réessayer » attendait, « Valider » reprend sa place.
+function surProposition(){if(S.retry){S.retry=false;boutons();}else majValider();}
+function reessayer(){
+  S.retry=false;S.choice=null;
+  const i=document.getElementById('rep');
+  if(i){i.value='';i.focus();}
+  // QCM : la réponse fausse repasse en neutre (elle était rouge et grisée)
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.remove('sel','bad');c.disabled=false;});
+  boutons();
+}
+function setFb(html){document.getElementById('fb').innerHTML=html;}
+function lockChoices(){
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(S.q.write&&judgeWrite(S.q,inp.value).ok?'good':'bad');}
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
+}
+// la réponse tapée (question à écrire), coupée à 60 caractères pour le journal
+function lireEcrit(){const i=document.getElementById('rep');return i?i.value.slice(0,60):'';}
+function checkTrain(){
+  let v=null;
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse.</div>');return;}v=judgeWrite(S.q,S.choice);}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  const q=S.q;S.attempts++;
+  const ok=v?v.ok:S.choice===q.exp.c;
+  // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
+  if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
+  if(ok){
+    lockChoices();
+    let extra='';
+    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
+  }else if(S.attempts===1||(v&&S.attempts<3)){
+    // une question à écrire laisse 3 essais : l'enfant corrige son mot lui-même
+    const c=v?null:q.choices.find(c=>c.v===S.choice);
+    const why=v?v.why+'<br><span class="small">Appuie sur « Réessayer » ou touche le champ, puis écris ta réponse à nouveau.</span>':(c&&c.why?c.why:'Relis la question et réessaie.');
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${why}</p></div>`);
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    S.choice=null;
+    S.retry=true;boutons();
+  }else revealTrain();
+}
+function revealTrain(){
+  if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
+  lockChoices();
+  setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
+}
+function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
+
+// Une évaluation ne pose jamais deux fois la même question : on retire une question déjà
+// sortie (jusqu'à 30 essais, au cas où une compétence aurait peu de questions).
+// Signalé par le sponsor le 12/10/2026 (la même question deux fois dans une évaluation).
+function tirerSansDoublon(skills,niveau){
+  const vus=new Set();
+  // même question = même énoncé ET mêmes choix (un énoncé comme « Lequel est l'intrus ? » revient
+  // légitimement avec d'autres mots)
+  const cle=q=>q.prompt+'|'+(q.choices||[]).map(c=>c.v).sort().join(',')+'|'+q.exp.c;
+  return skills.map((s,i)=>{let q,n=0;do{q=genQuestion(s,niveau(i));n++;}while(vus.has(cle(q))&&n<30);vus.add(cle(q));return q;});
+}
+function evalStart(){
+  const lvl=S.level;
+  // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
+  const qs=tirerSansDoublon(shuffle(EVAL_SKILLS.slice()),i=>lvl===0?LVL[i%LVL.length]:lvl);
+  S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
+    cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
+  S.q=qs[0];qScreen();
+}
+function checkEval(){
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse avant de continuer.</div>');return;}}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.q.write?judgeWrite(S.q,S.choice).ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  S.i++;
+  if(S.i>=S.total){evalEnd();return;}
+  S.q=S.qs[S.i];qScreen();
+}
+const lblOf=(q,v)=>{if(q.write)return esc(v);const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+function evalEnd(){
+  const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
+  const duree=Math.round((Date.now()-S.t0)/1000);
+  const sk={};
+  res.forEach(r=>{const s=sk[r.q.skill]||(sk[r.q.skill]=[0,0]);s[1]++;if(r.ok)s[0]++;});
+  // l'évaluation est enregistrée d'un bloc à la fin : abandonnée au milieu, elle ne compte pas
+  if(window.miniprof)window.miniprof.reponse(res.map(r=>({competence:r.q.skill,juste:r.ok,mode:'v',difficulte:r.q.level,
+    question:r.q.skill,reponse:r.ans,duree:r.duree,evaluation:S.cle})));
+  let weakest=null,wp=2;for(const k in sk){const p=sk[k][0]/sk[k][1];if(p<wp){wp=p;weakest=k;}}
+  const pc=score/total;
+  const msg=pc>=.9?"Excellent ! Tu maîtrises ta leçon.":pc>=.7?"Très bien ! Il ne reste que quelques détails à revoir.":pc>=.5?"Bon début. Regarde les corrections, puis entraîne-toi encore un peu.":"Pas de panique : relis les fiches Apprendre, puis entraîne-toi.";
+  const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
+  const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
+    <div class="q-prompt">${r.q.prompt}</div>
+    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    <div class="fb info">${r.q.explain}</div></details>`).join('');
+  S.screen='result';S.weakest=weakest;
+  show(`${topbar('Résultat','home')}<main class="wrap">
+    <div class="card center"><div class="score">${score}<span style="font-size:1.6rem;color:var(--muted)"> / ${total}</span></div>
+      <p style="margin-top:10px">${msg}</p><p class="small">Temps : ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    <h2>Par compétence</h2><div style="margin-top:10px">${bars}</div>
+    <h2 style="margin:16px 0 6px">Les corrections</h2>${rev}
+    <div class="btns">
+      ${weakest&&wp<1?`<button class="btn primary" data-act="trainWeak" data-primary>Travailler : ${SKILLS[weakest].label}</button>`:''}
+      <button class="btn" data-act="evalSetup">Recommencer</button><button class="btn" data-act="bilan">Mon bilan</button><button class="btn ghost" data-act="home">Accueil</button>
+    </div></main>`);
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+// Ajouter ici les actions propres au module (ex. un labo) avant « default ».
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'learn':learn(0);break;
+    case 'lchoose':learnChoose(el);break;
+    case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
+    case 'trainSetup':trainSetup(false);break;
+    case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
+    case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
+    case 'evalSetup':evalSetup(false);break;
+    case 'evalStart':evalStart();break;
+    case 'quitEval':evalSetup(false);break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));surProposition();break;
+    case 'retry':reessayer();break;
+    case 'check':S.mode==='eval'?checkEval():checkTrain();break;
+    case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
+    case 'reveal':revealTrain();break;
+    case 'sig':sigAsk();break;
+    case 'signo':document.getElementById('sig').innerHTML='';break;
+    case 'sigyes':sigYes();break;
+    case 'sigsend':sigSend(el);break;
+    case 'next':nextTrain();break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// un mot tapé = une proposition : « Valider » apparaît
+app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
+// Après une erreur, toucher le champ ou y taper efface l'ancien mot, comme « Réessayer » (P010, retour du 12/10).
+const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
+app.addEventListener('pointerdown',effacerSiReessai);
+app.addEventListener('focusin',effacerSiReessai);
+app.addEventListener('beforeinput',effacerSiReessai);
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>

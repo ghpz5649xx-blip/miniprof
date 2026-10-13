@@ -65,5 +65,6 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert | cette semaine |
 | Recette du parcours Dictée 5 sur l'iPhone, profil « Test » (5 étapes dans la fiche P012), puis laisser le CM1 jouer sur son profil | cette semaine |
 | Exporter les données du CM1 après une semaine de parcours et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes) | vers le 20 oct. |
+| Relire puis valider « Le verbe » (6e) : https://ghpz5649xx-blip.github.io/miniprof/modules/francais-6e-le-verbe.html (réponds « valide francais-6e-le-verbe ») | avant de l'envoyer à ta fille |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |

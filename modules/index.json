@@ -102,6 +102,46 @@
       ]
     },
     {
+      "id": "francais-6e-le-verbe",
+      "kind": "html",
+      "file": "francais-6e-le-verbe.html",
+      "title": "Le verbe",
+      "subject": "francais",
+      "level": "6e",
+      "description": "Reconnaître un verbe, verbe d'état ou d'action, radical et terminaison, temps simples et composés, auxiliaires et les trois groupes.",
+      "skills": [
+        {
+          "id": "reconnaitre",
+          "label": "Reconnaître un verbe"
+        },
+        {
+          "id": "etat-action",
+          "label": "Verbe d'état ou d'action"
+        },
+        {
+          "id": "radical",
+          "label": "Radical et terminaison"
+        },
+        {
+          "id": "temps",
+          "label": "Temps simples et composés"
+        },
+        {
+          "id": "auxiliaire",
+          "label": "Auxiliaire et participe passé"
+        },
+        {
+          "id": "infinitif",
+          "label": "Trouver l'infinitif"
+        },
+        {
+          "id": "groupes",
+          "label": "Les trois groupes"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "maths-cm1-tables-3-6-9",
       "kind": "html",
       "file": "maths-cm1-tables-3-6-9.html",
