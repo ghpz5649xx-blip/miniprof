@@ -255,6 +255,7 @@ pas lire les fichiers de modules.
 | `schema/module.schema.json` | le format des modules JSON (source de vérité) |
 | `tools/` | outils Python : validation, contrôle, tirage, index, prompt, fusion, analyse, recette ; `tools/tests/` |
 | `.claude/` | le skill `/nouveau-module` et le hook qui met la session à jour au démarrage |
+| `programmes/` | le programme officiel du cycle 3 (CM1, CM2, 6e), en PDF et en texte |
 | `docs/` | annexes, voir ci-dessous |
 | `reference/` | le prototype d'origine, gardé pour mémoire |
 
