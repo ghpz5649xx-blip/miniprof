@@ -35,6 +35,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 
 | Sujet | Depuis | Priorité proposée | Fiche ou note |
 |---|---|---|---|
+| **Profondeur des questions** (les enfants se plaignent de la répétition ; mesurer la diversité puis anti-répétition + variété des tâches) | 14 oct. 2026 | **haute**, après P012 ou en plan d'étude | `plans/P013-profondeur-des-questions.md` |
 | Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne (P008 est livré) | idée ; voir P008 |
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **en cours** (L0 et pilote Dictée 5 livrés ; réglages après les premières données) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
