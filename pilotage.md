@@ -66,5 +66,6 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Recette du parcours Dictée 5 sur l'iPhone, profil « Test » (5 étapes dans la fiche P012), puis laisser le CM1 jouer sur son profil | cette semaine |
 | Recette iPhone de l'écran d'indice (fiche P012, retour du 13 oct. II) : faire une erreur, lire, attendre le décompte, taper « avez » puis « êtes » : les mots restent entiers | dès que tu peux |
 | Exporter les données du CM1 après une semaine de parcours et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes) | vers le 20 oct. |
+| Ajouter le programme de sciences et technologie du cycle 3 (PDF scanné sans texte) : copier le texte avec Aperçu et l'enregistrer en `.md` ; mode d'emploi dans `programmes/README.md`, « Sciences et technologie » (**priorité basse**) | quand tu veux |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |
