@@ -35,6 +35,11 @@ marche : `README.md`.
 - **POC** : plan dont la sortie est une démo, dans `poc/<sujet>/`, isolé de l'app, des modules et
   des données ; jamais mis en production tel quel.
 
+## Réponses en session de fond
+- **Pas de ligne `result:` dans une réponse simple** (question, explication, échange court) : le
+  texte suffit. Elle reste réservée à la fin d'une vraie tâche livrée (décidé par le sponsor le
+  14 octobre 2026).
+
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework, de
   build, de npm, de serveur, de PWA ; polices système.
