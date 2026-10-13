@@ -393,6 +393,9 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
   bilan qui ignore la deuxième chance).
 - Rendu regardé à 390 px, clair et sombre : pas de défilement horizontal, aucune erreur.
 
+- **Publié** : fusion dans `main` le 13 oct. 2026 sur décision du sponsor ; déploiement GitHub
+  Pages réussi (commit `62d52cc`).
+
 ### Recette à faire par le sponsor (iPhone, profil « Test »)
 1. Ouvrir « Dictée 5 » : la carte s'affiche, étape 1 « La caserne des pompiers ».
 2. Répondre juste plusieurs fois : la jauge monte de 1, 1, 2, 3, 5, 8, 8…
