@@ -932,6 +932,10 @@ function pNouvelle(){
     <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="pCheck" data-primary hidden>Valider</button></span></div>
     <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
   q.t0=Date.now();
+  // curseur dans le champ (clavier ouvert) pour une question à écrire ; sinon on libère le relais
+  const champ=document.getElementById('rep');
+  if(champ)champ.focus();
+  retirerRelais();
 }
 function pCheck(){
   const q=S.q;let v=null;
@@ -949,7 +953,9 @@ function pCheck(){
   const acts=document.getElementById('acts');
   if(premier&&ok){
     lockChoices();
-    setFb(`<div class="fb good"><p><b>Du premier coup ! +${d.gain}</b> Ta série passe à ${etat.serie}.</p>${q.explain}</div>`);
+    // juste : bref message, puis la question suivante arrive seule (retour du sponsor, 13/10/2026)
+    setFb(`<div class="fb good"><p><b>Du premier coup ! +${d.gain}</b> Ta série passe à ${etat.serie}.</p></div>`);
+    enchainer(d.etoile);return;
   }else if(premier){
     // la série est en jeu : l'enjeu, puis l'indice de Mini, puis la deuxième chance
     const why=v?v.why:((q.choices.find(c=>c.v===S.choice)||{}).why||'');
@@ -963,7 +969,8 @@ function pCheck(){
     return;
   }else if(ok){
     lockChoices();
-    setFb(`<div class="fb good"><p><b>${serieAvant>0?`Série sauvée ! Ta série de ${serieAvant} continue.`:'Bien corrigé !'}</b> La deuxième chance ne remplit pas la jauge.</p>${q.explain}</div>`);
+    setFb(`<div class="fb good"><p><b>${serieAvant>0?`Série sauvée ! Ta série de ${serieAvant} continue.`:'Bien corrigé !'}</b> La deuxième chance ne remplit pas la jauge.</p></div>`);
+    enchainer(d.etoile);return;
   }else{
     lockChoices();
     setFb(`<div class="fb info"><p><b>La bonne réponse : ${esc(q.exp.c)}</b>${serieAvant>0?` Ta série de ${serieAvant} repart de zéro. Ce n'est rien : on recommence.`:''}</p>${q.explain}</div>`);
@@ -972,6 +979,24 @@ function pCheck(){
     acts.innerHTML='<button class="btn primary" data-act="pEtoile" data-primary>Voir mon étoile</button>';
   }else acts.innerHTML='<button class="btn primary" data-act="pSuivante" data-primary>Question suivante</button>';
 }
+// Après une réponse juste : message d'une seconde, puis question suivante (ou écran de l'étoile).
+// Pourquoi un champ « relais » : sur iPhone, le clavier ne s'ouvre que dans le geste de l'enfant (le
+// toucher sur Valider). On y donne le focus à un champ invisible, qui garde le clavier ouvert
+// pendant la seconde d'attente ; pNouvelle passe ensuite le focus au vrai champ de réponse.
+function enchainer(etoile){
+  let r=document.getElementById('relais');
+  if(!r){
+    r=document.createElement('input');r.id='relais';r.tabIndex=-1;r.setAttribute('aria-hidden','true');
+    r.style.cssText='position:fixed;left:-100px;top:0;width:1px;height:1px;opacity:0;font-size:16px';
+    document.body.appendChild(r);
+  }
+  r.focus();
+  document.getElementById('acts').innerHTML='';
+  const q=S.q;
+  // si l'enfant a quitté l'écran entre-temps (flèche retour), on ne fait rien
+  setTimeout(()=>{if(S.q===q&&S.screen==='pq'){if(etoile)pEtoile();else pNouvelle();}else retirerRelais();},1000);
+}
+function retirerRelais(){const r=document.getElementById('relais');if(r)r.remove();}
 // Deuxième chance : le champ se vide, l'indice reste affiché pendant qu'on réécrit. Elle s'ouvre
 // par le bouton, ou dès que l'enfant touche le champ ou un autre choix (comme « Réessayer », P010).
 function pChance(){
@@ -983,6 +1008,7 @@ function pChance(){
   majValider();
 }
 function pEtoile(){
+  retirerRelais();
   const etat=etatParcours(JOURNAL);
   show(`${topbar(S.lieu.nom,'parcours')}<main class="wrap">
     <div class="card gagne"><svg aria-hidden="true">${svgEtoile('',0,0,84)}</svg>

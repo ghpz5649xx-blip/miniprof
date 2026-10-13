@@ -441,3 +441,19 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
 - **Conséquence sur le plan** : §6 (retry payant) remplacé par cette règle ; la question
   voisine reposée plus tard (§6, point 3) est conservée. Les étoiles de module (§5) restent des
   jalons de maîtrise ; l'étoile de jauge s'y ajoute (lien entre les deux : à trancher en L1).
+
+## Retour du sponsor, 13 oct. 2026 — (I) enchaînement après « Valider »
+- **Demande** : après « Valider », passer directement à la question suivante ; pour une question à
+  écrire, curseur dans le champ et clavier ouvert.
+- **Décision (sponsor)** : réponse juste (du premier coup ou à la deuxième chance) = message d'une
+  seconde (« Du premier coup ! +N » / « Série sauvée »), l'explication n'est plus affichée, puis la
+  question suivante (ou l'écran « Étoile gagnée ! ») arrive seule. Après une erreur définitive,
+  la correction reste affichée avec « Question suivante » (l'enfant doit la lire).
+- **Livré** (`modules/francais-cm1-dictee-5-avoir-etre.html`) : `enchainer()`, champ invisible
+  « relais » qui garde le clavier ouvert pendant la seconde (sur iPhone, le focus n'est permis que
+  dans le geste de l'enfant), `pNouvelle()` place le curseur.
+- **Vérifié** : tests (87) et recette de l'app au vert ; contrôle du module OK ; essai Chromium :
+  juste → message puis question suivante, focus dans le champ, relais retiré.
+- **Recette iPhone (tâche du sponsor)** : sur une question à écrire, taper le bon mot puis
+  « Valider » : la question suivante arrive seule, **le clavier reste ouvert** sans clignoter. Si
+  le clavier se ferme, le dire : le correctif est à revoir.
