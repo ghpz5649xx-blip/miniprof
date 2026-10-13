@@ -1005,7 +1005,7 @@ function enchainer(etoile){
 }
 function retirerRelais(){const r=document.getElementById('relais');if(r)r.remove();}
 // L'indice en plein écran après une erreur (retour du sponsor, 13/10/2026 : l'indice posé sous la
-// question n'était pas lu). La couche cache la question ; « Ma deuxième chance » ne s'allume qu'après
+// question n'était pas lu). La couche cache la question ; « Ma deuxième chance » n'apparaît qu'après
 // un court délai, le temps de lire (3 s, plus 0,03 s par caractère, au plus 6 s). Ce délai n'est pas
 // un chrono sur la réponse. Le clavier est fermé pour ne pas masquer le texte.
 const DELAI_INDICE_MIN=3,DELAI_INDICE_MAX=6,DELAI_INDICE_PAR_CAR=0.03;
@@ -1019,15 +1019,15 @@ function ouvrirIndice(titre,why,indice){
     <div class="guide"><svg aria-hidden="true"><use href="#hibou"/></svg><h2 id="indice-t">${titre}</h2></div>
     ${why?`<p>${why}</p>`:''}
     <div class="bulle"><p><b>L'indice de Mini :</b></p>${indice}</div>
-    <button class="btn primary" id="indice-ok" data-act="pChance" data-primary disabled></button></div>`;
+    <button class="btn primary" id="indice-ok" data-act="pChance" data-primary disabled aria-hidden="true" style="visibility:hidden">Ma deuxième chance</button></div>`;
   app.appendChild(o);
   const b=document.getElementById('indice-ok');
   const tic=()=>{
     // la couche disparaît avec l'écran (show) : plus rien à mettre à jour
     if(!document.body.contains(b)){clearInterval(minuteur);return;}
-    const reste=Math.ceil((fin-Date.now())/1000);
-    if(reste>0)b.textContent=`Je lis l'indice… ${reste}`;
-    else{clearInterval(minuteur);b.disabled=false;b.textContent='Ma deuxième chance';}
+    // aucun décompte affiché (retour du sponsor, 13/10/2026 : l'enfant regardait le chiffre, pas l'indice) :
+    // le bouton reste invisible, mais garde sa place pour que la page ne bouge pas quand il apparaît
+    if(Date.now()>=fin){clearInterval(minuteur);b.disabled=false;b.style.visibility='visible';b.removeAttribute('aria-hidden');}
   };
   const minuteur=setInterval(tic,250);tic();
 }

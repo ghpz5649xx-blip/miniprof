@@ -469,7 +469,7 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
   prouvée) : `pChance()` vidait le champ et redonnait le focus pendant la frappe (`pointerdown`,
   `focusin`, `beforeinput`). La recette automatique (événements synthétiques) ne peut pas le voir.
 - **Décision (sponsor) : D8.** Couche plein écran avec Mini, le pourquoi de l'erreur et l'indice ;
-  « Ma deuxième chance » inactif avec décompte (« Je lis l'indice… 5 ») puis actif.
+  « Ma deuxième chance » inactif puis actif.
 - **Livré** (`modules/francais-cm1-dictee-5-avoir-etre.html`) : `ouvrirIndice()` (couche, clavier
   fermé, délai réglable par trois constantes `DELAI_INDICE_*`) ; `pChance()` n'est plus appelé que par
   le bouton de la couche (plus de déclenchement par le champ ni par un choix), ce qui supprime le
@@ -486,3 +486,16 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
   taper « avez » puis « êtes » : **les mots restent entiers**. Si une lettre manque encore, le dire.
 - **Pour plus tard** (hors périmètre) : « avoir » niveau 3, sujets coordonnés (« … et toi » =
   vous) : 8 erreurs sur 26, « ont » tapé à la place ; à traiter à la revue d'usage n° 2.
+
+## Retour du sponsor, 13 oct. 2026 — (III) essai sur l'iPhone de l'écran d'indice
+- **Constat (sponsor)** : le décompte « Je lis l'indice… N » attire le regard : l'enfant regarde le
+  chiffre et ne lit pas l'indice. Les lettres perdues ne se sont pas reproduites sur l'iPhone
+  (observation à poursuivre sur une durée plus longue).
+- **Décision (sponsor)** : aucun décompte ni bouton visible pendant le délai ; le bouton « Ma
+  deuxième chance » apparaît seul à la fin. **Précise D8.**
+- **Livré** : le bouton est présent mais invisible (`visibility:hidden`, `aria-hidden`) et inactif,
+  pour que la page ne bouge pas quand il apparaît ; plus aucun texte de décompte.
+- **Vérifié** : tests (87), contrôle du module, recette automatique 74 OK (bouton invisible et
+  inactif au début, aucun texte de décompte, visible et actif après le délai).
+- **À observer (sponsor)** : lettres perdues ? l'enfant attend-il l'apparition du bouton sans
+  s'impatienter ? À reprendre à la revue d'usage n° 2 (durée des lignes « r », « sauvées »).

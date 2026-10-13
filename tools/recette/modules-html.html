@@ -147,13 +147,14 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   // L'erreur ouvre l'indice en plein écran ; « Ma deuxième chance » ne s'allume qu'après un court délai.
   const couche=d.getElementById('indice'),bc=d.getElementById('indice-ok');
   log(!!couche&&couche.getAttribute('role')==='dialog'&&couche.textContent.includes('indice de Mini')&&d.defaultView.getComputedStyle(couche).position==='fixed','parcours : après l\'erreur, l\'indice de Mini en plein écran');
-  log(!!bc&&bc.disabled&&bc.dataset.act==='pChance'&&d.activeElement!==d.getElementById('rep'),'indice : « Ma deuxième chance » inactif au début, clavier fermé');
+  log(!!bc&&bc.disabled&&bc.style.visibility==='hidden','indice : bouton « Ma deuxième chance » invisible et inactif au début');
+  log(d.activeElement!==d.getElementById('rep')&&!/Je lis/.test(couche.textContent),'indice : clavier fermé, aucun texte de décompte');
   d.getElementById('rep').dispatchEvent(new FocusEvent('focusin',{bubbles:true}));
   d.getElementById('rep').dispatchEvent(new InputEvent('beforeinput',{bubbles:true}));
   log(d.getElementById('rep').value==='zzzz'&&!!d.getElementById('indice'),'indice : toucher le champ pendant le délai ne vide rien et ne ferme pas la couche');
   const t1=Date.now();for(let k=0;k<50&&d.getElementById('indice-ok').disabled;k++)await sleep(200);
   const attente=(Date.now()-t1)/1000;
-  log(!d.getElementById('indice-ok').disabled&&attente>1&&attente<9,'indice : « Ma deuxième chance » s\'allume après un délai court ('+attente.toFixed(1)+' s)');
+  log(!d.getElementById('indice-ok').disabled&&d.getElementById('indice-ok').style.visibility==='visible'&&attente>1&&attente<9,'indice : « Ma deuxième chance » s\'allume après un délai court ('+attente.toFixed(1)+' s)');
   clic(d,'[data-act="pChance"]');
   log(!d.getElementById('indice')&&d.getElementById('rep').value===''&&d.activeElement===d.getElementById('rep')&&d.getElementById('fb').textContent.includes('indice de Mini'),'deuxième chance : couche fermée, champ vidé et au curseur, indice toujours affiché');
   ecrire('zzzz');clic(d,'#ok');
