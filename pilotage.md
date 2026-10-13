@@ -12,7 +12,7 @@ chacun leur fiche dans `plans/` (index : `plans/index.md`). La méthode de trava
 **P012 — Engagement au service de la pédagogie** (`plans/P012-engagement-au-service-de-la-pedagogie.md`).
 L0 (POC visuel) et le **pilote du parcours dans le module Dictée 5** (carte, étoiles, série en
 jeu, choix adaptatif de l'étape) livrés le 12 oct. 2026 et publiés (fusion dans `main` le 13 oct.,
-sur décision du sponsor). En attente de la recette sur l'iPhone et des premières données. Une autre session n'ouvre pas de nouveau plan (sauf un feed-back ou une session module).
+sur décision du sponsor). Retours du 13 oct. : enchaînement après « Valider », puis écran d'indice plein page et correction des lettres perdues en deuxième chance (D8). En attente de la recette sur l'iPhone et des premières données. Une autre session n'ouvre pas de nouveau plan (sauf un feed-back ou une session module).
 
 ---
 
@@ -64,6 +64,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche) | cette semaine |
 | Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert | cette semaine |
 | Recette du parcours Dictée 5 sur l'iPhone, profil « Test » (5 étapes dans la fiche P012), puis laisser le CM1 jouer sur son profil | cette semaine |
+| Recette iPhone de l'écran d'indice (fiche P012, retour du 13 oct. II) : faire une erreur, lire, attendre le décompte, taper « avez » puis « êtes » : les mots restent entiers | dès que tu peux |
 | Exporter les données du CM1 après une semaine de parcours et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes) | vers le 20 oct. |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |

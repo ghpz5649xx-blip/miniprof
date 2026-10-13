@@ -280,6 +280,7 @@ Chaque livraison : recette navigateur verte, fiche mise à jour, recette iPhone 
 | D5 | P009 et P011 deviennent des briques de P012 | 12 oct. 2026 |
 | D7 | Deuxième chance stockée comme ligne « r » du journal ; pilote du parcours dans le seul module Dictée 5 | 12 oct. 2026 |
 | D6 | « La série en jeu » remplace la demi-étoile : jauge remplie seulement au premier coup, gain Fibonacci(série) **plafonné à 8**, deuxième chance qui sauve la série sans rapporter, pas de minuteur | 12 oct. 2026 |
+| D8 | L'indice de la deuxième chance s'affiche **plein écran**, avec un court délai avant « Ma deuxième chance » (3 s + 0,03 s par caractère, au plus 6 s). **Amende D6** (« pas de minuteur ») pour ce seul délai, qui n'est pas un chrono sur la réponse. Pourquoi : l'indice posé sous la question n'était pas lu | 13 oct. 2026 |
 
 ## 11. Questions ouvertes (une à la fois avec le sponsor)
 1. Faut-il commencer par le **POC visuel** (L0, sans risque, rapide à juger) ou par le **calcul des
@@ -457,3 +458,31 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
 - **Recette iPhone (tâche du sponsor)** : sur une question à écrire, taper le bon mot puis
   « Valider » : la question suivante arrive seule, **le clavier reste ouvert** sans clignoter. Si
   le clavier se ferme, le dire : le correctif est à revoir.
+
+## Retour du sponsor, 13 oct. 2026 — (II) lettres perdues et indice plein écran
+- **Constat (export du 13 oct., séance du CM1 sur iPhone)** : sur 13 deuxièmes chances, 4 réponses
+  sont amputées de leurs premières lettres (« vez » pour *avez* ×2, « tes » pour *êtes*,
+  « e »), jamais au premier essai. Le sponsor a aussi observé que l'indice n'est toujours pas lu.
+- **Reproduction** : Chrome (frappe réelle par DevTools, émulation mobile 390 px, 7 variantes :
+  champ resté au focus, touché après fermeture du clavier, accent « êtes » en un coup ou en deux) :
+  **aucune lettre perdue**. Le bug n'apparaît que sur iOS / WebKit. Cause suspecte (non
+  prouvée) : `pChance()` vidait le champ et redonnait le focus pendant la frappe (`pointerdown`,
+  `focusin`, `beforeinput`). La recette automatique (événements synthétiques) ne peut pas le voir.
+- **Décision (sponsor) : D8.** Couche plein écran avec Mini, le pourquoi de l'erreur et l'indice ;
+  « Ma deuxième chance » inactif avec décompte (« Je lis l'indice… 5 ») puis actif.
+- **Livré** (`modules/francais-cm1-dictee-5-avoir-etre.html`) : `ouvrirIndice()` (couche, clavier
+  fermé, délai réglable par trois constantes `DELAI_INDICE_*`) ; `pChance()` n'est plus appelé que par
+  le bouton de la couche (plus de déclenchement par le champ ni par un choix), ce qui supprime le
+  mécanisme suspect. L'indice reste affiché sous la question pendant qu'on réécrit. Journal
+  inchangé (mode « r »). Le mode entraînement libre (« Réessayer ») ne change pas.
+- **Vérifié** : tests (87) ; contrôle du module OK ; recette automatique de l'app au vert, dont 5
+  vérifications de la couche (plein écran, bouton inactif puis actif, toucher le champ ne vide
+  rien, champ vidé et curseur au tap) ; rendu regardé à 390 px, clair et sombre, sans défilement
+  horizontal.
+- **Mesure à la revue d'usage n° 2** : « Deuxième chance » de `tools/analyse.py` (sauvées /
+  tentées, 25 % sur « avoir » avant) ; durée de la ligne « r » ; plus aucun mot amputé.
+- **Recette iPhone (tâche du sponsor)** : faire une erreur sur une question à écrire ; l'écran
+  d'indice couvre la page et le clavier se ferme ; le bouton s'allume après quelques secondes ;
+  taper « avez » puis « êtes » : **les mots restent entiers**. Si une lettre manque encore, le dire.
+- **Pour plus tard** (hors périmètre) : « avoir » niveau 3, sujets coordonnés (« … et toi » =
+  vous) : 8 erreurs sur 26, « ont » tapé à la place ; à traiter à la revue d'usage n° 2.
