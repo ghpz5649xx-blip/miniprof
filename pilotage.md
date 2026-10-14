@@ -35,20 +35,10 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 
 | Sujet | Depuis | Priorité proposée | Fiche ou note |
 |---|---|---|---|
-| Séparer les données déjà mélangées dans un profil (par module) | 11 oct. 2026 | moyenne (P008 est livré) | idée ; voir P008 |
-| Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
+| Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e ; séparer par module les données déjà mélangées dans un profil, si besoin) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **en cours** (L0 et pilote Dictée 5 livrés ; réglages après les premières données) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
-| POC « signalements envoyés à une boîte externe » (canal à sens unique, sans prénom ; lève « aucun tiers » pour ce seul cas s'il est adopté) | 11 oct. 2026 | moyenne, après P003 | idée ; voir `plans/P003-signaler-un-probleme.md` |
 | Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
-| Évaluations rejouées en boucle | 11 oct. 2026 | sans objet si P012 supprime l'évaluation | `plans/P007-evaluations-rejouees.md` |
 | Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |
-| Cacher aux enfants les deux modules CM2 (aucun enfant à ce niveau) | 11 oct. 2026 | basse | idée (réversible) |
-| POC « dictée lue par le téléphone » (synthèse vocale locale) | 11 oct. 2026 | basse | idée |
-| « À revoir aujourd'hui » : révision espacée dans la bibliothèque | 11 oct. 2026 | après 2 revues d'usage | idée |
-| Renommer un profil | 11 oct. 2026 | basse | idée (l'historique est rattaché à l'id, pas au prénom) |
-| Créer un module depuis miniprof, sans Claude Code | 12 oct. 2026 | basse | idée, techniquement difficile sans serveur ; voir P004 |
-| Fiche de contrôle d'un module dans l'app | 6 oct. 2026 | basse | idée (la relecture dans la conversation suffit) |
-| Pipeline sans Claude Code | 6 oct. 2026 | basse | `plans/P004-pipeline-sans-claude-code.md` |
 | Fusion des sauvegardes | 6 oct. 2026 | basse | `plans/P005-fusion-des-sauvegardes.md` |
 
 ---

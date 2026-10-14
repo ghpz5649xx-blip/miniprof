@@ -1,6 +1,6 @@
 # P004 — Un pipeline de création de modules sans Claude Code
 
-- **Statut** : à mûrir (priorité basse, décidé le 6 oct. 2026).
+- **Statut** : abandonné le 14 oct. 2026 (tri du backlog, sur décision du sponsor) : on reste sur Claude Code. Cette fiche absorbe l'idée « créer un module depuis miniprof, sans Claude Code ».
 - **Origine** : demande du sponsor (assessment), 6 oct. 2026.
 
 ## La question
