@@ -63,9 +63,8 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
 | Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche) | cette semaine |
 | Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert | cette semaine |
-| Recette du parcours Dictée 5 sur l'iPhone, profil « Test » (5 étapes dans la fiche P012), puis laisser le CM1 jouer sur son profil | cette semaine |
-| Recette iPhone de l'écran d'indice (fiche P012, retour du 13 oct. II) : faire une erreur, lire, attendre le décompte, taper « avez » puis « êtes » : les mots restent entiers | dès que tu peux |
-| Exporter les données du CM1 après une semaine de parcours et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes) | vers le 20 oct. |
+| Laisser le CM1 (et la 6e) jouer le parcours de Dictée 5 sur leur profil : la recette iPhone est faite (14 oct.) | jusqu'au 19 oct. |
+| Exporter les données des deux profils et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes ; il faut une dizaine de deuxièmes chances par profil après D8) | le 19 oct. |
 | Ajouter le programme de sciences et technologie du cycle 3 (PDF scanné sans texte) : copier le texte avec Aperçu et l'enregistrer en `.md` ; mode d'emploi dans `programmes/README.md`, « Sciences et technologie » (**priorité basse**) | quand tu veux |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |
