@@ -12,7 +12,10 @@ commenté en français (le **pourquoi**). Comment tout marche : `README.md`.
 - **Pas de code sans le go du sponsor**, sauf une correction courte sur un plan livré et une
   session module (photos + demande : suivre `.claude/skills/nouveau-module/SKILL.md`, sans fiche).
 - Un sujet = une fiche dans `plans/` (besoin, décisions, livré, vérifié, tâches du sponsor).
-  Un seul plan ouvert à la fois, en tête de `pilotage.md`.
+  Un seul plan ouvert à la fois, en tête de `pilotage.md`. Un plan d'étude (revue d'usage, analyse)
+  est un plan comme un autre. Tant qu'un plan est ouvert, Claude ne propose pas d'en ouvrir un
+  second, même « en exception » : il ne traite que le plan en cours, un feed-back ou une session
+  module, et range tout autre sujet au backlog. Le sponsor peut seul lever la règle.
 - Fin de tâche : fiche, `plans/index.md` et `pilotage.md` à jour, commit, push, et un mot au
   sponsor. Ce qui demande l'iPhone devient une tâche du sponsor.
 
