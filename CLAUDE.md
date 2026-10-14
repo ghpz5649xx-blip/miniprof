@@ -1,23 +1,17 @@
 # miniprof
 
 App web de révision pour 2 enfants, en français. **Année 2026-2027 : le fils est en CM1, la fille
-en 6e** (niveau par défaut d'un module). Le parent lit le Python, peu le JS : code simple,
-commenté en français (le **pourquoi**). Comment tout marche : `README.md`.
+en 6e** (niveau par défaut d'un module). Comment tout marche : `README.md`.
 
-## Comment on travaille
-- Le parent est le sponsor : il décide. Claude le tutoie, l'appelle par son prénom, « le
-  sponsor » dans le dépôt (public), et pose **une question à la fois**.
-- Début de session : lire `pilotage.md` (plan en cours, backlog, tâches du sponsor). Un sujet
-  passé : `plans/index.md`, puis sa seule fiche.
-- **Pas de code sans le go du sponsor**, sauf une correction courte sur un plan livré et une
-  session module (photos + demande : suivre `.claude/skills/nouveau-module/SKILL.md`, sans fiche).
-- Un sujet = une fiche dans `plans/` (besoin, décisions, livré, vérifié, tâches du sponsor).
-  Un seul plan ouvert à la fois, en tête de `pilotage.md`. Un plan d'étude (revue d'usage, analyse)
-  est un plan comme un autre. Tant qu'un plan est ouvert, Claude ne propose pas d'en ouvrir un
-  second, même « en exception » : il ne traite que le plan en cours, un feed-back ou une session
-  module, et range tout autre sujet au backlog. Le sponsor peut seul lever la règle.
-- Fin de tâche : fiche, `plans/index.md` et `pilotage.md` à jour, commit, push, et un mot au
-  sponsor. Ce qui demande l'iPhone devient une tâche du sponsor.
+Les règles générales de travail (rôles, plans, go avant de coder, git, livraison) sont dans le
+`CLAUDE.md` global du sponsor. Ci-dessous, ce qui est propre à ce dépôt.
+
+## Particularités de l'organisation
+- Fichier de pilotage : `pilotage.md` (plan en cours, backlog, tâches du sponsor). Fiches des
+  plans : `plans/`, index dans `plans/index.md`.
+- **Exception au « go avant de coder » : la session module.** Photos + demande : suivre
+  `.claude/skills/nouveau-module/SKILL.md`, sans fiche.
+- Ce qui demande l'iPhone devient une tâche du sponsor.
 
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework, de
@@ -29,7 +23,7 @@ commenté en français (le **pourquoi**). Comment tout marche : `README.md`.
 - **Données des enfants** (`localStorage`, clés `miniprof.v1.*`) : ne jamais les casser ; tout
   changement de format = nouvelle clé ou migration, avec un test. Un push arrive directement
   sur leurs appareils.
-- **Vie privée** : jamais de photo, de prénom réel ni d'export dans le dépôt.
+- **Vie privée** : dépôt public. Jamais de photo, de prénom réel ni d'export dans le dépôt.
 
 ## Repères
 - L'app : `index.html`, `js/`. Les modules : `modules/` (`index.json` est généré). Le schéma :
@@ -48,11 +42,5 @@ python tools/recette_navigateur.py            # recette auto de l'app
 `python` introuvable : `python3`. Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push
 sur `main` publie en une minute).
 
-## Règles de travail
-- Avant de pousser du code ou un module : tests verts. S'ils échouent, on ne pousse pas.
-- `git pull --rebase origin main` avant chaque push ; en cas de conflit, s'arrêter et demander.
-- **S'arrêter et demander** sur un point non tranché : contrainte ci-dessus, choix visible par
-  les enfants, format de stockage, contenu d'un module.
-- Un problème après un push : `git revert`, push, puis analyse.
-- Ids stables (module, compétence, question) : ne jamais renuméroter.
-- Non testé, à vérifier à la main : `tools/analyse.py` ≡ `js/events.js` et `js/stats.js`.
+## À vérifier à la main (non testé)
+- `tools/analyse.py` ≡ `js/events.js` et `js/stats.js`.
