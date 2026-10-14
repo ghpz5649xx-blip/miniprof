@@ -122,7 +122,7 @@ production et support. **Le parent** est sponsor et client : il décide.
   fiche par plan (besoin, décisions, livré, vérifié, feed-back), avec un index.
 - Créer ou corriger un module est une session courte : les photos servent de plan, Claude
   exécute avec `/nouveau-module`, le sponsor relit puis valide.
-- Le détail est dans `CLAUDE.md`, « Gouvernance ».
+- Le détail est dans `CLAUDE.md`, « Comment on travaille ».
 
 ---
 
@@ -249,7 +249,7 @@ pas lire les fichiers de modules.
 |---|---|
 | `pilotage.md` | plan en cours, backlog, tâches du sponsor |
 | `plans/` | une fiche par plan et un index (`plans/index.md`) |
-| `CLAUDE.md` | règles du dépôt pour Claude : gouvernance, contraintes, commandes, conventions |
+| `CLAUDE.md` | règles du dépôt pour Claude : méthode de travail, contraintes, commandes |
 | `index.html`, `css/`, `js/` | l'app |
 | `modules/` | les modules, `index.json` (généré), `brouillons.json` |
 | `schema/module.schema.json` | le format des modules JSON (source de vérité) |
@@ -284,7 +284,7 @@ l'historique Git (les plans finis y restent lisibles).
 - **Ne jamais changer un id** (module, compétence, question) : l'historique y est rattaché.
 - **Pas d'`innerHTML` avec du texte de module dans l'app** (`test_sync.py` le vérifie) ; les pages
   HTML passent `check_html.py`.
-- **Règles à garder synchronisées** entre Python et JavaScript : liste dans `CLAUDE.md`.
+- **Règles à garder synchronisées** entre Python et JavaScript : elles sont vérifiées par `tools/tests/test_sync.py`.
 
 ### Format d'un module JSON, en bref
 

@@ -3,7 +3,7 @@
 L'état du projet en un coup d'œil : le plan en cours, le backlog actif et les tâches du
 sponsor. Claude le tient à jour à la fin de chaque session. Les plans passés et à mûrir ont
 chacun leur fiche dans `plans/` (index : `plans/index.md`). La méthode de travail est dans
-`CLAUDE.md`, « Gouvernance ».
+`CLAUDE.md`, « Comment on travaille ».
 
 ---
 
