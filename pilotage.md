@@ -12,7 +12,7 @@ chacun leur fiche dans `plans/` (index : `plans/index.md`). La méthode de trava
 **P012 — Engagement au service de la pédagogie** (`plans/P012-engagement-au-service-de-la-pedagogie.md`).
 L0 (POC visuel) et le **pilote du parcours dans le module Dictée 5** (carte, étoiles, série en
 jeu, choix adaptatif de l'étape) livrés le 12 oct. 2026 et publiés (fusion dans `main` le 13 oct.,
-sur décision du sponsor). Retours du 13 oct. : enchaînement après « Valider », puis écran d'indice plein page et correction des lettres perdues en deuxième chance (D8). En attente de la recette sur l'iPhone et des premières données. Une autre session n'ouvre pas de nouveau plan (sauf un feed-back ou une session module).
+sur décision du sponsor). Retours du 13 oct. : enchaînement après « Valider », puis écran d'indice plein page et correction des lettres perdues en deuxième chance (D8). Recette iPhone du pilote faite le 14 oct. 2026, sans défaut. En attente des premières données d'usage. Une autre session n'ouvre pas de nouveau plan (sauf un feed-back ou une session module).
 
 ---
 

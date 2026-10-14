@@ -499,3 +499,11 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
   inactif au début, aucun texte de décompte, visible et actif après le délai).
 - **À observer (sponsor)** : lettres perdues ? l'enfant attend-il l'apparition du bouton sans
   s'impatienter ? À reprendre à la revue d'usage n° 2 (durée des lignes « r », « sauvées »).
+
+## Recette iPhone du sponsor, 14 oct. 2026 — tout est bon
+- **Résultat (sponsor)** : la recette iPhone du pilote (Dictée 5) est faite, **aucun défaut**.
+  Couvre les trois retours du 13 oct. : (I) le clavier reste ouvert après « Valider » ;
+  (II) les mots restent entiers (« avez », « êtes ») ; (III) l'écran d'indice plein page, le
+  bouton « Ma deuxième chance » apparaissant seul à la fin du délai.
+- **Reste à observer** : l'usage réel sur une durée plus longue (lettres perdues, indice lu ou
+  non) ; mesures à la revue d'usage n° 2 (« Deuxième chance » de `tools/analyse.py`).
