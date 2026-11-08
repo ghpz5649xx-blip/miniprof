@@ -47,7 +47,6 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 
 | Tâche | Échéance |
 |---|---|
-| Relire puis valider « Les verbes du 2e groupe au présent » (CM1) : https://ghpz5649xx-blip.github.io/miniprof/modules/francais-cm1-verbes-2e-groupe-present.html (réponds « valide francais-cm1-verbes-2e-groupe-present ») | avant de l'envoyer à ton fils |
 | Sur l'appareil du CM1 : créer un profil « Test » pour tes essais ; l'enfant garde le profil actuel (son historique y est) | avant ton prochain essai de module |
 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | cette semaine |
 | Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | avant la prochaine dictée |
