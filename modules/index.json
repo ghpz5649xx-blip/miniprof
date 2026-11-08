@@ -102,6 +102,34 @@
       ]
     },
     {
+      "id": "francais-cm1-verbes-2e-groupe-present",
+      "kind": "html",
+      "file": "francais-cm1-verbes-2e-groupe-present.html",
+      "title": "Les verbes du 2e groupe au présent",
+      "subject": "francais",
+      "level": "CM1",
+      "description": "Reconnaître un verbe du 2e groupe (finir, choisir…), trouver son infinitif et le conjuguer au présent de l'indicatif.",
+      "skills": [
+        {
+          "id": "reconnaitre",
+          "label": "Reconnaître un verbe du 2e groupe"
+        },
+        {
+          "id": "infinitif",
+          "label": "Trouver l'infinitif"
+        },
+        {
+          "id": "conjuguer",
+          "label": "Conjuguer au présent"
+        },
+        {
+          "id": "phrases",
+          "label": "Accorder le verbe dans une phrase"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "francais-6e-le-verbe",
       "kind": "html",
       "file": "francais-6e-le-verbe.html",

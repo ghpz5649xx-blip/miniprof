@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les verbes du 2e groupe – Réviser, s'entraîner, s'évaluer</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "francais-cm1-verbes-2e-groupe-present",
+  "title": "Les verbes du 2e groupe au présent",
+  "subject": "francais",
+  "level": "CM1",
+  "description": "Reconnaître un verbe du 2e groupe (finir, choisir…), trouver son infinitif et le conjuguer au présent de l'indicatif.",
+  "skills": [
+    {"id": "reconnaitre", "label": "Reconnaître un verbe du 2e groupe"},
+    {"id": "infinitif", "label": "Trouver l'infinitif"},
+    {"id": "conjuguer", "label": "Conjuguer au présent"},
+    {"id": "phrases", "label": "Accorder le verbe dans une phrase"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#2f5fc4; --pitch-ink:#ffffff; --stripe1:#2a54ad; --stripe2:#2f5fc4;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.5rem;font-weight:800}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+#ok[hidden]{display:inline-block;visibility:hidden}
+.qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
+/* « Une erreur ? » : large, discret (pointillé gris), tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+.qwrap .sigbar{margin-top:auto;padding-top:28px}
+.sigbtn{width:100%;background:transparent;border:2px dashed var(--muted);color:var(--muted)}
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.acts{display:contents}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+// n éléments distincts de la liste, sans celui à exclure
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question : prompt et libellés en HTML écrit dans ce script (sinon passer par esc()).
+// choices : liste de C(valeur, libellé, pourquoi c'est faux) ; correct : la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15) : l'enfant tape sa réponse au lieu de la choisir.
+// Pourquoi : pour l'orthographe et la conjugaison, reconnaître le bon mot parmi des choix ne
+// suffit pas, il faut l'écrire (« son » au lieu de « sont » a résisté à un module en QCM).
+// ok : réponses acceptées (la première est montrée en correction) ; erreurs : {faute prévue : pourquoi}.
+// Correction stricte sur les lettres, les accents, le trait d'union ; souple sur les majuscules,
+// les espaces en trop et la forme de l'apostrophe (’ ou ').
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe. Relis ton mot lettre par lettre.'};
+}
+
+/* ================= CONTENU : données de la leçon ================= */
+// Verbes du 2e groupe (infinitif en -ir, « nous … -issons »). Le radical = l'infinitif sans -ir.
+const V2=["finir","choisir","grandir","réussir","grossir","maigrir","rougir","bondir","remplir","applaudir","obéir","punir","ralentir","réfléchir","jaunir","pâlir","guérir","agir","bâtir"];
+const radical=inf=>inf.slice(0,-2);
+// Verbes en -ir qui ne sont PAS du 2e groupe : [infinitif, « nous » au présent, « ils » au présent]
+const NON2=[["partir","partons","partent"],["ouvrir","ouvrons","ouvrent"],["dormir","dormons","dorment"],["courir","courons","courent"],["sortir","sortons","sortent"],["sentir","sentons","sentent"],["venir","venons","viennent"],["tenir","tenons","tiennent"]];
+const AUTRES=["chanter","jouer","prendre","vendre","manger","regarder","voir"];
+// Formes « ils » de verbes qui ne sont pas du 2e groupe : [forme, infinitif]
+const ILS_AUTRES=[["ils chantent","chanter"],["ils prennent","prendre"],["ils jouent","jouer"],["ils vendent","vendre"],["ils mangent","manger"]];
+// Terminaisons au présent des verbes du 2e groupe
+const PERS={je:'is',tu:'is',il:'it',elle:'it',on:'it',nous:'issons',vous:'issez',ils:'issent',elles:'issent'};
+const TOUTES=['is','it','issons','issez','issent'];
+// Quelles personnes à quel niveau : le singulier, puis le pluriel, puis tout (avec j' et on)
+const PERSONNES={1:['je','tu','il','elle'],2:['nous','vous','ils','elles'],3:['je','tu','on','nous','vous','elles']};
+// Phrases à compléter : [sujet, infinitif, suite, personne, remarque]
+const PH1=[
+  ["Ma sœur","grandir","vite.","il"],["Le boulanger","remplir","les paniers de pain.","il"],
+  ["Le chien","obéir","à son maître.","il"],["La fillette","rougir","de timidité.","il"],
+  ["Le cuisinier","choisir","les légumes.","il"],["Mon frère","maigrir","depuis l'été.","il"]
+];
+const PH2=[
+  ["Les enfants","grandir","vite.","ils"],["Les spectateurs","applaudir","les artistes.","ils"],
+  ["Mes parents","choisir","un cadeau.","ils"],["Les élèves","réussir","leur dictée.","ils"],
+  ["Les coureurs","ralentir","dans la côte.","ils"],["Nous","finir","nos devoirs.","nous"],
+  ["Vous","remplir","la fiche.","vous"],["Les feuilles","jaunir","en automne.","ils"]
+];
+const PH3=[
+  ["Les enfants de ma classe","finir","leur travail.","ils","Le sujet est « Les enfants » (pluriel), pas « classe »."],
+  ["Le chef des pompiers","réfléchir","avant d'agir.","il","Le sujet est « Le chef » (singulier), pas « pompiers »."],
+  ["Ma sœur et moi","choisir","un jeu.","nous","« Ma sœur et moi » : on peut dire « nous »."],
+  ["Mon frère et ma sœur","grandir","vite.","ils","Deux personnes : on peut dire « ils » (pluriel)."],
+  ["Toi et tes amis","réussir","toujours.","vous","« Toi et tes amis » : on peut dire « vous »."],
+  ["Le chien et le chat","grossir","trop.","ils","Deux animaux : on peut dire « ils » (pluriel)."],
+  ["Les voisins du dessous","applaudir","le spectacle.","ils","Le sujet est « Les voisins » (pluriel), pas « dessous »."]
+];
+
+/* ================= CONTENU : un générateur par compétence ================= */
+// « je » devient « j' » devant une voyelle
+function sujet(p,inf){return p==='je'&&/^[aeiouyâéèê]/i.test(inf)?"j'":p;}
+const joindre=(s,forme)=>s.endsWith("'")?s+forme:s+' '+forme;
+// Fautes prévues quand on écrit la forme conjuguée : une mauvaise terminaison, ou un seul s au pluriel
+function fautes(rad,p){
+  const t=PERS[p],e={};
+  TOUTES.forEach(x=>{if(x!==t)e[rad+x]=`« ${rad+x} » ne va pas avec « ${p} » : la terminaison est <b>-${t}</b>.`;});
+  if(t.length>2)['isons','isez','isent'].forEach(x=>{e[rad+x]=`Au pluriel, il y a <b>-iss-</b> : deux s, comme dans « ${rad}${t} ».`;});
+  e[rad+'i']=`Il manque la terminaison : avec « ${p} », c'est <b>-${t}</b>.`;
+  return e;
+}
+const HINT_TABLE=rad=>`<p>Le radical est <b>${rad}-</b>. Au singulier : -is, -is, -it. Au pluriel : -issons, -issez, -issent.</p>`;
+
+// 1. Reconnaître un verbe du 2e groupe
+function genReconnaitre(level){
+  if(level<3){
+    const inf=pick(V2),nous=radical(inf)+'issons';
+    const non=level===1?[]:others(NON2,null,2);
+    const autres=others(AUTRES,null,3-non.length);
+    const choix=[C(inf,inf)]
+      .concat(non.map(n=>C(n[0],n[0],`« ${n[0]} » se termine en -ir, mais « nous ${n[1]} » n'est pas en -issons : c'est un verbe du 3e groupe.`)))
+      .concat(autres.map(a=>C(a,a,`« ${a} » ne se termine pas en -ir : ce n'est pas un verbe du 2e groupe.`)));
+    return Q('reconnaitre',level,`Quel verbe est du 2e groupe ?`,choix,inf,
+      `<p>Il se termine en -ir et fait <b>-issons</b> avec « nous ».</p>`,
+      `<p><b>${inf}</b> : l'infinitif se termine en -ir et « nous ${nous} » est en -issons : c'est un verbe du <b>2e groupe</b>.</p>`);
+  }
+  if(Math.random()<.4){
+    return Q('reconnaitre',3,`Pour savoir si un verbe en -ir est du 2e groupe, que fait-on ?`,[
+      C('nous','On le conjugue avec <i>nous</i> : si on trouve <b>-issons</b>, c\'est le 2e groupe'),
+      C('tous','On sait que tous les verbes en -ir sont du 2e groupe','Non : <i>partir</i> (nous partons), <i>courir</i> (nous courons) sont du 3e groupe.'),
+      C('lettre','On regarde la première lettre du verbe','La première lettre ne dit rien du groupe.')
+    ],'nous',`<p>Un verbe en -ir n'est pas toujours du 2e groupe. Quel test sépare <i>finir</i> de <i>partir</i> ?</p>`,
+      `<p>On conjugue avec <i>nous</i> : <i>nous finissons</i> (-issons : 2e groupe), mais <i>nous partons</i> (3e groupe).</p>`);
+  }
+  const inf=pick(V2),bonne=`ils ${radical(inf)}issent`;
+  const non=others(NON2,null,2),autre=pick(ILS_AUTRES);
+  const choix=[C(bonne,bonne)]
+    .concat(non.map(n=>{const f=`ils ${n[2]}`;return C(f,f,`« ${f} » : c'est le verbe <b>${n[0]}</b> (nous ${n[1]}, pas -issons) : 3e groupe.`);}))
+    .concat([C(autre[0],autre[0],`« ${autre[0]} » : c'est le verbe <b>${autre[1]}</b>, qui ne se termine pas en -ir.`)]);
+  return Q('reconnaitre',3,`Laquelle de ces formes est un verbe du 2e groupe ?`,choix,bonne,
+    `<p>Les verbes du 2e groupe ont <b>-issent</b> avec « ils ».</p>`,
+    `<p><b>${bonne}</b> : c'est le verbe <b>${inf}</b> (nous ${radical(inf)}issons), du 2e groupe.</p>`);
+}
+
+// 2. Trouver l'infinitif (à écrire)
+function genInfinitif(level){
+  const inf=pick(V2),rad=radical(inf),p=pick(PERSONNES[level]),t=PERS[p];
+  const form=joindre(sujet(p,inf),rad+t);
+  const err={};
+  err[rad+t]=`C'est la forme conjuguée. Il faut écrire l'<b>infinitif</b>, qui se termine par -ir.`;
+  err[rad+'issir']=`<b>-iss-</b> n'est pas dans l'infinitif, seulement dans certaines formes conjuguées. L'infinitif est <b>${inf}</b>.`;
+  err[rad+'i']=`Il manque le <b>r</b> de la terminaison -ir.`;
+  err[rad+'er']=`Ce verbe n'est pas du 1er groupe : l'infinitif se termine par <b>-ir</b>.`;
+  return W('infinitif',level,`Écris l'infinitif du verbe : <span class="big">« ${form} »</span>`,[inf],err,
+    `<p>Garde le radical <b>${rad}-</b> et mets la terminaison <b>-ir</b>.</p>`,
+    `<p><b>${form}</b> → <b>${inf}</b> (radical ${rad}- + -ir).</p>`);
+}
+
+// 3. Conjuguer au présent (à écrire)
+function genConjuguer(level){
+  const inf=pick(V2),rad=radical(inf),p=pick(PERSONNES[level]),t=PERS[p],s=sujet(p,inf),form=rad+t;
+  return W('conjuguer',level,`Conjugue au présent : <span class="big">${s} ___ (${inf})</span>`,[form,joindre(s,form)],fautes(rad,p),
+    HINT_TABLE(rad),
+    `<p><b>${joindre(s,form)}</b> : radical <b>${rad}-</b> + terminaison <b>-${t}</b>.</p>`);
+}
+
+// 4. Accorder le verbe dans une phrase (à écrire)
+function genPhrases(level){
+  const [suj,inf,suite,p,note]=pick(level===1?PH1:level===2?PH2:PH3);
+  const rad=radical(inf),t=PERS[p],form=rad+t;
+  return W('phrases',level,`Écris le verbe au présent : <span class="big">${suj} ___ (${inf}) ${suite}</span>`,[form],fautes(rad,p),
+    `<p>Trouve le sujet, puis remplace-le par <i>il</i>, <i>ils</i>, <i>nous</i> ou <i>vous</i>.</p>`+HINT_TABLE(rad),
+    `<p><b>${suj} ${form} ${suite}</b> ${note?note+' ':''}Le sujet se remplace par « ${p} » : terminaison <b>-${t}</b>.</p>`);
+}
+
+// Clés = ids des compétences de la fiche (même ordre).
+const SKILLS={
+  'reconnaitre':{label:'Reconnaître un verbe du 2e groupe'},
+  'infinitif':{label:"Trouver l'infinitif"},
+  'conjuguer':{label:'Conjuguer au présent'},
+  'phrases':{label:'Accorder le verbe dans une phrase'}
+};
+const GEN={'reconnaitre':genReconnaitre,'infinitif':genInfinitif,'conjuguer':genConjuguer,'phrases':genPhrases};
+const LEVELS={1:{t:'Échauffement',d:'je, tu, il, elle'},2:{t:'Entraînement',d:'nous, vous, ils, elles'},3:{t:'Défi',d:'tous les pièges'}};
+const EVAL_SKILLS=['reconnaitre','reconnaitre','infinitif','infinitif','conjuguer','conjuguer','conjuguer','phrases','phrases','phrases'];
+const CHEER=['Bravo !','Bien joué !','Exact !','Parfait !'];
+
+/* ================= CONTENU : fiches Apprendre ================= */
+const LEARN=[
+  {t:'Reconnaître un verbe du 2e groupe',body:()=>`<p>Les verbes du <b>2e groupe</b> ont un infinitif en <b>-ir</b> et font <b>-issons</b> avec « nous ».</p>
+    <div class="rulebox">finir → nous fin<b>issons</b> : 2e groupe</div>
+    <p>Attention : tous les verbes en -ir ne sont pas du 2e groupe.</p>
+    <div class="rulebox">partir → nous partons : 3e groupe</div>`,
+   q:{p:'Quel verbe est du 2e groupe ?',c:[C('choisir','choisir'),C('courir','courir','« nous courons » n\'est pas en -issons : 3e groupe.'),C('chanter','chanter','Il se termine en -er : 1er groupe.')],ok:'choisir'}},
+  {t:'Les terminaisons au présent',body:()=>`<p>On ajoute les terminaisons au <b>radical</b> (l'infinitif sans -ir).</p>
+    <div class="rulebox"><b>finir</b> (radical fin-)<br>je fin<b>is</b> · tu fin<b>is</b> · il, elle, on fin<b>it</b><br>nous fin<b>issons</b> · vous fin<b>issez</b> · ils, elles fin<b>issent</b></div>`,
+   q:{p:'Tu ___ (finir) ton travail.',c:[C('finis','finis'),C('finit','finit','Avec « tu », la terminaison est -is.'),C('finise','finise','Cette forme n\'existe pas : avec « tu », c\'est -is.')],ok:'finis'}},
+  {t:'Au pluriel : -iss-',body:()=>`<p>Au pluriel, le radical s'allonge : on ajoute <b>-iss-</b> (deux s) avant la terminaison.</p>
+    <div class="rulebox">nous chois<b>iss</b>ons · vous chois<b>iss</b>ez · ils chois<b>iss</b>ent</div>
+    <p>Le verbe s'accorde avec son <b>sujet</b> : « Les enfants grand<b>issent</b> vite. »</p>`,
+   q:{p:'Les élèves ___ (réussir) leur dictée.',c:[C('réussissent','réussissent'),C('réussisent','réussisent','Au pluriel, il y a deux s : -iss-.'),C('réussit','réussit','« Les élèves » est pluriel : on écrit -issent.')],ok:'réussissent'}},
+  {t:'À retenir',recap:true,body:()=>`<p>• 2e groupe : infinitif en <b>-ir</b> et <b>-issons</b> avec « nous » (finir, choisir, grandir…).</p>
+    <p>• Singulier : <b>-is, -is, -it</b>.</p>
+    <p>• Pluriel : <b>-issons, -issez, -issent</b>.</p>
+    <p>• On cherche le sujet pour accorder le verbe.</p>`}
+];
+const LEARN_COUNT=LEARN.length-1;
+
+/* ================= CONTENU : accueil ================= */
+function home(){
+  S={screen:'home'};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Les verbes du 2e groupe</h1>
+      <p>Au présent de l'indicatif : révise, puis teste-toi.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="menu">
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en ${LEARN_COUNT} fiche${LEARN_COUNT>1?'s':''} courte${LEARN_COUNT>1?'s':''}, avec une question à chaque fois</span></button>
+        <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
+        <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>${EVAL_SKILLS.length} questions, sans aide, avec une note à la fin</span></button>
+        <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
+      </div>
+    </main>`);
+}
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+function record(q,ok,rep){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
+}
+function genQuestion(skill,level){
+  if(!skill||skill==='all')skill=pick(Object.keys(GEN));
+  return GEN[skill](level);
+}
+const LVL=Object.keys(LEVELS).map(Number);
+const MAXL=LVL[LVL.length-1];
+
+let S={screen:'home'};
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : Apprendre ================= */
+function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
+function renderLearn(){
+  const st=LEARN[S.ls];let body;
+  if(st.recap){
+    body=`<div class="card">${st.body()}</div>
+      <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
+  }else{
+    const q=st.q;
+    body=`${st.body()}<div class="card"><p class="q-prompt"><b>À toi :</b> ${q.p}</p>
+      <div class="choices">${shuffle(q.c.slice()).map(c=>`<button class="choice" data-act="lchoose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div><div id="lfb"></div></div>
+      <div class="btns" id="lacts"></div>`;
+  }
+  show(`${topbar('Apprendre')}<main class="wrap"><p class="small">Fiche ${S.ls+1} sur ${LEARN.length}</p><div class="dots" aria-hidden="true">${LEARN.map((x,i)=>`<i class="${i<S.ls?'done':i===S.ls?'cur':''}"></i>`).join('')}</div><h2>${st.t}</h2><div style="margin-top:8px">${body}</div></main>`);
+}
+function learnChoose(el){
+  const q=LEARN[S.ls].q,v=el.dataset.v,fb=document.getElementById('lfb');
+  if(v===q.ok){
+    app.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.classList.add('locked');});
+    el.classList.add('good');
+    fb.innerHTML=`<div class="fb good"><p><b>${pick(CHEER)}</b></p></div>`;
+    document.getElementById('lacts').innerHTML=`<button class="btn primary" data-act="lnext" data-primary>${S.ls<LEARN.length-2?'Fiche suivante':'Terminer'}</button>`;
+  }else{
+    el.classList.add('bad');el.disabled=true;
+    fb.innerHTML=`<div class="fb hint"><p><b>Pas tout à fait.</b> ${q.c.find(c=>c.v===v).why}</p></div>`;
+  }
+}
+
+/* ================= MOTEUR : entraînement / évaluation ================= */
+function levelChips(sel,mix){
+  let s='<div class="chips">';
+  if(mix)s+=`<button class="chip ${sel===0?'on':''}" data-act="lvl" data-v="0">Mixte<small>un peu de tout</small></button>`;
+  for(const i of LVL)s+=`<button class="chip ${sel===i?'on':''}" data-act="lvl" data-v="${i}">${LEVELS[i].t}<small>${LEVELS[i].d}</small></button>`;
+  return s+'</div>';
+}
+function skillChips(sel){
+  let s=`<div class="chips"><button class="chip ${sel==='all'?'on':''}" data-act="sk" data-v="all">Tout mélangé</button>`;
+  for(const k in SKILLS)s+=`<button class="chip ${sel===k?'on':''}" data-act="sk" data-v="${k}">${SKILLS[k].label}</button>`;
+  return s+'</div>';
+}
+function trainSetup(keep){
+  if(!keep||S.screen!=='trainSetup')S={screen:'trainSetup',level:S.level||1,skill:S.skillPref||'all'};
+  show(`${topbar("S'entraîner")}<main class="wrap">
+    <h2>Choisis ton niveau</h2>${levelChips(S.level,false)}
+    <h2>Que veux-tu travailler ?</h2>${skillChips(S.skill)}
+    <div class="btns"><button class="btn primary" data-act="trainStart" data-primary>Commencer</button></div></main>`);
+}
+function evalSetup(keep){
+  if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
+  show(`${topbar('Évaluation')}<main class="wrap">
+    <h2>On passe à l'évaluation ?</h2>
+    <p>${EVAL_SKILLS.length} questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
+    <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
+    <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
+}
+const hasPic=q=>q.choices.some(c=>String(c.label).indexOf('<svg')>=0);
+function qScreen(){
+  const q=S.q,ev=S.mode==='eval';
+  let head;
+  if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
+    head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
+  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
+    ${head}
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      ${q.write
+        // clavier de l'iPhone sans suggestions ni correction automatique : l'enfant écrit seul
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
+}
+/* ================= MOTEUR : signaler un problème ================= */
+// Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
+// copie de la question (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+// Pourquoi une copie : les questions sont tirées au hasard, sans identifiant à retrouver ensuite.
+const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
+function sigAsk(){
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
+    <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
+}
+function sigYes(){
+  const q=S.q||{},ch=q.choices||[],zone=document.getElementById('sig');
+  const lab=v=>{const c=ch.find(c=>c.v===v);return c?(txt(c.label)||'(image)'):'';};
+  const champ=document.getElementById('rep');
+  const att=q.write?String(q.write.ok[0]):(q.exp&&q.exp.c!==undefined?lab(q.exp.c):'');
+  const id=window.miniprof?window.miniprof.signaler({enonce:txt(q.prompt),choix:ch.map(c=>txt(c.label)||'(image)'),
+    attendue:att,reponse:champ?champ.value:(S.choice?lab(S.choice):'')}):null;
+  zone.innerHTML=id
+    ?`<div class="fb good"><p><b>Merci !</b> Un adulte va vérifier cette question.</p>
+      <div style="margin:10px 0"><input id="sigtxt" style="width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)" type="text" maxlength="300" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Tu veux dire pourquoi ?" placeholder="Tu veux dire pourquoi ? (facultatif)"></div>
+      <div class="btns"><button class="btn" data-act="sigsend" data-id="${esc(id)}">Envoyer</button></div></div>`
+    :`<div class="fb bad"><p>Le signalement n'a pas pu être enregistré.</p></div>`;
+}
+function sigSend(el){
+  const t=document.getElementById('sigtxt'),zone=document.getElementById('sig');
+  if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
+  zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
+}
+// Boutons de la question (P010, 12/10/2026). « Valider » n'apparaît que lorsque l'élève a proposé
+// une réponse (mot tapé, choix, dessin non vide). Après une erreur, « Réessayer » efface sa
+// proposition ; « Valider » revient (caché) tant qu'il n'a rien reproposé.
+function aReponse(){
+  if(S.q&&S.q.draw)return Object.keys(S.grid||{}).length>0;
+  const i=document.getElementById('rep');
+  return i?!!norm(i.value):!!S.choice;
+}
+function majValider(){const b=document.getElementById('ok');if(b)b.hidden=!aReponse();}
+function boutons(){
+  const ev=S.mode==='eval',last=ev&&S.i===S.total-1;
+  const aide=ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'+(S.attempts>0?'<button class="btn ghost" data-act="reveal">Voir la correction</button>':'');
+  const principal=S.retry
+    ?'<button class="btn primary" data-act="retry" data-primary>Réessayer</button>'
+    :`<button class="btn primary" id="ok" data-act="check" data-primary hidden>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>`;
+  document.getElementById('acts').innerHTML=principal+aide;
+  majValider();
+}
+// L'élève propose (ou modifie) une réponse : si « Réessayer » attendait, « Valider » reprend sa place.
+function surProposition(){if(S.retry){S.retry=false;boutons();}else majValider();}
+function reessayer(){
+  S.retry=false;S.choice=null;
+  const i=document.getElementById('rep');
+  if(i){i.value='';i.focus();}
+  // QCM : la réponse fausse repasse en neutre (elle était rouge et grisée)
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.remove('sel','bad');c.disabled=false;});
+  boutons();
+}
+function setFb(html){document.getElementById('fb').innerHTML=html;}
+function lockChoices(){
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(S.q.write&&judgeWrite(S.q,inp.value).ok?'good':'bad');}
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
+}
+// la réponse tapée (question à écrire), coupée à 60 caractères pour le journal
+function lireEcrit(){const i=document.getElementById('rep');return i?i.value.slice(0,60):'';}
+function checkTrain(){
+  let v=null;
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse.</div>');return;}v=judgeWrite(S.q,S.choice);}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  const q=S.q;S.attempts++;
+  const ok=v?v.ok:S.choice===q.exp.c;
+  // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
+  if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
+  if(ok){
+    lockChoices();
+    let extra='';
+    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
+  }else if(S.attempts===1||(v&&S.attempts<3)){
+    // une question à écrire laisse 3 essais : l'enfant corrige son mot lui-même
+    const c=v?null:q.choices.find(c=>c.v===S.choice);
+    const why=v?v.why+'<br><span class="small">Appuie sur « Réessayer » ou touche le champ, puis écris ta réponse à nouveau.</span>':(c&&c.why?c.why:'Relis la question et réessaie.');
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${why}</p></div>`);
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    S.choice=null;
+    S.retry=true;boutons();
+  }else revealTrain();
+}
+function revealTrain(){
+  if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
+  lockChoices();
+  setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
+}
+function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
+
+// Une évaluation ne pose jamais deux fois la même question : on retire une question déjà
+// sortie (jusqu'à 30 essais, au cas où une compétence aurait peu de questions).
+// Signalé par le sponsor le 12/10/2026 (la même question deux fois dans une évaluation).
+function tirerSansDoublon(skills,niveau){
+  const vus=new Set();
+  // même question = même énoncé ET mêmes choix (un énoncé comme « Lequel est l'intrus ? » revient
+  // légitimement avec d'autres mots)
+  const cle=q=>q.prompt+'|'+(q.choices||[]).map(c=>c.v).sort().join(',')+'|'+q.exp.c;
+  return skills.map((s,i)=>{let q,n=0;do{q=genQuestion(s,niveau(i));n++;}while(vus.has(cle(q))&&n<30);vus.add(cle(q));return q;});
+}
+function evalStart(){
+  const lvl=S.level;
+  // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
+  const qs=tirerSansDoublon(shuffle(EVAL_SKILLS.slice()),i=>lvl===0?LVL[i%LVL.length]:lvl);
+  S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
+    cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
+  S.q=qs[0];qScreen();
+}
+function checkEval(){
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse avant de continuer.</div>');return;}}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.q.write?judgeWrite(S.q,S.choice).ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  S.i++;
+  if(S.i>=S.total){evalEnd();return;}
+  S.q=S.qs[S.i];qScreen();
+}
+const lblOf=(q,v)=>{if(q.write)return esc(v);const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+function evalEnd(){
+  const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
+  const duree=Math.round((Date.now()-S.t0)/1000);
+  const sk={};
+  res.forEach(r=>{const s=sk[r.q.skill]||(sk[r.q.skill]=[0,0]);s[1]++;if(r.ok)s[0]++;});
+  // l'évaluation est enregistrée d'un bloc à la fin : abandonnée au milieu, elle ne compte pas
+  if(window.miniprof)window.miniprof.reponse(res.map(r=>({competence:r.q.skill,juste:r.ok,mode:'v',difficulte:r.q.level,
+    question:r.q.skill,reponse:r.ans,duree:r.duree,evaluation:S.cle})));
+  let weakest=null,wp=2;for(const k in sk){const p=sk[k][0]/sk[k][1];if(p<wp){wp=p;weakest=k;}}
+  const pc=score/total;
+  const msg=pc>=.9?"Excellent ! Tu maîtrises ta leçon.":pc>=.7?"Très bien ! Il ne reste que quelques détails à revoir.":pc>=.5?"Bon début. Regarde les corrections, puis entraîne-toi encore un peu.":"Pas de panique : relis les fiches Apprendre, puis entraîne-toi.";
+  const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
+  const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
+    <div class="q-prompt">${r.q.prompt}</div>
+    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    <div class="fb info">${r.q.explain}</div></details>`).join('');
+  S.screen='result';S.weakest=weakest;
+  show(`${topbar('Résultat','home')}<main class="wrap">
+    <div class="card center"><div class="score">${score}<span style="font-size:1.6rem;color:var(--muted)"> / ${total}</span></div>
+      <p style="margin-top:10px">${msg}</p><p class="small">Temps : ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    <h2>Par compétence</h2><div style="margin-top:10px">${bars}</div>
+    <h2 style="margin:16px 0 6px">Les corrections</h2>${rev}
+    <div class="btns">
+      ${weakest&&wp<1?`<button class="btn primary" data-act="trainWeak" data-primary>Travailler : ${SKILLS[weakest].label}</button>`:''}
+      <button class="btn" data-act="evalSetup">Recommencer</button><button class="btn" data-act="bilan">Mon bilan</button><button class="btn ghost" data-act="home">Accueil</button>
+    </div></main>`);
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+// Ajouter ici les actions propres au module (ex. un labo) avant « default ».
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'learn':learn(0);break;
+    case 'lchoose':learnChoose(el);break;
+    case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
+    case 'trainSetup':trainSetup(false);break;
+    case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
+    case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
+    case 'evalSetup':evalSetup(false);break;
+    case 'evalStart':evalStart();break;
+    case 'quitEval':evalSetup(false);break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));surProposition();break;
+    case 'retry':reessayer();break;
+    case 'check':S.mode==='eval'?checkEval():checkTrain();break;
+    case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
+    case 'reveal':revealTrain();break;
+    case 'sig':sigAsk();break;
+    case 'signo':document.getElementById('sig').innerHTML='';break;
+    case 'sigyes':sigYes();break;
+    case 'sigsend':sigSend(el);break;
+    case 'next':nextTrain();break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// un mot tapé = une proposition : « Valider » apparaît
+app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
+// Après une erreur, toucher le champ ou y taper efface l'ancien mot, comme « Réessayer » (P010, retour du 12/10).
+const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
+app.addEventListener('pointerdown',effacerSiReessai);
+app.addEventListener('focusin',effacerSiReessai);
+app.addEventListener('beforeinput',effacerSiReessai);
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>
