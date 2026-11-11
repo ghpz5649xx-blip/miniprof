@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La vie au Paléolithique – Réviser, s'entraîner, s'évaluer</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "histoire-geo-6e-vie-paleolithique",
+  "title": "La vie au Paléolithique",
+  "subject": "histoire-geo",
+  "level": "6e",
+  "description": "Les hommes nomades du Paléolithique, leurs outils, les premières formes d'art et la grotte Chauvet.",
+  "skills": [
+    {"id": "nomade", "label": "Un mode de vie nomade"},
+    {"id": "outils", "label": "Des outils perfectionnés"},
+    {"id": "art", "label": "Les premières formes d'art"},
+    {"id": "chauvet", "label": "La grotte Chauvet"},
+    {"id": "documents", "label": "Lire les documents"},
+    {"id": "mots", "label": "Écrire les mots du cours"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#2f5fc4; --pitch-ink:#ffffff; --stripe1:#2a54ad; --stripe2:#2f5fc4;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.5rem;font-weight:800}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+#ok[hidden]{display:inline-block;visibility:hidden}
+.qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
+/* « Une erreur ? » : large, discret (pointillé gris), tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+.qwrap .sigbar{margin-top:auto;padding-top:28px}
+.sigbtn{width:100%;background:transparent;border:2px dashed var(--muted);color:var(--muted)}
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.acts{display:contents}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+// n éléments distincts de la liste, sans celui à exclure
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question : prompt et libellés en HTML écrit dans ce script (sinon passer par esc()).
+// choices : liste de C(valeur, libellé, pourquoi c'est faux) ; correct : la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15) : l'enfant tape sa réponse au lieu de la choisir.
+// Pourquoi : pour l'orthographe et la conjugaison, reconnaître le bon mot parmi des choix ne
+// suffit pas, il faut l'écrire (« son » au lieu de « sont » a résisté à un module en QCM).
+// ok : réponses acceptées (la première est montrée en correction) ; erreurs : {faute prévue : pourquoi}.
+// Correction stricte sur les lettres, les accents, le trait d'union ; souple sur les majuscules,
+// les espaces en trop et la forme de l'apostrophe (’ ou ').
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe. Relis ton mot lettre par lettre.'};
+}
+
+/* ================= CONTENU : données de la leçon ================= */
+// Leçon : « Les hommes de la Préhistoire », cours 2 « La vie au Paléolithique » (p. 30-31)
+// et Histoire des arts « La grotte Chauvet » (p. 28-29).
+// E(prompt, bonne réponse, [[mauvais choix, pourquoi]…], correction, indice facultatif)
+const E=(p,ok,no,ex,h)=>({p,ok,no,ex,h});
+const HINTS={outils:"Relis les légendes des photos du cours (doc. 1 et 2).",art:"Pariétal : la paroi d'une grotte. Rupestre : les rochers. Mobilier : un objet.",documents:"Relis les légendes des documents."};
+function mk(skill,level,e,defHint){
+  const wrong=shuffle(e.no.slice()).slice(0,3);
+  const ch=[C('ok',e.ok)].concat(wrong.map((w,i)=>C('n'+i,w[0],w[1])));
+  return Q(skill,level,e.p,ch,'ok',`<p>${e.h||defHint||HINTS[skill]}</p>`,`<p>Bonne réponse : <b>${e.ok}</b>.</p><p>${e.ex}</p>`);
+}
+const fromBank=(skill,level,bank,hint)=>mk(skill,level,pick(bank[level]),hint);
+
+/* ================= CONTENU : un générateur par compétence ================= */
+
+// ---- Un mode de vie nomade ----
+const B_NOMADE={
+1:[
+ E("Les hommes du Paléolithique suivent les troupeaux au fil des saisons. Comment les appelle-t-on ?","Des nomades",
+  [["Des agriculteurs","Ils ne cultivent pas : ils cueillent, chassent et pêchent."],["Des habitants de village","Ils ne restent pas dans un village : ils se déplacent avec les troupeaux."],["Des chevaliers","Les chevaliers sont du Moyen Âge, pas du Paléolithique."]],
+  "Ils sont nomades : ils se déplacent pour suivre les troupeaux au fil des saisons."),
+ E("Comment les hommes du Paléolithique trouvent-ils leur nourriture ?","Ils pratiquent la cueillette, la chasse et la pêche",
+  [["Ils cultivent des champs et élèvent des animaux","Ils ne cultivent pas encore : ils profitent des ressources de la nature."],["Ils l'achètent au marché","Il n'y a pas de marché : ils tirent leur nourriture de la nature."],["Ils ne mangent que de la viande de mammouth","Ils chassent aussi des bisons, des rennes, des ours, des chevaux, et ils pêchent et cueillent."]],
+  "Ils tirent parti des ressources de la nature : cueillette, chasse et pêche."),
+ E("Où les hommes du Paléolithique vivent-ils ?","À l'entrée des grottes, sous des abris de roche ou dans des tentes en peau",
+  [["Dans des maisons en pierre, au milieu de villages","Ils n'ont ni maisons ni villages : ils se déplacent."],["Tout au fond des grottes, dans le noir","Ils vivent à l'entrée, plus lumineuse. Au fond des grottes, ils dessinent."],["Dans des cabanes sur l'eau","Le cours parle d'entrées de grottes, d'abris sous roche et de tentes en peau."]],
+  "Ils vivent à l'entrée des grottes, dans des abris sous roche (plus lumineux) ou dans des tentes en peau."),
+ E("Que signifie « nomade » ?","Qui se déplace au fil des saisons en suivant les troupeaux",
+  [["Qui reste toute l'année au même endroit","C'est le contraire : un nomade se déplace."],["Qui ne mange que des fruits","Les nomades chassent, pêchent et cueillent."],["Qui vit seulement au fond des grottes","Les nomades vivent à l'entrée des grottes, dans des abris ou des tentes."]],
+  "Les hommes du Paléolithique suivent les troupeaux : ils sont nomades.")
+],
+2:[
+ E("Que rapporte la chasse, en plus de la viande ?","Des os, des dents, du bois de cervidés, des peaux et de la graisse",
+  [["Du métal et du verre","Le métal et le verre ne sont pas encore connus."],["Des fruits et des graines","Les fruits et les graines viennent de la cueillette, pas de la chasse."],["Rien d'autre","La chasse apporte aussi des matières premières indispensables à la vie quotidienne."]],
+  "Ces matières premières servent à fabriquer des outils, des vêtements et des tentes."),
+ E("Pourquoi les hommes du Paléolithique construisent-ils des tentes en peau ?","Pour se protéger du vent",
+  [["Pour cacher leurs peintures","Les peintures sont au fond des grottes, pas dans les tentes."],["Pour cultiver à l'abri","Ils ne cultivent pas encore."],["Pour attirer les animaux","Ils veulent s'abriter, pas attirer les animaux."]],
+  "Les tentes en peau protègent du vent."),
+ E("Pourquoi vivent-ils à l'entrée des grottes plutôt qu'au fond ?","Parce que c'est plus lumineux",
+  [["Parce qu'il y a plus de nourriture","La raison donnée par le cours, c'est la lumière."],["Parce que les murs y sont déjà peints","Les peintures sont dans la profondeur des grottes."],["Parce que c'est plus loin des animaux","Ce n'est pas la raison du cours : l'entrée est plus lumineuse."]],
+  "À l'entrée des grottes ou sous les abris, il fait plus clair."),
+ E("Pourquoi les hommes du Paléolithique changent-ils souvent de lieu ?","Ils suivent les troupeaux au fil des saisons",
+  [["Ils cherchent de nouvelles terres à cultiver","Ils ne cultivent pas : ils vivent de chasse, de pêche et de cueillette."],["Leurs tentes s'envolent avec le vent","Les tentes protègent du vent. Ils se déplacent pour suivre les troupeaux."],["Ils voyagent pour s'amuser","Ils se déplacent pour trouver de la nourriture : ils suivent les troupeaux."]],
+  "Les animaux qu'ils chassent se déplacent selon les saisons : les hommes les suivent.")
+],
+3:[
+ E("Quel animal les hommes du Paléolithique ne pouvaient pas chasser ?","Un dinosaure",
+  [["Un bison","Le cours cite les bisons parmi les animaux chassés."],["Un renne","Le cours cite les rennes."],["Un mammouth","Le cours cite les mammouths."]],
+  "Les dinosaures ont disparu bien avant l'apparition des hommes."),
+ E("Les rennes sont une ressource importante pour les chasseurs de Pincevent. Pourquoi ?","Ils fournissent de la viande, des peaux, des os et du bois",
+  [["Ils servent seulement de décoration","Les chasseurs en tirent de la nourriture et des matières premières."],["Ils tirent les tentes d'un camp à l'autre","Rien dans le document ne le dit : on y voit des chasseurs qui dépècent un renne."],["Ils protègent le campement du vent","C'est la peau des tentes qui protège du vent."]],
+  "Le renne est un cervidé : la chasse apporte de la viande, des peaux, des os et du bois."),
+ E("Sur la reconstitution du campement de Pincevent, que voit-on ?","Des tentes en peau, un feu et des chasseurs qui dépècent un renne",
+  [["Des maisons en pierre et des champs","Il n'y a ni maisons ni champs : ce sont des chasseurs nomades."],["Des bateaux près d'une ville","Le campement est au bord d'une rivière, avec des tentes en peau."],["Des hommes qui peignent le fond d'une grotte","Le campement est en plein air, avec des tentes et un feu."]],
+  "Le site était fréquenté par des chasseurs de rennes il y a plus de 14 000 ans."),
+ E("Quelle phrase est vraie ?","Ils chassent, pêchent et cueillent, et se déplacent selon les saisons",
+  [["Ils vivent dans un village et cultivent le blé","Ils sont nomades, sans village ni champs."],["Ils vivent uniquement au fond des grottes","Ils vivent à l'entrée des grottes ou sous des abris ; c'est au fond qu'ils dessinent."],["Ils élèvent des rennes dans des enclos","Ils chassent les rennes, ils ne les élèvent pas."]],
+  "C'est le résumé du mode de vie nomade.")
+]};
+function genNomade(l){return fromBank('nomade',l,B_NOMADE,"Relis la fiche « Un mode de vie nomade ».");}
+
+// ---- Des outils perfectionnés ----
+const B_OUTILS={
+1:[
+ E("Dans quelle matière sont fabriqués les bifaces ?","En pierre",
+  [["En os","Les aiguilles sont en os. Les bifaces sont en pierre."],["En métal","Le métal n'existe pas encore."],["En ivoire de mammouth","L'ivoire sert aux statuettes. Les bifaces sont en pierre."]],
+  "Les bifaces sont en pierre."),
+ E("Avec quelles matières fabrique-t-on les aiguilles et les armes comme les harpons ?","Avec des os ou du bois de renne",
+  [["Avec du fer et de l'acier","Le fer et l'acier ne sont pas encore connus."],["Avec du verre","Le verre n'est pas encore connu."],["Seulement avec de la pierre","La pierre sert aux bifaces ; les aiguilles et les harpons sont en os ou en bois de renne."]],
+  "Les hommes utilisent les os ou le bois de renne."),
+ E("Quel objet du Paléolithique servait à pêcher ?","Un hameçon en os",
+  [["Une aiguille en os","Une aiguille sert à coudre."],["Une flûte en os de vautour","Une flûte sert à faire de la musique."],["Une statuette en ivoire","Une statuette est un objet d'art."]],
+  "L'hameçon sert à pêcher."),
+ E("Quel objet du Paléolithique servait à coudre les peaux ?","Une aiguille en os",
+  [["Un hameçon en os","Un hameçon sert à pêcher."],["Un harpon en bois de renne","Un harpon est une arme."],["Un biface en pierre","Un biface est un outil de pierre, avec lequel on fabrique des poignards et des racloirs."]],
+  "L'aiguille en os sert à coudre.")
+],
+2:[
+ E("Que fabrique-t-on à partir des bifaces en pierre ?","Des poignards et des racloirs",
+  [["Des aiguilles et des harpons","Les aiguilles et les harpons sont en os ou en bois de renne."],["Des flûtes","Les flûtes sont en os."],["Des tentes","Les tentes sont faites de peaux."]],
+  "Les hommes font évoluer les bifaces en pierre pour créer des poignards et des racloirs."),
+ E("Quelles sont des armes du Paléolithique ?","Les sagaies, les harpons et les propulseurs",
+  [["Les épées et les boucliers","Ces armes en métal arrivent bien plus tard."],["Les aiguilles et les hameçons","Une aiguille sert à coudre et un hameçon à pêcher : ce ne sont pas des armes."],["Les arcs en acier","L'acier n'existe pas encore."]],
+  "Le cours cite les sagaies, les harpons et les propulseurs."),
+ E("Pourquoi les armes emmanchées sont-elles plus efficaces ?","Elles accroissent la force du chasseur ou du pêcheur",
+  [["Elles sont plus belles","Le cours dit que le manche accroît la force du chasseur ou du pêcheur."],["Elles n'ont plus besoin d'être fabriquées","Il faut toujours les fabriquer. Le manche donne plus de force."],["Elles sont faites en métal","Elles sont en pierre, en os ou en bois de renne, avec un manche."]],
+  "Une arme munie d'un manche (emmanchée) donne plus de force."),
+ E("Que font les hommes de leurs outils au fil du temps ?","Ils les perfectionnent progressivement",
+  [["Ils les abandonnent tous","Au contraire : ils font évoluer les bifaces pour créer des poignards et des racloirs."],["Ils n'en changent jamais","Le cours dit qu'ils perfectionnent leur outillage."],["Ils n'utilisent plus que la pierre","Ils utilisent aussi les os et le bois de renne."]],
+  "Progressivement, les hommes perfectionnent leur outillage.")
+],
+3:[
+ E("D'après les photos du cours, les aiguilles et les harpons sont-ils faits de la même matière ?","Non : les aiguilles sont en os, les harpons en bois de renne",
+  [["Oui : tous les deux en os","Sur la photo, les harpons sont en bois de renne."],["Oui : tous les deux en pierre","Ni l'un ni l'autre : la pierre sert aux bifaces."],["Non : les aiguilles sont en pierre, les harpons en os","Les aiguilles sont en os et les harpons en bois de renne."]],
+  "Légendes du doc. 1 : « aiguilles en os », « harpons en bois de renne »."),
+ E("Quel exemple de perfectionnement des outils le cours donne-t-il ?","Les bifaces en pierre évoluent en poignards et en racloirs",
+  [["Les poignards deviennent des bifaces","C'est le contraire : on part des bifaces."],["Les aiguilles deviennent des flûtes","Rien de tel dans le cours."],["Les harpons deviennent des tentes","Rien de tel dans le cours."]],
+  "Les hommes font évoluer les bifaces en pierre pour créer des poignards et des racloirs."),
+ E("Quelle phrase est correcte ?","Pour pêcher, les hommes utilisent des hameçons et des harpons",
+  [["Pour pêcher, ils utilisent des aiguilles et des racloirs","L'aiguille sert à coudre ; le racloir ne sert pas à pêcher."],["Pour coudre, ils utilisent des harpons","Le harpon est une arme. Pour coudre, on utilise une aiguille."],["Pour chasser, ils utilisent des flûtes","Une flûte sert à faire de la musique."]],
+  "Hameçons et harpons servent à pêcher (ou à chasser) ; l'aiguille sert à coudre.")
+]};
+// objet → matière d'après les légendes des documents
+const MATIERES=[
+ {n:"un hameçon",ok:"En os",no:["En pierre","En ivoire de mammouth","En métal"]},
+ {n:"une aiguille",ok:"En os",no:["En pierre","En ivoire de mammouth","En métal"]},
+ {n:"un harpon",ok:"En bois de renne",no:["En pierre","En ivoire de mammouth","En métal"]},
+ {n:"un biface",ok:"En pierre",no:["En os","En ivoire de mammouth","En bois de renne","En métal"]},
+ {n:"la Dame de Brassempouy",ok:"En ivoire de mammouth",no:["En pierre","En bois de renne","En métal"]},
+ {n:"la flûte vieille de 40 000 ans",ok:"En os de vautour",no:["En pierre","En ivoire de mammouth","En bois de renne","En métal"]}
+];
+function genOutils(l){
+  if(l===1||Math.random()<.5)return fromBank('outils',l,B_OUTILS,"Relis la fiche « Des outils perfectionnés ».");
+  const m=pick(MATIERES);
+  return mk('outils',l,E(`Quelle est la matière de : <b>${m.n}</b> ?`,m.ok,
+    m.no.map(x=>[x,`Non : ${m.n} est ${m.ok.toLowerCase()}.`]),
+    `${m.n.charAt(0).toUpperCase()+m.n.slice(1)} est ${m.ok.toLowerCase()} (légendes des documents du cours).`),'');
+}
+
+// ---- Les premières formes d'art ----
+const B_ART={
+1:[
+ E("Il y a combien de temps l'art paléolithique apparaît-il ?","Il y a environ 40 000 ans",
+  [["Il y a environ 4 000 ans","C'est beaucoup trop récent : l'art paléolithique apparaît il y a environ 40 000 ans."],["Il y a environ 400 ans","C'est beaucoup trop récent."],["Il y a environ 14 000 ans","14 000 ans, c'est l'âge du campement de Pincevent. L'art apparaît bien plus tôt."]],
+  "L'art paléolithique apparaît il y a 40 000 ans environ."),
+ E("Que représentent surtout les figures des parois de grottes ?","Des animaux",
+  [["Des villages","Ils ne vivent pas dans des villages : les figures représentent surtout des animaux."],["Des bateaux","Ce sont principalement des animaux."],["Des champs de blé","Ils ne cultivent pas : ils dessinent surtout des animaux."]],
+  "Dans la profondeur des grottes, les hommes dessinent, peignent ou gravent des figures principalement animales."),
+ E("Quelle forme d'expression artistique a pu exister, à part le dessin et la sculpture ?","La musique et le chant",
+  [["Le cinéma","Le cinéma n'existe pas encore."],["La photographie","La photographie n'existe pas encore."],["La télévision","La télévision n'existe pas encore."]],
+  "Les archéologues le supposent grâce à des objets comme les flûtes.")
+],
+2:[
+ E("Dans quelles matières sculpte-t-on des statuettes au Paléolithique ?","Dans l'ivoire, l'os ou la pierre",
+  [["Dans l'or ou l'argent","Ces métaux ne sont pas utilisés ici : le cours cite l'ivoire, l'os et la pierre."],["Dans le verre ou le plastique","Ils n'existent pas encore."],["Dans l'acier","L'acier n'existe pas encore."]],
+  "Ces statuettes font partie de l'art mobilier."),
+ E("Que devient l'art paléolithique après son apparition ?","Il se diffuse et se diversifie à travers le monde",
+  [["Il disparaît rapidement","Le cours dit qu'il ne cesse de se diffuser."],["Il reste dans une seule grotte","Il se diffuse à travers le monde (carte doc. 4)."],["Il ne change jamais","Il se diversifie : il prend de nouvelles formes."]],
+  "L'art paléolithique ne cesse de se diffuser et de se diversifier.")
+],
+3:[
+ E("Sur la carte du doc. 4, où trouve-t-on de l'art préhistorique du Paléolithique ?","Sur cinq continents : Europe, Asie, Afrique, Amérique et Océanie",
+  [["Seulement en Europe","La carte montre aussi de l'art en Asie, en Afrique, en Amérique et en Océanie."],["Seulement en France","L'art du Paléolithique se trouve sur plusieurs continents."],["Seulement en Europe et en Asie","Il y en a aussi en Afrique, en Amérique et en Océanie."]],
+  "La carte montre de l'art rupestre et de l'art mobilier sur tous ces continents."),
+ E("Un animal est gravé sur une falaise, en plein air. Est-ce de l'art pariétal ?","Non : c'est de l'art rupestre",
+  [["Oui : c'est de l'art pariétal","Pariétal veut dire sur la paroi d'une grotte. En plein air, on dit rupestre."],["Non : c'est de l'art mobilier","Mobilier, c'est un objet portant un ornement, pas un rocher."],["Oui : c'est de l'art mobilier","Un dessin sur une falaise n'est pas un objet qu'on peut déplacer."]],
+  "Art rupestre : peintures ou gravures sur des rochers. Art pariétal : sur les parois d'une grotte."),
+ E("Une statuette peut-elle être de l'art pariétal ?","Non : c'est de l'art mobilier",
+  [["Oui : toute œuvre préhistorique est pariétale","Pariétal veut dire sur la paroi d'une grotte."],["Non : c'est de l'art rupestre","Rupestre veut dire sur des rochers. Une statuette est un objet."],["Oui : si elle est trouvée dans une grotte","Ce n'est pas le lieu qui compte : une statuette est un objet portant un ornement, donc de l'art mobilier."]],
+  "Une statuette est un objet portant un ornement artistique : c'est de l'art mobilier.")
+]};
+const DEF=[
+ {term:"L'art pariétal",def:"les peintures ou les gravures sur les parois d'une grotte",
+  ex:["Un bison peint au fond d'une grotte","Un rhinocéros dessiné au charbon sur la paroi de la grotte Chauvet"]},
+ {term:"L'art rupestre",def:"les peintures ou les gravures sur des rochers, en plein air",
+  ex:["Un animal gravé sur une roche, en plein air","Un dessin peint sur un rocher, à l'air libre"]},
+ {term:"L'art mobilier",def:"les objets portant un ornement artistique (une statuette sculptée, par exemple)",
+  ex:["Une statuette sculptée dans l'ivoire","La Dame de Brassempouy","Une statuette taillée dans la pierre"]}
+];
+function genArt(l){
+  const r=Math.random();
+  if(l===1&&r<.4||l===2&&r<.3||l===3&&r<.2){
+    const d=pick(DEF);
+    return mk('art',l,E(`Comment s'appelle l'art qui désigne ${d.def} ?`,d.term,
+      DEF.filter(x=>x!==d).map(x=>[x.term,`${x.term}, ce sont ${x.def}.`]),
+      `${d.term}, ce sont ${d.def}.`,`<p>Pariétal : la paroi d'une grotte. Rupestre : les rochers. Mobilier : un objet.</p>`),'');
+  }
+  if(l>=2&&r<.6){
+    const d=pick(DEF),ex=pick(d.ex);
+    return mk('art',l,E(`De quel art s'agit-il ? <b>${ex}</b>`,d.term,
+      DEF.filter(x=>x!==d).map(x=>[x.term,`${x.term}, ce sont ${x.def}.`]),
+      `${d.term}, ce sont ${d.def}.`),'');
+  }
+  return fromBank('art',l,B_ART,"Relis la fiche « Les premières formes d'art ».");
+}
+
+// ---- La grotte Chauvet ----
+const B_CHAUVET={
+1:[
+ E("Dans quel département se trouve la grotte Chauvet ?","En Ardèche",
+  [["Dans les Landes","Les Landes, c'est la Dame de Brassempouy. Chauvet est en Ardèche."],["En Seine-et-Marne","C'est Pincevent. Chauvet est en Ardèche."],["À Paris","Chauvet est dans le département de l'Ardèche, à Vallon-Pont-d'Arc."]],
+  "La grotte Chauvet est dans la commune de Vallon-Pont-d'Arc, en Ardèche."),
+ E("Dans quelle commune se trouve la grotte Chauvet ?","Vallon-Pont-d'Arc",
+  [["Brassempouy","Brassempouy est le lieu de la Dame de Brassempouy."],["Pincevent","Pincevent est un site de Seine-et-Marne."],["Saint-Germain-en-Laye","C'est la ville du musée qui garde la Dame de Brassempouy."]],
+  "Vallon-Pont-d'Arc, dans le département de l'Ardèche."),
+ E("En quelle année la grotte Chauvet a-t-elle été découverte ?","En 1994",
+  [["En 1894","Elle a été découverte en 1994."],["En 1954","Elle a été découverte en 1994."],["En 2008","2008, c'est l'année de la découverte de la flûte."]],
+  "La grotte Chauvet a été découverte en 1994."),
+ E("Avec quoi le grand panneau de la grotte Chauvet est-il dessiné ?","Avec du charbon",
+  [["Avec des feutres","Il n'y avait pas de feutres : la fiche dit « dessin au charbon de bois »."],["Avec de la peinture en tube","Elle n'existe pas encore : la fiche dit « dessin au charbon de bois »."],["Avec de l'encre","La fiche dit « dessin au charbon de bois »."]],
+  "Le panneau est un dessin au charbon de bois sur les parois de la grotte.")
+],
+2:[
+ E("Quel est le nom de l'œuvre sur la fiche d'identité ?","Panneau des lions et des rhinocéros",
+  [["La Dame de Brassempouy","C'est la statuette d'ivoire, qui n'est pas à Chauvet."],["La flûte en os de vautour","C'est un instrument de musique trouvé en Allemagne."],["Le campement de Pincevent","C'est une reconstitution d'un campement en Seine-et-Marne."]],
+  "La fiche d'identité : « Panneau des lions et des rhinocéros »."),
+ E("Selon la fiche d'identité, quand le panneau a-t-il été réalisé ?","Il y a 35 000 ans",
+  [["Il y a 14 000 ans","14 000 ans, c'est l'âge du campement de Pincevent."],["Il y a 42 000 ans","42 000 ans, c'est l'âge de la flûte."],["Il y a 10 000 ans","La frise place Chauvet vers 35 000 ans."]],
+  "Date : il y a 35 000 ans."),
+ E("Selon la fiche, qui a réalisé ces dessins ?","Des Homo sapiens",
+  [["Des Égyptiens","Les Égyptiens vivent bien plus tard."],["Des hommes du Moyen Âge","Le Moyen Âge est bien plus tard."],["Des dinosaures","Les dinosaures ont disparu bien avant les hommes."]],
+  "Artiste : des Homo sapiens."),
+ E("Quelle est la longueur du panneau des lions et des rhinocéros ?","10 m de long",
+  [["10 cm de long","C'est une grande composition de 10 m, pas de 10 cm."],["3,5 cm de long","3,5 cm, c'est la taille de la Dame de Brassempouy."],["22 cm de long","22 cm, c'est la longueur de la flûte."]],
+  "Dimension : 10 m de long."),
+ E("Que dit la fiche sur l'usage et la signification du panneau ?","On ne les connaît pas",
+  [["C'était un calendrier","La fiche indique : usage non connu, signification non connue."],["C'était une carte du monde","La fiche indique : usage non connu, signification non connue."],["C'était un jeu pour les enfants","La fiche indique : usage non connu, signification non connue."]],
+  "Usage : non connu. Signification : non connue."),
+ E("Que représente peut-être le grand panneau ?","Une scène de chasse avec des lionnes, des bisons et des rhinocéros",
+  [["Un village de tentes","Le panneau montre des animaux, pas un village."],["Une carte de la région","Le panneau montre des animaux dessinés au charbon."],["Une scène de pêche","Le texte parle d'une scène de chasse."]],
+  "Le texte dit : « peut-être une scène de chasse avec des lionnes, des bisons et des rhinocéros ».")
+],
+3:[
+ E("Combien de peintures et de gravures la grotte compte-t-elle environ ?","Environ un millier",
+  [["447","447, c'est seulement le nombre de représentations d'animaux."],["Environ 100","Le site en compte environ mille."],["Environ 10 000","C'est beaucoup trop : environ un millier."]],
+  "Un millier de peintures et de gravures, dont 447 représentations d'animaux."),
+ E("Combien de représentations d'animaux la grotte compte-t-elle ?","447",
+  [["Environ un millier","Un millier, c'est le total des peintures et des gravures, pas seulement des animaux."],["44","Il y en a 447."],["4 470","Il y en a 447."]],
+  "Le site compte un millier de peintures et de gravures, dont 447 représentations d'animaux."),
+ E("Quels sont les deux groupes de techniques de l'art pariétal à Chauvet ?","La gravure, et l'apport de pigment (charbon, hématite, argile)",
+  [["La sculpture et le moulage","Le texte parle de gravure et d'apport de pigment."],["La photographie et le collage","Ces techniques n'existent pas au Paléolithique."],["La peinture à l'huile et l'aquarelle","Elles n'existent pas encore : on utilise des pigments comme le charbon."]],
+  "Gravure (avec un outil, les doigts…) et apport de pigment (charbon, hématite, argile)."),
+ E("Qu'est-ce que l'hématite ?","Un oxyde de fer, utilisé comme pigment",
+  [["Un morceau de charbon de bois","Le charbon est un autre pigment. L'hématite est un oxyde de fer."],["Un animal de l'époque","L'hématite est un pigment (un oxyde de fer), pas un animal."],["Un outil de gravure","C'est un pigment, pas un outil."]],
+  "L'hématite est un oxyde de fer, qui donne un pigment."),
+ E("Qu'est-ce qu'un aurochs ?","L'ancêtre du taureau",
+  [["Un grand cerf","Un grand cerf, c'est le mégacéros."],["Un félin","Les lions des grottes sont des félins. L'aurochs est l'ancêtre du taureau."],["Un rhinocéros","Le rhinocéros est un autre animal de la liste. L'aurochs est l'ancêtre du taureau."]],
+  "Dans le texte : aurochs = ancêtre du taureau."),
+ E("Qu'est-ce qu'un mégacéros ?","Un grand cerf",
+  [["L'ancêtre du taureau","Ça, c'est l'aurochs."],["Une sorte de rhinocéros","Le rhinocéros est un autre animal. Le mégacéros est un grand cerf."],["Un félin","Les lions des grottes sont des félins. Le mégacéros est un grand cerf."]],
+  "Dans le texte : mégacéros = grand cerf."),
+ E("Quel climat y avait-il quand la grotte était occupée ?","Une période glaciaire, plus froide de quatre degrés qu'aujourd'hui",
+  [["Plus chaud de quatre degrés qu'aujourd'hui","C'est le contraire : il faisait plus froid."],["Le même climat qu'aujourd'hui","Il faisait quatre degrés de moins qu'aujourd'hui."],["Une période de canicule","C'était la dernière période glaciaire."]],
+  "La grotte était occupée lors de la dernière période glaciaire, avec des températures inférieures de quatre degrés."),
+ E("Lequel de ces animaux faisait partie de la faune de l'époque ?","Le lion des grottes",
+  [["Le dinosaure","Les dinosaures ont disparu bien avant les hommes."],["Le kangourou","Il n'est pas dans la liste des animaux de la grotte."],["Le panda","Il n'est pas dans la liste des animaux de la grotte."]],
+  "Faune citée : mammouths, mégacéros, lions des grottes, aurochs, ours, élans, bouquetins, bisons, rhinocéros, chevaux sauvages.")
+]};
+function genChauvet(l){return fromBank('chauvet',l,B_CHAUVET,"Relis la fiche « La grotte Chauvet ».");}
+
+// ---- Lire les documents ----
+const B_DOCS={
+1:[
+ E("Qu'est-ce que la Dame de Brassempouy ?","Une tête de jeune femme sculptée dans l'ivoire",
+  [["Un dessin au charbon dans une grotte","C'est un petit objet sculpté, pas un dessin."],["Une flûte en os","La flûte est un autre document."],["Un campement de chasseurs","Le campement, c'est Pincevent."]],
+  "Elle a été trouvée dans les Landes. Elle mesure 3,5 cm."),
+ E("Quel objet est un instrument de musique ?","La flûte en os de vautour",
+  [["La Dame de Brassempouy","C'est une statuette."],["Un hameçon en os","Un hameçon sert à pêcher."],["Un harpon en bois de renne","Un harpon est une arme."]],
+  "La flûte en os de vautour a plus de 40 000 ans."),
+ E("Quels chasseurs fréquentaient le site de Pincevent ?","Des chasseurs de rennes",
+  [["Des chasseurs de mammouths","Le document dit : des chasseurs de rennes."],["Des pêcheurs de baleines","Le document dit : des chasseurs de rennes."],["Des agriculteurs","Ils ne cultivent pas : ce sont des chasseurs de rennes."]],
+  "Pincevent (Seine-et-Marne) était fréquenté par des chasseurs de rennes il y a plus de 14 000 ans.")
+],
+2:[
+ E("Quelle taille mesure la Dame de Brassempouy ?","3,5 cm",
+  [["35 cm","Elle est toute petite : 3,5 cm."],["10 m","10 m, c'est la longueur du panneau de Chauvet."],["22 cm","22 cm, c'est la longueur de la flûte."]],
+  "Elle mesure 3,5 cm et elle est sculptée dans l'ivoire de mammouth."),
+ E("Quelle date est donnée pour la Dame de Brassempouy ?","21 000 avant J.-C.",
+  [["1994","1994, c'est l'année de la découverte de la grotte Chauvet."],["2008","2008, c'est l'année de la découverte de la flûte."],["40 000 avant J.-C.","Elle est datée de 21 000 avant J.-C."]],
+  "La Dame de Brassempouy est datée de 21 000 avant J.-C."),
+ E("Où et quand la flûte en os de vautour a-t-elle été découverte ?","Dans le Sud-Ouest de l'Allemagne, en 2008",
+  [["En Ardèche, en 1994","Ardèche et 1994 : c'est la grotte Chauvet."],["En Seine-et-Marne, en 2008","La Seine-et-Marne, c'est Pincevent. La flûte vient d'Allemagne."],["Dans les Landes, en 1994","Les Landes : Dame de Brassempouy. 1994 : grotte Chauvet."]],
+  "La flûte a été découverte dans le Sud-Ouest de l'Allemagne, en 2008."),
+ E("Quelle est la longueur de la flûte en os de vautour ?","22 cm",
+  [["8 mm","8 mm, c'est son diamètre."],["3,5 cm","3,5 cm, c'est la taille de la Dame de Brassempouy."],["10 m","10 m, c'est la longueur du panneau de Chauvet."]],
+  "La flûte mesure 22 cm de long et 8 mm de diamètre."),
+ E("À quelle forme d'art appartient la Dame de Brassempouy ?","À l'art mobilier",
+  [["À l'art pariétal","Pariétal : sur la paroi d'une grotte. La Dame est un petit objet."],["À l'art rupestre","Rupestre : sur des rochers. La Dame est un petit objet."]],
+  "C'est une statuette sculptée : un objet portant un ornement artistique.")
+],
+3:[
+ E("Quelle pratique la flûte en os de vautour atteste-t-elle ?","La musique",
+  [["La pêche","Une flûte à trous sert à faire de la musique."],["La chasse","Une flûte à trous sert à faire de la musique."],["La couture","Une flûte à trous sert à faire de la musique."]],
+  "Cette flûte, vieille d'environ 42 000 ans, montre que les hommes faisaient de la musique."),
+ E("Que montre la carte « L'art préhistorique du Paléolithique » (doc. 4) ?","Où l'on trouve de l'art rupestre et de l'art mobilier dans le monde",
+  [["Où vivent les nomades aujourd'hui","La carte montre l'art préhistorique, pas les nomades d'aujourd'hui."],["Les routes des troupeaux","La carte montre l'art rupestre et l'art mobilier."],["Les grottes de France","La carte est une carte du monde."]],
+  "Légende : art rupestre, art mobilier, art rupestre et art mobilier.")
+]};
+const LIEUX=[
+ {n:"la grotte Chauvet",ok:"En Ardèche"},
+ {n:"la Dame de Brassempouy",ok:"Dans les Landes"},
+ {n:"le campement de Pincevent",ok:"En Seine-et-Marne"},
+ {n:"la flûte en os de vautour",ok:"Dans le Sud-Ouest de l'Allemagne"}
+];
+const AGES=[
+ {n:"la flûte en os de vautour",t:"environ 42 000 ans",v:42000},
+ {n:"le panneau de la grotte Chauvet",t:"35 000 ans",v:35000},
+ {n:"le campement de Pincevent",t:"plus de 14 000 ans",v:14000}
+];
+function genDocs(l){
+  const r=Math.random();
+  if(l>=2&&r<.3){
+    const m=pick(LIEUX);
+    return mk('documents',l,E(`Où se trouve (ou a été trouvé) : <b>${m.n}</b> ?`,m.ok,
+      LIEUX.filter(x=>x!==m).map(x=>[x.ok,`${x.ok} : c'est ${x.n}.`]),
+      `${m.n.charAt(0).toUpperCase()+m.n.slice(1)} : ${m.ok.charAt(0).toLowerCase()+m.ok.slice(1)}.`,
+      `<p>Ardèche : Chauvet. Landes : Brassempouy. Seine-et-Marne : Pincevent. Allemagne : la flûte.</p>`),'');
+  }
+  if(l===3&&r<.55){
+    const old=Math.random()<.5,s=AGES.slice().sort((a,b)=>old?b.v-a.v:a.v-b.v)[0];
+    return mk('documents',l,E(`Dates des documents : flûte ${AGES[0].t}, panneau de Chauvet ${AGES[1].t}, campement de Pincevent ${AGES[2].t}. Lequel est le plus ${old?'ancien':'récent'} ?`,
+      s.n.charAt(0).toUpperCase()+s.n.slice(1),
+      AGES.filter(x=>x!==s).map(x=>[x.n.charAt(0).toUpperCase()+x.n.slice(1),`Regarde les dates : ${x.n} date de ${x.t}.`]),
+      `${s.n.charAt(0).toUpperCase()+s.n.slice(1)} date de ${s.t} : c'est le plus ${old?'ancien':'récent'}.`,
+      `<p>Plus le nombre d'années est grand, plus c'est ancien.</p>`),'');
+  }
+  return fromBank('documents',l,B_DOCS,"Relis la fiche « Les documents du cours ».");
+}
+
+// ---- Écrire les mots du cours (questions à écrire) ----
+const B_MOTS={
+1:[
+ {p:"Les hommes du Paléolithique suivent les troupeaux. Ce sont des … (un mot)",ok:["nomades"],err:{nomade:"Il y en a plusieurs : écris le mot au pluriel."},h:"Le mot commence par « no » et finit par un s.",ex:"Ce sont des <b>nomades</b>."},
+ {p:"La grotte Chauvet : un dessin au … de bois.",ok:["charbon"],err:{charbons:"Il n'y en a qu'un : charbon, sans s."},h:"Un morceau de bois brûlé, noir.",ex:"Un dessin au <b>charbon</b> de bois."},
+ {p:"La Dame de Brassempouy est sculptée dans l'ivoire de … (un animal)",ok:["mammouth"],err:{mamouth:"Il y a deux m au milieu : mam-mouth.",mammouths:"Il n'y en a qu'un : pas de s.",mammout:"Il y a un h à la fin : mammouth."},h:"Un grand animal à longues défenses, avec un h à la fin.",ex:"Ivoire de <b>mammouth</b>."},
+ {p:"Les … en pierre servent à fabriquer des poignards et des racloirs. (un mot)",ok:["bifaces"],err:{biface:"Il y en a plusieurs : écris le mot au pluriel."},h:"Le mot commence par « bi ».",ex:"Les <b>bifaces</b> en pierre."}
+],
+2:[
+ {p:"Peintures ou gravures sur les parois d'une grotte : l'art … (un mot)",ok:["pariétal","art pariétal"],err:{rupestre:"Rupestre : sur des rochers, en plein air.",mobilier:"Mobilier : un objet portant un ornement."},h:"Ça vient du mot « paroi ».",ex:"L'art <b>pariétal</b>."},
+ {p:"Peintures ou gravures sur des rochers, en plein air : l'art … (un mot)",ok:["rupestre","art rupestre"],err:{pariétal:"Pariétal : sur la paroi d'une grotte.",mobilier:"Mobilier : un objet portant un ornement.",parietal:"Pariétal : sur la paroi d'une grotte."},h:"Ça ressemble à « rocher » en latin.",ex:"L'art <b>rupestre</b>."},
+ {p:"Objets portant un ornement artistique, comme les statuettes : l'art … (un mot)",ok:["mobilier","art mobilier"],err:{pariétal:"Pariétal : sur la paroi d'une grotte.",rupestre:"Rupestre : sur des rochers."},h:"Comme les meubles : on peut le déplacer.",ex:"L'art <b>mobilier</b>."},
+ {p:"Famille d'animaux qui portent des bois sur la tête (le cerf, le renne, l'élan…) : les … (un mot)",ok:["cervidés"],err:{cervidé:"Il y en a plusieurs : écris le mot au pluriel."},h:"Le mot commence par « cer ».",ex:"Les <b>cervidés</b>."},
+ {p:"L'ancêtre du taureau s'appelle un … (un mot)",ok:["aurochs"],err:{auroch:"Il y a un s à la fin, même au singulier : aurochs."},h:"Ça commence par « au » et finit par « ochs ».",ex:"Un <b>aurochs</b>."}
+],
+3:[
+ {p:"Une statuette sculptée dans l'ivoire est un exemple d'art … (un mot)",ok:["mobilier","art mobilier"],err:{pariétal:"Pariétal : sur la paroi d'une grotte.",rupestre:"Rupestre : sur des rochers."},h:"Une statuette est un objet.",ex:"Une statuette est un objet : c'est de l'art <b>mobilier</b>."},
+ {p:"Un animal gravé sur une falaise, en plein air : de l'art … (un mot)",ok:["rupestre","art rupestre"],err:{pariétal:"Pariétal : dans une grotte, pas en plein air.",parietal:"Pariétal : dans une grotte, pas en plein air.",mobilier:"Mobilier : un objet, pas un rocher."},h:"En plein air, sur un rocher.",ex:"En plein air, sur un rocher : art <b>rupestre</b>."},
+ {p:"Un bison peint au fond d'une grotte : de l'art … (un mot)",ok:["pariétal","art pariétal"],err:{rupestre:"Rupestre : en plein air, sur des rochers.",mobilier:"Mobilier : un objet."},h:"Dans une grotte, sur la paroi.",ex:"Au fond d'une grotte : art <b>pariétal</b>."},
+ {p:"Le mégacéros est un grand … (un animal)",ok:["cerf"],err:{cerfs:"Il n'y en a qu'un : cerf, sans s."},h:"Un animal à bois, comme le renne.",ex:"Le mégacéros est un grand <b>cerf</b>."},
+ {p:"La flûte en os de vautour atteste la pratique de la … (un mot)",ok:["musique"],err:{musiques:"Il n'y en a qu'une ici : musique, sans s."},h:"Ce que l'on fait avec une flûte.",ex:"Une flûte atteste la pratique de la <b>musique</b>."}
+]};
+function genMots(l){
+  const e=pick(B_MOTS[l]);
+  return W('mots',l,e.p,e.ok,e.err,`<p>${e.h}</p>`,`<p>La bonne réponse : <b>${e.ok[0]}</b>.</p><p>${e.ex}</p>`);
+}
+
+// Clés = ids des compétences de la fiche (même ordre).
+const SKILLS={
+  nomade:{label:'Un mode de vie nomade'},
+  outils:{label:'Des outils perfectionnés'},
+  art:{label:"Les premières formes d'art"},
+  chauvet:{label:'La grotte Chauvet'},
+  documents:{label:'Lire les documents'},
+  mots:{label:'Écrire les mots du cours'}
+};
+const GEN={nomade:genNomade,outils:genOutils,art:genArt,chauvet:genChauvet,documents:genDocs,mots:genMots};
+const LEVELS={1:{t:'Échauffement',d:'questions directes'},2:{t:'Défi',d:'plus de détails'},3:{t:'Expert',d:'pièges et documents'}};
+const EVAL_SKILLS=['nomade','nomade','outils','outils','art','art','chauvet','chauvet','documents','documents','mots','mots'];
+const CHEER=['Bravo !','Bien joué !','Exact !','Parfait !'];
+
+/* ================= CONTENU : fiches Apprendre ================= */
+const LEARN=[
+  {t:'Un mode de vie nomade',body:()=>`<p>• Les hommes tirent parti des <b>ressources de la nature</b> : la cueillette, la chasse (bisons, rennes, mammouths, ours, chevaux) et la pêche.</p>
+    <p>• La chasse apporte des matières premières : os, dents, bois de cervidés, peaux, graisse.</p>
+    <p>• Ils suivent les troupeaux au fil des saisons : ils sont <b>nomades</b>. Ils vivent à l'entrée des grottes, sous des abris de roche (plus lumineux) ou dans des tentes en peau (contre le vent).</p>
+    <div class="rulebox"><b>Nomade</b> : qui se déplace en suivant les troupeaux, au fil des saisons.</div>`,
+   q:{p:'Pourquoi les hommes du Paléolithique sont-ils nomades ?',c:[C('a','Ils suivent les troupeaux au fil des saisons'),C('b','Ils cherchent des champs à cultiver','Ils ne cultivent pas encore : ils chassent, pêchent et cueillent.')],ok:'a'}},
+  {t:'Des outils perfectionnés',body:()=>`<p>• Les hommes <b>perfectionnent leur outillage</b> : ils font évoluer les <b>bifaces</b> en pierre pour créer des poignards et des racloirs.</p>
+    <p>• Ils utilisent les os ou le bois de renne pour fabriquer des aiguilles et des armes : sagaies, harpons, propulseurs.</p>
+    <p>• Les armes <b>emmanchées</b> sont plus efficaces : elles accroissent la force du chasseur ou du pêcheur.</p>
+    <div class="rulebox">Photos du cours : hameçons en os, aiguilles en os, harpons en bois de renne.</div>`,
+   q:{p:'Dans quelle matière sont les bifaces ?',c:[C('a','En pierre'),C('b','En os','Les aiguilles sont en os. Les bifaces sont en pierre.')],ok:'a'}},
+  {t:"Les premières formes d'art",body:()=>`<p>• L'art paléolithique apparaît il y a <b>40 000 ans</b> environ. Il se diffuse et se diversifie à travers le monde.</p>
+    <p>• <b>Art pariétal</b> : peintures ou gravures sur les parois d'une grotte (surtout des animaux).</p>
+    <p>• <b>Art rupestre</b> : peintures ou gravures sur des rochers, en plein air.</p>
+    <p>• <b>Art mobilier</b> : objet portant un ornement artistique, comme une statuette sculptée dans l'ivoire, l'os ou la pierre.</p>
+    <p>• La musique et le chant ont pu exister : on a retrouvé des flûtes.</p>`,
+   q:{p:"Une statuette sculptée dans l'ivoire, c'est de l'art…",c:[C('a','mobilier'),C('b','pariétal',"Pariétal veut dire sur la paroi d'une grotte. Une statuette est un objet.")],ok:'a'}},
+  {t:'La grotte Chauvet',body:()=>`<p>• Découverte en <b>1994</b> à Vallon-Pont-d'Arc, en <b>Ardèche</b>. Un millier de peintures et de gravures, dont 447 représentations d'animaux.</p>
+    <div class="rulebox"><b>Fiche d'identité</b><br>Œuvre : Panneau des lions et des rhinocéros<br>Date : il y a 35 000 ans<br>Artistes : des <i>Homo sapiens</i><br>Technique : dessin au charbon de bois sur les parois<br>Dimension : 10 m de long<br>Usage et signification : non connus</div>
+    <p>• Deux groupes de techniques : la <b>gravure</b> et l'<b>apport de pigment</b> (charbon, hématite = oxyde de fer, argile).</p>
+    <p>• Faune de l'époque (dernière période glaciaire, 4 degrés de moins) : mammouths, mégacéros (grand cerf), lions des grottes, aurochs (ancêtre du taureau), ours, élans, bouquetins, bisons, rhinocéros, chevaux sauvages.</p>`,
+   q:{p:'Où se trouve la grotte Chauvet ?',c:[C('a','En Ardèche'),C('b','Dans les Landes',"Les Landes, c'est la Dame de Brassempouy.")],ok:'a'}},
+  {t:'Les documents du cours',body:()=>`<p>• <b>La Dame de Brassempouy</b> : tête de jeune femme trouvée dans les Landes, datée de 21 000 avant J.-C., haute de 3,5 cm, sculptée dans l'ivoire de mammouth.</p>
+    <p>• <b>Pincevent</b> (Seine-et-Marne) : reconstitution d'un campement de chasseurs de rennes, il y a plus de 14 000 ans.</p>
+    <p>• <b>Une flûte en os de vautour</b> : découverte dans le Sud-Ouest de l'Allemagne en 2008, longue de 22 cm, vieille d'environ 42 000 ans.</p>`,
+   q:{p:'Que prouve la flûte en os de vautour ?',c:[C('a','Que les hommes faisaient de la musique'),C('b','Que les hommes cultivaient la terre',"Une flûte sert à faire de la musique.")],ok:'a'}},
+  {t:'À retenir',recap:true,body:()=>`<p>• Nomades : ils chassent, pêchent, cueillent et suivent les troupeaux.</p>
+    <p>• Outils : bifaces en pierre, aiguilles et armes en os ou en bois de renne.</p>
+    <p>• Art : pariétal (grotte), rupestre (rochers), mobilier (objets) ; il apparaît il y a 40 000 ans environ.</p>
+    <p>• Chauvet (Ardèche, 1994) : dessins au charbon vieux de 35 000 ans.</p>`}
+];
+const LEARN_COUNT=LEARN.length-1;
+
+/* ================= CONTENU : accueil ================= */
+function home(){
+  S={screen:'home'};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>La vie au Paléolithique</h1>
+      <p>Les nomades, les outils, l'art et la grotte Chauvet : révise ta leçon, puis teste-toi.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="menu">
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>La leçon en ${LEARN_COUNT} fiche${LEARN_COUNT>1?'s':''} courte${LEARN_COUNT>1?'s':''}, avec une question à chaque fois</span></button>
+        <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
+        <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>${EVAL_SKILLS.length} questions, sans aide, avec une note à la fin</span></button>
+        <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
+      </div>
+    </main>`);
+}
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+function record(q,ok,rep){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
+}
+function genQuestion(skill,level){
+  if(!skill||skill==='all')skill=pick(Object.keys(GEN));
+  return GEN[skill](level);
+}
+const LVL=Object.keys(LEVELS).map(Number);
+const MAXL=LVL[LVL.length-1];
+
+let S={screen:'home'};
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : Apprendre ================= */
+function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
+function renderLearn(){
+  const st=LEARN[S.ls];let body;
+  if(st.recap){
+    body=`<div class="card">${st.body()}</div>
+      <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
+  }else{
+    const q=st.q;
+    body=`${st.body()}<div class="card"><p class="q-prompt"><b>À toi :</b> ${q.p}</p>
+      <div class="choices">${shuffle(q.c.slice()).map(c=>`<button class="choice" data-act="lchoose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div><div id="lfb"></div></div>
+      <div class="btns" id="lacts"></div>`;
+  }
+  show(`${topbar('Apprendre')}<main class="wrap"><p class="small">Fiche ${S.ls+1} sur ${LEARN.length}</p><div class="dots" aria-hidden="true">${LEARN.map((x,i)=>`<i class="${i<S.ls?'done':i===S.ls?'cur':''}"></i>`).join('')}</div><h2>${st.t}</h2><div style="margin-top:8px">${body}</div></main>`);
+}
+function learnChoose(el){
+  const q=LEARN[S.ls].q,v=el.dataset.v,fb=document.getElementById('lfb');
+  if(v===q.ok){
+    app.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.classList.add('locked');});
+    el.classList.add('good');
+    fb.innerHTML=`<div class="fb good"><p><b>${pick(CHEER)}</b></p></div>`;
+    document.getElementById('lacts').innerHTML=`<button class="btn primary" data-act="lnext" data-primary>${S.ls<LEARN.length-2?'Fiche suivante':'Terminer'}</button>`;
+  }else{
+    el.classList.add('bad');el.disabled=true;
+    fb.innerHTML=`<div class="fb hint"><p><b>Pas tout à fait.</b> ${q.c.find(c=>c.v===v).why}</p></div>`;
+  }
+}
+
+/* ================= MOTEUR : entraînement / évaluation ================= */
+function levelChips(sel,mix){
+  let s='<div class="chips">';
+  if(mix)s+=`<button class="chip ${sel===0?'on':''}" data-act="lvl" data-v="0">Mixte<small>un peu de tout</small></button>`;
+  for(const i of LVL)s+=`<button class="chip ${sel===i?'on':''}" data-act="lvl" data-v="${i}">${LEVELS[i].t}<small>${LEVELS[i].d}</small></button>`;
+  return s+'</div>';
+}
+function skillChips(sel){
+  let s=`<div class="chips"><button class="chip ${sel==='all'?'on':''}" data-act="sk" data-v="all">Tout mélangé</button>`;
+  for(const k in SKILLS)s+=`<button class="chip ${sel===k?'on':''}" data-act="sk" data-v="${k}">${SKILLS[k].label}</button>`;
+  return s+'</div>';
+}
+function trainSetup(keep){
+  if(!keep||S.screen!=='trainSetup')S={screen:'trainSetup',level:S.level||1,skill:S.skillPref||'all'};
+  show(`${topbar("S'entraîner")}<main class="wrap">
+    <h2>Choisis ton niveau</h2>${levelChips(S.level,false)}
+    <h2>Que veux-tu travailler ?</h2>${skillChips(S.skill)}
+    <div class="btns"><button class="btn primary" data-act="trainStart" data-primary>Commencer</button></div></main>`);
+}
+function evalSetup(keep){
+  if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
+  show(`${topbar('Évaluation')}<main class="wrap">
+    <h2>On passe à l'évaluation ?</h2>
+    <p>${EVAL_SKILLS.length} questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
+    <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
+    <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
+}
+const hasPic=q=>q.choices.some(c=>String(c.label).indexOf('<svg')>=0);
+function qScreen(){
+  const q=S.q,ev=S.mode==='eval';
+  let head;
+  if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
+    head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
+  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
+    ${head}
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      ${q.write
+        // clavier de l'iPhone sans suggestions ni correction automatique : l'enfant écrit seul
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
+}
+/* ================= MOTEUR : signaler un problème ================= */
+// Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
+// copie de la question (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+// Pourquoi une copie : les questions sont tirées au hasard, sans identifiant à retrouver ensuite.
+const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
+function sigAsk(){
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
+    <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
+}
+function sigYes(){
+  const q=S.q||{},ch=q.choices||[],zone=document.getElementById('sig');
+  const lab=v=>{const c=ch.find(c=>c.v===v);return c?(txt(c.label)||'(image)'):'';};
+  const champ=document.getElementById('rep');
+  const att=q.write?String(q.write.ok[0]):(q.exp&&q.exp.c!==undefined?lab(q.exp.c):'');
+  const id=window.miniprof?window.miniprof.signaler({enonce:txt(q.prompt),choix:ch.map(c=>txt(c.label)||'(image)'),
+    attendue:att,reponse:champ?champ.value:(S.choice?lab(S.choice):'')}):null;
+  zone.innerHTML=id
+    ?`<div class="fb good"><p><b>Merci !</b> Un adulte va vérifier cette question.</p>
+      <div style="margin:10px 0"><input id="sigtxt" style="width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)" type="text" maxlength="300" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Tu veux dire pourquoi ?" placeholder="Tu veux dire pourquoi ? (facultatif)"></div>
+      <div class="btns"><button class="btn" data-act="sigsend" data-id="${esc(id)}">Envoyer</button></div></div>`
+    :`<div class="fb bad"><p>Le signalement n'a pas pu être enregistré.</p></div>`;
+}
+function sigSend(el){
+  const t=document.getElementById('sigtxt'),zone=document.getElementById('sig');
+  if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
+  zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
+}
+// Boutons de la question (P010, 12/10/2026). « Valider » n'apparaît que lorsque l'élève a proposé
+// une réponse (mot tapé, choix, dessin non vide). Après une erreur, « Réessayer » efface sa
+// proposition ; « Valider » revient (caché) tant qu'il n'a rien reproposé.
+function aReponse(){
+  if(S.q&&S.q.draw)return Object.keys(S.grid||{}).length>0;
+  const i=document.getElementById('rep');
+  return i?!!norm(i.value):!!S.choice;
+}
+function majValider(){const b=document.getElementById('ok');if(b)b.hidden=!aReponse();}
+function boutons(){
+  const ev=S.mode==='eval',last=ev&&S.i===S.total-1;
+  const aide=ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'+(S.attempts>0?'<button class="btn ghost" data-act="reveal">Voir la correction</button>':'');
+  const principal=S.retry
+    ?'<button class="btn primary" data-act="retry" data-primary>Réessayer</button>'
+    :`<button class="btn primary" id="ok" data-act="check" data-primary hidden>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>`;
+  document.getElementById('acts').innerHTML=principal+aide;
+  majValider();
+}
+// L'élève propose (ou modifie) une réponse : si « Réessayer » attendait, « Valider » reprend sa place.
+function surProposition(){if(S.retry){S.retry=false;boutons();}else majValider();}
+function reessayer(){
+  S.retry=false;S.choice=null;
+  const i=document.getElementById('rep');
+  if(i){i.value='';i.focus();}
+  // QCM : la réponse fausse repasse en neutre (elle était rouge et grisée)
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.remove('sel','bad');c.disabled=false;});
+  boutons();
+}
+function setFb(html){document.getElementById('fb').innerHTML=html;}
+function lockChoices(){
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(S.q.write&&judgeWrite(S.q,inp.value).ok?'good':'bad');}
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
+}
+// la réponse tapée (question à écrire), coupée à 60 caractères pour le journal
+function lireEcrit(){const i=document.getElementById('rep');return i?i.value.slice(0,60):'';}
+function checkTrain(){
+  let v=null;
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse.</div>');return;}v=judgeWrite(S.q,S.choice);}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  const q=S.q;S.attempts++;
+  const ok=v?v.ok:S.choice===q.exp.c;
+  // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
+  if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
+  if(ok){
+    lockChoices();
+    let extra='';
+    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
+  }else if(S.attempts===1||(v&&S.attempts<3)){
+    // une question à écrire laisse 3 essais : l'enfant corrige son mot lui-même
+    const c=v?null:q.choices.find(c=>c.v===S.choice);
+    const why=v?v.why+'<br><span class="small">Appuie sur « Réessayer » ou touche le champ, puis écris ta réponse à nouveau.</span>':(c&&c.why?c.why:'Relis la question et réessaie.');
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${why}</p></div>`);
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    S.choice=null;
+    S.retry=true;boutons();
+  }else revealTrain();
+}
+function revealTrain(){
+  if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
+  lockChoices();
+  setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
+}
+function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
+
+// Une évaluation ne pose jamais deux fois la même question : on retire une question déjà
+// sortie (jusqu'à 30 essais, au cas où une compétence aurait peu de questions).
+// Signalé par le sponsor le 12/10/2026 (la même question deux fois dans une évaluation).
+function tirerSansDoublon(skills,niveau){
+  const vus=new Set();
+  // même question = même énoncé ET mêmes choix (un énoncé comme « Lequel est l'intrus ? » revient
+  // légitimement avec d'autres mots)
+  const cle=q=>q.prompt+'|'+(q.choices||[]).map(c=>c.v).sort().join(',')+'|'+q.exp.c;
+  return skills.map((s,i)=>{let q,n=0;do{q=genQuestion(s,niveau(i));n++;}while(vus.has(cle(q))&&n<30);vus.add(cle(q));return q;});
+}
+function evalStart(){
+  const lvl=S.level;
+  // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
+  const qs=tirerSansDoublon(shuffle(EVAL_SKILLS.slice()),i=>lvl===0?LVL[i%LVL.length]:lvl);
+  S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
+    cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
+  S.q=qs[0];qScreen();
+}
+function checkEval(){
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse avant de continuer.</div>');return;}}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.q.write?judgeWrite(S.q,S.choice).ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  S.i++;
+  if(S.i>=S.total){evalEnd();return;}
+  S.q=S.qs[S.i];qScreen();
+}
+const lblOf=(q,v)=>{if(q.write)return esc(v);const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+function evalEnd(){
+  const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
+  const duree=Math.round((Date.now()-S.t0)/1000);
+  const sk={};
+  res.forEach(r=>{const s=sk[r.q.skill]||(sk[r.q.skill]=[0,0]);s[1]++;if(r.ok)s[0]++;});
+  // l'évaluation est enregistrée d'un bloc à la fin : abandonnée au milieu, elle ne compte pas
+  if(window.miniprof)window.miniprof.reponse(res.map(r=>({competence:r.q.skill,juste:r.ok,mode:'v',difficulte:r.q.level,
+    question:r.q.skill,reponse:r.ans,duree:r.duree,evaluation:S.cle})));
+  let weakest=null,wp=2;for(const k in sk){const p=sk[k][0]/sk[k][1];if(p<wp){wp=p;weakest=k;}}
+  const pc=score/total;
+  const msg=pc>=.9?"Excellent ! Tu maîtrises ta leçon.":pc>=.7?"Très bien ! Il ne reste que quelques détails à revoir.":pc>=.5?"Bon début. Regarde les corrections, puis entraîne-toi encore un peu.":"Pas de panique : relis les fiches Apprendre, puis entraîne-toi.";
+  const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
+  const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
+    <div class="q-prompt">${r.q.prompt}</div>
+    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    <div class="fb info">${r.q.explain}</div></details>`).join('');
+  S.screen='result';S.weakest=weakest;
+  show(`${topbar('Résultat','home')}<main class="wrap">
+    <div class="card center"><div class="score">${score}<span style="font-size:1.6rem;color:var(--muted)"> / ${total}</span></div>
+      <p style="margin-top:10px">${msg}</p><p class="small">Temps : ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    <h2>Par compétence</h2><div style="margin-top:10px">${bars}</div>
+    <h2 style="margin:16px 0 6px">Les corrections</h2>${rev}
+    <div class="btns">
+      ${weakest&&wp<1?`<button class="btn primary" data-act="trainWeak" data-primary>Travailler : ${SKILLS[weakest].label}</button>`:''}
+      <button class="btn" data-act="evalSetup">Recommencer</button><button class="btn" data-act="bilan">Mon bilan</button><button class="btn ghost" data-act="home">Accueil</button>
+    </div></main>`);
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+// Ajouter ici les actions propres au module (ex. un labo) avant « default ».
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'learn':learn(0);break;
+    case 'lchoose':learnChoose(el);break;
+    case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
+    case 'trainSetup':trainSetup(false);break;
+    case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
+    case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
+    case 'evalSetup':evalSetup(false);break;
+    case 'evalStart':evalStart();break;
+    case 'quitEval':evalSetup(false);break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));surProposition();break;
+    case 'retry':reessayer();break;
+    case 'check':S.mode==='eval'?checkEval():checkTrain();break;
+    case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
+    case 'reveal':revealTrain();break;
+    case 'sig':sigAsk();break;
+    case 'signo':document.getElementById('sig').innerHTML='';break;
+    case 'sigyes':sigYes();break;
+    case 'sigsend':sigSend(el);break;
+    case 'next':nextTrain();break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// un mot tapé = une proposition : « Valider » apparaît
+app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
+// Après une erreur, toucher le champ ou y taper efface l'ancien mot, comme « Réessayer » (P010, retour du 12/10).
+const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
+app.addEventListener('pointerdown',effacerSiReessai);
+app.addEventListener('focusin',effacerSiReessai);
+app.addEventListener('beforeinput',effacerSiReessai);
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>

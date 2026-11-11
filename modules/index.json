@@ -168,6 +168,42 @@
       ]
     },
     {
+      "id": "histoire-geo-6e-vie-paleolithique",
+      "kind": "html",
+      "file": "histoire-geo-6e-vie-paleolithique.html",
+      "title": "La vie au Paléolithique",
+      "subject": "histoire-geo",
+      "level": "6e",
+      "description": "Les hommes nomades du Paléolithique, leurs outils, les premières formes d'art et la grotte Chauvet.",
+      "skills": [
+        {
+          "id": "nomade",
+          "label": "Un mode de vie nomade"
+        },
+        {
+          "id": "outils",
+          "label": "Des outils perfectionnés"
+        },
+        {
+          "id": "art",
+          "label": "Les premières formes d'art"
+        },
+        {
+          "id": "chauvet",
+          "label": "La grotte Chauvet"
+        },
+        {
+          "id": "documents",
+          "label": "Lire les documents"
+        },
+        {
+          "id": "mots",
+          "label": "Écrire les mots du cours"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "maths-cm1-tables-3-6-9",
       "kind": "html",
       "file": "maths-cm1-tables-3-6-9.html",
