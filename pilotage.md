@@ -47,6 +47,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 
 | Tâche | Échéance |
 |---|---|
+| Essayer puis valider (ou corriger) « Dictée 7 : parcours choisir puis écrire » (brouillon `francais-cm1-dictee-7-sans-famille-parcours`) ; si c'est bon, il remplace la Dictée 7 actuelle | cette semaine |
 | Sur l'appareil du CM1 : créer un profil « Test » pour tes essais ; l'enfant garde le profil actuel (son historique y est) | avant ton prochain essai de module |
 | Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | cette semaine |
 | Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | avant la prochaine dictée |

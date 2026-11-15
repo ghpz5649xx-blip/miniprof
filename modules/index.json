@@ -102,6 +102,30 @@
       ]
     },
     {
+      "id": "francais-cm1-dictee-7-sans-famille-parcours",
+      "kind": "html",
+      "file": "francais-cm1-dictee-7-sans-famille-parcours.html",
+      "title": "Dictée 7 : Sans famille (2)",
+      "subject": "francais",
+      "level": "CM1",
+      "description": "Les 24 mots de la dictée 7 (Sans famille) : retrouve chaque mot à partir de sa devinette, puis écris-le sans aide.",
+      "skills": [
+        {
+          "id": "noms",
+          "label": "Écrire les noms"
+        },
+        {
+          "id": "verbes",
+          "label": "Écrire les verbes"
+        },
+        {
+          "id": "mots",
+          "label": "Écrire les adjectifs et les petits mots"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "francais-cm1-dictee-7-sans-famille",
       "kind": "html",
       "file": "francais-cm1-dictee-7-sans-famille.html",
