@@ -3,16 +3,10 @@
 // Navigation par « hash » (la partie après # dans l'adresse) :
 //   #/                 choix du profil
 //   #/biblio           bibliothèque des modules
-//   #/module/<id>      accueil d'un module
-//   #/module/<id>/apprendre[/<compétence>]   leçon (voir screens/lesson.js)
-//   #/module/<id>/entrainement               réglage de l'entraînement
-//   #/module/<id>/entrainement/<niveau>[/<compétence>]   questions (screens/practice.js)
-//   #/module/<id>/evaluation                 réglage de l'évaluation
-//   #/module/<id>/evaluation/<mixte|1..4>    évaluation puis résultat (screens/exam.js)
 //   #/module/<id>/bilan                      bilan d'un module (screens/report.js)
 //   #/bilan                                  bilan de tous les modules
 //   #/sauvegarde                             export / restauration (screens/backup.js)
-//   #/module/_apercu/...                     module en aperçu (voir open-module.js)
+//   (#/module/<id> : ancien lien d'un module, renvoie à la bibliothèque)
 // Pourquoi : changer d'écran = changer d'adresse. Le bouton « retour » du
 // navigateur ou du téléphone marche tout seul, et recharger la page garde
 // l'écran courant. Aucun serveur n'est nécessaire (GitHub Pages ignore le #).
@@ -21,12 +15,6 @@ import { profilActif } from "./profiles.js";
 import { toucher, garderSession, retourValide } from "./activite.js";
 import { showProfiles } from "./screens/profiles.js";
 import { showLibrary } from "./screens/library.js";
-import { showModuleHome } from "./screens/module-home.js";
-import { showLesson } from "./screens/lesson.js";
-import { showPracticeSetup } from "./screens/practice-setup.js";
-import { showPractice } from "./screens/practice.js";
-import { showExamSetup } from "./screens/exam-setup.js";
-import { showExam } from "./screens/exam.js";
 import { showReport } from "./screens/report.js";
 import { showBackup } from "./screens/backup.js";
 
@@ -77,21 +65,10 @@ function route() {
     showReport(null);
   } else if (parties[0] === "module" && parties[1] && parties[2] === "bilan") {
     showReport(decodeURIComponent(parties[1]));
-  } else if (parties[0] === "module" && parties[1] && parties[2] === "apprendre") {
-    showLesson(decodeURIComponent(parties[1]), parties[3] ? decodeURIComponent(parties[3]) : null);
-  } else if (parties[0] === "module" && parties[1] && parties[2] === "entrainement" && parties[3]) {
-    showPractice(decodeURIComponent(parties[1]), parties[3], parties[4] ? decodeURIComponent(parties[4]) : null);
-  } else if (parties[0] === "module" && parties[1] && parties[2] === "entrainement") {
-    showPracticeSetup(decodeURIComponent(parties[1]));
-  } else if (parties[0] === "module" && parties[1] && parties[2] === "evaluation" && parties[3]) {
-    showExam(decodeURIComponent(parties[1]), parties[3]);
-  } else if (parties[0] === "module" && parties[1] && parties[2] === "evaluation") {
-    showExamSetup(decodeURIComponent(parties[1]));
-  } else if (parties[0] === "module" && parties[1] && parties[2]) {
-    // Activité inconnue (lien abîmé) : accueil du module.
-    location.replace("#/module/" + parties[1]);
-  } else if (parties[0] === "module" && parties[1]) {
-    showModuleHome(decodeURIComponent(parties[1]));
+  } else if (parties[0] === "module") {
+    // Les modules sont des pages autonomes (modules/<id>.html) : un ancien lien #/module/<id>
+    // (module JSON supprimé le 15 nov. 2026, ou favori) ramène à la bibliothèque.
+    location.replace("#/biblio");
   } else {
     // Adresse inconnue (lien abîmé) : bibliothèque.
     location.replace("#/biblio");

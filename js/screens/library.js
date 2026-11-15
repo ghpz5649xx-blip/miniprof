@@ -4,13 +4,11 @@
 // par tools/build_index.py : on n'ouvre le fichier complet d'un module qu'au clic.
 //
 // En haut : le rappel de sauvegarde s'il y a lieu (js/backup.js).
-// En bas : l'aperçu d'un module local, pour le parent (js/open-module.js).
 
 import { el, clear, topBar, message, richText } from "../ui.js";
 import { currentProfile } from "../profiles.js";
-import { readJson, readJsonFile } from "../loader.js";
+import { readJson } from "../loader.js";
 import { backupReminder } from "../backup.js";
-import { APERCU, setPreview } from "../open-module.js";
 
 // Libellés affichés pour les valeurs de "subject" du schéma.
 const MATIERES = {
@@ -37,7 +35,6 @@ export function showLibrary() {
   }
   const zone = el("div", {}, el("p", { class: "muted" }, "Chargement des modules…"));
   app.append(zone);
-  app.append(blocApercu());
 
   // readJson est asynchrone : la liste s'affiche quand le fichier est arrivé.
   readJson("modules/index.json")
@@ -87,39 +84,7 @@ function listeModules(index) {
   return contenu;
 }
 
-// Un module HTML (build_index.py, "kind": "html") est une page autonome : on
-// l'ouvre directement. Un module JSON s'ouvre dans les écrans de l'app.
+// Un module est une page autonome (modules/<id>.html) : on l'ouvre directement.
 export function adresseModule(m) {
-  if (m.kind === "html") return "modules/" + encodeURIComponent(m.file);
-  return "#/module/" + encodeURIComponent(m.id);
-}
-
-// « Pour les parents » : ouvrir un module JSON de l'appareil sans le publier,
-// pour le tester avant de le committer. Rien n'est enregistré pendant l'aperçu.
-function blocApercu() {
-  const erreur = el("div", {});
-  const champ = el("input", { type: "file", id: "fichier-apercu", accept: ".json,application/json" });
-  champ.addEventListener("change", () => {
-    const fichier = champ.files[0];
-    if (!fichier) return;
-    readJsonFile(fichier)
-      .then((data) => {
-        if (location.hash !== "#/biblio") return; // parti entre-temps
-        setPreview(data);
-        location.hash = "#/module/" + APERCU;
-      })
-      .catch((e) => {
-        if (location.hash !== "#/biblio") return;
-        erreur.replaceChildren(message("error", e.message));
-      });
-  });
-  return el("details", { class: "card correction parent-zone" },
-    el("summary", {}, "Pour les parents : aperçu d'un module"),
-    el("p", { class: "muted" },
-      "Ouvre un fichier de module de cet appareil pour le tester avant de le publier. "
-      + "Rien n'est enregistré, et l'aperçu disparaît si la page est rechargée."),
-    el("label", { for: "fichier-apercu" }, "Fichier du module (.json) :"),
-    champ,
-    erreur,
-  );
+  return "modules/" + encodeURIComponent(m.file);
 }

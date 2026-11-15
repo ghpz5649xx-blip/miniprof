@@ -72,30 +72,23 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   d=await charger('index.html#/biblio');await sleep(800);
   const cartes=[...d.querySelectorAll('a.card-link')].map(a=>a.getAttribute('href'));
   log(cartes.includes('modules/'+ID+'.html'),'bibliothèque : carte du module HTML');
-  log(cartes.includes('#/module/maths-cm2-division-euclidienne'),'bibliothèque : modules JSON toujours là');
   // brouillon (modules/brouillons.json, simulé par le serveur) : caché aux enfants, gardé dans le bilan
-  await fetch('/__brouillon',{method:'POST',body:'maths-cm2-grands-nombres'});
+  await fetch('/__brouillon',{method:'POST',body:'sciences-6e-circuit-electrique'});
   d=await charger('index.html#/biblio');await sleep(800);
   const cartesB=[...d.querySelectorAll('a.card-link')].map(a=>a.getAttribute('href'));
-  log(!cartesB.includes('#/module/maths-cm2-grands-nombres')&&cartesB.includes('#/module/maths-cm2-division-euclidienne'),'brouillon absent de la bibliothèque, autres modules présents');
-  // non-régression : un module JSON s'ouvre et s'entraîne
+  log(!cartesB.includes('modules/sciences-6e-circuit-electrique.html')&&cartesB.length>1,'brouillon absent de la bibliothèque, autres modules présents');
+  await fetch('/__brouillon',{method:'POST',body:''});
+  // ancien lien d'un module JSON (supprimé) : retour à la bibliothèque
   d=await charger('index.html#/module/maths-cm2-division-euclidienne');await sleep(800);
-  log(!d.getElementById('app').textContent.includes('illisible')&&d.querySelectorAll('a.card-link, a.card').length>0,'accueil du module JSON : '+d.getElementById('app').textContent.slice(0,80));
+  log(f.contentWindow.location.hash==='#/biblio','ancien lien #/module/<id> : renvoie à la bibliothèque');
   d=await charger('index.html#/bilan');await sleep(800);
   log(d.getElementById('app').textContent.includes('Le circuit électrique'),'bilan tous modules : titre du module HTML');
-  // signaler un problème dans un module JSON : question retirée du tirage, copie gardée, commentaire facultatif
-  const qv=await import('/js/question-view.js');
-  const idJ='maths-cm2-division-euclidienne';
-  const modJ=await fetch('modules/'+idJ+'.json').then(r=>r.json());
-  const qJ=modJ.questions.find(x=>x.type==='choice')||modJ.questions[0];
-  const zoneJ=qv.boutonSignaler(idJ,qJ,'ma réponse');document.body.append(zoneJ);
-  zoneJ.querySelector('button').click();
-  const flags=JSON.parse(localStorage.getItem('miniprof.v1.flags')||'[]');
-  log(flags.length===1&&flags[0][0]===idJ&&flags[0][1]===qJ.id,'module JSON : question signalée (flags inchangé) : '+JSON.stringify(flags[0]));
-  log(sg().length===2&&sg()[1].question===qJ.id&&sg()[1].reponse==='ma réponse'&&sg()[1].attendue.length>0,'module JSON : copie gardée : '+JSON.stringify(sg()[1]).slice(0,160));
-  zoneJ.querySelector('input').value='il manque un cas';zoneJ.querySelector('.signalement-commentaire button').click();
-  log(sg()[1].commentaire==='il manque un cas','module JSON : commentaire ajouté');
-  zoneJ.remove();
+  // signaler un problème : copie gardée, commentaire facultatif
+  const sgm=await import('/js/signalements.js');
+  const idS=sgm.addSignalement({module:ID,enonce:'question',attendue:'bonne',reponse:'ma réponse'},null);
+  log(sg().length===2&&sg()[1].reponse==='ma réponse'&&sg()[1].attendue.length>0,'signalement : copie gardée : '+JSON.stringify(sg()[1]).slice(0,160));
+  sgm.commentSignalement(idS,'il manque un cas');
+  log(sg()[1].commentaire==='il manque un cas','signalement : commentaire ajouté');
   // sauvegarde : le nouveau champ voyage, les anciens fichiers restent lisibles
   const bk=await import('/js/backup.js');
   const sauv=bk.buildBackup();
@@ -103,7 +96,8 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   const ancien={...sauv};delete ancien.signalements;
   log(bk.checkBackup(ancien).ok&&bk.checkBackup(sauv).ok&&!bk.checkBackup({...sauv,signalements:'x'}).ok,'sauvegarde : ancien fichier accepté, champ abîmé refusé');
   bk.restoreBackup(ancien);
-  log(sg().length===0&&JSON.parse(localStorage.getItem('miniprof.v1.flags')).length===1&&ev().length>0,'restauration d\'un ancien fichier : questions et résultats gardés, signalements vides');
+  log(sg().length===0&&ev().length>0,'restauration d\'un ancien fichier : résultats gardés, signalements vides');
+  log(bk.checkBackup({...sauv,flags:[]}).ok,'sauvegarde : un fichier avec l\'ancien champ flags reste lisible');
   bk.restoreBackup(sauv);
   log(sg().length===2,'restauration d\'un fichier récent : signalements rétablis');
   // partage du système (simulé : le navigateur de recette ne partage pas de fichiers)
@@ -193,11 +187,11 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(f.contentWindow.miniprof.reponse({competence:'serie',juste:true})===false&&ev().length===m0,'page restée ouverte : réponse refusée');
   clic(d,'[data-act="trainSetup"]');await sleep(1500);
   log(!f.contentWindow.location.pathname.endsWith('.html')&&retourHash()==='modules/'+ID+'.html'&&ev().length===m0,'page restée ouverte : le toucher envoie vers le choix du profil, rien d\'enregistré');
-  // lien direct vers un module JSON : choix, puis retour à ce module
-  actif(31*60);d=await charger('index.html#/module/maths-cm2-division-euclidienne');
-  log(f.contentWindow.location.hash.startsWith('#/?retour=')&&retourHash()==='#/module/maths-cm2-division-euclidienne','lien direct (app) : choix du profil d\'abord : '+f.contentWindow.location.hash);
+  // lien direct vers le bilan : choix du profil, puis retour au bilan
+  actif(31*60);d=await charger('index.html#/bilan');
+  log(f.contentWindow.location.hash.startsWith('#/?retour=')&&retourHash()==='#/bilan','lien direct (app) : choix du profil d\'abord : '+f.contentWindow.location.hash);
   clic(d,'.btn-big');await sleep(800);
-  log(f.contentWindow.location.hash==='#/module/maths-cm2-division-euclidienne','lien direct (app) : retour au module après le choix');
+  log(f.contentWindow.location.hash==='#/bilan','lien direct (app) : retour au bilan après le choix');
   // adresse de retour piégée : refusée, on retombe sur la bibliothèque
   actif(31*60);d=await charger('index.html#/?retour='+encodeURIComponent('https://example.org/'));
   clic(d,'.btn-big');await sleep(800);

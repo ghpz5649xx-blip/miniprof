@@ -66,29 +66,30 @@ vers un écran de `js/screens/` :
 |---|---|
 | `profiles` | choisir ou créer le profil de l'enfant (un appareil peut en avoir plusieurs) |
 | `library` | la bibliothèque des modules (les brouillons n'y sont pas) |
-| `module-home`, `lesson`, `practice-setup`, `practice`, `exam-setup`, `exam`, `exam-result` | jouer un module JSON : leçon, entraînement, évaluation |
 | `report` | le bilan par module et par compétence |
 | `backup` | exporter et restaurer les données |
 
 Les autres fichiers de `js/` sont des briques partagées : `storage.js` (accès protégé au
-`localStorage`), `events.js` (le journal), `stats.js` (les calculs du bilan), `answers.js`
-(comparaison tolérante des réponses), `ui.js` (affichage sans `innerHTML`), `loader.js` (la seule
+`localStorage`), `events.js` (le journal), `stats.js` (les calculs du bilan), `ui.js` (affichage sans `innerHTML`), `loader.js` (la seule
 partie asynchrone : lire un fichier).
 
-### Deux sortes de modules
+### Les modules
 
-| | **Module HTML** (la voie normale depuis octobre 2026) | **Module JSON** (la première voie) |
-|---|---|---|
-| Fichier | `modules/<id>.html` : une page autonome, avec son propre JavaScript (schémas, animations, questions tirées au hasard, à choisir ou **à écrire** : orthographe, conjugaison, dictée) | `modules/<id>.json` : une liste fixe de questions, jouée par les écrans de l'app |
-| Fabriqué par | Claude Code, avec le skill `/nouveau-module` | n'importe quel LLM, avec `tools/prompt.py` |
-| Contrôlé par | `tools/check_html.py` (le contrat) et `tools/tirage.py` (milliers de questions tirées) | `tools/validate.py` (le schéma `schema/module.schema.json`) |
-| Suivi | la page appelle `window.miniprof` (`js/suivi.js`), qui écrit dans le même journal | l'app écrit directement dans le journal |
+Un module est une page autonome `modules/<id>.html`, avec son propre JavaScript (schémas,
+animations, questions tirées au hasard, à choisir ou **à écrire** : orthographe, conjugaison,
+dictée). Claude Code la fabrique avec le skill `/nouveau-module` ; elle est contrôlée par
+`tools/check_html.py` (le contrat) et `tools/tirage.py` (milliers de questions tirées). La page
+appelle `window.miniprof` (`js/suivi.js`), qui écrit dans le journal de l'enfant.
 
-Pourquoi les deux : une page HTML sait faire ce qu'une liste de questions ne peut pas (un circuit
-électrique qu'on manipule, des questions recalculées à chaque fois), mais elle exécute du code
-écrit par un LLM sur le site des enfants. Elle n'est acceptée que si elle respecte un **contrat**
-(`docs/module-html.md`) : aucune requête réseau, aucun accès direct au stockage, et le suivi
-uniquement par `js/suivi.js`. Les modules JSON restent pris en charge.
+Une page exécute du code écrit par un LLM sur le site des enfants. Elle n'est acceptée que si elle
+respecte un **contrat** (`docs/module-html.md`) : aucune requête réseau, aucun accès direct au
+stockage, et le suivi uniquement par `js/suivi.js`.
+
+**Les modules JSON** (une liste fixe de questions jouée par les écrans de l'app, avec
+`tools/prompt.py`, `validate.py`, `merge.py` et le schéma) **ont été supprimés le 15 nov. 2026** :
+le sponsor ne s'en servait pas. Leur code est dans l'historique Git (avant le commit « Suppression
+des modules JSON »). Les anciens liens `#/module/<id>` ramènent à la bibliothèque, et les
+résultats déjà enregistrés pour ces modules restent dans le journal.
 
 `modules/index.json` est la liste lue par l'app. Il est **généré** par `tools/build_index.py`,
 qui n'y met que les modules conformes. `modules/brouillons.json` liste les modules pas encore
@@ -105,8 +106,7 @@ leçon en module. Aujourd'hui :
   commun des pages) et suit `docs/module-html.md` (contrat et règles pédagogiques).
 - **Claude Code est aussi le mainteneur de l'app** : il code, teste, documente et pilote le
   projet (voir « Gouvernance »).
-- **Sans Claude Code** : la voie JSON marche avec n'importe quel LLM (voir « Créer un module JSON
-  depuis le Mac »). Un pipeline de modules HTML sans Claude Code a été étudié (robot de contrôle
+- **Sans Claude Code** : un pipeline de modules HTML sans Claude Code a été étudié (robot de contrôle
   GitHub, puis API Claude payée à l'usage, environ 1 $ par module) ; il est au backlog de
   `pilotage.md`.
 
@@ -167,14 +167,13 @@ changer de téléphone la fait perdre. D'où la sauvegarde :
   (`js/partage.js`, seule exception à « asynchrone limité à la lecture de fichiers »). La date du
   dernier export n'est notée que si le partage a abouti. « Télécharger le fichier » reste proposé,
   et c'est le seul bouton quand le navigateur ne sait pas partager un fichier. Le fichier est
-  `miniprof-AAAA-MM-JJ.export.json` (profils, résultats, questions signalées, problèmes décrits).
+  `miniprof-AAAA-MM-JJ.export.json` (profils, résultats, problèmes décrits).
   Le ranger dans `exports/` sur le Mac : ce dossier et les fichiers `*.export.json` sont
   **ignorés par Git** (données personnelles).
-- **Signaler un problème** : l'enfant appuie sur « Cette question me semble fausse » (modules JSON,
-  après la correction) ou sur « Une erreur ? » à côté de « Valider » (modules HTML), puis confirme
+- **Signaler un problème** : l'enfant appuie sur « Une erreur ? » à côté de « Valider », puis confirme
   « Oui » ou « Non ». Un commentaire facultatif peut suivre. Miniprof garde une copie de la
   question (`js/signalements.js`, clé `miniprof.v1.signalements`), qui voyage dans l'export et
-  s'affiche en tête de `tools/analyse.py`. Dans un module JSON, la question signalée n'est plus tirée.
+  s'affiche en tête de `tools/analyse.py`.
 - **Restaurer** (même écran, accessible sans profil, donc sur un appareil neuf) : choisir le
   fichier, vérifier le résumé, puis « Confirmer : remplacer les données ». Les données de
   l'appareil sont **remplacées**, pas fusionnées.
@@ -198,23 +197,6 @@ Enregistre des graphiques dans `exports/analyse/`. Avant cela, la section « Sig
 liste les problèmes signalés par les enfants (date, enfant, module, question copiée, réponse
 attendue et réponse donnée, commentaire), du plus récent au plus ancien.
 
-### Créer un module JSON depuis le Mac (voie de secours, n'importe quel LLM)
-
-1. `python tools/prompt.py --mode nouveau` : le prompt (schéma, règles pédagogiques, exemple) est
-   écrit dans `docs/prompt-nouveau.md` et copié dans le presse-papiers. Le coller dans le LLM avec
-   les photos.
-2. Coller la réponse dans un fichier, puis `python tools/validate.py brouillon.json`. Texte autour
-   du JSON : `--nettoyer`. Erreurs : `--llm` produit le message à renvoyer au LLM.
-3. Prévisualiser dans l'app : en bas de la bibliothèque, « Pour les parents : aperçu d'un
-   module » (rien n'est enregistré). **Relire quelques questions.**
-4. Renommer en `modules/<id>.json`, puis `python tools/build_index.py`, commit et push.
-
-Compléter un module par lots de 40 à 60 questions : `python tools/prompt.py --mode lot
-modules/<id>.json`, puis `python tools/merge.py modules/<id>.json lot.json` (`--essai` pour tout
-vérifier sans écrire). `merge.py` ajoute les nouvelles questions, remplace celles de même id (c'est
-ainsi qu'on corrige une question), signale les doublons probables, et n'écrit que si le résultat
-est valide.
-
 ---
 
 ## 3. Reprendre le projet
@@ -224,7 +206,7 @@ est valide.
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r tools/requirements.txt     # jsonschema, pandas, matplotlib
+pip install -r tools/requirements.txt     # pandas, matplotlib
 ```
 
 `node` est utile en plus pour `tools/tirage.py`. Une session Claude Code dans le cloud installe
@@ -252,8 +234,7 @@ pas lire les fichiers de modules.
 | `CLAUDE.md` | règles du dépôt pour Claude : méthode de travail, contraintes, commandes |
 | `index.html`, `css/`, `js/` | l'app |
 | `modules/` | les modules, `index.json` (généré), `brouillons.json` |
-| `schema/module.schema.json` | le format des modules JSON (source de vérité) |
-| `tools/` | outils Python : validation, contrôle, tirage, index, prompt, fusion, analyse, recette ; `tools/tests/` |
+| `tools/` | outils Python : contrôle, tirage, couverture des dictées, index, analyse, recette ; `tools/tests/` |
 | `.claude/` | le skill `/nouveau-module` et le hook qui met la session à jour au démarrage |
 | `programmes/` | les programmes officiels du cycle 3 (CM1, CM2, 6e), en PDF et en texte ; sciences à ajouter |
 | `docs/` | annexes, voir ci-dessous |
@@ -286,21 +267,9 @@ l'historique Git (les plans finis y restent lisibles).
   HTML passent `check_html.py`.
 - **Règles à garder synchronisées** entre Python et JavaScript : elles sont vérifiées par `tools/tests/test_sync.py`.
 
-### Format d'un module JSON, en bref
-
-Référence complète : `schema/module.schema.json` ; exemple :
-`modules/maths-cm2-division-euclidienne.json`.
-
-- Métadonnées : `id`, `version`, `title`, `subject`, `level`, `description`.
-- `skills` : les compétences (`id`, `label`).
-- `lesson` : blocs `text`, `worked_example`, `guided_steps`.
-- `questions` : `number`, `choice` ou `text`, chacune avec `difficulty` 1 à 4, `hint`,
-  `explanation` et, facultatif, `common_errors`.
-- Mise en forme autorisée : `**gras**` et retours à la ligne, pas de HTML.
-
 ### Format du journal (export et `tools/analyse.py`)
 
-Un export contient `profiles` (`id`, `name`), `events` (`{id du profil: [lignes]}`), `flags` et,
+Un export contient `profiles` (`id`, `name`), `events` (`{id du profil: [lignes]}`) et,
 depuis le plan P003, `signalements` (liste d'objets : `id`, `date`, `module`, `profil`,
 `question`, `enonce`, `choix`, `attendue`, `reponse`, `commentaire`). Un fichier d'avant P003 n'a
 pas `signalements` : il reste lisible.

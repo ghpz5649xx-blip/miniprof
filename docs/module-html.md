@@ -7,7 +7,7 @@ exemple complet : `modules/sciences-6e-circuit-electrique.html`.
 
 miniprof ne l'affiche pas : il en **suit les résultats**. La page écrit chaque réponse dans le
 journal de l'enfant (`js/events.js`) par le script `js/suivi.js`. Le bilan de miniprof, la
-sauvegarde et `tools/analyse.py` la traitent comme un module JSON.
+sauvegarde et `tools/analyse.py` lisent ce journal.
 
 Contrôle : `python tools/check_html.py modules/<id>.html` (`--llm` : texte de correction).
 `tools/build_index.py` n'indexe que les pages conformes.
@@ -34,7 +34,7 @@ Contrôle : `python tools/check_html.py modules/<id>.html` (`--llm` : texte de c
    ```
    - `id` : `matiere-niveau-sujet`, minuscules sans accents, tirets. Le fichier s'appelle `<id>.html`.
      **L'id ne change plus jamais** (l'historique des enfants y est rattaché).
-   - `subject` et `level` : mêmes valeurs que le schéma (`schema/module.schema.json`).
+   - `subject` et `level` : valeurs de `MATIERES` et `NIVEAUX` en tête de `tools/check_html.py`.
    - `skills` : 2 à 8 compétences. Leurs `id` sont stables, comme l'id du module.
 3. **Le script de suivi**, juste avant `</body>` :
    ```html

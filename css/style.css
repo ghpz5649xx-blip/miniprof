@@ -296,9 +296,6 @@ input:disabled { opacity: 1; color: var(--text); }
 
 /* --- Signalement et bilan ------------------------------------------------- */
 
-.flagged { margin-top: 24px; }
-.flagged-row { border-top: 1px solid var(--border); padding: 8px 0 12px; }
-.flagged-row p { margin: 0 0 8px; }
 
 .report-summary { font-size: 1.1rem; font-weight: 600; }
 .report-module { font-size: 1.1rem; margin: 12px 0 4px; }
@@ -320,7 +317,7 @@ input[type="file"] { max-width: 100%; min-height: 48px; margin-bottom: 12px; fon
   text-align: center;
 }
 
-/* Commentaire facultatif sous « Cette question me semble fausse » (js/question-view.js) */
+/* Commentaire facultatif sous « Cette question me semble fausse »  */
 .signalement-commentaire { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
 .signalement-commentaire input { flex: 1 1 200px; margin: 0; }
 

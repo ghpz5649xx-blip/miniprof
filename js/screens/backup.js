@@ -31,7 +31,7 @@ function blocExport() {
   const pourcent = Math.round(storageRatio() * 100);
   return el("section", { class: "card" },
     el("h2", { class: "card-title" }, "Exporter"),
-    el("p", {}, "Toutes les données de cet appareil (profils, résultats, questions signalées) dans un fichier."),
+    el("p", {}, "Toutes les données de cet appareil (profils, résultats, problèmes signalés) dans un fichier."),
     el("p", { class: "muted" },
       "Dernier export : " + (derniere ? new Date(derniere * 1000).toLocaleDateString("fr-FR") : "jamais")
       + " · stockage utilisé : " + pourcent + " %"),

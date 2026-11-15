@@ -20,13 +20,12 @@ import re
 import sys
 from pathlib import Path
 
-from common import load_schema
-
-SCHEMA = load_schema()
-ID_MODULE = re.compile(SCHEMA["properties"]["id"]["pattern"])
-ID_COMPETENCE = re.compile(SCHEMA["$defs"]["identifiant"]["pattern"])
-MATIERES = SCHEMA["properties"]["subject"]["enum"]
-NIVEAUX = SCHEMA["properties"]["level"]["enum"]
+# Valeurs permises dans la fiche (anciennement dans schema/module.schema.json, supprimé avec les
+# modules JSON, 15 nov. 2026). `level` : la classe, `subject` : la matière.
+ID_MODULE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+ID_COMPETENCE = re.compile(r"^[a-z0-9_-]+$")
+MATIERES = ["maths", "francais", "histoire-geo", "sciences", "anglais", "emc", "autre"]
+NIVEAUX = ["CP", "CE1", "CE2", "CM1", "CM2", "6e", "5e", "4e", "3e"]
 CHAMPS_FICHE = ["id", "title", "subject", "level", "description", "skills"]
 
 FICHE = re.compile(
@@ -146,7 +145,7 @@ def verifier_fichier(path):
 
 
 def texte_llm(rapport):
-    """Message à recopier tel quel au LLM (même forme que validate.py --llm)."""
+    """Message à recopier tel quel au LLM (texte à recopier tel quel au LLM)."""
     if rapport.valide:
         return "Aucune erreur : rien à renvoyer au LLM."
     return "\n".join([

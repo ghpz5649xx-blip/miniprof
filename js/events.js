@@ -16,14 +16,13 @@
 //                (deuxième chance après une erreur du premier coup, parcours du plan P012) ;
 //   juste      : 1 ou 0 ;
 //   durée      : secondes passées sur la question ;
-//   réponse    : telle que lue par question-view.js ({ q: 5, r: 3 }, "b", "Paris") ;
+//   réponse    : texte court de la réponse donnée ("b", "Paris") ;
 //   évaluation : null en entraînement ; en évaluation "<date de début>/<mixte|1..4>",
 //                commun aux réponses d'une même évaluation (pour retrouver la note).
 // Le reste du code ne manipule que des objets nommés : seuls versLigne() et
 // depuisLigne() connaissent l'ordre des cases.
 
 import { readKey, writeKey, removeKey } from "./storage.js";
-import { APERCU } from "./open-module.js";
 
 // Une réponse tapée très longue ne doit pas remplir le stockage.
 const MAX_TEXTE = 100;
@@ -73,8 +72,6 @@ export function listEvents(profilId, avecDeuxiemeChance = false) {
 // pour l'évaluation : une seule écriture, donc tout ou rien.
 // Renvoie true si c'est enregistré ; sinon l'appelant prévient l'enfant.
 export function addEvents(profilId, evenements) {
-  // Module en aperçu (js/open-module.js) : on joue, mais on n'enregistre rien.
-  if (evenements.every((e) => e.module === APERCU)) return true;
   const tout = lignes(profilId).concat(evenements.map(versLigne));
   return writeKey(cle(profilId), tout);
 }

@@ -1,5 +1,4 @@
 # Dépendances des outils en ligne de commande (l'app web n'en dépend pas).
-jsonschema>=4.20
 # analyse.py : tableaux et graphiques de progression
 pandas>=2.2
 matplotlib>=3.8

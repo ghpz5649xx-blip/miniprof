@@ -5,23 +5,20 @@ Usage :
     python tools/build_index.py autre/dossier
 
 Pourquoi un index : la bibliothèque et le bilan de l'app affichent titre, matière, niveau
-et compétences sans télécharger chaque module (100 à 200 questions chacun). Le module complet n'est lu
-qu'à son ouverture.
+et compétences sans ouvrir chaque module.
 
-Seuls les modules VALIDES (validate.py) et bien nommés (<id>.json) sont indexés :
+Seuls les modules VALIDES (check_html.py) et bien nommés (<id>.html) sont indexés :
 un module cassé ne doit jamais arriver jusqu'aux enfants.
 
-Deux sortes de modules (champ "kind" de l'index) :
-- "json" : <id>.json, joué par les écrans de l'app ;
-- "html" : <id>.html, page autonome générée par un LLM, contrôlée par
-  check_html.py ; sa fiche (#miniprof-module) donne titre, niveau, compétences.
+Un module est une page autonome <id>.html générée par un LLM, contrôlée par check_html.py ; sa
+fiche (#miniprof-module) donne titre, niveau, compétences. (Les modules JSON ont été supprimés
+le 15 nov. 2026 : l'index n'a plus que des modules « html ».)
 
 Brouillons (modules/brouillons.json, {"brouillons": ["<id>", ...]}) : un module publié mais
 pas encore relu par le parent. Il est indexé avec "brouillon": true ; la bibliothèque des
 enfants ne l'affiche pas (son URL marche, pour que le parent l'essaie). Le skill
-/nouveau-module y ajoute chaque nouveau module et l'en retire sur « valide <id> ». Pourquoi un fichier à
-part plutôt qu'un champ du module : le schéma refuse les champs inconnus, et un seul fichier
-marche pour les modules JSON comme HTML. Valider un module = retirer son id de la liste.
+/nouveau-module y ajoute chaque nouveau module et l'en retire sur « valide <id> ». Valider un
+module = retirer son id de la liste.
 """
 
 import argparse
@@ -30,7 +27,6 @@ import sys
 from pathlib import Path
 
 from check_html import verifier_fichier
-from validate import valider_fichier
 
 ROOT = Path(__file__).resolve().parent.parent
 NOM_INDEX = "index.json"
@@ -42,31 +38,6 @@ ORDRE_NIVEAUX = ["CP", "CE1", "CE2", "CM1", "CM2", "6e", "5e", "4e", "3e"]
 def construire_index(dossier):
     """Renvoie (index, ecartes) ; ecartes = liste de (nom de fichier, raison)."""
     modules, ecartes = [], []
-    for path in sorted(Path(dossier).glob("*.json")):
-        if path.name in (NOM_INDEX, NOM_BROUILLONS):
-            continue
-        rapport = valider_fichier(path)
-        if not rapport.valide:
-            ecartes.append((path.name, f"{len(rapport.erreurs)} erreur(s) : {rapport.erreurs[0]}"))
-            continue
-        data = rapport.data
-        if path.stem != data["id"]:
-            ecartes.append((path.name, f"le fichier doit s'appeler « {data['id']}.json »"))
-            continue
-        modules.append({
-            "id": data["id"],
-            "kind": "json",
-            "file": path.name,
-            "version": data["version"],
-            "title": data["title"],
-            "subject": data["subject"],
-            "level": data["level"],
-            "description": data["description"],
-            "questions": len(data["questions"]),
-            # Libellés des compétences : le bilan « tous modules » de l'app les
-            # affiche sans avoir à télécharger chaque module.
-            "skills": [{"id": s["id"], "label": s["label"]} for s in data["skills"]],
-        })
     for path in sorted(Path(dossier).glob("*.html")):
         rapport = verifier_fichier(path)
         if not rapport.valide:
@@ -130,12 +101,12 @@ def main():
 
     print(f"✔ {len(index['modules'])} module(s) indexé(s) dans {cible}")
     for m in index["modules"]:
-        detail = f"{m['questions']} questions" if m["kind"] == "json" else "page HTML"
+        detail = "page HTML"
         if m.get("brouillon"):
             detail += ", brouillon"
         print(f"  - {m['file']} ({m['level']}, {detail})")
     if ecartes:
-        print(f"\n✘ {len(ecartes)} fichier(s) écarté(s) (lancer validate.py ou check_html.py dessus) :")
+        print(f"\n✘ {len(ecartes)} fichier(s) écarté(s) (lancer check_html.py dessus) :")
         for nom, raison in ecartes:
             print(f"  - {nom} : {raison}")
     # Code 1 si un fichier est écarté : on le remarque avant de pousser.

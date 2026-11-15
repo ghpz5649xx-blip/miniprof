@@ -26,15 +26,14 @@ Les règles générales de travail (rôles, plans, go avant de coder, git, livra
 - **Vie privée** : dépôt public. Jamais de photo, de prénom réel ni d'export dans le dépôt.
 
 ## Repères
-- L'app : `index.html`, `js/`. Les modules : `modules/` (`index.json` est généré). Le schéma :
-  `schema/module.schema.json`. Les outils et tests : `tools/`.
+- L'app : `index.html`, `js/`. Les modules (pages HTML) : `modules/` (`index.json` est généré). Les outils et tests : `tools/`.
 - `docs/recette.md` et `reference/` sont des archives : ne pas les relire.
 
 ## Commandes
 ```bash
 python tools/check_html.py modules/<id>.html  # contrat d'un module HTML
 python tools/tirage.py modules/<id>.html      # cherche les questions ambiguës
-python tools/validate.py modules/<id>.json    # module JSON
+python tools/couverture_dictee.py modules/<id>.html "mot1,mot2"   # une dictée pose tous ses mots
 python tools/build_index.py                   # régénère modules/index.json
 python -m unittest discover tools/tests -v    # tests (dont la synchro Python ≡ JS)
 python tools/recette_navigateur.py            # recette auto de l'app

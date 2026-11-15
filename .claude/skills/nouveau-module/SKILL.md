@@ -23,7 +23,7 @@ photos sans rapport avec une leçon). Réponds en français, court.
   évaluation, suivi) se garde tel quel ; tu n'écris que la partie **CONTENU** (données,
   générateurs, fiches Apprendre, accueil). Ne relis pas les modules existants pour leur moteur :
   garde ton effort pour le contenu. Seule exception : une régénération (voir 2).
-- `schema/module.schema.json` : valeurs permises pour `subject` et `level`.
+- Valeurs permises pour `subject` et `level` : `MATIERES` et `NIVEAUX` en tête de `tools/check_html.py`.
 - `modules/index.json` : modules existants (pour l'id).
 
 ## 2. Décider la fiche

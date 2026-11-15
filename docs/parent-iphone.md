@@ -8,7 +8,7 @@ Claude Code fait tout (page, contrôles, publication) avec le skill `/nouveau-mo
 1. **Connecter GitHub** (plus simple dans Safari que dans l'app) : ouvrir https://claude.ai/code,
    se connecter avec le compte Claude, suivre « Connect GitHub » → page GitHub « Authorize » →
    retour sur claude.ai/code. Un environnement « Default » est créé tout seul (accès réseau
-   « Trusted » : suffisant, il laisse installer `jsonschema`).
+   « Trusted » : suffisant).
 2. **Installer l'app GitHub de Claude sur le dépôt** : https://github.com/apps/claude/installations/new
    → compte `ghpz5649xx-blip` → « Only select repositories » → `miniprof` → « Install ». Sans
    elle, une session peut lire le dépôt (il est public) mais risque de ne pas pouvoir pousser.

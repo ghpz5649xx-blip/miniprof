@@ -14,7 +14,6 @@ import { currentProfile } from "../profiles.js";
 import { readJson } from "../loader.js";
 import { listEvents } from "../events.js";
 import { syntheseGlobale, scoresParCompetence, dernieresEvaluations } from "../stats.js";
-import { barreCompetence } from "./exam-result.js";
 import { adresseModule } from "./library.js";
 
 const NB_EVALUATIONS = 10;
@@ -23,7 +22,7 @@ const NB_EVALUATIONS = 10;
 export function showReport(moduleId) {
   const app = clear();
   const profil = currentProfile();
-  const retour = moduleId ? "#/module/" + encodeURIComponent(moduleId) : "#/biblio";
+  const retour = "#/biblio";
   app.append(topBar("Bilan de " + profil.name, retour));
   const zone = el("div", {}, el("p", { class: "muted" }, "Chargement…"));
   app.append(zone);
@@ -38,7 +37,7 @@ export function showReport(moduleId) {
     .then((index) => {
       if (location.hash !== monAdresse) return; // l'enfant est parti entre-temps
       const modules = index && Array.isArray(index.modules) ? index.modules : [];
-      // Un module HTML n'a pas d'accueil dans l'app : « Retour » ramène à sa page.
+      // Un module n'a pas d'accueil dans l'app : « Retour » ramène à sa page.
       const m = moduleId ? infoModule(modules, moduleId) : null;
       const lienRetour = app.querySelector(".btn-back");
       if (m && lienRetour) lienRetour.setAttribute("href", adresseModule(m));
@@ -102,11 +101,10 @@ function aTravailler(scores, modules, tousModules) {
   liste.sort((a, b) => a.taux - b.taux);
   return el("div", { class: "stack" }, ...liste.map((s) => {
     const raison = Math.round(s.taux * 100) + " % de réussite" + (s.enBaisse ? ", en baisse" : "");
-    // Module HTML : sa page (elle n'a pas d'adresse par compétence).
+    // La page du module (elle n'a pas d'adresse par compétence) ; un module qui n'existe plus
+    // (retiré du site, ses résultats restent dans le journal) renvoie à la bibliothèque.
     const m = infoModule(modules, s.module);
-    const adresse = m && m.kind === "html" ? adresseModule(m)
-      : "#/module/" + encodeURIComponent(s.module) + "/entrainement/" + s.niveau
-        + "/" + encodeURIComponent(s.skill);
+    const adresse = m ? adresseModule(m) : "#/biblio";
     return el("div", { class: "card" },
       el("span", { class: "card-title" }, richText(libelleCompetence(modules, s.module, s.skill))),
       tousModules ? el("span", { class: "card-text" }, richText(titreModule(modules, s.module))) : null,
@@ -175,4 +173,22 @@ function evaluations(evenements, modules, tousModules) {
 // Secondes depuis 1970 -> « 4 oct. 2026 »
 function dateEnTexte(secondes) {
   return new Date(secondes * 1000).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+}
+
+// Barre de réussite d'une compétence. `ligne` : { label, justes, total },
+// et `detail` facultatif (texte à droite, « x/y » sinon).
+function barreCompetence(ligne) {
+  const taux = ligne.justes / ligne.total;
+  const couleur = taux < 0.5 ? "bar-ko" : taux < 0.8 ? "bar-mid" : "bar-ok";
+  const remplissage = el("div", { class: "bar-fill " + couleur });
+  // Largeur posée par JS et non par un attribut style="…" : la politique de
+  // sécurité (CSP) de index.html interdit les attributs style.
+  remplissage.style.width = Math.round(taux * 100) + "%";
+  return el("div", { class: "skill-score" },
+    el("div", { class: "row" },
+      el("span", { class: "grow" }, richText(ligne.label)),
+      el("strong", {}, ligne.detail || ligne.justes + "/" + ligne.total),
+    ),
+    el("div", { class: "bar" }, remplissage),
+  );
 }

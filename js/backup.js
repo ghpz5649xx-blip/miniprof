@@ -9,7 +9,8 @@
 //     "exported_at": 1791000000,                 (secondes depuis 1970)
 //     "profiles": [{ "id": "p…", "name": "Léa" }, ...],
 //     "events": { "p…": [ligne, ligne, ...], ... }, (lignes compactes de js/events.js)
-//     "flags": [[module, question, date, profil], ...],  (voir js/flags.js)
+//     (les anciens fichiers ont aussi "flags": questions signalées des modules JSON, supprimés le
+//      15 nov. 2026 : lu sans erreur, ignoré, plus écrit)
 //     "signalements": [{ id, date, module, enonce, commentaire… }, ...]  (js/signalements.js ;
 //       absent des fichiers d'avant le plan P003)
 //   }
@@ -19,7 +20,6 @@
 import { readKey, writeKey, removeKey, usedChars } from "./storage.js";
 import { listProfiles } from "./profiles.js";
 import { rawLines, replaceLines, maintenant } from "./events.js";
-import { allFlags, replaceFlags } from "./flags.js";
 import { allSignalements, replaceSignalements } from "./signalements.js";
 
 const FORMAT = "miniprof-sauvegarde";
@@ -42,7 +42,6 @@ export function buildBackup() {
     exported_at: maintenant(),
     profiles: profils,
     events: evenements,
-    flags: allFlags(),
     signalements: allSignalements(),
   };
 }
@@ -113,9 +112,6 @@ export function checkBackup(data) {
     || !Object.values(data.events).every(Array.isArray)) {
     errors.push("Les résultats sont abîmés.");
   }
-  if (!Array.isArray(data.flags)) {
-    errors.push("La liste des questions signalées est abîmée.");
-  }
   // Facultatif : les fichiers d'avant le plan P003 n'ont pas de signalements.
   if (data.signalements !== undefined && !Array.isArray(data.signalements)) {
     errors.push("La liste des problèmes signalés est abîmée.");
@@ -132,7 +128,6 @@ export function checkBackup(data) {
     const n = Array.isArray(data.events[p.id]) ? data.events[p.id].length : 0;
     lignes.push(p.name + " : " + n + " réponse(s)");
   }
-  lignes.push(data.flags.length + " question(s) signalée(s)");
   if (Array.isArray(data.signalements) && data.signalements.length > 0) {
     lignes.push(data.signalements.length + " problème(s) décrit(s)");
   }
@@ -150,7 +145,6 @@ export function restoreBackup(data) {
     const lignes = Array.isArray(data.events[p.id]) ? data.events[p.id] : [];
     ok = replaceLines(p.id, lignes) && ok;
   }
-  ok = replaceFlags(data.flags) && ok;
   // Un fichier d'avant P003 n'a pas de signalements : la liste de l'appareil est remplacée, comme le reste.
   ok = replaceSignalements(Array.isArray(data.signalements) ? data.signalements : []) && ok;
   // Ces données existent déjà dans un fichier : le rappel repart de sa date.
