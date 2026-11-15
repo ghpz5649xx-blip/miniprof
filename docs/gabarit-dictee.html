@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<!--
+  GABARIT d'un module DICTÉE miniprof (skill /nouveau-module, règles : docs/module-html.md, « Dictées »).
+  Un seul parcours en deux étapes : 1. QCM (relier la devinette au mot), 2. écriture sans aide.
+  Chaque passe pose tous les mots restants, un par question ; la passe suivante ne reprend que les
+  mots ratés ; on passe à l'étape suivante quand une passe est sans faute ; puis le bilan.
+  Pas de leçon, pas d'évaluation, pas de choix de niveau. Modèle réel : modules/francais-cm1-dictee-7-sans-famille.html.
+  À faire en le copiant dans modules/<id>.html :
+    1. la fiche (id, titre, niveau) et le <title> ;
+    2. les données, entre les marqueurs « DATA » et « FIN DATA » du script : un objet par mot (id, m, det pour un nom, dev, tip, faux ;
+       ex pour un adjectif ; ok si plusieurs écritures sont acceptées), puis NOMS/VERBES/MOTS ci-dessous ;
+    3. `python tools/couverture_dictee.py modules/<id>.html "mot1,mot2,…"` : tous les mots de la liste ;
+    4. supprimer ce commentaire.
+  Le reste (« MOTEUR ») se garde tel quel.
+-->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Titre de la dictée – Choisir puis écrire les mots</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "francais-cm1-gabarit-dictee",
+  "title": "Titre de la dictée",
+  "subject": "francais",
+  "level": "CM1",
+  "description": "Les N mots de la dictée : retrouve chaque mot à partir de sa devinette, puis écris-le sans aide.",
+  "skills": [
+    {"id": "noms", "label": "Écrire les noms"},
+    {"id": "verbes", "label": "Écrire les verbes"},
+    {"id": "mots", "label": "Écrire les adjectifs et les petits mots"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#2f5fc4; --pitch-ink:#ffffff; --stripe1:#2a54ad; --stripe2:#2f5fc4;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.5rem;font-weight:800}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+#ok[hidden]{display:inline-block;visibility:hidden}
+.qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
+/* « Une erreur ? » : large, discret (pointillé gris), tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+.qwrap .sigbar{margin-top:auto;padding-top:28px}
+.sigbtn{width:100%;background:transparent;border:2px dashed var(--muted);color:var(--muted)}
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.acts{display:contents}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.blank{display:inline-block;min-width:4em;border-bottom:3px solid var(--pitch);color:transparent}
+.big-s{font-size:1.25rem;font-weight:700}
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question à choix : choices = liste de C(valeur, libellé, pourquoi c'est faux) ; correct = la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15). Correction stricte sur les lettres et les accents,
+// souple sur les majuscules, les espaces en trop et la forme de l'apostrophe.
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[̀-ͯ]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe.'};
+}
+
+/* ================= CONTENU : les mots de la dictée 7 ================= */
+// « Sans famille (2) » : les mots à 1 et 2 étoiles sont à savoir (24 mots).
+// Les mots à 3 étoiles (nourriture, flâner, payer, merveilleux, où, rien) ne sont PAS dans le module.
+// Chaque mot : une devinette (la même aux deux étapes), une astuce d'orthographe (montrée après la
+// réponse, jamais avant) et des fautes prévues avec leur pourquoi (jamais montrées comme des choix :
+// l'enfant ne voit que des mots bien écrits). « ex » : un adjectif est toujours donné avec son nom,
+// pour que le genre et le nombre ne laissent aucun doute (un meilleur ami, une entrée triomphale).
+/*DATA*/
+// EXEMPLES À REMPLACER : un objet par mot de la dictée (voir docs/module-html.md, « Dictées »).
+// Famille = compétence : NOMS (noms), VERBES (verbes), MOTS (adjectifs, mots invariables). Au moins 4 mots
+// par famille (sinon les mauvais choix du QCM viennent des autres familles). Une famille vide : la retirer
+// d'ici, de POOL, TOUS, SKILLS, GEN et de la fiche.
+const NOMS=[
+  {id:'facon',m:'façon',det:'la',dev:"C'est la manière de faire quelque chose.",
+   tip:"fa<b>ç</b>on : devant o, le c prend une cédille pour faire le son « s ».",
+   faux:[['facon',"Devant <b>o</b>, le c prend une cédille pour faire le son « s » : fa<b>ç</b>on."],['fasson',"Le son « s » s'écrit ici avec un <b>ç</b> : fa<b>ç</b>on."],['façont',"Pas de lettre muette à la fin : faço<b>n</b>."]]},
+  {id:'singe',m:'singe',det:'le',dev:"Cet animal grimpe aux arbres et adore les bananes.",
+   tip:"sin<b>ge</b> : le g devant e fait le son « j ».",
+   faux:[['sinje',"Le son « j » s'écrit <b>g</b> devant e : sin<b>ge</b>."],['singue',"Pas de u : le <b>g</b> devant e fait déjà le son « j » : sin<b>ge</b>."],['cinge',"Le mot commence par la lettre <b>s</b> : <b>s</b>inge."]]},
+  {id:'entree',m:'entrée',det:'une',dev:"C'est l'endroit par où l'on entre dans une maison ou un parc.",
+   tip:"<b>en</b>tr<b>é</b>e : le début s'écrit « en », puis un accent aigu sur le premier e.",
+   faux:[['antrée',"Le début s'écrit <b>en</b> : <b>en</b>trée."],['entrèe',"Un accent aigu : entr<b>é</b>e."],['entreé',"L'accent est sur le premier e : entr<b>ée</b>."]]},
+  {id:'oeil',m:'œil',det:'un',dev:"Il sert à voir : on en a deux, mais écris le mot au singulier.",
+   
+   tip:"<b>œ</b>il : o et e collés, puis i, l. (Au pluriel : des yeux.)",
+   faux:[['œuil',"Il n'y a pas de u : œ-i-l."],['œill',"Un seul <b>l</b> à la fin : œi<b>l</b>."],['euil',"Le mot commence par <b>œ</b>, avec un o : <b>œ</b>il."],
+         ['yeux',"« yeux » est le pluriel. Ici, on écrit le mot au <b>singulier</b> : œil."],['des yeux',"« des yeux » est le pluriel. Ici, on écrit le mot au <b>singulier</b> : œil."],['un yeux',"« yeux » est le pluriel. Ici, on écrit le mot au <b>singulier</b> : œil."]]}
+];
+const VERBES=[
+  {id:'voyager',m:'voyager',nat:'verbe',dev:"C'est partir loin, en train ou en bateau, pour découvrir des pays.",
+   tip:"v<b>oy</b>a<b>g</b>er : un y (comme dans voyage), et un g.",
+   faux:[['voiager',"Le son « oi » s'écrit ici avec un <b>y</b> : v<b>oy</b>ager."],['voyaje',"À l'infinitif, ce verbe finit par <b>ger</b> : voya<b>ger</b>."],['voyagger',"Un seul <b>g</b> : voya<b>g</b>er."]]},
+  {id:'habiller',m:'habiller',nat:'verbe',dev:"Le matin, on le fait à un bébé : on lui met ses vêtements.",
+   tip:"<b>h</b>abi<b>ll</b>er : un h muet au début, et deux l.",
+   faux:[['abiller',"Il y a un <b>h</b> muet au début : <b>h</b>abiller."],['habiler',"Il y a deux <b>l</b> : habi<b>ll</b>er."],['habillier',"À l'infinitif, ce verbe finit par <b>er</b> : habill<b>er</b>."],
+         ['vêtir',"« vêtir » veut dire presque la même chose, mais le verbe de la dictée est <b>habiller</b>."],['vetir',"« vêtir » veut dire presque la même chose, mais le verbe de la dictée est <b>habiller</b>."],['vetire',"« vêtir » veut dire presque la même chose, mais le verbe de la dictée est <b>habiller</b>."]]},
+  {id:'dejouer',m:'déjouer',nat:'verbe',dev:"C'est empêcher un plan ou une ruse de réussir.",
+   tip:"d<b>é</b>jouer : un accent aigu, et « jouer » dedans.",
+   faux:[['dejouer',"Il faut un accent aigu : d<b>é</b>jouer."],['déjoyer',"On entend « jouer » dans déjouer : dé<b>jouer</b>."],['dé-jouer',"C'est un seul mot, sans trait d'union : déjouer."]]},
+  {id:'travailler',m:'travailler',nat:'verbe',dev:"C'est ce que fait un adulte à son bureau ou à l'usine.",
+   tip:"travai<b>ll</b>er : deux l.",
+   faux:[['travailer',"Il y a deux <b>l</b> : travai<b>ll</b>er."],['travaillier',"À l'infinitif, ce verbe finit par <b>er</b> : travaill<b>er</b>."],['travailller',"Seulement deux <b>l</b> : travai<b>ll</b>er."]]}
+];
+const MOTS=[
+  {id:'joyeux',m:'joyeux',nat:'adjectif',ex:'un enfant joyeux',dev:"Il est de bonne humeur et plein de joie.",
+   tip:"jo<b>y</b>eu<b>x</b> : un y, et un x muet à la fin.",
+   faux:[['joyeu',"Il y a un <b>x</b> muet à la fin : joyeu<b>x</b>."],['joieux',"Avec « joie » on écrit <b>ie</b>, mais joyeux s'écrit avec un <b>y</b> : jo<b>y</b>eux."],['joyeus',"La fin s'écrit <b>eux</b> : joy<b>eux</b>."],
+         ['heureux',"« heureux » veut dire presque la même chose, mais le mot de la dictée est <b>joyeux</b> : on y entend « joie »."]]},
+  {id:'triomphale',m:'triomphale',nat:'adjectif',ex:'une entrée triomphale',dev:"Elle ressemble à une grande victoire.",
+   tip:"trio<b>mph</b>ale : « mph » pour le son « f », et un e à la fin (une entrée triomphale).",
+   faux:[['triomphal',"Ici le mot « entrée » est féminin : on ajoute un <b>e</b> à la fin, triomphal<b>e</b>."],['triomfale',"Le son « f » s'écrit <b>ph</b> : trio<b>mph</b>ale."],['triomphalle',"Un seul <b>l</b> : triomphale."],['trionphale',"Il y a un <b>m</b> devant « ph » : trio<b>m</b>phale."]]},
+  {id:'meilleur',m:'meilleur',nat:'adjectif',ex:'un meilleur ami',dev:"C'est plus bon que tous les autres : le contraire de pire.",
+   tip:"mei<b>ll</b>eur : deux l (un meilleur ami, sans e ni s).",
+   faux:[['meilleure',"Ici « ami » est masculin et singulier : on écrit meilleur, sans e."],['meilleurs',"« un ami » : un seul ami, donc pas de s : meilleur."],['meileur',"Il y a deux <b>l</b> : mei<b>ll</b>eur."],['meillieur',"La fin s'écrit <b>eur</b>, sans i : meill<b>eur</b>."],['mailleur',"Le début s'écrit <b>mei</b> : m<b>ei</b>lleur."]]},
+  {id:'precieux',m:'précieux',nat:'adjectif',ex:'un bijou précieux',dev:"Il a beaucoup de valeur, comme un bijou.",
+   tip:"pr<b>é</b><b>c</b>ieu<b>x</b> : un accent aigu, un c devant i, et un x muet.",
+   faux:[['précieu',"Il y a un <b>x</b> muet à la fin : précieu<b>x</b>."],['presieux',"Le son « s » s'écrit <b>c</b> devant i : pré<b>c</b>ieux."],['précieus',"La fin s'écrit <b>eux</b> : préci<b>eux</b>."],['precieux',"Il faut un accent aigu : pr<b>é</b>cieux."]]}
+];
+/*FIN DATA*/
+NOMS.forEach(w=>{w.nat='nom';w.skill='noms';});
+VERBES.forEach(w=>{w.skill='verbes';});
+MOTS.forEach(w=>{w.skill='mots';});
+const POOL={noms:NOMS,verbes:VERBES,mots:MOTS};
+const TOUS=NOMS.concat(VERBES,MOTS);   // les 24 mots : chacun est posé à chaque passe
+const pluriel=w=>w.m.indexOf(' ')>=0;
+const label=w=>w.nat==='nom'?`${w.det} ${w.m}`:w.m;
+const cadre=w=>w.ex?`<p class="big-s">${esc(w.ex).replace(esc(w.m),'<span class="blank">______</span>')}</p>`:'';
+const devinette=w=>`<p><b>Devinette :</b> ${w.dev}</p>${cadre(w)}`;
+const fautesMot=w=>{const e={};w.faux.forEach(f=>{e[f[0]]=f[1];});return e;};
+const correction=w=>`<p>Le mot : <b class="big-s">${label(w)}</b></p><p>${w.tip}</p>`;
+
+/* ================= CONTENU : les deux sortes de question ================= */
+// Étape 1 (niveau 1) : relier la devinette au mot, parmi 4 mots de la dictée de la même famille.
+// Seuls des mots bien écrits sont montrés. Un mauvais choix rappelle ce que ce mot-là veut dire.
+function mkQcm(w){
+  const pool=POOL[w.skill];let autres=others(pool,w,3);
+  if(autres.length<3)autres=autres.concat(others(TOUS.filter(x=>autres.indexOf(x)<0),w,3-autres.length));
+  const ch=[C(w.m,label(w))].concat(autres.map(x=>C(x.m,label(x),`Ce n'est pas ce mot-là. <b>${label(x)}</b> : ${x.dev}`)));
+  return Q(w.skill,1,`${devinette(w)}<p>Quel est le mot ?</p>`,ch,w.m,'<p>Relis la devinette.</p>',correction(w));
+}
+// Étape 2 (niveau 2) : écrire le mot, sans aide.
+function mkEcrire(w){
+  const ok=w.ok||(w.det?[w.m,`${w.det} ${w.m}`]:[w.m]);
+  const verbe=w.nat==='verbe'?' (à l’infinitif)':'';
+  const clavier=w.id==='oeil'?`<p class="small">Sur l'iPhone, appuie longtemps sur le o pour trouver œ (« oe » en deux lettres est accepté).</p>`:'';
+  return W(w.skill,2,`${devinette(w)}<p>Écris ${pluriel(w)?'les mots':'le mot'} de la dictée${verbe}.</p>${clavier}`,ok,fautesMot(w),'<p>Écris le mot sans aide.</p>',correction(w));
+}
+const mk=(w,lv)=>lv===1?mkQcm(w):mkEcrire(w);
+
+// Clés = ids des compétences de la fiche. Un générateur par compétence (pour le tirage automatique
+// de tools/tirage.py) ; le parcours, lui, pose chaque mot de la liste.
+const SKILLS={noms:{label:'Écrire les noms'},verbes:{label:'Écrire les verbes'},mots:{label:'Écrire les adjectifs et les petits mots'}};
+const GEN={noms:lv=>mk(pick(NOMS),lv),verbes:lv=>mk(pick(VERBES),lv),mots:lv=>mk(pick(MOTS),lv)};
+const LEVELS={1:{t:'Choisir',d:'relier la devinette au mot'},2:{t:'Écrire',d:'écrire le mot sans aide'}};
+const ETAPES=[
+  {k:'qcm',t:'Choisir le mot',court:'Choisir',lvl:1,
+   intro:'Pour chaque devinette, choisis le bon mot parmi quatre.'},
+  {k:'ecrit',t:'Écrire le mot',court:'Écrire',lvl:2,
+   intro:'Maintenant, tu écris chaque mot toi-même, sans aide. Garde bien en tête les devinettes.'}
+];
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+// Chaque réponse de chaque passe est un premier essai : il n'y a pas de deuxième essai dans ce parcours.
+// question = « étape-mot » (ex. « qcm-singe », « ecrit-singe »), difficulté = l'étape (1 choisir, 2 écrire).
+function record(q,ok,rep,w){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:ETAPES[q.level-1].k+'-'+w.id,reponse:rep==null?null:rep,duree:secs(q)});
+}
+let S={screen:'home'};      // écran courant (question en cours, choix, mot tapé)
+let P=null;                 // le parcours : étape, passe, mots restants, fautes
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Quitter</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : le parcours (choisir, puis écrire, passe après passe) ================= */
+// Une étape = des passes. La passe 1 pose les 24 mots (un par question, dans le désordre) ; chaque
+// passe suivante ne repose que les mots ratés à la passe d'avant. L'étape est finie quand une passe
+// se termine sans aucune faute. Puis vient l'étape suivante, puis le bilan.
+function home(){
+  S={screen:'home'};P=null;
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Dictée 7 : Sans famille (2)</h1>
+      <p>Les ${TOUS.length} mots à savoir, en deux étapes.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="card">
+        <p><b>Étape 1 :</b> une devinette, tu choisis le bon mot.</p>
+        <p><b>Étape 2 :</b> une devinette, tu écris le mot toi-même.</p>
+        <p class="small">Chaque étape recommence avec les mots ratés, jusqu'à une passe sans faute.</p>
+      </div>
+      <div class="btns"><button class="btn primary" data-act="start" data-primary>Commencer</button></div>
+    </main>`);
+}
+function start(){
+  P={stage:0,pass:1,queue:shuffle(TOUS.slice()),i:0,fautes:[],errs:{},passes:[0,0],t0:Date.now()};
+  stageIntro();
+}
+function stageIntro(){
+  const e=ETAPES[P.stage];
+  S={screen:'intro'};
+  show(`${topbar('Étape '+(P.stage+1)+' sur '+ETAPES.length)}<main class="wrap">
+    <h2>Étape ${P.stage+1} : ${e.t}</h2>
+    <div class="card"><p>${e.intro}</p><p class="small">${P.queue.length} mot${P.queue.length>1?'s':''} à voir.</p></div>
+    <div class="btns"><button class="btn primary" data-act="ask" data-primary>C'est parti</button></div></main>`);
+}
+function ask(){
+  const w=P.queue[P.i],e=ETAPES[P.stage];
+  const q=mk(w,e.lvl);
+  S={screen:'q',q,w,choice:null,done:false};
+  let d='';for(let i=0;i<P.queue.length;i++)d+=`<i class="${i<P.i?'done':i===P.i?'cur':''}"></i>`;
+  show(`${topbar('Étape '+(P.stage+1)+' : '+e.court)}<main class="wrap qwrap">
+    <div class="dots" aria-hidden="true">${d}</div>
+    <p class="small">Passe ${P.pass}${P.pass>1?' (les mots à revoir)':''} · mot ${P.i+1} sur ${P.queue.length}</p>
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      ${q.write
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris le mot"></div>`
+        :`<div class="choices">${q.choices.map(c=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div>`}</div>
+    <div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="check" data-primary hidden>Valider</button></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  q.t0=Date.now();
+}
+function aReponse(){
+  const i=document.getElementById('rep');
+  return i?!!norm(i.value):!!S.choice;
+}
+function majValider(){const b=document.getElementById('ok');if(b&&!S.done)b.hidden=!aReponse();}
+function check(){
+  if(S.done)return;
+  const q=S.q,w=S.w;
+  let ok,rep,v=null;
+  if(q.write){
+    const i=document.getElementById('rep');rep=i?i.value.slice(0,60):'';
+    if(!norm(rep)){document.getElementById('fb').innerHTML='<div class="fb hint">Écris ta réponse.</div>';return;}
+    v=judgeWrite(q,rep);ok=v.ok;
+  }else{
+    if(!S.choice){document.getElementById('fb').innerHTML='<div class="fb hint">Choisis une réponse.</div>';return;}
+    rep=S.choice;ok=rep===q.exp.c;
+  }
+  S.done=true;
+  record(q,ok,rep,w);
+  if(!ok){P.fautes.push(w);P.errs[w.id]=(P.errs[w.id]||0)+1;}
+  // on verrouille la saisie et on montre la correction (aussi quand c'est juste : l'astuce du mot)
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(ok?'good':'bad');}
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===q.exp.c)c.classList.add('good');else if(c.dataset.v===rep)c.classList.add('bad');});
+  let why='';
+  if(!ok){
+    if(q.write)why=`<p>Tu as écrit : <b>${esc(rep)}</b>. ${v.why}</p>`;
+    else{const c=q.choices.find(c=>c.v===rep);why=c&&c.why?`<p>${c.why}</p>`:'';}
+  }
+  const dernier=P.i>=P.queue.length-1;
+  document.getElementById('fb').innerHTML=ok
+    ?`<div class="fb good"><p><b>Bravo !</b></p>${q.explain}</div>`
+    :`<div class="fb bad"><p><b>Pas tout à fait.</b></p>${why}</div><div class="fb info">${q.explain}<p class="small">Ce mot reviendra à la prochaine passe.</p></div>`;
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>${dernier?'Voir le résultat de la passe':'Mot suivant'}</button>`;
+}
+function next(){
+  P.i++;
+  if(P.i<P.queue.length)ask();else endPass();
+}
+function endPass(){
+  const e=ETAPES[P.stage],n=P.queue.length,f=P.fautes;
+  P.passes[P.stage]++;
+  S={screen:'pass'};
+  const liste=f.map(w=>label(w)).join(' · ');
+  if(f.length===0){
+    const fin=P.stage===ETAPES.length-1;
+    show(`${topbar('Étape '+(P.stage+1)+' : '+e.court)}<main class="wrap">
+      <div class="card center"><div class="score">${n}<span style="font-size:1.6rem;color:var(--muted)"> / ${n}</span></div>
+        <p style="margin-top:10px"><b>Passe sans faute !</b> ${fin?"Tous les mots sont écrits sans aide.":"Tu as relié chaque devinette à son mot."}</p></div>
+      <div class="btns"><button class="btn primary" data-act="${fin?'final':'nextStage'}" data-primary>${fin?'Voir mon bilan':"Passer à l'étape "+(P.stage+2)}</button></div></main>`);
+    return;
+  }
+  show(`${topbar('Étape '+(P.stage+1)+' : '+e.court)}<main class="wrap">
+    <div class="card center"><div class="score">${n-f.length}<span style="font-size:1.6rem;color:var(--muted)"> / ${n}</span></div>
+      <p style="margin-top:10px">Il reste <b>${f.length} mot${f.length>1?'s':''}</b> à revoir.</p></div>
+    <div class="rulebox"><p class="small" style="margin-top:0">À revoir :</p><p class="big-s" style="margin-bottom:0">${liste}</p></div>
+    <div class="btns"><button class="btn primary" data-act="again" data-primary>Revoir ${f.length>1?'ces mots':'ce mot'}</button></div></main>`);
+}
+function again(){
+  P.pass++;P.queue=shuffle(P.fautes.slice());P.fautes=[];P.i=0;ask();
+}
+function nextStage(){
+  P.stage++;P.pass=1;P.queue=shuffle(TOUS.slice());P.i=0;P.fautes=[];
+  stageIntro();
+}
+function final(){
+  S={screen:'final'};
+  const duree=Math.round((Date.now()-P.t0)/1000);
+  const dur=TOUS.filter(w=>P.errs[w.id]).sort((a,b)=>P.errs[b.id]-P.errs[a.id]);
+  const aSavoir=dur.length
+    ?`<h2 style="margin:16px 0 6px">Les mots qui t'ont résisté</h2><div class="rulebox"><p class="big-s" style="margin:0">${dur.map(w=>label(w)+(P.errs[w.id]>1?` (${P.errs[w.id]} fautes)`:'')).join(' · ')}</p></div>`
+    :`<p>Aucune faute du début à la fin : bravo !</p>`;
+  show(`${topbar('Bilan','home')}<main class="wrap">
+    <div class="card center"><div class="score">${TOUS.length}<span style="font-size:1.6rem;color:var(--muted)"> mots</span></div>
+      <p style="margin-top:10px"><b>Tu sais écrire les ${TOUS.length} mots de la dictée.</b></p>
+      <p class="small">Étape 1 : ${P.passes[0]} passe${P.passes[0]>1?'s':''} · Étape 2 : ${P.passes[1]} passe${P.passes[1]>1?'s':''} · ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    ${aSavoir}
+    <div class="btns"><button class="btn primary" data-act="bilan" data-primary>Mon bilan</button><button class="btn" data-act="start">Recommencer</button><button class="btn ghost" data-act="home">Accueil</button></div></main>`);
+}
+
+/* ================= MOTEUR : signaler un problème ================= */
+// Bouton « Une erreur ? » : l'enfant confirme (Oui / Non), puis miniprof garde une copie de la question
+// (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
+function sigAsk(){
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
+    <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
+}
+function sigYes(){
+  const q=S.q||{},ch=q.choices||[],zone=document.getElementById('sig');
+  const lab=v=>{const c=ch.find(c=>c.v===v);return c?(txt(c.label)||'(image)'):'';};
+  const champ=document.getElementById('rep');
+  const att=q.write?String(q.write.ok[0]):(q.exp&&q.exp.c!==undefined?lab(q.exp.c):'');
+  const id=window.miniprof?window.miniprof.signaler({enonce:txt(q.prompt),choix:ch.map(c=>txt(c.label)||'(image)'),
+    attendue:att,reponse:champ?champ.value:(S.choice?lab(S.choice):'')}):null;
+  zone.innerHTML=id
+    ?`<div class="fb good"><p><b>Merci !</b> Un adulte va vérifier cette question.</p>
+      <div style="margin:10px 0"><input id="sigtxt" style="width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)" type="text" maxlength="300" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Tu veux dire pourquoi ?" placeholder="Tu veux dire pourquoi ? (facultatif)"></div>
+      <div class="btns"><button class="btn" data-act="sigsend" data-id="${esc(id)}">Envoyer</button></div></div>`
+    :`<div class="fb bad"><p>Le signalement n'a pas pu être enregistré.</p></div>`;
+}
+function sigSend(el){
+  const t=document.getElementById('sigtxt'),zone=document.getElementById('sig');
+  if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
+  zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'start':start();break;
+    case 'ask':ask();break;
+    case 'choose':if(S.done)break;S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));majValider();break;
+    case 'check':check();break;
+    case 'next':next();break;
+    case 'again':again();break;
+    case 'nextStage':nextStage();break;
+    case 'final':final();break;
+    case 'sig':sigAsk();break;
+    case 'signo':document.getElementById('sig').innerHTML='';break;
+    case 'sigyes':sigYes();break;
+    case 'sigsend':sigSend(el);break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// un mot tapé = une proposition : « Valider » apparaît
+app.addEventListener('input',e=>{if(e.target.id==='rep')majValider();});
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN:[],SKILLS,EVAL_SKILLS:[]});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>

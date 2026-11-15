@@ -16,6 +16,9 @@ photos sans rapport avec une leçon). Réponds en français, court.
 ## 1. Lire avant d'écrire
 - `docs/module-html.md` : le contrat (CSP, fiche, `suivi.js`, appels de suivi, interdits) et les
   **règles pédagogiques**. C'est la référence ; ce skill ne la recopie pas.
+- **Photo d'une liste de mots de dictée ? Va à la section « Dictée » plus bas** : autre gabarit
+  (`docs/gabarit-dictee.html`), autres règles. Le reste de cette section et les sections 3 à 4
+  concernent les autres modules.
 - `docs/gabarit-module.html` : la page à copier. Son **moteur** (écrans, entraînement,
   évaluation, suivi) se garde tel quel ; tu n'écris que la partie **CONTENU** (données,
   générateurs, fiches Apprendre, accueil). Ne relis pas les modules existants pour leur moteur :
@@ -66,6 +69,34 @@ double, division qui ne tombe pas juste…).
 
 **Photos** : elles restent dans la conversation. Ne les enregistre jamais dans le dépôt (dépôt
 public, cahiers des enfants). Aucun prénom réel dans la page.
+
+## Dictée : liste de mots → un seul parcours (décision du sponsor, 15 nov. 2026)
+Une dictée n'est **pas** un module à leçon, entraînement et évaluation : c'est **un seul
+parcours en deux étapes**, sur le modèle de `modules/francais-cm1-dictee-7-sans-famille.html`.
+Règles complètes et pourquoi : `docs/module-html.md`, « Dictées ».
+1. **Étape 1, QCM** : une devinette, l'enfant choisit le mot parmi quatre (mots bien écrits,
+   de la même famille). **Étape 2, écriture** : la même devinette, il écrit le mot sans aide.
+2. **Une question par mot** à chaque passe : tous les mots à savoir sont posés, aucun tirage au sort.
+3. **Passes** : la passe suivante ne reprend que les mots ratés ; l'étape finit quand une passe
+   est **sans faute** ; puis étape suivante, puis bilan. Pas de leçon, pas de niveaux, pas d'évaluation.
+4. Pars de `docs/gabarit-dictee.html` (`cp docs/gabarit-dictee.html modules/<id>.html`) ; tu ne
+   remplis que la fiche et les données (un objet par mot : `id`, `m`, `det` pour un nom, `dev`,
+   `tip`, `faux`, `ex` pour un adjectif). Le moteur ne se modifie pas. Compétences : `noms`,
+   `verbes`, `mots` (une famille vide se retire).
+5. **Une devinette ne doit avoir qu'une réponse possible**, adjectifs et pluriels compris : un
+   adjectif est donné avec son nom (`ex`), un nom ou un verbe fixe son nombre et sa forme
+   (« écris le mot au singulier », « à l'infinitif »). Prévois dans `faux` les synonymes que
+   l'enfant tapera (« vêtir » pour habiller, « heureux » pour joyeux) avec leur pourquoi.
+   Les `faux` ne sont jamais montrés comme des choix.
+6. **Couverture** : relis la liste des photos et lance
+   `python tools/couverture_dictee.py modules/<id>.html "mot1,mot2,…"` : elle doit répondre que
+   tous les mots sont couverts. Les mots que la feuille met à part (« à 3 étoiles », facultatifs)
+   restent hors module, dis-le au parent.
+7. Contrôles de la section 4 (`check_html.py`, `tirage.py`, tests) ; au tirage, les exemples
+   à relire sont la fiche de contrôle du parent. Publication et validation : sections 5 à 7
+   (nouvel id = brouillon ; ou, pour **refaire une dictée existante**, même id, mêmes
+   compétences, sans brouillon si le parent l'a essayée avant).
+8. Réponse au parent : nombre de mots, devinettes ambiguës possibles, mots laissés de côté.
 
 ## 4. Contrôler (tout doit passer avant le commit)
 ```bash

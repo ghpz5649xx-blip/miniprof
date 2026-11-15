@@ -1,6 +1,6 @@
 # P006 — Dictée répétable
 
-- **Statut** : à mûrir.
+- **Statut** : exécuté en partie (15 nov. 2026 : gabarit, règles et outil de couverture livrés ; reste à refaire la Dictée 5).
 - **Origine** : sponsor et Claude, 7 oct. 2026 (décision D8 : un module « dictée » par liste de
   mots, fait avec `/nouveau-module`).
 
@@ -15,7 +15,18 @@ liste suffit, la couverture de la liste est vérifiée par un programme.
   avec l'ancienne méthode).
 - Les mots s'**écrivent** (P001) : un module tout en choix n'a pas corrigé « son / sont ».
 
-## À cadrer en atelier
+## Décision du 15 nov. 2026
+Toute dictée suit le parcours **QCM puis écriture** (devinettes, une question par mot, passes
+sur les mots ratés, étape finie à la première passe sans faute, pas de leçon). Règles :
+`docs/module-html.md`, « Dictées ». Livré : `docs/gabarit-dictee.html`,
+`tools/couverture_dictee.py` (liste des photos ≡ mots de la page), section « Dictée » du skill
+`/nouveau-module`, Dictée 7 refaite. Reste : refaire la Dictée 5 (parcours à étoiles P012).
+
+## À cadrer en atelier (réponses)
+- Un outil de `tools/` qui vérifie la couverture : fait (`couverture_dictee.py`).
+- Ce que le skill change pour une dictée : fait (section « Dictée »).
+
+## Ancien cadrage
 - Un outil de `tools/` qui vérifie que chaque mot de la liste est travaillé.
 - Ce que le skill doit changer pour une dictée.
 

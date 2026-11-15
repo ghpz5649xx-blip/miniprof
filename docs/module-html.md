@@ -123,6 +123,40 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
 - **Évaluation** : 10 questions environ, sans correction pendant l'épreuve, corrigé détaillé à la
   fin ; puis le bouton « Mon bilan ».
 
+## Dictées : un seul parcours, choisir puis écrire
+Décision du sponsor, 15 nov. 2026, après essai de la Dictée 7. Pour toute liste de mots de dictée :
+une page, **un seul bloc**, deux étapes, pas de leçon, pas d'évaluation, pas de niveaux au choix.
+Gabarit : `docs/gabarit-dictee.html` ; exemple réel : `modules/francais-cm1-dictee-7-sans-famille.html`.
+- **Devinette** : chaque mot a une devinette (une phrase qui ne désigne que lui). L'enfant la
+  rencontre aux deux étapes ; c'est ce qui lui fait associer le sens au mot qu'il doit écrire.
+- **Étape 1, QCM** : la devinette, quatre mots de la dictée (même famille : noms, verbes,
+  adjectifs et petits mots), un seul bon. Le QCM sert à relier devinette et mot : il n'affiche
+  que des mots **bien écrits** (jamais une faute, pour ne pas l'imprimer dans la mémoire).
+  Un mauvais choix rappelle la devinette du mot choisi.
+- **Étape 2, écriture non guidée** : la même devinette, le champ de saisie, ni indice ni choix.
+  Seules les fautes prévues (`faux`) reçoivent un pourquoi ; les autres, un message général.
+- **Une question par mot** : chaque passe pose tous les mots restants, une fois chacun, dans le
+  désordre. Aucun tirage au sort : un mot ne peut pas être oublié.
+- **Passes** : une passe ne retient que les mots où il y a eu une mauvaise réponse à la passe
+  d'avant. Il n'y a **qu'un essai** par question (le mot raté revient à la passe suivante) :
+  ni « Réessayer », ni indice, sinon la passe ne mesure rien.
+- **Fin d'étape** : quand une passe est terminée sans aucune faute. Alors étape suivante
+  (QCM, puis écriture), puis bilan (celui de miniprof via « Mon bilan »).
+- **Après chaque réponse**, juste ou fausse : le mot bien écrit et une **astuce** d'orthographe
+  courte (`tip`) : c'est elle qui remplace la leçon.
+- **Devinette sans ambiguïté** : un adjectif est toujours donné avec son nom (« une entrée ___ »,
+  `ex`) pour fixer le genre et le nombre ; un mot dont le singulier ou l'infinitif n'est pas
+  évident le dit dans la devinette. Les synonymes que l'enfant risque de taper sont des fautes
+  prévues expliquées (retour d'usage : « vêtir » pour habiller, « heureux » pour joyeux, « furie »
+  pour furieux, « des yeux » pour œil).
+- **Journal** : chaque réponse est enregistrée en entraînement (`mode: "e"`), `difficulte` 1 pour
+  le QCM et 2 pour l'écriture, `question` = `qcm-<mot>` ou `ecrit-<mot>`. Rien n'est gardé entre deux
+  séances : quitter au milieu fait repartir de zéro.
+- **Couverture** : `python tools/couverture_dictee.py modules/<id>.html "mot1,mot2,…"` compare la
+  liste des photos à celle de la page et vérifie devinette, astuce et fautes de chaque mot.
+- Les modules de dictée plus anciens (Dictée 5, parcours à étoiles du plan P012) gardent leur
+  forme tant qu'ils ne sont pas refaits.
+
 ## Pièges vus sur le module circuit
 - **Polices Google** dans la page d'origine : refusées (URL externe). Polices système
   (`font-family: system-ui, -apple-system, sans-serif`).

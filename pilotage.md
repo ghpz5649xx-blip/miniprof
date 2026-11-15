@@ -37,7 +37,7 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 |---|---|---|---|
 | Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e ; séparer par module les données déjà mélangées dans un profil, si besoin) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
 | **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **en cours** (L0 et pilote Dictée 5 livrés ; réglages après les premières données) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
-| Dictée répétable | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
+| Dictée répétable (reste : refaire la Dictée 5 en parcours QCM puis écriture) | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
 | Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |
 | Fusion des sauvegardes | 6 oct. 2026 | basse | `plans/P005-fusion-des-sauvegardes.md` |
 
