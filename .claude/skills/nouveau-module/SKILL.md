@@ -76,9 +76,11 @@ parcours en deux étapes**, sur le modèle de `modules/francais-cm1-dictee-7-san
 Règles complètes et pourquoi : `docs/module-html.md`, « Dictées ».
 1. **Étape 1, QCM** : une devinette, l'enfant choisit le mot parmi quatre (mots bien écrits,
    de la même famille). **Étape 2, écriture** : la même devinette, il écrit le mot sans aide.
-2. **Une question par mot** à chaque passe : tous les mots à savoir sont posés, aucun tirage au sort.
-3. **Passes** : la passe suivante ne reprend que les mots ratés ; l'étape finit quand une passe
-   est **sans faute** ; puis étape suivante, puis bilan. Pas de leçon, pas de niveaux, pas d'évaluation.
+2. **Une question par mot** : tous les mots à savoir sont posés à chaque étape, aucun tirage au sort.
+3. **Passes invisibles** : l'enfant ne voit qu'une jauge « mots acquis ». Un mot raté revient 4
+   questions plus tard ; à la fin de l'étape, les mots ratés sont reposés une dernière fois, jusqu'à
+   une vérification sans faute ; puis étape suivante, puis bilan. Un mot réussi du premier coup n'est
+   jamais reposé. Pas de leçon, pas de niveaux, pas d'évaluation. (Tout est dans le moteur du gabarit.)
 4. Pars de `docs/gabarit-dictee.html` (`cp docs/gabarit-dictee.html modules/<id>.html`) ; tu ne
    remplis que la fiche et les données (un objet par mot : `id`, `m`, `det` pour un nom, `dev`,
    `tip`, `faux`, `ex` pour un adjectif). Le moteur ne se modifie pas. Compétences : `noms`,

@@ -25,6 +25,7 @@ sur décision du sponsor). Retours du 13 oct. : enchaînement après « Valider 
 | P003 Signaler un problème, export à partager | 11 oct. 2026 | 25 oct. 2026 |
 | P008 « Qui utilise miniprof ? » après 30 min | 12 oct. 2026 | 26 oct. 2026 |
 | P010 Valider et Réessayer | 12 oct. 2026 | 26 oct. 2026 |
+| P013 Pas de question répétée, passes invisibles | 15 nov. 2026 | 29 nov. 2026 |
 
 ---
 

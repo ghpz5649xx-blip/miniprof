@@ -12,7 +12,8 @@
        (questions à choisir : Q() et C() ; questions à écrire : W(), voir genExemple),
        GEN, LEVELS, LEARN, EVAL_SKILLS, l'accueil ;
     4. supprimer ce commentaire.
-  Le reste (« MOTEUR ») se garde tel quel. Il marche avec 2 à 4 niveaux.
+  Le reste (« MOTEUR ») se garde tel quel (il évite les questions répétées et rappelle les questions
+  ratées sans le montrer : docs/module-html.md, « Entraînement : pas de répétition »). Il marche avec 2 à 4 niveaux.
   Contrôle : tools/check_html.py, puis tools/tirage.py (tire des milliers de questions).
 -->
 <head>
@@ -264,11 +265,25 @@ const app=document.getElementById('app');
    Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
 const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
 function record(q,ok,rep){
+  // Rappel invisible (plan P013) : une question ratée du premier coup revient 4 questions plus tard,
+  // sous une autre forme (même compétence, même niveau). L'enfant ne voit aucune « passe ».
+  if(!ok&&S&&S.mode==='train'&&S.rappels)S.rappels.push({skill:q.skill,level:q.level,apres:S.tried+4});
   if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
 }
 function genQuestion(skill,level){
   if(!skill||skill==='all')skill=pick(Object.keys(GEN));
   return GEN[skill](level);
+}
+// Jamais deux fois la même question dans une séance d'entraînement : on retire (jusqu'à 40 essais, au
+// cas où la compétence aurait peu de questions : elle peut alors revenir, mais en dernier recours).
+// Même question = même énoncé et même réponse (un énoncé comme « Lequel est l'intrus ? » revient
+// légitimement, avec une autre réponse ; des choix différents autour de la même question ne comptent pas).
+const cleQuestion=q=>String(q.prompt)+'|'+String(q.exp&&q.exp.c);
+function questionNeuve(skill,level){
+  let q,n=0;
+  do{q=genQuestion(skill,level);n++;}while(S.vus&&S.vus.has(cleQuestion(q))&&n<40);
+  if(S.vus)S.vus.add(cleQuestion(q));
+  return q;
 }
 const LVL=Object.keys(LEVELS).map(Number);
 const MAXL=LVL[LVL.length-1];
@@ -447,7 +462,12 @@ function revealTrain(){
   setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
   document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
 }
-function nextTrain(){S.q=genQuestion(S.skill,S.level);qScreen();}
+function nextTrain(){
+  const i=S.rappels?S.rappels.findIndex(r=>r.apres<=S.tried):-1;
+  if(i>=0){const r=S.rappels.splice(i,1)[0];S.q=questionNeuve(r.skill,r.level);}
+  else S.q=questionNeuve(S.skill,S.level);
+  qScreen();
+}
 
 // Une évaluation ne pose jamais deux fois la même question : on retire une question déjà
 // sortie (jusqu'à 30 essais, au cas où une compétence aurait peu de questions).
@@ -522,8 +542,8 @@ function act(a,el){
     case 'trainSetup':trainSetup(false);break;
     case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
     case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
-    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0};nextTrain();break;
-    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0};nextTrain();break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0,vus:new Set(),rappels:[]};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0,vus:new Set(),rappels:[]};nextTrain();break;
     case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
     case 'evalSetup':evalSetup(false);break;
     case 'evalStart':evalStart();break;

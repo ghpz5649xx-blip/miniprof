@@ -123,6 +123,18 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
 - **Évaluation** : 10 questions environ, sans correction pendant l'épreuve, corrigé détaillé à la
   fin ; puis le bouton « Mon bilan ».
 
+## Entraînement : pas de répétition, rappels invisibles (tous les modules)
+Règle du 15 nov. 2026 (plan P013), dans le moteur du gabarit : en entraînement,
+- **une question n'est jamais posée deux fois** dans une séance : le moteur retire (jusqu'à 40
+  essais) tant que « énoncé + réponse » est déjà sorti ; il ne cède que si la compétence n'a plus de
+  question neuve ;
+- **une question ratée du premier coup revient 4 questions plus tard**, sous une autre forme (même
+  compétence, même niveau, autres nombres ou autres mots), sans rien afficher : pas de « passe »,
+  pas de compteur de rappels ; reposer la même question ferait retenir la réponse plutôt que la notion.
+- L'évaluation ne change pas (pas de rappel, pas de doublon). Rien n'est gardé entre deux
+  séances. Les générateurs n'ont rien à faire : tout est dans le moteur (`questionNeuve()`,
+  `S.rappels`, `S.vus`), à garder tel quel.
+
 ## Dictées : un seul parcours, choisir puis écrire
 Décision du sponsor, 15 nov. 2026, après essai de la Dictée 7. Pour toute liste de mots de dictée :
 une page, **un seul bloc**, deux étapes, pas de leçon, pas d'évaluation, pas de niveaux au choix.
@@ -135,13 +147,17 @@ Gabarit : `docs/gabarit-dictee.html` ; exemple réel : `modules/francais-cm1-dic
   Un mauvais choix rappelle la devinette du mot choisi.
 - **Étape 2, écriture non guidée** : la même devinette, le champ de saisie, ni indice ni choix.
   Seules les fautes prévues (`faux`) reçoivent un pourquoi ; les autres, un message général.
-- **Une question par mot** : chaque passe pose tous les mots restants, une fois chacun, dans le
-  désordre. Aucun tirage au sort : un mot ne peut pas être oublié.
-- **Passes** : une passe ne retient que les mots où il y a eu une mauvaise réponse à la passe
-  d'avant. Il n'y a **qu'un essai** par question (le mot raté revient à la passe suivante) :
-  ni « Réessayer », ni indice, sinon la passe ne mesure rien.
-- **Fin d'étape** : quand une passe est terminée sans aucune faute. Alors étape suivante
-  (QCM, puis écriture), puis bilan (celui de miniprof via « Mon bilan »).
+- **Une question par mot** : chaque mot est posé une fois par étape, dans le désordre. Aucun
+  tirage au sort : un mot ne peut pas être oublié.
+- **Passes invisibles** (décision du 15 nov. 2026, plan P013) : l'enfant ne voit ni « passe » ni
+  numéro de tour, seulement une jauge « mots acquis ». Un mot raté **revient 4 questions plus
+  tard** (rappel). Quand tous les mots ont été posés, les mots qui ont eu une faute sont reposés
+  une dernière fois (vérification cachée) ; un mot raté à la vérification revient, puis on
+  revérifie. Un mot réussi du premier coup n'est **jamais reposé**. Il n'y a **qu'un essai** par
+  question : ni « Réessayer », ni indice, sinon le rappel ne mesure plus rien.
+- **Fin d'étape** : quand une vérification se termine sans aucune faute (ou, s'il n'y a eu aucune
+  faute, quand tous les mots ont été posés). Alors étape suivante (QCM, puis écriture), puis bilan
+  (celui de miniprof via « Mon bilan »).
 - **Après chaque réponse**, juste ou fausse : le mot bien écrit et une **astuce** d'orthographe
   courte (`tip`) : c'est elle qui remplace la leçon.
 - **Devinette sans ambiguïté** : un adjectif est toujours donné avec son nom (« une entrée ___ »,
