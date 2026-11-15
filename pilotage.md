@@ -58,3 +58,5 @@ ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont
 | Ajouter le programme de sciences et technologie du cycle 3 (PDF scanné sans texte) : copier le texte avec Aperçu et l'enregistrer en `.md` ; mode d'emploi dans `programmes/README.md`, « Sciences et technologie » (**priorité basse**) | quand tu veux |
 | Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
 | Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |
+
+| Relire puis valider « Dictée 7 : Sans famille (2) » (CM1) : répondre « valide francais-cm1-dictee-7-sans-famille » | dès que possible |
