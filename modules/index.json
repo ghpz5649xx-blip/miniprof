@@ -102,9 +102,9 @@
       ]
     },
     {
-      "id": "francais-cm1-dictee-7-sans-famille-parcours",
+      "id": "francais-cm1-dictee-7-sans-famille",
       "kind": "html",
-      "file": "francais-cm1-dictee-7-sans-famille-parcours.html",
+      "file": "francais-cm1-dictee-7-sans-famille.html",
       "title": "Dictée 7 : Sans famille (2)",
       "subject": "francais",
       "level": "CM1",
@@ -121,34 +121,6 @@
         {
           "id": "mots",
           "label": "Écrire les adjectifs et les petits mots"
-        }
-      ],
-      "brouillon": true
-    },
-    {
-      "id": "francais-cm1-dictee-7-sans-famille",
-      "kind": "html",
-      "file": "francais-cm1-dictee-7-sans-famille.html",
-      "title": "Dictée 7 : Sans famille (2)",
-      "subject": "francais",
-      "level": "CM1",
-      "description": "Les mots à savoir de la dictée 7 (Sans famille) : bien les écrire et reconnaître leur nature.",
-      "skills": [
-        {
-          "id": "noms",
-          "label": "Écrire les noms"
-        },
-        {
-          "id": "verbes",
-          "label": "Écrire les verbes"
-        },
-        {
-          "id": "mots",
-          "label": "Écrire les adjectifs et les petits mots"
-        },
-        {
-          "id": "nature",
-          "label": "Reconnaître la nature des mots"
         }
       ]
     },
