@@ -119,36 +119,32 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   log(dbl.length===0,'entraînement : '+vus.length+' questions, aucune posée deux fois'+(dbl.length?' : '+dbl.join(' || '):''));
   const retours=rates.filter(i=>i+5<vus.length);
   log(retours.length>=3&&retours.every(i=>vus[i+5].comp===vus[i].comp),'entraînement : chaque question ratée revient 5 questions plus tard, même compétence ('+retours.length+' cas)');
-  // dictée : un seul parcours (choisir, puis écrire) ; un mot raté revient plus tard, sans « passe » visible ;
-  // un mot réussi du premier coup n'est posé qu'une fois par étape (plan P013)
+  // dictée : un seul parcours (écrire le mot) ; une bonne réponse enchaîne sans message ; un mot raté revient
+  // plus tard, sans « passe » visible ; un mot réussi du premier coup n'est posé qu'une fois (plan P013)
   const srcD=await fetch('modules/francais-cm1-dictee-7-sans-famille.html').then(r=>r.text());
   const motsD=new Function(srcD.split('/*DATA*/')[1].split('/*FIN DATA*/')[0]+';return [].concat(NOMS,VERBES,MOTS);')();
   const parDev={};motsD.forEach(w=>{parDev[w.dev]=w;});
   d=await charger('modules/francais-cm1-dictee-7-sans-famille.html');
   clic(d,'[data-act="start"]');
-  const seqD=[[]],ratesD=new Set();let etapeD=0,passeVisible=false;
-  for(let g=0;g<300&&!d.getElementById('app').textContent.includes('Tu sais écrire les');g++){
-    if(d.getElementById('ok')){
-      const prompt=d.querySelector('.q-prompt').textContent;
-      const w=parDev[Object.keys(parDev).find(k=>prompt.includes(k))];
-      const qcm=!d.getElementById('rep');
-      const rate=['singe','jongler'].includes(w.m)&&!ratesD.has(etapeD+w.m);
-      if(rate)ratesD.add(etapeD+w.m);
-      if(qcm){clic(d,rate?'.choice:not([data-v="'+w.m+'"])':'.choice[data-v="'+w.m+'"]');}
-      else{const c=d.getElementById('rep');c.value=rate?'xx':(w.ok?w.ok[0]:w.m);c.dispatchEvent(new Event('input',{bubbles:true}));}
-      clic(d,'#ok');seqD[etapeD].push(w.m);clic(d,'[data-primary]');
-    }else{
-      const b=d.querySelector('[data-primary]');
-      if(b.textContent.includes("Passer à l'étape")){etapeD++;seqD.push([]);}
-      b.click();
-    }
+  const seqD=[],ratesD=new Set();let passeVisible=false,brav0=false,motsLus=0;
+  for(let g=0;g<200&&!d.getElementById('app').textContent.includes('Tu sais écrire les');g++){
+    const prompt=d.querySelector('.q-prompt').textContent;
+    const w=parDev[Object.keys(parDev).find(k=>prompt.includes(k))];
+    const rate=['singe','jongler'].includes(w.m)&&!ratesD.has(w.m);
+    if(rate)ratesD.add(w.m);
+    const c=d.getElementById('rep');c.value=rate?'xx':(w.ok?w.ok[0]:w.m);c.dispatchEvent(new Event('input',{bubbles:true}));
+    clic(d,'#ok');seqD.push(w.m);
+    const suite=d.querySelector('[data-act="ask"]');   // « Mot suivant » : seulement après une faute
+    if(rate){if(!suite)brav0=true;else suite.click();}
+    else if(suite||d.querySelector('.fb.good'))brav0=true;
     if(/passe\s*\d/i.test(d.getElementById('app').textContent))passeVisible=true;
+    motsLus++;
   }
-  log(seqD.length===2&&d.getElementById('app').textContent.includes('Tu sais écrire les'),'dictée : deux étapes puis le bilan');
-  const unSeulCoup=seqD.every(s=>motsD.filter(w=>!['singe','jongler'].includes(w.m)).every(w=>s.filter(x=>x===w.m).length===1));
-  log(unSeulCoup,'dictée : un mot réussi du premier coup est posé une seule fois par étape');
-  log(seqD.every(s=>s.length===28&&s.filter(x=>x==='singe').length===3),'dictée : un mot raté revient (rappel) puis une vérification finale : '+seqD.map(s=>s.length).join(' et ')+' questions');
-  log(!passeVisible,'dictée : aucune « passe » affichée à l\'enfant');
+  log(d.getElementById('app').textContent.includes('Tu sais écrire les'),'dictée : un seul parcours, puis le bilan');
+  log(!brav0,'dictée : bonne réponse = mot suivant tout de suite, sans message ; faute = correction puis « Mot suivant »');
+  log(motsD.filter(w=>!['singe','jongler'].includes(w.m)).every(w=>seqD.filter(x=>x===w.m).length===1),'dictée : un mot réussi du premier coup est posé une seule fois');
+  log(seqD.length===28&&seqD.filter(x=>x==='singe').length===3,'dictée : un mot raté revient (rappel) puis une vérification finale : '+seqD.length+' questions');
+  log(!passeVisible&&!d.getElementById('app').textContent.includes('Étape'),'dictée : aucune « passe » ni « étape » affichée à l\'enfant');
   // partage du système (simulé : le navigateur de recette ne partage pas de fichiers)
   const pa=await import('/js/partage.js');
   localStorage.setItem('miniprof.v1.last_export','1');

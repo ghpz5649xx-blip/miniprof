@@ -70,35 +70,35 @@ double, division qui ne tombe pas juste…).
 **Photos** : elles restent dans la conversation. Ne les enregistre jamais dans le dépôt (dépôt
 public, cahiers des enfants). Aucun prénom réel dans la page.
 
-## Dictée : liste de mots → un seul parcours (décision du sponsor, 15 nov. 2026)
+## Dictée : liste de mots → un seul parcours (décision du sponsor, 15 nov. 2026, simplifiée le 17)
 Une dictée n'est **pas** un module à leçon, entraînement et évaluation : c'est **un seul
-parcours en deux étapes**, sur le modèle de `modules/francais-cm1-dictee-7-sans-famille.html`.
+parcours, écrire les mots**, sur le modèle de `modules/francais-cm1-dictee-7-sans-famille.html`.
 Règles complètes et pourquoi : `docs/module-html.md`, « Dictées ».
-1. **Étape 1, QCM** : une devinette, l'enfant choisit le mot parmi quatre (mots bien écrits,
-   de la même famille). **Étape 2, écriture** : la même devinette, il écrit le mot sans aide.
-2. **Une question par mot** : tous les mots à savoir sont posés à chaque étape, aucun tirage au sort.
-3. **Passes invisibles** : l'enfant ne voit qu'une jauge « mots acquis ». Un mot raté revient 4
-   questions plus tard ; à la fin de l'étape, les mots ratés sont reposés une dernière fois, jusqu'à
-   une vérification sans faute ; puis étape suivante, puis bilan. Un mot réussi du premier coup n'est
-   jamais reposé. Pas de leçon, pas de niveaux, pas d'évaluation. (Tout est dans le moteur du gabarit.)
-4. Pars de `docs/gabarit-dictee.html` (`cp docs/gabarit-dictee.html modules/<id>.html`) ; tu ne
+1. **Une devinette, l'enfant écrit le mot sans aide.** Pas de QCM (supprimé le 17 nov. : inutile).
+2. **Une question par mot** : tous les mots à savoir sont posés, aucun tirage au sort.
+3. **Une bonne réponse enchaîne tout de suite**, sans message. Une faute montre la correction.
+4. **Passes invisibles** : l'enfant ne voit qu'une jauge « mots acquis ». Un mot raté revient 4
+   questions plus tard ; à la fin, les mots ratés sont reposés une dernière fois, jusqu'à une
+   vérification sans faute ; puis le bilan. Un mot réussi du premier coup n'est jamais reposé. Pas de
+   leçon, pas de niveaux, pas d'évaluation. (Tout est dans le moteur du gabarit.)
+5. Pars de `docs/gabarit-dictee.html` (`cp docs/gabarit-dictee.html modules/<id>.html`) ; tu ne
    remplis que la fiche et les données (un objet par mot : `id`, `m`, `det` pour un nom, `dev`,
    `tip`, `faux`, `ex` pour un adjectif). Le moteur ne se modifie pas. Compétences : `noms`,
    `verbes`, `mots` (une famille vide se retire).
-5. **Une devinette ne doit avoir qu'une réponse possible**, adjectifs et pluriels compris : un
+6. **Une devinette ne doit avoir qu'une réponse possible**, adjectifs et pluriels compris : un
    adjectif est donné avec son nom (`ex`), un nom ou un verbe fixe son nombre et sa forme
    (« écris le mot au singulier », « à l'infinitif »). Prévois dans `faux` les synonymes que
    l'enfant tapera (« vêtir » pour habiller, « heureux » pour joyeux) avec leur pourquoi.
    Les `faux` ne sont jamais montrés comme des choix.
-6. **Couverture** : relis la liste des photos et lance
+7. **Couverture** : relis la liste des photos et lance
    `python tools/couverture_dictee.py modules/<id>.html "mot1,mot2,…"` : elle doit répondre que
    tous les mots sont couverts. Les mots que la feuille met à part (« à 3 étoiles », facultatifs)
    restent hors module, dis-le au parent.
-7. Contrôles de la section 4 (`check_html.py`, `tirage.py`, tests) ; au tirage, les exemples
+8. Contrôles de la section 4 (`check_html.py`, `tirage.py`, tests) ; au tirage, les exemples
    à relire sont la fiche de contrôle du parent. Publication et validation : sections 5 à 7
    (nouvel id = brouillon ; ou, pour **refaire une dictée existante**, même id, mêmes
    compétences, sans brouillon si le parent l'a essayée avant).
-8. Réponse au parent : nombre de mots, devinettes ambiguës possibles, mots laissés de côté.
+9. Réponse au parent : nombre de mots, devinettes ambiguës possibles, mots laissés de côté.
 
 ## 4. Contrôler (tout doit passer avant le commit)
 ```bash

@@ -2,10 +2,11 @@
 <html lang="fr">
 <!--
   GABARIT d'un module DICTÉE miniprof (skill /nouveau-module, règles : docs/module-html.md, « Dictées »).
-  Un seul parcours en deux étapes : 1. QCM (relier la devinette au mot), 2. écriture sans aide.
-  Chaque mot est posé une fois par étape ; un mot raté revient 4 questions plus tard (rappel) et est
-  reposé à une vérification finale cachée ; on passe à l'étape suivante quand la vérification est sans
-  faute ; puis le bilan. Aucune « passe » n'est montrée à l'enfant (jauge « mots acquis » seulement).
+  Un seul parcours : une devinette, l'enfant écrit le mot sans aide (le QCM a été supprimé le 17 nov. 2026).
+  Chaque mot est posé une fois ; une bonne réponse enchaîne tout de suite (aucun message) ; un mot raté
+  montre sa correction puis revient 4 questions plus tard (rappel) et est reposé à une vérification
+  finale cachée, jusqu'à une vérification sans faute ; puis le bilan. Aucune « passe » n'est montrée à
+  l'enfant (jauge « mots acquis » seulement).
   Pas de leçon, pas d'évaluation, pas de choix de niveau. Modèle réel : modules/francais-cm1-dictee-7-sans-famille.html.
   À faire en le copiant dans modules/<id>.html :
     1. la fiche (id, titre, niveau) et le <title> ;
@@ -19,14 +20,14 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Titre de la dictée – Choisir puis écrire les mots</title>
+<title>Titre de la dictée – Écrire les mots</title>
 <script type="application/json" id="miniprof-module">
 {
   "id": "francais-cm1-gabarit-dictee",
   "title": "Titre de la dictée",
   "subject": "francais",
   "level": "CM1",
-  "description": "Les N mots de la dictée : retrouve chaque mot à partir de sa devinette, puis écris-le sans aide.",
+  "description": "Les N mots de la dictée : à partir de chaque devinette, écris le mot sans aide.",
   "skills": [
     {"id": "noms", "label": "Écrire les noms"},
     {"id": "verbes", "label": "Écrire les verbes"},
@@ -191,14 +192,14 @@ function judgeWrite(q,rep){
 /* ================= CONTENU : les mots de la dictée 7 ================= */
 // « Sans famille (2) » : les mots à 1 et 2 étoiles sont à savoir (24 mots).
 // Les mots à 3 étoiles (nourriture, flâner, payer, merveilleux, où, rien) ne sont PAS dans le module.
-// Chaque mot : une devinette (la même aux deux étapes), une astuce d'orthographe (montrée après la
+// Chaque mot : une devinette , une astuce d'orthographe (montrée après la
 // réponse, jamais avant) et des fautes prévues avec leur pourquoi (jamais montrées comme des choix :
 // l'enfant ne voit que des mots bien écrits). « ex » : un adjectif est toujours donné avec son nom,
 // pour que le genre et le nombre ne laissent aucun doute (un meilleur ami, une entrée triomphale).
 /*DATA*/
 // EXEMPLES À REMPLACER : un objet par mot de la dictée (voir docs/module-html.md, « Dictées »).
 // Famille = compétence : NOMS (noms), VERBES (verbes), MOTS (adjectifs, mots invariables). Au moins 4 mots
-// par famille (sinon les mauvais choix du QCM viennent des autres familles). Une famille vide : la retirer
+// par famille n'est plus nécessaire (le QCM est supprimé). Une famille vide : la retirer
 // d'ici, de POOL, TOUS, SKILLS, GEN et de la fiche.
 const NOMS=[
   {id:'facon',m:'façon',det:'la',dev:"C'est la manière de faire quelque chose.",
@@ -251,7 +252,7 @@ NOMS.forEach(w=>{w.nat='nom';w.skill='noms';});
 VERBES.forEach(w=>{w.skill='verbes';});
 MOTS.forEach(w=>{w.skill='mots';});
 const POOL={noms:NOMS,verbes:VERBES,mots:MOTS};
-const TOUS=NOMS.concat(VERBES,MOTS);   // les 24 mots : chacun est posé une fois par étape, puis reposé s'il a été raté
+const TOUS=NOMS.concat(VERBES,MOTS);   // les 24 mots : chacun est posé une fois, puis reposé s'il a été raté
 const pluriel=w=>w.m.indexOf(' ')>=0;
 const label=w=>w.nat==='nom'?`${w.det} ${w.m}`:w.m;
 const cadre=w=>w.ex?`<p class="big-s">${esc(w.ex).replace(esc(w.m),'<span class="blank">______</span>')}</p>`:'';
@@ -259,35 +260,21 @@ const devinette=w=>`<p><b>Devinette :</b> ${w.dev}</p>${cadre(w)}`;
 const fautesMot=w=>{const e={};w.faux.forEach(f=>{e[f[0]]=f[1];});return e;};
 const correction=w=>`<p>Le mot : <b class="big-s">${label(w)}</b></p><p>${w.tip}</p>`;
 
-/* ================= CONTENU : les deux sortes de question ================= */
-// Étape 1 (niveau 1) : relier la devinette au mot, parmi 4 mots de la dictée de la même famille.
-// Seuls des mots bien écrits sont montrés. Un mauvais choix rappelle ce que ce mot-là veut dire.
-function mkQcm(w){
-  const pool=POOL[w.skill];let autres=others(pool,w,3);
-  if(autres.length<3)autres=autres.concat(others(TOUS.filter(x=>autres.indexOf(x)<0),w,3-autres.length));
-  const ch=[C(w.m,label(w))].concat(autres.map(x=>C(x.m,label(x),`Ce n'est pas ce mot-là. <b>${label(x)}</b> : ${x.dev}`)));
-  return Q(w.skill,1,`${devinette(w)}<p>Quel est le mot ?</p>`,ch,w.m,'<p>Relis la devinette.</p>',correction(w));
-}
-// Étape 2 (niveau 2) : écrire le mot, sans aide.
+/* ================= CONTENU : la question ================= */
+// Une devinette, l'enfant écrit le mot sans aide. (Le QCM « relier la devinette au mot » a été supprimé
+// le 17 nov. 2026 : il ne servait à rien, et la bonne réponse ne montre plus de message.)
 function mkEcrire(w){
   const ok=w.ok||(w.det?[w.m,`${w.det} ${w.m}`]:[w.m]);
   const verbe=w.nat==='verbe'?' (à l’infinitif)':'';
   const clavier=w.id==='oeil'?`<p class="small">Sur l'iPhone, appuie longtemps sur le o pour trouver œ (« oe » en deux lettres est accepté).</p>`:'';
   return W(w.skill,2,`${devinette(w)}<p>Écris ${pluriel(w)?'les mots':'le mot'} de la dictée${verbe}.</p>${clavier}`,ok,fautesMot(w),'<p>Écris le mot sans aide.</p>',correction(w));
 }
-const mk=(w,lv)=>lv===1?mkQcm(w):mkEcrire(w);
 
 // Clés = ids des compétences de la fiche. Un générateur par compétence (pour le tirage automatique
 // de tools/tirage.py) ; le parcours, lui, pose chaque mot de la liste.
 const SKILLS={noms:{label:'Écrire les noms'},verbes:{label:'Écrire les verbes'},mots:{label:'Écrire les adjectifs et les petits mots'}};
-const GEN={noms:lv=>mk(pick(NOMS),lv),verbes:lv=>mk(pick(VERBES),lv),mots:lv=>mk(pick(MOTS),lv)};
-const LEVELS={1:{t:'Choisir',d:'relier la devinette au mot'},2:{t:'Écrire',d:'écrire le mot sans aide'}};
-const ETAPES=[
-  {k:'qcm',t:'Choisir le mot',court:'Choisir',lvl:1,
-   intro:'Pour chaque devinette, choisis le bon mot parmi quatre.',fait:'Tu as relié chaque devinette à son mot.'},
-  {k:'ecrit',t:'Écrire le mot',court:'Écrire',lvl:2,
-   intro:'Maintenant, tu écris chaque mot toi-même, sans aide. Garde bien en tête les devinettes.',fait:'Tous les mots sont écrits sans aide.'}
-];
+const GEN={noms:()=>mkEcrire(pick(NOMS)),verbes:()=>mkEcrire(pick(VERBES)),mots:()=>mkEcrire(pick(MOTS))};
+const LEVELS={2:{t:'Écrire',d:'écrire le mot sans aide'}};
 
 /* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
 const app=document.getElementById('app');
@@ -295,56 +282,47 @@ const app=document.getElementById('app');
    Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
 const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
 // Chaque réponse est un premier essai : il n'y a pas de deuxième essai dans ce parcours (un mot raté revient plus tard).
-// question = « étape-mot » (ex. « qcm-singe », « ecrit-singe »), difficulté = l'étape (1 choisir, 2 écrire).
+// question = « ecrit-<mot> » (ex. « ecrit-singe »), difficulté 2 (comme avant la suppression du QCM).
 function record(q,ok,rep,w){
-  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:ETAPES[q.level-1].k+'-'+w.id,reponse:rep==null?null:rep,duree:secs(q)});
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:'ecrit-'+w.id,reponse:rep==null?null:rep,duree:secs(q)});
 }
 let S={screen:'home'};      // écran courant (question en cours, choix, mot tapé)
-let P=null;                 // le parcours : étape, mots à poser, rappels, fautes
+let P=null;                 // le parcours : mots à poser, rappels, fautes
 function show(html){app.innerHTML=html;window.scrollTo(0,0);}
 function topbar(title,backAct){
   return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Quitter</button><span class="ttl">${title}</span></div></div>`;
 }
 
-/* ================= MOTEUR : le parcours (choisir, puis écrire, rappels invisibles) ================= */
-// Une étape pose chaque mot une fois, dans le désordre. Un mot raté revient 4 questions plus tard
-// (rappel), sans que l'enfant voie de « passe » : une jauge montre seulement les mots acquis. Quand
-// tous les mots ont été posés, les mots qui ont eu une faute sont reposés une dernière fois (passe
-// cachée de vérification), jusqu'à une vérification sans faute. Alors : étape suivante, puis bilan.
+/* ================= MOTEUR : le parcours (écrire les mots, rappels invisibles) ================= */
+// Chaque mot est posé une fois, dans le désordre : une devinette, l'enfant écrit le mot. Une bonne
+// réponse enchaîne tout de suite sur le mot suivant (aucun message). Un mot raté montre sa correction,
+// puis revient 4 questions plus tard (rappel), sans que l'enfant voie de « passe » : une jauge montre
+// seulement les mots acquis. Quand tous les mots ont été posés, les mots qui ont eu une faute sont
+// reposés une dernière fois (vérification cachée), jusqu'à une vérification sans faute. Alors : bilan.
 // Un mot réussi du premier coup n'est jamais reposé (plan P013, règle des dictées).
 function home(){
   S={screen:'home'};P=null;
   show(`<section class="hero"><div class="hero-in">
       <h1>Titre de la dictée</h1>
-      <p>Les ${TOUS.length} mots à savoir, en deux étapes.</p>
+      <p>Les ${TOUS.length} mots à savoir.</p>
     </div></section>
     <main class="wrap">
       <div class="card">
-        <p><b>Étape 1 :</b> une devinette, tu choisis le bon mot.</p>
-        <p><b>Étape 2 :</b> une devinette, tu écris le mot toi-même.</p>
+        <p>Une devinette : tu écris le mot toi-même.</p>
         <p class="small">Les mots ratés reviennent un peu plus tard, jusqu'à ce que tu les saches.</p>
       </div>
       <div class="btns"><button class="btn primary" data-act="start" data-primary>Commencer</button></div>
     </main>`);
 }
+// P.queue : les mots (puis, en vérification, ceux à reposer) ; P.rappels : mots ratés qui reviennent ;
+// P.aVerifier : ids des mots ratés pas encore revalidés à la vérification ; P.n : réponses données
+// (sert à espacer les rappels).
 function start(){
-  P={stage:0,errs:{},t0:Date.now()};
-  debutEtape();
+  P={errs:{},t0:Date.now(),mode:'principal',queue:shuffle(TOUS.slice()),i:0,rappels:[],aVerifier:new Set(),n:0};
+  ask();
 }
-// P.queue : les mots de l'étape (puis, en vérification, ceux à reposer) ; P.rappels : mots ratés qui
-// reviennent ; P.aVerifier : ids des mots ratés pas encore revalidés à la vérification ; P.n : réponses
-// données dans l'étape (sert à espacer les rappels).
-function debutEtape(){
-  P.mode='principal';P.queue=shuffle(TOUS.slice());P.i=0;P.rappels=[];P.aVerifier=new Set();P.n=0;
-  const e=ETAPES[P.stage];
-  S={screen:'intro'};
-  show(`${topbar('Étape '+(P.stage+1)+' sur '+ETAPES.length)}<main class="wrap">
-    <h2>Étape ${P.stage+1} : ${e.t}</h2>
-    <div class="card"><p>${e.intro}</p><p class="small">${TOUS.length} mots à voir.</p></div>
-    <div class="btns"><button class="btn primary" data-act="ask" data-primary>C'est parti</button></div></main>`);
-}
-// Le mot suivant : un rappel échu, sinon la suite de l'étape, sinon les rappels restants, sinon une
-// vérification des mots ratés ; null quand l'étape est finie.
+// Le mot suivant : un rappel échu, sinon la suite, sinon les rappels restants, sinon une vérification
+// des mots ratés ; null quand tout est fini.
 function prochainMot(){
   const k=P.rappels.findIndex(r=>r.apres<=P.n);
   if(k>=0)return P.rappels.splice(k,1)[0].w;
@@ -358,72 +336,47 @@ function prochainMot(){
 }
 function ask(){
   const w=prochainMot();
-  if(w===null){finEtape();return;}
-  const e=ETAPES[P.stage];
-  const q=mk(w,e.lvl);
-  S={screen:'q',q,w,choice:null,done:false};
+  if(w===null){final();return;}
+  const q=mkEcrire(w);
+  S={screen:'q',q,w,done:false};
   // jauge : les mots pas encore posés ou pas encore revalidés ne sont pas « acquis »
   const attente=(P.mode==='principal'?P.queue.length-P.i:0)+P.aVerifier.size+(P.aVerifier.has(w.id)?0:1);
   const acquis=Math.max(0,TOUS.length-attente),pc=Math.round(100*acquis/TOUS.length);
-  show(`${topbar('Étape '+(P.stage+1)+' : '+e.court)}<main class="wrap qwrap">
+  show(`${topbar('Écrire les mots')}<main class="wrap qwrap">
     <div class="bar" aria-hidden="true"><i style="width:${pc}%"></i></div>
     <p class="small">${acquis} mot${acquis>1?'s':''} acquis sur ${TOUS.length}</p>
     <div class="card"><div class="q-prompt">${q.prompt}</div>
-      ${q.write
-        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris le mot"></div>`
-        :`<div class="choices">${q.choices.map(c=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div>`}</div>
+      <div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris le mot"></div></div>
     <div id="fb"></div>
     <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="check" data-primary hidden>Valider</button></span></div>
     <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
   q.t0=Date.now();
+  const champ=document.getElementById('rep');
+  if(champ)champ.focus();   // le clavier reste ouvert d'un mot au suivant
 }
 function aReponse(){
   const i=document.getElementById('rep');
-  return i?!!norm(i.value):!!S.choice;
+  return !!(i&&norm(i.value));
 }
 function majValider(){const b=document.getElementById('ok');if(b&&!S.done)b.hidden=!aReponse();}
 function check(){
   if(S.done)return;
   const q=S.q,w=S.w;
-  let ok,rep,v=null;
-  if(q.write){
-    const i=document.getElementById('rep');rep=i?i.value.slice(0,60):'';
-    if(!norm(rep)){document.getElementById('fb').innerHTML='<div class="fb hint">Écris ta réponse.</div>';return;}
-    v=judgeWrite(q,rep);ok=v.ok;
-  }else{
-    if(!S.choice){document.getElementById('fb').innerHTML='<div class="fb hint">Choisis une réponse.</div>';return;}
-    rep=S.choice;ok=rep===q.exp.c;
-  }
+  const i=document.getElementById('rep'),rep=i?i.value.slice(0,60):'';
+  if(!norm(rep)){document.getElementById('fb').innerHTML='<div class="fb hint">Écris ta réponse.</div>';return;}
+  const v=judgeWrite(q,rep),ok=v.ok;
   S.done=true;
   record(q,ok,rep,w);
   // un mot raté revient 4 questions plus tard, et sera reposé à la vérification ; réussi à la vérification : acquis
   P.n++;
   if(!ok){P.errs[w.id]=(P.errs[w.id]||0)+1;P.aVerifier.add(w.id);P.rappels.push({w,apres:P.n+4});}
   else if(P.mode==='verif')P.aVerifier.delete(w.id);
-  // on verrouille la saisie et on montre la correction (aussi quand c'est juste : l'astuce du mot)
-  const inp=document.getElementById('rep');
-  if(inp){inp.disabled=true;inp.classList.add(ok?'good':'bad');}
-  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
-    if(c.dataset.v===q.exp.c)c.classList.add('good');else if(c.dataset.v===rep)c.classList.add('bad');});
-  let why='';
-  if(!ok){
-    if(q.write)why=`<p>Tu as écrit : <b>${esc(rep)}</b>. ${v.why}</p>`;
-    else{const c=q.choices.find(c=>c.v===rep);why=c&&c.why?`<p>${c.why}</p>`:'';}
-  }
-  document.getElementById('fb').innerHTML=ok
-    ?`<div class="fb good"><p><b>Bravo !</b></p>${q.explain}</div>`
-    :`<div class="fb bad"><p><b>Pas tout à fait.</b></p>${why}</div><div class="fb info">${q.explain}<p class="small">Ce mot reviendra un peu plus tard.</p></div>`;
+  // bonne réponse : on enchaîne, sans message (ça fait perdre du temps)
+  if(ok){ask();return;}
+  i.disabled=true;i.classList.add('bad');
+  document.getElementById('fb').innerHTML=`<div class="fb bad"><p><b>Pas tout à fait.</b></p><p>Tu as écrit : <b>${esc(rep)}</b>. ${v.why}</p></div><div class="fb info">${q.explain}<p class="small">Ce mot reviendra un peu plus tard.</p></div>`;
   document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="ask" data-primary>Mot suivant</button>`;
 }
-function finEtape(){
-  if(P.stage===ETAPES.length-1){final();return;}
-  S={screen:'fin'};
-  show(`${topbar('Étape '+(P.stage+1)+' : '+ETAPES[P.stage].court)}<main class="wrap">
-    <div class="card center"><div class="score">${TOUS.length}<span style="font-size:1.6rem;color:var(--muted)"> / ${TOUS.length}</span></div>
-      <p style="margin-top:10px"><b>Étape ${P.stage+1} réussie !</b> ${ETAPES[P.stage].fait}</p></div>
-    <div class="btns"><button class="btn primary" data-act="nextStage" data-primary>Passer à l'étape ${P.stage+2}</button></div></main>`);
-}
-function nextStage(){P.stage++;debutEtape();}
 function final(){
   S={screen:'final'};
   const duree=Math.round((Date.now()-P.t0)/1000);
@@ -480,7 +433,6 @@ function act(a,el){
     case 'ask':ask();break;
     case 'choose':if(S.done)break;S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));majValider();break;
     case 'check':check();break;
-    case 'nextStage':nextStage();break;
     case 'sig':sigAsk();break;
     case 'signo':document.getElementById('sig').innerHTML='';break;
     case 'sigyes':sigYes();break;

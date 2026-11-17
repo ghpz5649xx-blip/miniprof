@@ -108,7 +108,7 @@
       "title": "Dictée 7 : Sans famille (2)",
       "subject": "francais",
       "level": "CM1",
-      "description": "Les 24 mots de la dictée 7 (Sans famille) : retrouve chaque mot à partir de sa devinette, puis écris-le sans aide.",
+      "description": "Les mots de la dictée 7 (Sans famille) : à partir de chaque devinette, écris le mot sans aide.",
       "skills": [
         {
           "id": "noms",

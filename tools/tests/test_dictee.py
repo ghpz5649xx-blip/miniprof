@@ -32,7 +32,7 @@ class TestGabaritDictee(unittest.TestCase):
         self.assertIsNone(echec)
         self.assertEqual(r["erreurs"], {})
         self.assertEqual(r["avertissements"], {})
-        self.assertEqual(r["niveaux"], [1, 2])  # 1 = QCM, 2 = écriture
+        self.assertEqual(r["niveaux"], [2])  # un seul niveau : écrire le mot
 
 
 @unittest.skipUnless(shutil.which("node"), "node introuvable")

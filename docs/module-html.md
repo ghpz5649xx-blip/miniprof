@@ -135,39 +135,33 @@ Règle du 15 nov. 2026 (plan P013), dans le moteur du gabarit : en entraînement
   séances. Les générateurs n'ont rien à faire : tout est dans le moteur (`questionNeuve()`,
   `S.rappels`, `S.vus`), à garder tel quel.
 
-## Dictées : un seul parcours, choisir puis écrire
-Décision du sponsor, 15 nov. 2026, après essai de la Dictée 7. Pour toute liste de mots de dictée :
-une page, **un seul bloc**, deux étapes, pas de leçon, pas d'évaluation, pas de niveaux au choix.
+## Dictées : un seul parcours, écrire les mots
+Décision du sponsor, 15 nov. 2026 (parcours QCM puis écriture), simplifiée le 17 nov. 2026 : le QCM
+« relier la devinette au mot » ne servait à rien et a été supprimé. Pour toute liste de mots de dictée :
+une page, **un seul bloc**, une seule activité, pas de leçon, pas d'évaluation, pas de niveaux au choix.
 Gabarit : `docs/gabarit-dictee.html` ; exemple réel : `modules/francais-cm1-dictee-7-sans-famille.html`.
-- **Devinette** : chaque mot a une devinette (une phrase qui ne désigne que lui). L'enfant la
-  rencontre aux deux étapes ; c'est ce qui lui fait associer le sens au mot qu'il doit écrire.
-- **Étape 1, QCM** : la devinette, quatre mots de la dictée (même famille : noms, verbes,
-  adjectifs et petits mots), un seul bon. Le QCM sert à relier devinette et mot : il n'affiche
-  que des mots **bien écrits** (jamais une faute, pour ne pas l'imprimer dans la mémoire).
-  Un mauvais choix rappelle la devinette du mot choisi.
-- **Étape 2, écriture non guidée** : la même devinette, le champ de saisie, ni indice ni choix.
-  Seules les fautes prévues (`faux`) reçoivent un pourquoi ; les autres, un message général.
-- **Une question par mot** : chaque mot est posé une fois par étape, dans le désordre. Aucun
-  tirage au sort : un mot ne peut pas être oublié.
-- **Passes invisibles** (décision du 15 nov. 2026, plan P013) : l'enfant ne voit ni « passe » ni
-  numéro de tour, seulement une jauge « mots acquis ». Un mot raté **revient 4 questions plus
-  tard** (rappel). Quand tous les mots ont été posés, les mots qui ont eu une faute sont reposés
-  une dernière fois (vérification cachée) ; un mot raté à la vérification revient, puis on
-  revérifie. Un mot réussi du premier coup n'est **jamais reposé**. Il n'y a **qu'un essai** par
-  question : ni « Réessayer », ni indice, sinon le rappel ne mesure plus rien.
-- **Fin d'étape** : quand une vérification se termine sans aucune faute (ou, s'il n'y a eu aucune
-  faute, quand tous les mots ont été posés). Alors étape suivante (QCM, puis écriture), puis bilan
-  (celui de miniprof via « Mon bilan »).
-- **Après chaque réponse**, juste ou fausse : le mot bien écrit et une **astuce** d'orthographe
-  courte (`tip`) : c'est elle qui remplace la leçon.
+- **Devinette** : chaque mot a une devinette (une phrase qui ne désigne que lui) ; l'enfant écrit le
+  mot, **sans aide** : le champ de saisie, ni indice ni choix. Seules les fautes prévues (`faux`)
+  reçoivent un pourquoi ; les autres, un message général.
+- **Une question par mot** : chaque mot est posé une fois, dans le désordre. Aucun tirage au sort :
+  un mot ne peut pas être oublié.
+- **Bonne réponse : on enchaîne tout de suite**, sans « Bravo » ni correction (retour d'usage : ça
+  fait perdre du temps). Une **faute** montre le mot bien écrit, son astuce (`tip`) et le pourquoi,
+  puis « Mot suivant ».
+- **Passes invisibles** (plan P013) : l'enfant ne voit ni « passe » ni numéro de tour, seulement
+  une jauge « mots acquis ». Un mot raté **revient 4 questions plus tard** (rappel). Quand tous les
+  mots ont été posés, les mots qui ont eu une faute sont reposés une dernière fois (vérification
+  cachée) ; un mot raté à la vérification revient, puis on revérifie. Un mot réussi du premier coup
+  n'est **jamais reposé**. Il n'y a **qu'un essai** par question : ni « Réessayer », ni indice.
+- **Fin** : quand une vérification se termine sans aucune faute (ou, s'il n'y a eu aucune faute,
+  quand tous les mots ont été posés), puis le bilan (celui de miniprof via « Mon bilan »).
 - **Devinette sans ambiguïté** : un adjectif est toujours donné avec son nom (« une entrée ___ »,
   `ex`) pour fixer le genre et le nombre ; un mot dont le singulier ou l'infinitif n'est pas
   évident le dit dans la devinette. Les synonymes que l'enfant risque de taper sont des fautes
   prévues expliquées (retour d'usage : « vêtir » pour habiller, « heureux » pour joyeux, « furie »
   pour furieux, « des yeux » pour œil).
-- **Journal** : chaque réponse est enregistrée en entraînement (`mode: "e"`), `difficulte` 1 pour
-  le QCM et 2 pour l'écriture, `question` = `qcm-<mot>` ou `ecrit-<mot>`. Rien n'est gardé entre deux
-  séances : quitter au milieu fait repartir de zéro.
+- **Journal** : chaque réponse est enregistrée en entraînement (`mode: "e"`), `difficulte` 2,
+  `question` = `ecrit-<mot>`. Rien n'est gardé entre deux séances : quitter au milieu fait repartir de zéro.
 - **Couverture** : `python tools/couverture_dictee.py modules/<id>.html "mot1,mot2,…"` compare la
   liste des photos à celle de la page et vérifie devinette, astuce et fautes de chaque mot.
 - Les modules de dictée plus anciens (Dictée 5, parcours à étoiles du plan P012) gardent leur

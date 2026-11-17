@@ -23,10 +23,15 @@ sans qu'il ait à comprendre un système de « passes ».
 - **Modules JSON supprimés** (écrans, outils, schéma, tests) : le deuxième lot prévu (moteur JSON)
   n'a donc plus d'objet.
 
+## Mise à jour du 17 nov. 2026
+Le sponsor supprime l'étape 1 (QCM) des dictées, jugée inutile, et veut qu'une bonne réponse passe
+tout de suite à la question suivante, sans « Bravo ». Une dictée = un seul parcours « écrire les
+mots » (Dictée 7 et gabarit mis à jour). Dans les autres modules, l'entraînement garde ses messages.
+
 ## Contrôles
 - Recette navigateur (`tools/recette_navigateur.py`) : aucune question posée deux fois sur 16 ;
-  chaque question ratée revient 5 questions plus tard dans la même compétence ; la dictée fait deux
-  étapes de 28 questions (24 + 2 rappels + 2 vérifications), sans « passe » affichée.
+  chaque question ratée revient 5 questions plus tard dans la même compétence ; la dictée fait
+  28 questions (24 + 2 rappels + 2 vérifications) en un seul parcours, sans « passe » affichée.
 - Moins strict qu'une vraie passe : le mot raté est reposé juste après 4 autres questions (mémoire
   courte), d'où la vérification finale.
 

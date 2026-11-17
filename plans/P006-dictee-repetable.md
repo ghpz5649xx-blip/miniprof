@@ -16,8 +16,8 @@ liste suffit, la couverture de la liste est vérifiée par un programme.
 - Les mots s'**écrivent** (P001) : un module tout en choix n'a pas corrigé « son / sont ».
 
 ## Décision du 15 nov. 2026
-Toute dictée suit le parcours **QCM puis écriture** (devinettes, une question par mot, passes
-sur les mots ratés, étape finie à la première passe sans faute, pas de leçon). Règles :
+Toute dictée suit un parcours **d'écriture** (devinettes, une question par mot, rappels invisibles
+des mots ratés ; le QCM d'abord prévu a été supprimé le 17 nov., pas de leçon). Règles :
 `docs/module-html.md`, « Dictées ». Livré : `docs/gabarit-dictee.html`,
 `tools/couverture_dictee.py` (liste des photos ≡ mots de la page), section « Dictée » du skill
 `/nouveau-module`, Dictée 7 refaite. Reste : refaire la Dictée 5 (parcours à étoiles P012).
