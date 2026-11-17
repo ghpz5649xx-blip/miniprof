@@ -114,6 +114,11 @@ La page sert à **réviser la leçon que l'enfant a eue en classe**, pas un cour
   les accents, souple sur les majuscules et les espaces, fautes prévues avec leur pourquoi. Le
   choix (`Q()`) reste pour reconnaître une notion. Pourquoi : un module de dictée tout en choix
   n'a pas corrigé « son » au lieu de « sont » ; reconnaître le bon mot n'apprend pas à l'écrire.
+- **Pas de micro** (retour d'usage, 18 nov. 2026 : les enfants dictaient leur réponse) : une page web
+  ne peut pas masquer la touche micro du clavier, mais le moteur du gabarit refuse tout ce qui arrive
+  d'un coup dans le champ de réponse (dictée vocale, collage, suggestion) et le remet comme il était,
+  avec un message ; la frappe lettre par lettre passe. Le bloc « touche micro » est dans le moteur,
+  à garder tel quel (`test_sync.py` vérifie qu'un module à champ de saisie l'a).
 - **Questions tirées au hasard** par des générateurs (un par compétence) quand la notion s'y
   prête ; chaque réponse attendue est **vérifiée** (recalculée, une seule bonne réponse, pas de
   choix en double).

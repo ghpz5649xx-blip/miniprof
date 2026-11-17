@@ -573,6 +573,31 @@ app.addEventListener('beforeinput',effacerSiReessai);
 // touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
 app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
 
+// Pas de dictée vocale ni de collage : un mot s'écrit lettre par lettre. Une page web ne peut pas masquer la
+// touche micro du clavier ; on refuse donc ce qui arrive d'un coup (plusieurs lettres en une seule saisie,
+// collage, remplacement par suggestion) et on remet le champ comme il était (retour d'usage, 18 nov. 2026).
+(function(){
+  const champ=e=>e.target&&e.target.id==='rep';
+  const refuser=(i,avant)=>{
+    i.value=avant;
+    const fb=document.getElementById('fb');
+    if(fb)fb.innerHTML='<div class="fb hint"><p>Écris le mot toi-même, lettre par lettre : pas de micro ni de collage.</p></div>';
+  };
+  app.addEventListener('beforeinput',e=>{
+    if(!champ(e))return;
+    if(/FromPaste|FromDrop|FromYank|Dictation|Transcription|ReplacementText/.test(e.inputType||'')){e.preventDefault();refuser(e.target,e.target.value);return;}
+    e.target.dataset.avant=e.target.value;   // le champ juste avant cette saisie
+  },true);
+  app.addEventListener('input',e=>{
+    if(!champ(e))return;
+    const i=e.target,avant=i.dataset.avant;
+    delete i.dataset.avant;
+    if(avant!==undefined&&i.value.length-avant.length>1){e.stopImmediatePropagation();refuser(i,avant);}
+  },true);
+  app.addEventListener('paste',e=>{if(champ(e)){e.preventDefault();refuser(e.target,e.target.value);}},true);
+  app.addEventListener('drop',e=>{if(champ(e))e.preventDefault();},true);
+})();
+
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
 if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}

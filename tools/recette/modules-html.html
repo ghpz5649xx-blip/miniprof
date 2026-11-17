@@ -126,6 +126,17 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   const parDev={};motsD.forEach(w=>{parDev[w.dev]=w;});
   d=await charger('modules/francais-cm1-dictee-7-sans-famille.html');
   clic(d,'[data-act="start"]');
+  // micro / collage : un mot qui arrive d'un coup est refusé, la frappe lettre par lettre passe
+  const saisie=(i,mot,seul)=>{for(const c of (seul?[mot]:mot)){
+    const avant=i.value;i.dispatchEvent(new InputEvent('beforeinput',{bubbles:true,cancelable:true,inputType:'insertText',data:c}));
+    i.value=avant+c;i.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertText',data:c}));}};
+  const champD=d.getElementById('rep');
+  saisie(champD,'singe',true);   // dictée : tout le mot d'un coup
+  log(champD.value===''&&d.getElementById('fb').textContent.includes('lettre par lettre'),'dictée : mot dicté (micro) refusé, champ remis à zéro, message affiché');
+  champD.dispatchEvent(new Event('paste',{bubbles:true,cancelable:true}));
+  saisie(champD,'sin');
+  log(champD.value==='sin'&&!d.getElementById('ok').hidden,'dictée : frappe lettre par lettre acceptée : '+champD.value);
+  champD.value='';champD.dispatchEvent(new Event('input',{bubbles:true}));
   const seqD=[],ratesD=new Set();let passeVisible=false,brav0=false,motsLus=0;
   for(let g=0;g<200&&!d.getElementById('app').textContent.includes('Tu sais écrire les');g++){
     const prompt=d.querySelector('.q-prompt').textContent;

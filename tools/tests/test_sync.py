@@ -28,6 +28,13 @@ class TestSynchronisation(unittest.TestCase):
                     fautifs.append(f"{p.relative_to(ROOT)}:{n}")
         self.assertEqual(fautifs, [], "HTML injecté interdit : utiliser el() / richText()")
 
+    def test_champ_de_saisie_sans_micro(self):
+        # Tout module (ou gabarit) à champ de saisie refuse la dictée vocale et le collage.
+        pages = list((ROOT / "modules").glob("*.html")) + list((ROOT / "docs").glob("gabarit-*.html"))
+        sans = [p.name for p in pages if 'id="rep"' in p.read_text(encoding="utf-8")
+                and "touche micro" not in p.read_text(encoding="utf-8")]
+        self.assertEqual(sans, [], "bloc anti-dictée manquant (voir docs/module-html.md)")
+
     def test_suivi_passe_par_events(self):
         source = (JS / "suivi.js").read_text(encoding="utf-8")
         # listEvents() : lecture seule, pour miniprof.historique() (parcours du plan P012).
