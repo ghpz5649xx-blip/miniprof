@@ -17,4 +17,3 @@ abandonner ?) et retire une tâche dès qu'elle est faite ou abandonnée.
 Demandes et retours du sponsor (ex. « Feed-back P013 : … »), datés du jour où il les a écrits.
 En début de session, Claude les lit ; une consigne traitée est retirée de la liste dans le commit
 du travail fait, et Claude le dit au sponsor.
-
