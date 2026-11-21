@@ -10,7 +10,6 @@ l'écran d'admin du Mac (`python3 tools/admin.py`) ou à la main : un élément 
 veux »). En début de session, Claude signale chaque tâche échue (refaire, reporter ou
 abandonner ?) et retire une tâche dès qu'elle est faite ou abandonnée.
 
-- **19 oct. 2026** — Laisser les deux enfants jouer le parcours de Dictée 5 sur leur profil, puis exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à une session Claude Code. **Bloque P012** (réglages de la jauge, de la série, du choix des étapes ; il faut une dizaine de deuxièmes chances par profil) et sert à la revue d'usage n° 2.
 - **18 oct. 2026** — Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche).
 - **18 oct. 2026** — Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert.
 - **18 oct. 2026** — Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia.
