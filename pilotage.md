@@ -25,3 +25,4 @@ du travail fait, et Claude le dit au sponsor.
 - **21 nov. 2026** — Feed-back P009 : a supprimer car mergé dans P012
 - **21 nov. 2026** — Feed-back P007 : a supprimer car mergé dans P012
 - **21 nov. 2026** — Feed-back P009 : a supprimer car mergé dans P012
+- **21 nov. 2026** — Feed-back P011 : a supprimer car mergé dans P012
