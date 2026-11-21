@@ -10,7 +10,6 @@ l'écran d'admin du Mac (`python3 tools/admin.py`) ou à la main : un élément 
 veux »). En début de session, Claude signale chaque tâche échue (refaire, reporter ou
 abandonner ?) et retire une tâche dès qu'elle est faite ou abandonnée.
 
-- **18 oct. 2026** — Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert.
 - **18 oct. 2026** — Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia.
 - **Avant la prochaine dictée (passée)** — Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access
 - **Avant le prochain plan exécuté (passé)** — Autoriser les notifications de l'app Claude sur l'iPhone, pour être prévenu de la fin d'une exécution.
