@@ -59,7 +59,8 @@ mais avec un contenu lu dans un fichier de module au lieu d'être écrit dans le
 - **Écran de réglage** : choix du niveau (puces « Niveau 1 … 4 », avec sous-titre décrivant la
   difficulté) et de la compétence (« Tout mélangé » ou une compétence). Bouton « Commencer ».
 - **Écran de question** :
-  - En tête : « Niveau n : X réussies du premier coup sur Y ».
+  - En tête : « <compétence>. N bonnes réponses » ; le compteur monte à chaque bonne réponse,
+    même au deuxième essai, avec un « +1 » bref (21 nov. 2026).
   - Carte avec l'énoncé, puis soit des champs numériques étiquetés (ex. « quotient », « reste »),
     soit des boutons de choix (QCM, sélection surlignée).
   - Boutons « Valider » et « Un indice ».
@@ -72,10 +73,9 @@ mais avec un contenu lu dans un fichier de module au lieu d'être écrit dans le
   - **2e essai faux** ou « Voir la correction » → encadré bleu « Correction » avec explication
     pas à pas ; champs marqués vert/rouge, QCM verrouillé avec la bonne réponse surlignée ;
     bouton « Question suivante ».
-  - **Juste** → encadré vert avec un encouragement tiré au hasard (« Bravo ! », « Bien joué ! »,
-    « Exact ! »…), mention « Tu as trouvé après une correction » si 2e essai ; bouton
-    « Question suivante ».
-  - **Montée de niveau** : après 5 réussites du premier coup d'affilée (et niveau < 4), message
+  - **Juste** → question suivante tout de suite, sans message (21 nov. 2026) ; le compteur
+    affiche « +1 ».
+  - **Montée de niveau** : à 5 réussites du premier coup d'affilée (et niveau < 4), message
     « Tu enchaînes 5 réussites : tu peux passer au niveau suivant » + bouton « Niveau suivant ».
   - Seul le **premier essai** compte dans les statistiques.
 - Retour → écran de réglage.

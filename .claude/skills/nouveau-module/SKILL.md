@@ -77,7 +77,8 @@ Règles complètes et pourquoi : `docs/module-html.md`, « Dictées ».
 1. **Une devinette, l'enfant écrit le mot sans aide.** Pas de QCM (supprimé le 17 nov. : inutile).
 2. **Une question par mot** : tous les mots à savoir sont posés, aucun tirage au sort.
 3. **Une bonne réponse enchaîne tout de suite**, sans message. Une faute montre la correction.
-4. **Passes invisibles** : l'enfant ne voit qu'une jauge « mots acquis ». Un mot raté revient 4
+4. **Passes invisibles** : l'enfant ne voit qu'une jauge des mots acquis et un compteur qui
+   monte à chaque bonne réponse. Un mot raté revient 4
    questions plus tard ; à la fin, les mots ratés sont reposés une dernière fois, jusqu'à une
    vérification sans faute ; puis le bilan. Un mot réussi du premier coup n'est jamais reposé. Pas de
    leçon, pas de niveaux, pas d'évaluation. (Tout est dans le moteur du gabarit.)

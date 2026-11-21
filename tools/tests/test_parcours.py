@@ -43,11 +43,13 @@ SCENARIOS = r"""
   const pts=[];for(let i=1;i<=10;i++){const s=P.etatParcours(e.slice(0,i));pts.push(s.ouverte?s.ouverte.points:-1);}
   R.gains=pts;R.etoile=P.etatParcours(e).etoiles;R.fib=[1,2,3,4,5,6,7].map(P.gainSerie);
   R.apresEtoile=P.etatParcours(e).etapes.length; }
-// 2. Deuxième chance réussie : la série est sauvée ; ratée : remise à zéro.
+// 2. Deuxième chance réussie : la série est sauvée et rapporte 1 point ; ratée : remise à zéro.
 { const base=[ev(1,'avoir',true),ev(2,'avoir',true),ev(3,'avoir',true),ev(4,'avoir',false)];
   R.sauvee=P.etatParcours(base.concat([ev(5,'avoir',true,'r')])).serie;
   R.perdue=P.etatParcours(base.concat([ev(5,'avoir',false,'r')])).serie;
   R.sansChance=P.etatParcours(base.concat([ev(6,'avoir',true)])).serie;
+  R.gainChance=P.etatParcours(base.concat([ev(5,'avoir',true,'r')])).dernier.gain;
+  R.gainChanceRatee=P.etatParcours(base.concat([ev(5,'avoir',false,'r')])).dernier.gain;
   R.pointsSauvee=P.etatParcours(base.concat([ev(5,'avoir',true,'r'),ev(6,'avoir',true)])).ouverte.points; }
 // 3. Une pause de plus de 30 minutes remet la série à zéro, pas la jauge.
 { const e=[ev(0,'etre',true),ev(10,'etre',true),ev(20,'etre',true),ev(20+31*60,'etre',true)];
@@ -112,8 +114,11 @@ class TestParcours(unittest.TestCase):
         self.assertEqual(self.r["sauvee"], 3)
         self.assertEqual(self.r["perdue"], 0)
         self.assertEqual(self.r["sansChance"], 1, "une erreur sans deuxième chance perd la série")
-        # 1 + 1 + 2 (série 3), erreur sauvée sans points, puis série 4 : +3
-        self.assertEqual(self.r["pointsSauvee"], 7)
+        # 1 + 1 + 2 (série 3), erreur sauvée : +1 (la jauge monte à chaque bonne réponse,
+        # sponsor, 21/11/2026), puis série 4 : +3
+        self.assertEqual(self.r["gainChance"], 1)
+        self.assertEqual(self.r["gainChanceRatee"], 0)
+        self.assertEqual(self.r["pointsSauvee"], 8)
 
     def test_pause_remet_la_serie_a_zero(self):
         self.assertEqual(self.r["pause"], [1, 1 + 1 + 2 + 1])

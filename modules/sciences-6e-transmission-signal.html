@@ -142,6 +142,10 @@ details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)
 .write input:focus{border-color:var(--pitch);outline:none}
 .write input.good{border-color:var(--good);background:var(--soft-good)}
 .write input.bad{border-color:var(--bad);background:var(--soft-bad)}
+.compteur{font-weight:800;color:var(--ink)}
+.plus{display:inline-block;margin-left:8px;font-weight:800;color:var(--pitch);animation:plus 1.2s ease-out forwards}
+@keyframes plus{0%{transform:scale(1.6);opacity:1}70%{opacity:1}100%{transform:translateY(-6px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.plus{animation:none}}
 </style>
 </head>
 <body>
@@ -344,7 +348,7 @@ function topbar(title,backAct){
 // Chaque mot est posé une fois, dans le désordre : une devinette, l'enfant écrit le mot. Une bonne
 // réponse enchaîne tout de suite sur le mot suivant (aucun message). Un mot raté montre sa correction,
 // puis revient 4 questions plus tard (rappel), sans que l'enfant voie de « passe » : une jauge montre
-// seulement les mots acquis. Quand tous les mots ont été posés, les mots qui ont eu une faute sont
+// les mots acquis et un compteur les bonnes réponses. Quand tous les mots ont été posés, les mots qui ont eu une faute sont
 // reposés une dernière fois (vérification cachée), jusqu'à une vérification sans faute. Alors : bilan.
 // Un mot réussi du premier coup n'est jamais reposé (plan P013, règle des dictées).
 function home(){
@@ -365,7 +369,7 @@ function home(){
 // P.aVerifier : ids des mots ratés pas encore revalidés à la vérification ; P.n : réponses données
 // (sert à espacer les rappels).
 function start(){
-  P={errs:{},t0:Date.now(),mode:'principal',queue:shuffle(TOUS.slice()),i:0,rappels:[],aVerifier:new Set(),n:0};
+  P={bonnes:0,plus:false,errs:{},t0:Date.now(),mode:'principal',queue:shuffle(TOUS.slice()),i:0,rappels:[],aVerifier:new Set(),n:0};
   ask();
 }
 // Le mot suivant : un rappel échu, sinon la suite, sinon les rappels restants, sinon une vérification
@@ -386,12 +390,14 @@ function ask(){
   if(w===null){final();return;}
   const q=mkEcrire(w);
   S={screen:'q',q,w,done:false};
+  // compteur : il monte à chaque bonne réponse, même sur un mot raté plus tôt (sponsor, 21/11/2026)
+  const plus=P.plus;P.plus=false;
   // jauge : les mots pas encore posés ou pas encore revalidés ne sont pas « acquis »
   const attente=(P.mode==='principal'?P.queue.length-P.i:0)+P.aVerifier.size+(P.aVerifier.has(w.id)?0:1);
   const acquis=Math.max(0,TOUS.length-attente),pc=Math.round(100*acquis/TOUS.length);
   show(`${topbar('Écrire les notions')}<main class="wrap qwrap">
     <div class="bar" aria-hidden="true"><i style="width:${pc}%"></i></div>
-    <p class="small">${acquis} notion${acquis>1?'s':''} acquise${acquis>1?'s':''} sur ${TOUS.length}</p>
+    <p class="small"><b class="compteur">${P.bonnes} bonne${P.bonnes>1?'s':''} réponse${P.bonnes>1?'s':''}</b>${plus?'<span class="plus">+1</span>':''}</p>
     <div class="card"><div class="q-prompt">${q.prompt}</div>
       <div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Ta réponse"></div></div>
     <div id="fb"></div>
@@ -419,7 +425,7 @@ function check(){
   if(!ok){P.errs[w.id]=(P.errs[w.id]||0)+1;P.aVerifier.add(w.id);P.rappels.push({w,apres:P.n+4});}
   else if(P.mode==='verif')P.aVerifier.delete(w.id);
   // bonne réponse : on enchaîne, sans message (ça fait perdre du temps)
-  if(ok){ask();return;}
+  if(ok){P.bonnes++;P.plus=true;ask();return;}
   i.disabled=true;i.classList.add('bad');
   document.getElementById('fb').innerHTML=`<div class="fb bad"><p><b>Pas tout à fait.</b></p><p>Tu as écrit : <b>${esc(rep)}</b>. ${v.why}</p></div><div class="fb info">${q.explain}<p class="small">Cette notion reviendra un peu plus tard.</p></div>`;
   document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="ask" data-primary>Question suivante</button>`;

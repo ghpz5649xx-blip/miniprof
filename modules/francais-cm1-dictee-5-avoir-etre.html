@@ -190,6 +190,10 @@ table.conj td{padding:4px 14px;border-bottom:1px solid var(--line)}
 #hibou .corps{fill:var(--owl)}#hibou .ventre{fill:var(--owl-belly)}#hibou .oeil{fill:var(--eye)}
 #hibou .pupille{fill:var(--ink)}#hibou .bec{fill:var(--star)}
 @media (prefers-reduced-motion: reduce){.map .halo{animation:none;opacity:.5}.jauge i{transition:none}}
+.compteur{font-weight:800;color:var(--ink)}
+.plus{display:inline-block;margin-left:8px;font-weight:800;color:var(--pitch);animation:plus 1.2s ease-out forwards}
+@keyframes plus{0%{transform:scale(1.6);opacity:1}70%{opacity:1}100%{transform:translateY(-6px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.plus{animation:none}}
 </style>
 </head>
 <body>
@@ -589,7 +593,7 @@ function qScreen(){
   let head;
   if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
     head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
-  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  else{const nb=S.bonnes||0;head=`<p class="small">${SKILLS[q.skill].label}. <b class="compteur">${nb} bonne${nb>1?'s':''} réponse${nb>1?'s':''}</b>${S.plus?'<span class="plus">+1</span>':''}</p>`;S.plus=false;}
   show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
@@ -601,6 +605,8 @@ function qScreen(){
     <div class="btns"><span id="acts" class="acts"></span></div>
     <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
   S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
+  const champ=document.getElementById('rep');
+  if(champ)champ.focus();   // le clavier reste ouvert d'une question à écrire à la suivante
 }
 /* ================= MOTEUR : signaler un problème ================= */
 // Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
@@ -676,8 +682,12 @@ function checkTrain(){
   if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
   if(ok){
     lockChoices();
+    // le compteur monte à chaque bonne réponse, même au deuxième essai (sponsor, 21/11/2026)
+    S.bonnes=(S.bonnes||0)+1;S.plus=true;
     let extra='';
-    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    if(S.streak===5&&S.attempts===1&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    // bonne réponse : question suivante tout de suite, sans « Bravo » (sponsor, 21/11/2026)
+    if(!extra){nextTrain();return;}
     setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
     document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
   }else if(S.attempts===1||(v&&S.attempts<3)){
@@ -762,14 +772,15 @@ function evalEnd(){
 /* ================= PARCOURS (plan P012, pilote) ================= */
 // Le module est un paysage : une route, des étapes. Une étape = une compétence, travaillée
 // d'affilée jusqu'à une étoile (pratique groupée, P012 §3). L'étoile se gagne en remplissant
-// une jauge de 40 points ; seule une réponse juste du PREMIER coup la remplit, et elle rapporte
-// d'autant plus que la série est longue : Fibonacci(série), plafonné à 8 (décision D6).
-// Après une erreur, la série est « en jeu » : la deuxième chance ne rapporte rien mais la sauve ;
-// la rater remet la série à zéro. C'est cet enjeu qui donne envie de lire l'indice de Mini.
+// une jauge de 40 points ; une réponse juste du premier coup rapporte d'autant plus que la série
+// est longue : Fibonacci(série), plafonné à 8 (décision D6).
+// Après une erreur, la série est « en jeu » : la deuxième chance juste la sauve et rapporte 1 point
+// (la jauge monte à chaque bonne réponse : sponsor, 21/11/2026) ; la rater remet la série à zéro.
+// C'est cet enjeu qui donne envie de lire l'indice de Mini.
 // Tout se recalcule depuis le journal (miniprof.historique()) : rien d'autre n'est stocké.
 // Les réponses du parcours ont une question « parcours/<compétence> » ; la deuxième chance a le
 // mode "r" (décision du sponsor du 12 oct. 2026).
-const P={JAUGE:40,PLAFOND:8,PAUSE:30*60,JOUR:24*3600};
+const P={JAUGE:40,PLAFOND:8,CHANCE:1,PAUSE:30*60,JOUR:24*3600};
 const QPARCOURS='parcours/';
 const estParcours=e=>typeof e.question==='string'&&e.question.indexOf(QPARCOURS)===0;
 function fib(n){let a=1,b=1;for(let i=1;i<n;i++){const t=a+b;a=b;b=t;}return a;}
@@ -794,7 +805,12 @@ function etatParcours(evts){
     if(derniere!==null&&e.date-derniere>P.PAUSE){serie=0;enJeu=false;}
     derniere=e.date;
     if(e.mode==='r'){
-      if(enJeu){enJeu=false;if(!e.juste)serie=0;dernier={type:e.juste?'sauvee':'perdue',gain:0,etoile:false};}
+      if(enJeu){
+        enJeu=false;let g=0;
+        if(!e.juste)serie=0;else if(ouverte){g=P.CHANCE;ouverte.points+=g;}
+        dernier={type:e.juste?'sauvee':'perdue',gain:g,etoile:false};
+        if(ouverte&&ouverte.points>=P.JAUGE){ouverte.points=P.JAUGE;ouverte.etoile=true;ouverte.fin=e.date;dernier.etoile=true;ouverte=null;}
+      }
       continue;
     }
     // une erreur sans deuxième chance (page quittée) : la série est perdue
@@ -912,9 +928,10 @@ function carte(etat,proch){
   });
   return `<svg class="map" viewBox="0 0 ${W} ${h}" role="img" aria-label="Ton parcours : ${etat.etoiles} étoile${etat.etoiles>1?'s':''}">${g}</svg>`;
 }
-function jauge(points,serie){
+// plus : points gagnés par la réponse précédente, affichés un instant à côté du total
+function jauge(points,serie,plus){
   return `<div class="jauge" role="progressbar" aria-label="Jauge de l'étoile" aria-valuemin="0" aria-valuemax="${P.JAUGE}" aria-valuenow="${points}"><i style="width:${Math.round(100*points/P.JAUGE)}%"></i><svg aria-hidden="true">${svgEtoile('',0,0,30)}</svg></div>
-    <p class="serie"><b>Série : ${serie}</b><span class="gain">1er coup juste : +${gainSerie(serie+1)}</span><span>${points} / ${P.JAUGE}</span></p>`;
+    <p class="serie"><b>Série : ${serie}</b><span class="gain">1er coup juste : +${gainSerie(serie+1)}</span><span><b class="compteur">${points} / ${P.JAUGE}</b>${plus?`<span class="plus">+${plus}</span>`:''}</span></p>`;
 }
 
 // Écran principal du module : la carte.
@@ -946,9 +963,9 @@ function pNouvelle(){
   const pr=S.proch;let q,n=0;
   do{q=GEN[pr.skill](pr.niveau);n++;}while(S.derniere&&q.prompt===S.derniere&&n<10);
   S.screen='pq';S.derniere=q.prompt;S.q=q;S.choice=null;S.attempts=0;S.retry=false;S.chance=false;
-  const now=maintenantS(),etat=etatParcours(JOURNAL);
+  const now=maintenantS(),etat=etatParcours(JOURNAL),plus=S.plus;S.plus=0;
   show(`${topbar(S.lieu.nom,'parcours')}<main class="wrap qwrap">
-    <div id="pj">${jauge(pr.points,serieActuelle(etat,now))}</div>
+    <div id="pj">${jauge(pr.points,serieActuelle(etat,now),plus)}</div>
     <div class="card"><div class="q-prompt">${q.prompt}</div>
       ${q.write
         ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
@@ -957,10 +974,9 @@ function pNouvelle(){
     <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="pCheck" data-primary hidden>Valider</button></span></div>
     <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
   q.t0=Date.now();
-  // curseur dans le champ (clavier ouvert) pour une question à écrire ; sinon on libère le relais
+  // curseur dans le champ : appelé dans le geste de l'enfant (Valider), le clavier reste ouvert
   const champ=document.getElementById('rep');
   if(champ)champ.focus();
-  retirerRelais();
 }
 function pCheck(){
   const q=S.q;let v=null;
@@ -976,11 +992,12 @@ function pCheck(){
   if(etat.ouverte){S.proch.points=etat.ouverte.points;S.proch.niveau=etat.ouverte.niveau;}
   document.getElementById('pj').innerHTML=jauge(pts,serieActuelle(etat,now));
   const acts=document.getElementById('acts');
-  if(premier&&ok){
-    lockChoices();
-    // juste : bref message, puis la question suivante arrive seule (retour du sponsor, 13/10/2026)
-    setFb(`<div class="fb good"><p><b>Du premier coup ! +${d.gain}</b> Ta série passe à ${etat.serie}.</p></div>`);
-    enchainer(d.etoile);return;
+  if(ok){
+    // juste (du premier coup ou à la deuxième chance) : la question suivante tout de suite, sans
+    // message ; la jauge montre les points gagnés (sponsor, 21/11/2026)
+    S.plus=d.gain;
+    if(d.etoile)pEtoile();else pNouvelle();
+    return;
   }else if(premier){
     // la série est en jeu : l'enjeu, puis l'indice de Mini, puis la deuxième chance
     const why=v?v.why:((q.choices.find(c=>c.v===S.choice)||{}).why||'');
@@ -993,10 +1010,6 @@ function pCheck(){
     S.chance=true;
     ouvrirIndice(serieAvant>0?`Ta série de ${serieAvant} est en jeu !`:'Pas tout à fait.',why,q.hint);
     return;
-  }else if(ok){
-    lockChoices();
-    setFb(`<div class="fb good"><p><b>${serieAvant>0?`Série sauvée ! Ta série de ${serieAvant} continue.`:'Bien corrigé !'}</b> La deuxième chance ne remplit pas la jauge.</p></div>`);
-    enchainer(d.etoile);return;
   }else{
     lockChoices();
     setFb(`<div class="fb info"><p><b>La bonne réponse : ${esc(q.exp.c)}</b>${serieAvant>0?` Ta série de ${serieAvant} repart de zéro. Ce n'est rien : on recommence.`:''}</p>${q.explain}</div>`);
@@ -1005,24 +1018,6 @@ function pCheck(){
     acts.innerHTML='<button class="btn primary" data-act="pEtoile" data-primary>Voir mon étoile</button>';
   }else acts.innerHTML='<button class="btn primary" data-act="pSuivante" data-primary>Question suivante</button>';
 }
-// Après une réponse juste : message d'une seconde, puis question suivante (ou écran de l'étoile).
-// Pourquoi un champ « relais » : sur iPhone, le clavier ne s'ouvre que dans le geste de l'enfant (le
-// toucher sur Valider). On y donne le focus à un champ invisible, qui garde le clavier ouvert
-// pendant la seconde d'attente ; pNouvelle passe ensuite le focus au vrai champ de réponse.
-function enchainer(etoile){
-  let r=document.getElementById('relais');
-  if(!r){
-    r=document.createElement('input');r.id='relais';r.tabIndex=-1;r.setAttribute('aria-hidden','true');
-    r.style.cssText='position:fixed;left:-100px;top:0;width:1px;height:1px;opacity:0;font-size:16px';
-    document.body.appendChild(r);
-  }
-  r.focus();
-  document.getElementById('acts').innerHTML='';
-  const q=S.q;
-  // si l'enfant a quitté l'écran entre-temps (flèche retour), on ne fait rien
-  setTimeout(()=>{if(S.q===q&&S.screen==='pq'){if(etoile)pEtoile();else pNouvelle();}else retirerRelais();},1000);
-}
-function retirerRelais(){const r=document.getElementById('relais');if(r)r.remove();}
 // L'indice en plein écran après une erreur (retour du sponsor, 13/10/2026 : l'indice posé sous la
 // question n'était pas lu). La couche cache la question ; « Ma deuxième chance » n'apparaît qu'après
 // un court délai, le temps de lire (3 s, plus 0,03 s par caractère, au plus 6 s). Ce délai n'est pas
@@ -1063,7 +1058,6 @@ function pChance(){
   majValider();
 }
 function pEtoile(){
-  retirerRelais();
   const etat=etatParcours(JOURNAL);
   show(`${topbar(S.lieu.nom,'parcours')}<main class="wrap">
     <div class="card gagne"><svg aria-hidden="true">${svgEtoile('',0,0,84)}</svg>

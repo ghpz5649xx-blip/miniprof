@@ -1,6 +1,6 @@
 # P006 — Dictée répétable
 
-- **Statut** : exécuté en partie (15 nov. 2026 : gabarit, règles et outil de couverture livrés ; reste à refaire la Dictée 5).
+- **Statut** : **archivé le 21 nov. 2026 (clôturé avec le dernier moteur ; la Dictée 5 ne sera pas refaite)**. Avant : exécuté en partie (15 nov. 2026 : gabarit, règles et outil de couverture livrés ; reste à refaire la Dictée 5).
 - **Origine** : sponsor et Claude, 7 oct. 2026 (décision D8 : un module « dictée » par liste de
   mots, fait avec `/nouveau-module`).
 
@@ -31,4 +31,4 @@ des mots ratés ; le QCM d'abord prévu a été supprimé le 17 nov., pas de le�
 - Ce que le skill doit changer pour une dictée.
 
 ## Feed-back
-(sans objet)
+- **21 nov. 2026 (sponsor, écran d'admin)** : « plan clôturé avec le dernier moteur. Tu peux l'archiver ». Le reste (refaire la Dictée 5 en parcours d'écriture) est abandonné, décision du sponsor le même jour.

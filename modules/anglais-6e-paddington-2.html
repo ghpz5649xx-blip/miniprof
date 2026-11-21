@@ -139,6 +139,10 @@ details.rev summary{cursor:pointer;font-weight:700}
 details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
 .ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
 .ans.good{background:var(--soft-good)}
+.compteur{font-weight:800;color:var(--ink)}
+.plus{display:inline-block;margin-left:8px;font-weight:800;color:var(--pitch);animation:plus 1.2s ease-out forwards}
+@keyframes plus{0%{transform:scale(1.6);opacity:1}70%{opacity:1}100%{transform:translateY(-6px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.plus{animation:none}}
 </style>
 </head>
 <body>
@@ -569,7 +573,7 @@ function qScreen(){
   let head;
   if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
     head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
-  else head=`<p class="small">${SKILLS[q.skill].label}. ${S.okCount} réussie${S.okCount>1?'s':''} du premier coup sur ${S.tried}</p>`;
+  else{const nb=S.bonnes||0;head=`<p class="small">${SKILLS[q.skill].label}. <b class="compteur">${nb} bonne${nb>1?'s':''} réponse${nb>1?'s':''}</b>${S.plus?'<span class="plus">+1</span>':''}</p>`;S.plus=false;}
   show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
     ${head}
     <div class="card"><div class="q-prompt">${q.prompt}</div>
@@ -578,6 +582,8 @@ function qScreen(){
     <div class="btns"><span id="acts" class="acts"></span></div>
     <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
   S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
+  const champ=document.getElementById('rep');
+  if(champ)champ.focus();   // le clavier reste ouvert d'une question à écrire à la suivante
 }
 /* ================= MOTEUR : signaler un problème ================= */
 // Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
@@ -647,8 +653,12 @@ function checkTrain(){
   if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
   if(ok){
     lockChoices();
+    // le compteur monte à chaque bonne réponse, même au deuxième essai (sponsor, 21/11/2026)
+    S.bonnes=(S.bonnes||0)+1;S.plus=true;
     let extra='';
-    if(S.streak>=5&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    if(S.streak===5&&S.attempts===1&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    // bonne réponse : question suivante tout de suite, sans « Bravo » (sponsor, 21/11/2026)
+    if(!extra){nextTrain();return;}
     setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
     document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
   }else if(S.attempts===1){

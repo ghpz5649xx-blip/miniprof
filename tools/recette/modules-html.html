@@ -34,7 +34,9 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   // entraînement : 6 questions
   clic(d,'[data-act="trainSetup"]');clic(d,'[data-act="trainStart"]');
   for(let i=0;i<6;i++){repondre(d);clic(d,'[data-act="check"]');
-    if(!d.querySelector('[data-act="next"]'))clic(d,'[data-act="reveal"]');clic(d,'[data-act="next"]');}
+    // juste : la question suivante est déjà là (sauf schéma juste : la lampe allumée, puis « Question suivante »)
+    if(d.querySelector('[data-act="reveal"]'))clic(d,'[data-act="reveal"]');
+    const nx=d.querySelector('[data-act="next"]');if(nx)nx.click();}
   let e=ev();
   log(e.length===6,'entraînement : 6 événements (trouvé '+e.length+')');
   log(e.every(l=>l[1]===ID&&l[5]==='e'&&l[9]===null&&typeof l[3]==='string'&&(l[4]===1)),'format entraînement : '+JSON.stringify(e[0]));
@@ -104,17 +106,21 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   // tard sous une autre forme (même compétence), sans que l'enfant voie de « passe » (plan P013)
   d=await charger('modules/maths-cm1-tables-3-6-9.html');
   clic(d,'[data-act="trainSetup"]');clic(d,'[data-act="trainStart"]');
-  const vus=[],rates=[];
+  const vus=[],rates=[];let justes=0,enchaine=true;
+  const compteur=()=>parseInt((d.querySelector('.compteur')||{textContent:'-1'}).textContent,10);
   for(let i=0;i<16;i++){
     const prompt=d.querySelector('.q-prompt').textContent.trim();
     const comp=(d.querySelector('.small')||{textContent:''}).textContent.split('.')[0];
     vus.push({prompt:prompt+' | '+[...d.querySelectorAll('.choice')].map(c=>c.textContent.trim()).sort().join(','),comp});
+    const avant=compteur();
     const champ=d.querySelector('#rep');
     if(champ){champ.value='0';champ.dispatchEvent(new Event('input',{bubbles:true}));}else clic(d,'.choice');
     clic(d,'#ok');
-    if(d.querySelector('.fb.bad')){rates.push(i);clic(d,'[data-act="reveal"]');}
-    clic(d,'[data-act="next"]');
+    if(d.querySelector('.fb.bad')){rates.push(i);clic(d,'[data-act="reveal"]');clic(d,'[data-act="next"]');}
+    // juste : question suivante tout de suite, sans « Bravo », et le compteur monte de 1 (21/11/2026)
+    else{justes++;if(d.querySelector('.fb.good')||d.querySelector('[data-act="next"]')||compteur()!==avant+1||!d.querySelector('.plus'))enchaine=false;}
   }
+  log(justes>0&&enchaine,'entraînement : une bonne réponse passe à la question suivante sans message, compteur +1 ('+justes+' cas)');
   const dbl=vus.map(v=>v.comp+' / '+v.prompt).filter((x,i,a)=>a.indexOf(x)!==i);
   log(dbl.length===0,'entraînement : '+vus.length+' questions, aucune posée deux fois'+(dbl.length?' : '+dbl.join(' || '):''));
   const retours=rates.filter(i=>i+5<vus.length);
@@ -137,14 +143,16 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
   saisie(champD,'sin');
   log(champD.value==='sin'&&!d.getElementById('ok').hidden,'dictée : frappe lettre par lettre acceptée : '+champD.value);
   champD.value='';champD.dispatchEvent(new Event('input',{bubbles:true}));
-  const seqD=[],ratesD=new Set();let passeVisible=false,brav0=false,motsLus=0;
+  const seqD=[],ratesD=new Set();let passeVisible=false,brav0=false,motsLus=0,compteurD=true;
   for(let g=0;g<200&&!d.getElementById('app').textContent.includes('Tu sais écrire les');g++){
     const prompt=d.querySelector('.q-prompt').textContent;
     const w=parDev[Object.keys(parDev).find(k=>prompt.includes(k))];
     const rate=['singe','jongler'].includes(w.m)&&!ratesD.has(w.m);
     if(rate)ratesD.add(w.m);
     const c=d.getElementById('rep');c.value=rate?'xx':(w.ok?w.ok[0]:w.m);c.dispatchEvent(new Event('input',{bubbles:true}));
+    const avantD=compteur();
     clic(d,'#ok');seqD.push(w.m);
+    if(!rate&&d.querySelector('.compteur')&&compteur()!==avantD+1)compteurD=false;
     const suite=d.querySelector('[data-act="ask"]');   // « Mot suivant » : seulement après une faute
     if(rate){if(!suite)brav0=true;else suite.click();}
     else if(suite||d.querySelector('.fb.good'))brav0=true;
@@ -152,6 +160,7 @@ const ev=()=>JSON.parse(localStorage.getItem('miniprof.v1.events.ptest')||'[]');
     motsLus++;
   }
   log(d.getElementById('app').textContent.includes('Tu sais écrire les'),'dictée : un seul parcours, puis le bilan');
+  log(compteurD,'dictée : le compteur monte à chaque bonne réponse, rappels et vérification compris');
   log(!brav0,'dictée : bonne réponse = mot suivant tout de suite, sans message ; faute = correction puis « Mot suivant »');
   log(motsD.filter(w=>!['singe','jongler'].includes(w.m)).every(w=>seqD.filter(x=>x===w.m).length===1),'dictée : un mot réussi du premier coup est posé une seule fois');
   log(seqD.length===28&&seqD.filter(x=>x==='singe').length===3,'dictée : un mot raté revient (rappel) puis une vérification finale : '+seqD.length+' questions');

@@ -136,6 +136,11 @@ Règle du 15 nov. 2026 (plan P013), dans le moteur du gabarit : en entraînement
 - **une question ratée du premier coup revient 4 questions plus tard**, sous une autre forme (même
   compétence, même niveau, autres nombres ou autres mots), sans rien afficher : pas de « passe »,
   pas de compteur de rappels ; reposer la même question ferait retenir la réponse plutôt que la notion.
+- **Bonne réponse : question suivante tout de suite**, sans « Bravo » ni explication (sponsor,
+  21 nov. 2026, comme les dictées) ; seule la proposition de niveau (5 réussites d'affilée) arrête,
+  et le schéma juste d'une question à dessiner (la lampe allumée). En tête, un compteur « N bonnes
+  réponses » monte à **chaque bonne réponse**, même au deuxième essai, avec un « +1 » bref ; le
+  journal, lui, ne garde que le premier essai.
 - L'évaluation ne change pas (pas de rappel, pas de doublon). Rien n'est gardé entre deux
   séances. Les générateurs n'ont rien à faire : tout est dans le moteur (`questionNeuve()`,
   `S.rappels`, `S.vus`), à garder tel quel.
@@ -154,7 +159,8 @@ Gabarit : `docs/gabarit-dictee.html` ; exemple réel : `modules/francais-cm1-dic
   fait perdre du temps). Une **faute** montre le mot bien écrit, son astuce (`tip`) et le pourquoi,
   puis « Mot suivant ».
 - **Passes invisibles** (plan P013) : l'enfant ne voit ni « passe » ni numéro de tour, seulement
-  une jauge « mots acquis ». Un mot raté **revient 4 questions plus tard** (rappel). Quand tous les
+  une jauge des mots acquis et un compteur qui monte à **chaque bonne réponse** (même un mot
+  raté plus tôt, sponsor, 21 nov. 2026). Un mot raté **revient 4 questions plus tard** (rappel). Quand tous les
   mots ont été posés, les mots qui ont eu une faute sont reposés une dernière fois (vérification
   cachée) ; un mot raté à la vérification revient, puis on revérifie. Un mot réussi du premier coup
   n'est **jamais reposé**. Il n'y a **qu'un essai** par question : ni « Réessayer », ni indice.

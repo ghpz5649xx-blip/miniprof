@@ -35,8 +35,23 @@ mots » (Dictée 7 et gabarit mis à jour). Dans les autres modules, l'entraîne
 - Moins strict qu'une vraie passe : le mot raté est reposé juste après 4 autres questions (mémoire
   courte), d'où la vérification finale.
 
+## Mise à jour du 21 nov. 2026 (feed-back du sponsor)
+- **Le compteur monte à chaque bonne réponse.** Entraînement : « N bonnes réponses » remplace « X
+  réussies du premier coup sur Y » et compte aussi le deuxième essai (le journal ne garde toujours
+  que le premier). Dictées : le même compteur, qui monte aussi sur un mot raté plus tôt (rappel,
+  vérification). Dictée 5 (parcours à étoiles) : la deuxième chance juste rapporte 1 point au lieu
+  de 0. Un « +1 » (ou « +n ») bref s'affiche à côté du compteur.
+- **Bonne réponse = question suivante tout de suite, sans « Bravo »**, dans tous les modules (la
+  règle des dictées du 17 nov.). Deux arrêts restent : la proposition de niveau, une fois, à 5
+  réussites d'affilée ; le schéma juste du module circuit (la lampe allumée est la correction).
+- Le parcours de la Dictée 5 se recalcule depuis le journal : les deuxièmes chances déjà réussies
+  rapportent maintenant 1 point chacune, donc certaines jauges montent un peu (jamais l'inverse).
+- Contrôles : `test_parcours.py` (gain de la deuxième chance) ; recette navigateur : en
+  entraînement, une bonne réponse passe à la suivante sans message, compteur +1 ; en dictée, le
+  compteur monte à chaque bonne réponse.
+
 ## Reste
-- La Dictée 5 (parcours à étoiles, P012) n'a pas le parcours QCM puis écriture : à refaire sur photo.
+- Rien (la Dictée 5 ne sera pas refaite : décision du sponsor, 21 nov. 2026).
 
 ## Feed-back
-(en attente)
+- **21 nov. 2026 (sponsor, écran d'admin)** : « Ce plan est très bon dans l'ensemble. A noter, mes enfants se plaignent que lorsqu'ils font une faute, la prochaine question même juste n'augmente pas leur score. Il faudra donc modifier ce comportement pour que le compteur augmente à chaque bonne réponse et c'est très important pour mes enfants de voir le compteur monter. La mise à jour du 17/11/26 doit être appliqué à tous les types de modules pas seulement au module dictée. » Traité le même jour : voir « Mise à jour du 21 nov. 2026 ».

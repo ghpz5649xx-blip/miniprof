@@ -1,6 +1,6 @@
 # P005 — Fusion des sauvegardes
 
-- **Statut** : à mûrir (priorité basse, 6 oct. 2026).
+- **Statut** : **abandonné le 21 nov. 2026 (pas de besoin à ce stade)**. Avant : à mûrir (priorité basse, 6 oct. 2026).
 - **Origine** : sponsor, 6 oct. 2026.
 
 ## Besoin
@@ -18,4 +18,4 @@ enfant joue sur plusieurs appareils).
 À reprendre avec P003 (export plus simple à partager), qui touche le même écran.
 
 ## Feed-back
-(sans objet)
+- **21 nov. 2026 (sponsor, écran d'admin)** : « supprimer ce plan, pas de besoin à ce stade ». Abandonné plutôt que supprimé : la fiche reste pour ne pas reproposer l'idée.
