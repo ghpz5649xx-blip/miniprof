@@ -23,3 +23,4 @@ du travail fait, et Claude le dit au sponsor.
 - **21 nov. 2026** — Feed-back P012 : Plan à supprimer à ce stade ou à garder en archive pour plus tard car trop complexe à mettre en oeuvre dans l'immédiat.
 - **21 nov. 2026** — Feed-back P014 : Il faudrait également masquer les plans exécuté au moins 2 semaines dans un onglet plan archivé pour épurer le visuel de l'interface
 - **21 nov. 2026** — Feed-back P009 : a supprimer car mergé dans P012
+- **21 nov. 2026** — Feed-back P007 : a supprimer car mergé dans P012
