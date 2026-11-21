@@ -17,3 +17,5 @@ abandonner ?) et retire une tâche dès qu'elle est faite ou abandonnée.
 Demandes et retours du sponsor (ex. « Feed-back P013 : … »), datés du jour où il les a écrits.
 En début de session, Claude les lit ; une consigne traitée est retirée de la liste dans le commit
 du travail fait, et Claude le dit au sponsor.
+
+- **21 nov. 2026** — Feed-back P013 : Ce plan est très bon dans l'ensemble. A noter, mes enfants se plaignent que lorsqu'ils font une faute, la prochaine question même juste n'augmente pas leur score. Il faudra donc modifier ce comportement pour que le compteur augmente à chaque bonne réponse et c'est très important pour mes enfants de voir le compteur monter. La mise à jour du 17/11/26 doit être appliqué à tous les types de modules pas seulement au module dictée.
