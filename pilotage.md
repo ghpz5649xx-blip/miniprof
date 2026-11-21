@@ -20,3 +20,4 @@ du travail fait, et Claude le dit au sponsor.
 
 - **21 nov. 2026** — Feed-back P013 : Ce plan est très bon dans l'ensemble. A noter, mes enfants se plaignent que lorsqu'ils font une faute, la prochaine question même juste n'augmente pas leur score. Il faudra donc modifier ce comportement pour que le compteur augmente à chaque bonne réponse et c'est très important pour mes enfants de voir le compteur monter. La mise à jour du 17/11/26 doit être appliqué à tous les types de modules pas seulement au module dictée.
 - **21 nov. 2026** — Feed-back P005 : supprimer ce plan, pas de besoin à ce stade
+- **21 nov. 2026** — Feed-back P006 : plan clôturé avec le dernier moteur. Tu peux l'archiver
