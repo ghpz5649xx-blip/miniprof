@@ -3,9 +3,6 @@
 App web de révision pour 2 enfants, en français. **Année 2026-2027 : le fils est en CM1, la fille
 en 6e** (niveau par défaut d'un module). Comment tout marche : `README.md`.
 
-Les règles générales de travail (rôles, plans, go avant de coder, git, livraison) sont dans le
-`CLAUDE.md` global du sponsor. Ci-dessous, ce qui est propre à ce dépôt.
-
 ## Particularités de l'organisation
 - Fichier de pilotage : `pilotage.md` (plan en cours, backlog, tâches du sponsor). Fiches des
   plans : `plans/`, index dans `plans/index.md`.
