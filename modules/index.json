@@ -329,6 +329,38 @@
           "label": "La diode électroluminescente (DEL)"
         }
       ]
+    },
+    {
+      "id": "sciences-6e-transmission-signal",
+      "kind": "html",
+      "file": "sciences-6e-transmission-signal.html",
+      "title": "Transmission d’un signal",
+      "subject": "sciences",
+      "level": "6e",
+      "description": "Physique-chimie, chapitre 2 : toutes les notions du cours (signal, chaîne d’information, sons, lumière, radio, codage), à écrire sans aide.",
+      "skills": [
+        {
+          "id": "signal",
+          "label": "Signal et chaîne d’information"
+        },
+        {
+          "id": "sonores",
+          "label": "Les signaux sonores"
+        },
+        {
+          "id": "lumineux",
+          "label": "Les signaux lumineux"
+        },
+        {
+          "id": "radio",
+          "label": "Les signaux radio"
+        },
+        {
+          "id": "codage",
+          "label": "Coder et transporter l’information"
+        }
+      ],
+      "brouillon": true
     }
   ]
 }

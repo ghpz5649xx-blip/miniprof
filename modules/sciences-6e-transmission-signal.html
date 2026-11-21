@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Transmission d’un signal – Écrire les notions</title>
+<script type="application/json" id="miniprof-module">
+{
+  "id": "sciences-6e-transmission-signal",
+  "title": "Transmission d’un signal",
+  "subject": "sciences",
+  "level": "6e",
+  "description": "Physique-chimie, chapitre 2 : toutes les notions du cours (signal, chaîne d’information, sons, lumière, radio, codage), à écrire sans aide.",
+  "skills": [
+    {"id": "signal", "label": "Signal et chaîne d’information"},
+    {"id": "sonores", "label": "Les signaux sonores"},
+    {"id": "lumineux", "label": "Les signaux lumineux"},
+    {"id": "radio", "label": "Les signaux radio"},
+    {"id": "codage", "label": "Coder et transporter l’information"}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme: light dark;
+  --bg:#eef2f7; --surface:#ffffff; --ink:#18233a; --muted:#56637a; --line:#d5dce8;
+  --pitch:#2f5fc4; --pitch-ink:#ffffff; --stripe1:#2a54ad; --stripe2:#2f5fc4;
+  --c1:#2f62c9; --c2:#178a4c; --c3:#d9670c; --c4:#b0338a;
+  --bad:#c63a32; --good:#178a4c;
+  --soft-good:#e2f4ea; --soft-bad:#fbe6e4; --soft-info:#e6effa; --soft-hint:#fff1de;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+    --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+    --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+    --bad:#ff8077; --good:#4fd88b;
+    --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10151f; --surface:#1a2130; --ink:#e8edf6; --muted:#a3adc2; --line:#2e384d;
+  --pitch:#86a9ff; --pitch-ink:#0d1a3a; --stripe1:#1c2d57; --stripe2:#223666;
+  --c1:#86a9ff; --c2:#4fd88b; --c3:#ffa64d; --c4:#f07cc8;
+  --bad:#ff8077; --good:#4fd88b;
+  --soft-good:#153a27; --soft-bad:#40201e; --soft-info:#1a2c47; --soft-hint:#3a2c17;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 1.05rem/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100%}
+h1,h2,h3{font-family:system-ui,-apple-system,sans-serif;font-weight:800;line-height:1.15;margin:0}
+p{margin:.5em 0}
+button{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:3px solid var(--c3);outline-offset:2px}
+
+.wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px}
+.hero{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff}
+.hero-in{max-width:640px;margin:0 auto;padding:24px 16px 26px}
+.hero h1{font-size:2rem;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+.hero p{font-size:1.05rem;margin-top:8px}
+
+.topbar{background:repeating-linear-gradient(135deg,var(--stripe1) 0 40px,var(--stripe2) 40px 80px);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.topbar-in{max-width:640px;margin:0 auto;padding:8px 12px;display:flex;align-items:center;gap:10px}
+.topbar .back{background:rgba(0,0,0,.22);border:0;border-radius:12px;padding:8px 14px;cursor:pointer;font-weight:800;color:#fff;min-height:40px}
+.topbar .ttl{font-weight:800;font-size:1.15rem}
+
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:16px 18px;margin:14px 0}
+.center{text-align:center}
+.small{font-size:.9rem;color:var(--muted)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.big{font-size:1.5rem;font-weight:800}
+.rulebox{border:2px dashed var(--pitch);border-radius:16px;padding:12px 16px;background:var(--surface);margin:14px 0}
+
+.menu{display:grid;gap:12px;margin-top:16px}
+.mbtn{display:block;width:100%;text-align:left;padding:14px 18px;border-radius:16px;border:2px solid var(--line);border-left-width:9px;background:var(--surface);cursor:pointer}
+.mbtn strong{font-size:1.25rem;display:block;line-height:1.2}
+.mbtn span{color:var(--muted);font-size:.95rem}
+.mbtn:active{transform:scale(.99)}
+.m1{border-left-color:var(--c1)}.m2{border-left-color:var(--c2)}.m3{border-left-color:var(--c3)}.m4{border-left-color:var(--c4)}
+
+.btn{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:11px 20px;font-weight:800;cursor:pointer;min-height:48px}
+#ok[hidden]{display:inline-block;visibility:hidden}
+.qwrap{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
+/* « Une erreur ? » : large, discret (pointillé gris), tout en bas de l'écran (ou juste après la question si l'écran est petit) */
+.qwrap .sigbar{margin-top:auto;padding-top:28px}
+.sigbtn{width:100%;background:transparent;border:2px dashed var(--muted);color:var(--muted)}
+/* Pas de zoom au double toucher (iPhone) : deux touchers rapides au même endroit (Valider puis Réessayer ou Question suivante) étaient pris pour un double-tap et le second était perdu. */
+button,input,.choice{touch-action:manipulation}
+.btn.primary{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.btn.ghost{background:transparent}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.acts{display:contents}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 14px;font-weight:700;cursor:pointer;text-align:left;min-height:44px}
+.chip.on{background:var(--pitch);border-color:var(--pitch);color:var(--pitch-ink)}
+.chip small{display:block;font-weight:500;opacity:.85;font-size:.8rem}
+
+.q-prompt{font-size:1.12rem}
+.choices{display:grid;gap:10px;margin:14px 0 4px}
+.choices.pics{grid-template-columns:1fr 1fr}
+.choice{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:700;min-height:48px;position:relative}
+.choices.pics .choice{text-align:center;padding:8px}
+.choice .pl{position:absolute;left:10px;top:8px;font-weight:800;color:var(--muted)}
+.choice.sel{border-color:var(--pitch);background:var(--soft-info)}
+.choice.good{border-color:var(--good);background:var(--soft-good)}
+.choice.bad{border-color:var(--bad);background:var(--soft-bad);opacity:.85}
+.choice.locked{cursor:default}
+.choice[disabled]{color:inherit}
+
+.fb{border-radius:14px;padding:12px 14px;margin:12px 0;animation:fade .25s ease-out}
+.fb.good{background:var(--soft-good);border:2px solid var(--good)}
+.fb.bad{background:var(--soft-bad);border:2px solid var(--bad)}
+.fb.info{background:var(--soft-info);border:2px solid var(--c1)}
+.fb.hint{background:var(--soft-hint);border:2px solid var(--c3)}
+.fb p:first-child{margin-top:0}.fb p:last-child{margin-bottom:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fb{animation:none}}
+
+.dots{display:flex;gap:6px;margin-bottom:6px}
+.dots i{flex:1;height:8px;border-radius:6px;background:var(--line)}
+.dots i.done{background:var(--pitch)}
+.dots i.cur{background:var(--c3)}
+.score{font-size:3.4rem;font-weight:800;line-height:1}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.bar i{display:block;height:100%;background:var(--pitch)}
+.bar i.low{background:var(--bad)}.bar i.mid{background:var(--c3)}
+details.rev{border:2px solid var(--line);border-radius:14px;padding:8px 12px;margin:8px 0;background:var(--surface)}
+details.rev summary{cursor:pointer;font-weight:700}
+details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)}
+.ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
+.ans.good{background:var(--soft-good)}
+/* question à écrire : grand champ, lisible au doigt */
+.blank{display:inline-block;min-width:4em;border-bottom:3px solid var(--pitch);color:transparent}
+.big-s{font-size:1.25rem;font-weight:700}
+.write{margin:14px 0 4px}
+.write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
+.write input:focus{border-color:var(--pitch);outline:none}
+.write input.good{border-color:var(--good);background:var(--soft-good)}
+.write input.bad{border-color:var(--bad);background:var(--soft-bad)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+/* ================= MOTEUR : utilitaires ================= */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=arr=>arr[R(0,arr.length-1)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
+// Une question à choix : choices = liste de C(valeur, libellé, pourquoi c'est faux) ; correct = la valeur juste.
+function Q(skill,level,prompt,choices,correct,hint,explain){
+  return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
+}
+const C=(v,label,why)=>({v:String(v),label,why:why||''});
+// Une question « à écrire » (décision D15). Correction stricte sur les lettres et les accents,
+// souple sur les majuscules, les espaces en trop et la forme de l'apostrophe.
+const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+function W(skill,level,prompt,ok,erreurs,hint,explain){
+  return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
+}
+function judgeWrite(q,rep){
+  const r=norm(rep);
+  if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
+  for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
+  const sans=x=>x.normalize('NFD').replace(/[̀-ͯ]/g,'');
+  if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
+  return {ok:false,why:'Ce n’est pas la réponse attendue.'};
+}
+
+/* ================= CONTENU : les notions du chapitre 2 ================= */
+// Physique-chimie 6e, chapitre 2 « Transmission d'un signal » : chaque notion du cours est une question à écrire,
+// posée une fois (aucun tirage au sort), puis reposée plus tard si elle a été ratée (même moteur que les dictées).
+/*DATA*/
+// Une notion = une question à écrire. N(id, titre court, question, réponses acceptées, explication (après une faute), fautes prévues [réponse, pourquoi]).
+// Les accents ne sont pas exigés (le moteur accepte aussi la réponse sans accent) : c'est de la physique, pas de l'orthographe.
+const N=(id,t,q,ok,tip,faux)=>({id,t,q,ok,tip,faux:faux||[]});
+const SIGNAL=[
+  N('role','à quoi sert un signal',"À quoi sert un signal ? Il sert à transporter une … codée.",['information','une information','information codée','une information codée'],
+    "Un signal sert à transporter une <b>information</b> codée (un son, de la lumière…).",[]),
+  N('emetteur','l’émetteur',"Un signal part de sa source vers son destinataire. Comment s'appelle la source qui envoie le signal ? (l'…)",['émetteur','l\'émetteur','un émetteur'],
+    "La source du signal s'appelle l'<b>émetteur</b>.",[['récepteur',"Le récepteur, c'est celui qui <b>reçoit</b> le signal. La source qui l'envoie est l'<b>émetteur</b>."],['destinataire',"Le destinataire reçoit le signal : on l'appelle le récepteur. La source est l'<b>émetteur</b>."]]),
+  N('recepteur','le récepteur',"Celui qui reçoit le signal (son destinataire) s'appelle le …",['récepteur','le récepteur','un récepteur'],
+    "Le destinataire du signal s'appelle le <b>récepteur</b>.",[['émetteur',"L'émetteur, c'est la source qui <b>envoie</b>. Celui qui reçoit est le <b>récepteur</b>."]]),
+  N('code','l’information codée',"L'information transportée par un signal est … : le récepteur doit être capable de la décoder.",['codée','codé','est codée'],
+    "L'information est <b>codée</b>. Le récepteur doit pouvoir la <b>décoder</b> pour la comprendre.",[['décodée',"C'est le récepteur qui <b>décode</b>. L'information qui voyage est <b>codée</b>."],['décodé',"C'est le récepteur qui <b>décode</b>. L'information qui voyage est <b>codée</b>."]]),
+  N('decode','décoder un son',"Avec quelle partie du corps l'Homme décode-t-il (perçoit-il) un son ?",['oreilles','les oreilles','oreille','l\'oreille','nos oreilles','ses oreilles'],
+    "Un son est décodé par les <b>oreilles</b>.",[['yeux',"Les yeux perçoivent la lumière. Un son se perçoit avec les <b>oreilles</b>."],['cerveau',"Le cerveau comprend ensuite l'information, mais ce sont les <b>oreilles</b> qui reçoivent et décodent le son."]]),
+  N('nombre','3 éléments',"Combien d'éléments la chaîne d'information comporte-t-elle ? (écris un nombre)",['3','trois'],
+    "La chaîne d'information comporte <b>3</b> éléments : l'émetteur, le milieu de propagation et le récepteur.",[['2',"Il y en a un de plus : l'émetteur, le <b>milieu de propagation</b> et le récepteur, donc <b>3</b>."],['deux',"Il y en a un de plus : l'émetteur, le <b>milieu de propagation</b> et le récepteur, donc <b>3</b>."],['4',"Il y en a seulement <b>3</b> : émetteur, milieu de propagation, récepteur."],['quatre',"Il y en a seulement <b>3</b> : émetteur, milieu de propagation, récepteur."]]),
+  N('milieu','le milieu de propagation',"Une chaîne d'information s'écrit : émetteur → … → récepteur. Comment s'appelle ce qui est entre les deux ? (le … de propagation)",['milieu de propagation','le milieu de propagation','milieu','le milieu','milieu propagation'],
+    "Entre l'émetteur et le récepteur, il y a le <b>milieu de propagation</b> (air, espace…).",[['propagation',"Il manque le premier mot : le <b>milieu</b> de propagation."]]),
+  N('cordes','l’émetteur des élèves qui bavardent',"Des élèves bavardent en classe. Quel est l'émetteur du son ? (les … des élèves : deux mots)",['cordes vocales','les cordes vocales'],
+    "Quand on parle, ce sont les <b>cordes vocales</b> qui produisent le son : elles sont l'émetteur.",[['bouche',"La bouche laisse passer le son, mais c'est dans la gorge que les <b>cordes vocales</b> le produisent."],['voix',"La voix, c'est le son lui-même. Ce qui l'émet, ce sont les <b>cordes vocales</b>."],['gorge',"Dans la gorge, ce sont plus précisément les <b>cordes vocales</b> qui émettent le son."]]),
+  N('air','le milieu du son en classe',"Des élèves bavardent en classe. Dans quel milieu le son se propage-t-il jusqu'aux oreilles du professeur ?",['air','l\'air'],
+    "En classe, le son se propage dans l'<b>air</b> (de la matière).",[['vide',"Le son ne se propage <b>pas</b> dans le vide. En classe, il voyage dans l'<b>air</b>."],['le vide',"Le son ne se propage <b>pas</b> dans le vide. En classe, il voyage dans l'<b>air</b>."],['espace',"Le son ne se propage <b>pas</b> dans l'espace. En classe, il voyage dans l'<b>air</b>."]]),
+  N('yeux','le récepteur du professeur qui observe',"Le professeur observe que des élèves n'écrivent pas. Quel est le récepteur ? (une partie de son corps)",['yeux','les yeux','ses yeux','œil','oeil','l\'œil','l\'oeil'],
+    "Le professeur observe : la lumière arrive à ses <b>yeux</b>, qui sont le récepteur.",[['oreilles',"Les oreilles reçoivent les sons. Ici, il <b>observe</b> : c'est avec les <b>yeux</b>."],['cerveau',"Le cerveau comprend ensuite, mais le récepteur qui reçoit la lumière, ce sont les <b>yeux</b>."]]),
+  N('soleil','le milieu entre le Soleil et la Terre',"Dehors, le Soleil brille. Dans quel milieu les rayons du Soleil voyagent-ils entre le Soleil et la Terre ?",['espace','l\'espace','vide','le vide','l\'espace vide'],
+    "Entre le Soleil et la Terre, il y a l'<b>espace</b> (le vide). La lumière peut s'y propager.",[['air',"L'air n'entoure que la Terre. Entre le Soleil et la Terre, il y a l'<b>espace</b> (le vide)."]])
+];
+const SONORES=[
+  N('mecanique','ondes mécaniques',"Les signaux sonores sont des ondes … (un adjectif qui commence par « m »).",['mécaniques','mécanique'],
+    "Les signaux sonores sont des ondes <b>mécaniques</b>.",[['électromagnétiques',"Les ondes électromagnétiques sont les signaux <b>lumineux</b> et <b>radio</b>. Les sons sont des ondes <b>mécaniques</b>."],['electromagnetiques',"Les ondes électromagnétiques sont les signaux <b>lumineux</b> et <b>radio</b>. Les sons sont des ondes <b>mécaniques</b>."]]),
+  N('audibles','sons audibles',"Les sons que l'Homme perçoit grâce à l'ouïe sont des sons … .",['audibles','audible'],
+    "Les sons que l'on perçoit avec l'ouïe sont <b>audibles</b>.",[['inaudibles',"Inaudibles veut dire « qu'on n'entend pas ». Les sons perçus par l'ouïe sont <b>audibles</b>."]]),
+  N('inaudibles','sons inaudibles',"Les ultrasons et les infrasons ne sont pas perçus par l'Homme : ce sont des sons … .",['inaudibles','inaudible'],
+    "Les ultrasons et les infrasons sont des sons <b>inaudibles</b> : l'Homme ne les entend pas.",[['audibles',"Audibles, ce sont ceux qu'on entend. Les ultrasons et infrasons sont <b>inaudibles</b>."]]),
+  N('infrasons','les infrasons',"Parmi les sons inaudibles, il y a les ultrasons et les … .",['infrasons','infrason','les infrasons'],
+    "Les sons inaudibles sont les ultrasons et les <b>infrasons</b>.",[]),
+  N('chauve','l’animal aux ultrasons',"Quel petit animal volant utilise les ultrasons pour se repérer dans l'espace et repérer sa proie ?",['chauve-souris','la chauve-souris','une chauve-souris','chauve souris','la chauve souris','une chauve souris','chauves-souris','les chauves-souris','dauphin','le dauphin','dauphins'],
+    "C'est la <b>chauve-souris</b> (exemple du cours) : elle émet des ultrasons qui reviennent quand ils rencontrent un obstacle ou une proie.",[['oiseau',"Un oiseau ne se repère pas avec des ultrasons. L'animal du cours est la <b>chauve-souris</b>."],['hibou',"Le hibou se repère surtout avec la vue et l'ouïe. L'animal du cours est la <b>chauve-souris</b>."]]),
+  N('retour','le son au retour',"Une chauve-souris envoie un son qui rebondit sur sa proie. Le son fait un aller, puis un … .",['retour','un retour','le retour'],
+    "Le son fait un aller puis un <b>retour</b> : la chauve-souris reçoit le son qui revient et sait où est sa proie.",[]),
+  N('vide-son','le son et le vide',"Un signal sonore peut-il se propager dans le vide, comme dans l'espace ? (oui ou non)",['non'],
+    "<b>Non</b> : les signaux sonores ne peuvent pas se propager dans le vide.",[['oui',"Dans l'espace, il n'y a pas de matière : le son ne s'y propage <b>pas</b>."]]),
+  N('matiere','besoin de matière',"Un son ne se propage pas dans le vide : il a besoin de … pour se propager. (un seul mot)",['matière','de la matière','la matière','matiere'],
+    "Les signaux sonores ont besoin de <b>matière</b> pour se propager (air, eau, solides).",[['air',"L'air est une matière, mais l'eau aussi : le mot du cours est <b>matière</b>."],['eau',"L'eau est une matière, mais l'air aussi : le mot du cours est <b>matière</b>."]])
+];
+const LUMINEUX=[
+  N('electromag','ondes électromagnétiques',"Les signaux lumineux sont des signaux … (un adjectif long qui commence par « é »).",['électromagnétiques','électromagnétique'],
+    "Les signaux lumineux sont des signaux <b>électromagnétiques</b>.",[['mécaniques',"Les ondes mécaniques sont les signaux <b>sonores</b>. La lumière est <b>électromagnétique</b>."]]),
+  N('visibles','ondes visibles',"Les ondes lumineuses que l'on voit, comme le rouge, le jaune ou le bleu, sont des ondes … .",['visibles','visible'],
+    "Le rouge, l'orange, le jaune, le vert, le bleu, l'indigo et le violet sont des ondes lumineuses <b>visibles</b>.",[['invisibles',"Invisibles veut dire « qu'on ne voit pas ». Les couleurs sont <b>visibles</b>."]]),
+  N('invisibles','ondes invisibles',"Les ultraviolets et les infrarouges sont des ondes lumineuses que l'on ne voit pas : elles sont … .",['invisibles','invisible'],
+    "Les ultraviolets et les infrarouges sont des ondes lumineuses <b>invisibles</b>.",[['visibles',"Visibles, ce sont celles qu'on voit. Les UV et les infrarouges sont <b>invisibles</b>."]]),
+  N('uv','les ultraviolets (UV)',"Dans le spectre, avant le violet, il y a des ondes lumineuses invisibles : les … (leur sigle : UV).",['ultraviolets','ultraviolet','ultra violets','ultra-violets','ultra violet','ultra-violet','les ultraviolets','uv'],
+    "UV veut dire <b>ultraviolets</b>.",[]),
+  N('ir','les infrarouges',"Dans le spectre, après le rouge, il y a des ondes lumineuses invisibles : les … .",['infrarouges','infrarouge','infra rouges','infra-rouges','infra rouge','infra-rouge','les infrarouges'],
+    "Les ondes invisibles sont les ultraviolets et les <b>infrarouges</b>.",[]),
+  N('violet','le violet',"Dans le spectre de la lumière blanche, quelle couleur est juste à côté des ultraviolets ?",['violet','le violet'],
+    "Le spectre va des ultraviolets aux infrarouges : <b>violet</b>, indigo, bleu, vert, jaune, orange, rouge.",[['indigo',"L'indigo vient juste après le violet. Le violet touche les ultraviolets."],['rouge',"Le rouge est de l'autre côté, près des infrarouges. À côté des ultraviolets, c'est le <b>violet</b>."]]),
+  N('rouge','le rouge',"Dans le spectre de la lumière blanche, quelle couleur est juste à côté des infrarouges ?",['rouge','le rouge'],
+    "Le spectre va des ultraviolets aux infrarouges : violet, indigo, bleu, vert, jaune, orange, <b>rouge</b>.",[['violet',"Le violet est de l'autre côté, près des ultraviolets. À côté des infrarouges, c'est le <b>rouge</b>."],['orange',"L'orange vient juste avant le rouge. Le rouge touche les infrarouges."]]),
+  N('indigo','l’indigo',"Les couleurs visibles sont : rouge, orange, jaune, vert, bleu, … , violet. Quelle couleur manque ?",['indigo','l\'indigo'],
+    "L'ordre est : rouge, orange, jaune, vert, bleu, <b>indigo</b>, violet.",[]),
+  N('compo','les spectres d’émission',"Les spectres d'émission permettent de connaître la … chimique d'une étoile ou de l'atmosphère d'une planète. (un mot)",['composition','la composition'],
+    "Les spectres permettent de connaître la <b>composition</b> chimique d'une étoile ou de l'atmosphère d'une planète.",[]),
+  N('sodium','le sodium (Na)',"Sur la figure du cours, quel élément chimique a pour symbole Na ?",['sodium','le sodium'],
+    "Na est le symbole du <b>sodium</b>.",[]),
+  N('mercure','le mercure (Hg)',"Sur la figure du cours, quel élément chimique a pour symbole Hg ?",['mercure','le mercure'],
+    "Hg est le symbole du <b>mercure</b>.",[]),
+  N('lithium','le lithium (Li)',"Sur la figure du cours, quel élément chimique a pour symbole Li ?",['lithium','le lithium'],
+    "Li est le symbole du <b>lithium</b>.",[]),
+  N('thermo','la couleur violette (thermographie)',"Sur la thermographie d'un immeuble, le jaune représente de grandes pertes de chaleur. La couleur violette représente de … pertes de chaleur.",['petites','de petites','petite','faibles','de faibles','faible'],
+    "Violet : de <b>petites</b> pertes de chaleur. Jaune : de grandes pertes de chaleur.",[['grandes',"Les grandes pertes de chaleur sont en <b>jaune</b>. Le violet représente de <b>petites</b> pertes."],['grande',"Les grandes pertes de chaleur sont en <b>jaune</b>. Le violet représente de <b>petites</b> pertes."]]),
+  N('isole','un immeuble bien isolé',"Sur la thermographie, un immeuble surtout violet a de petites pertes de chaleur. Il est plutôt bien … . (un mot)",['isolé','bien isolé','plutôt bien isolé','isolée'],
+    "Peu de pertes de chaleur : l'immeuble est plutôt bien <b>isolé</b>.",[['chauffé',"Peu de pertes de chaleur ne dit pas qu'il est chauffé : cela montre qu'il est bien <b>isolé</b>."]])
+];
+const RADIO=[
+  N('radio-type','ondes radio',"Les signaux radio sont des ondes … (comme la lumière).",['électromagnétiques','électromagnétique'],
+    "Les signaux radio sont des ondes <b>électromagnétiques</b>.",[['mécaniques',"Les ondes mécaniques sont les sons. Les ondes radio sont <b>électromagnétiques</b>."]]),
+  N('antennes','les antennes',"Avec quoi détecte-t-on les signaux radio ? (des …)",['antennes','des antennes','antenne','une antenne','une antennes'],
+    "Les signaux radio sont détectés par des <b>antennes</b>.",[['oreilles',"Les oreilles détectent les sons. Les signaux radio sont détectés par des <b>antennes</b>."]]),
+  N('vide-radio','la radio et le vide',"Un signal radio peut-il se propager dans le vide ? (oui ou non)",['oui'],
+    "<b>Oui</b> : les ondes radio se propagent aussi bien dans la matière que dans le vide.",[['non',"C'est le <b>son</b> qui ne se propage pas dans le vide. Les ondes radio, elles, s'y propagent."]]),
+  N('vitesse','vitesse de la lumière',"Les ondes radio se propagent à la vitesse de la lumière. Combien de kilomètres par seconde ? (écris le nombre avec ses chiffres)",['300000','300 000','300000 km/s','300 000 km/s','300000km/s','300 000km/s','300000 kilomètres par seconde','300 000 kilomètres par seconde'],
+    "La vitesse de la lumière est de <b>300 000 km/s</b>.",[['300',"Ce n'est pas assez : trois cent <b>mille</b>, soit 300 000 km/s."],['3000',"Ce n'est pas assez : 300 000 km/s."],['30000',"Ce n'est pas assez : 300 000 km/s."]])
+];
+const CODAGE=[
+  N('obstacles','pourquoi coder',"La lumière et les sons rencontrent des … : c'est pour cela qu'il faut coder l'information. (un mot au pluriel)",['obstacles','des obstacles'],
+    "Il y a des <b>obstacles</b> : il faut coder l'information pour les contourner.",[]),
+  N('distances','coder pour aller loin',"Coder l'information permet de contourner les obstacles et de parcourir de longues … . (un mot)",['distances','de longues distances'],
+    "Coder permet de parcourir de longues <b>distances</b>.",[]),
+  N('vue','la vue',"Les informations véhiculées par la lumière sont perçues grâce à quel sens ? (la …)",['vue','la vue','vision','la vision'],
+    "La lumière est perçue grâce à la <b>vue</b> (la vision).",[['ouïe',"L'ouïe sert à percevoir les sons. Pour la lumière, c'est la <b>vue</b>."],['ouie',"L'ouïe sert à percevoir les sons. Pour la lumière, c'est la <b>vue</b>."]]),
+  N('ouie','l’ouïe',"Les sons sont perçus grâce à quel sens ? (l'…)",['ouïe','l\'ouïe'],
+    "Les sons sont perçus grâce à l'<b>ouïe</b>.",[['vue',"La vue sert à percevoir la lumière. Pour les sons, c'est l'<b>ouïe</b>."]]),
+  N('binaire','le codage binaire',"Le codage le plus simple est le codage … : le signal peut prendre seulement deux valeurs, 0 et 1.",['binaire','le codage binaire','codage binaire'],
+    "Le codage <b>binaire</b> : le signal ne peut prendre que deux valeurs, 0 et 1.",[]),
+  N('deux','deux valeurs',"Dans le codage binaire, le signal peut prendre seulement combien de valeurs ? (écris un nombre)",['2','deux'],
+    "Le codage binaire : seulement <b>deux</b> valeurs, 0 et 1.",[['3',"Il n'y en a que <b>deux</b> : 0 et 1."],['trois',"Il n'y en a que <b>deux</b> : 0 et 1."]]),
+  N('morse1','le morse : la valeur 1',"Dans l'exemple du morse, on attribue la valeur 1 à une lampe … (allumée ou éteinte ?)",['allumée','lampe allumée','une lampe allumée','allumé'],
+    "En morse, la valeur 1 correspond à une lampe <b>allumée</b>.",[['éteinte',"La lampe éteinte correspond à la valeur <b>0</b>. Le 1 correspond à une lampe <b>allumée</b>."]]),
+  N('morse0','le morse : la valeur 0',"Dans l'exemple du morse, on attribue la valeur 0 à une lampe … (allumée ou éteinte ?)",['éteinte','lampe éteinte','une lampe éteinte','éteint'],
+    "En morse, la valeur 0 correspond à une lampe <b>éteinte</b>.",[['allumée',"La lampe allumée correspond à la valeur <b>1</b>. Le 0 correspond à une lampe <b>éteinte</b>."]]),
+  N('tel-radio','coder la voix en signal radio',"Pour une conversation téléphonique entre deux personnes éloignées, les sons émis sont codés en signaux … .",['radio','signaux radio','des signaux radio'],
+    "Le téléphone transforme (code) les sons en signaux <b>radio</b>, qui parcourent plusieurs kilomètres.",[['lumineux',"Au téléphone, les sons sont codés en signaux <b>radio</b>."],['électriques',"Il y a bien un signal électrique dans le téléphone, mais celui qui voyage entre les antennes est le signal <b>radio</b>."]]),
+  N('micro','le micro',"Dans la chaîne du téléphone, qu'est-ce qui reçoit la voix et la transforme en signal électrique ? (un seul mot)",['micro','le micro','microphone','le microphone'],
+    "Le <b>micro</b> du téléphone transforme le signal sonore en signal électrique.",[['haut-parleur',"Le haut-parleur fait l'inverse, côté récepteur. Celui qui capte la voix est le <b>micro</b>."]]),
+  N('hp','le haut-parleur',"Dans le téléphone de la personne qui écoute, qu'est-ce qui transforme le signal électrique en signal sonore ?",['haut-parleur','haut parleur','le haut-parleur','le haut parleur','hautparleur','haut-parleurs'],
+    "Le <b>haut-parleur</b> transforme le signal électrique en signal sonore.",[['micro',"Le micro fait l'inverse, côté émetteur. Celui qui produit le son est le <b>haut-parleur</b>."]]),
+  N('tel-vide','le milieu du signal radio',"Entre l'antenne d'un téléphone et celle du satellite, dans quel milieu le signal radio se propage-t-il ?",['vide','le vide','espace','l\'espace'],
+    "Le signal radio se propage dans le <b>vide</b> (il n'a pas besoin de matière).",[['air',"Les ondes radio n'ont pas besoin de matière : sur le schéma du cours, elles voyagent dans le <b>vide</b>."]]),
+  N('satellite','le satellite',"Le signal radio d'un téléphone passe par l'antenne du réseau ou par un … . (un mot)",['satellite','un satellite'],
+    "Le signal passe par l'antenne du réseau ou par un <b>satellite</b>.",[]),
+  N('tel-decode','décoder le signal radio',"À la fin, le téléphone décode les signaux radio en signaux … .",['sonores','sonore','signaux sonores','des signaux sonores'],
+    "Le téléphone décode les signaux radio en signaux <b>sonores</b>, pour que la personne entende.",[['lumineux',"Pour entendre, il faut des signaux <b>sonores</b>."],['électriques',"Il y a bien un signal électrique dans le téléphone, mais ce que la personne entend est un signal <b>sonore</b>."]])
+];
+/*FIN DATA*/
+SIGNAL.forEach(w=>{w.skill='signal';});
+SONORES.forEach(w=>{w.skill='sonores';});
+LUMINEUX.forEach(w=>{w.skill='lumineux';});
+RADIO.forEach(w=>{w.skill='radio';});
+CODAGE.forEach(w=>{w.skill='codage';});
+const POOL={signal:SIGNAL,sonores:SONORES,lumineux:LUMINEUX,radio:RADIO,codage:CODAGE};
+const TOUS=SIGNAL.concat(SONORES,LUMINEUX,RADIO,CODAGE);   // chaque notion est posée une fois, puis reposée si elle a été ratée
+const label=w=>w.t;
+const fautesMot=w=>{const e={};w.faux.forEach(f=>{e[f[0]]=f[1];});return e;};
+const correction=w=>`<p>Réponse : <b class="big-s">${w.ok[0]}</b></p><p>${w.tip}</p>`;
+
+/* ================= CONTENU : la question ================= */
+// Une devinette, l'enfant écrit le mot sans aide. (Le QCM « relier la devinette au mot » a été supprimé
+// le 17 nov. 2026 : il ne servait à rien, et la bonne réponse ne montre plus de message.)
+function variantes(l){   // chaque réponse acceptée existe aussi sans accent (c'est de la physique, pas de l'orthographe)
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/œ/g,'oe');
+  const o=[];l.forEach(x=>{[x,sans(x)].forEach(y=>{if(o.indexOf(y)<0)o.push(y);});});return o;
+}
+function mkEcrire(w){
+  return W(w.skill,2,`<p class="q-prompt">${w.q}</p><p class="small">Écris ta réponse sans aide.</p>`,variantes(w.ok),fautesMot(w),'<p>Écris ta réponse sans aide.</p>',correction(w));
+}
+
+// Clés = ids des compétences de la fiche. Un générateur par compétence (pour le tirage automatique
+// de tools/tirage.py) ; le parcours, lui, pose chaque mot de la liste.
+const SKILLS={signal:{label:'Signal et chaîne d’information'},sonores:{label:'Les signaux sonores'},lumineux:{label:'Les signaux lumineux'},radio:{label:'Les signaux radio'},codage:{label:'Coder et transporter l’information'}};
+const GEN={};Object.keys(POOL).forEach(k=>{GEN[k]=()=>mkEcrire(pick(POOL[k]));});
+const LEVELS={2:{t:'Écrire',d:'écrire la réponse sans aide'}};
+
+/* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
+const app=document.getElementById('app');
+/* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
+   Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
+const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
+// Chaque réponse est un premier essai : il n'y a pas de deuxième essai dans ce parcours (un mot raté revient plus tard).
+// question = « ecrit-<mot> » (ex. « ecrit-singe »), difficulté 2 (comme avant la suppression du QCM).
+function record(q,ok,rep,w){
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:'ecrit-'+w.id,reponse:rep==null?null:rep,duree:secs(q)});
+}
+let S={screen:'home'};      // écran courant (question en cours, choix, mot tapé)
+let P=null;                 // le parcours : mots à poser, rappels, fautes
+function show(html){app.innerHTML=html;window.scrollTo(0,0);}
+function topbar(title,backAct){
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Quitter</button><span class="ttl">${title}</span></div></div>`;
+}
+
+/* ================= MOTEUR : le parcours (écrire les mots, rappels invisibles) ================= */
+// Chaque mot est posé une fois, dans le désordre : une devinette, l'enfant écrit le mot. Une bonne
+// réponse enchaîne tout de suite sur le mot suivant (aucun message). Un mot raté montre sa correction,
+// puis revient 4 questions plus tard (rappel), sans que l'enfant voie de « passe » : une jauge montre
+// seulement les mots acquis. Quand tous les mots ont été posés, les mots qui ont eu une faute sont
+// reposés une dernière fois (vérification cachée), jusqu'à une vérification sans faute. Alors : bilan.
+// Un mot réussi du premier coup n'est jamais reposé (plan P013, règle des dictées).
+function home(){
+  S={screen:'home'};P=null;
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Transmission d’un signal</h1>
+      <p>Physique-chimie 6e : les ${TOUS.length} notions du chapitre 2.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="card">
+        <p>Une question à la fois : tu écris la réponse toi-même.</p>
+        <p class="small">Les notions ratées reviennent un peu plus tard, jusqu'à ce que tu les saches.</p>
+      </div>
+      <div class="btns"><button class="btn primary" data-act="start" data-primary>Commencer</button></div>
+    </main>`);
+}
+// P.queue : les mots (puis, en vérification, ceux à reposer) ; P.rappels : mots ratés qui reviennent ;
+// P.aVerifier : ids des mots ratés pas encore revalidés à la vérification ; P.n : réponses données
+// (sert à espacer les rappels).
+function start(){
+  P={errs:{},t0:Date.now(),mode:'principal',queue:shuffle(TOUS.slice()),i:0,rappels:[],aVerifier:new Set(),n:0};
+  ask();
+}
+// Le mot suivant : un rappel échu, sinon la suite, sinon les rappels restants, sinon une vérification
+// des mots ratés ; null quand tout est fini.
+function prochainMot(){
+  const k=P.rappels.findIndex(r=>r.apres<=P.n);
+  if(k>=0)return P.rappels.splice(k,1)[0].w;
+  if(P.i<P.queue.length)return P.queue[P.i++];
+  if(P.rappels.length)return P.rappels.shift().w;
+  if(P.aVerifier.size>0){
+    P.mode='verif';P.queue=shuffle(TOUS.filter(w=>P.aVerifier.has(w.id)));P.i=0;
+    return P.queue[P.i++];
+  }
+  return null;
+}
+function ask(){
+  const w=prochainMot();
+  if(w===null){final();return;}
+  const q=mkEcrire(w);
+  S={screen:'q',q,w,done:false};
+  // jauge : les mots pas encore posés ou pas encore revalidés ne sont pas « acquis »
+  const attente=(P.mode==='principal'?P.queue.length-P.i:0)+P.aVerifier.size+(P.aVerifier.has(w.id)?0:1);
+  const acquis=Math.max(0,TOUS.length-attente),pc=Math.round(100*acquis/TOUS.length);
+  show(`${topbar('Écrire les notions')}<main class="wrap qwrap">
+    <div class="bar" aria-hidden="true"><i style="width:${pc}%"></i></div>
+    <p class="small">${acquis} notion${acquis>1?'s':''} acquise${acquis>1?'s':''} sur ${TOUS.length}</p>
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      <div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Ta réponse"></div></div>
+    <div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="check" data-primary hidden>Valider</button></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  q.t0=Date.now();
+  const champ=document.getElementById('rep');
+  if(champ)champ.focus();   // le clavier reste ouvert d'un mot au suivant
+}
+function aReponse(){
+  const i=document.getElementById('rep');
+  return !!(i&&norm(i.value));
+}
+function majValider(){const b=document.getElementById('ok');if(b&&!S.done)b.hidden=!aReponse();}
+function check(){
+  if(S.done)return;
+  const q=S.q,w=S.w;
+  const i=document.getElementById('rep'),rep=i?i.value.slice(0,60):'';
+  if(!norm(rep)){document.getElementById('fb').innerHTML='<div class="fb hint">Écris ta réponse.</div>';return;}
+  const v=judgeWrite(q,rep),ok=v.ok;
+  S.done=true;
+  record(q,ok,rep,w);
+  // un mot raté revient 4 questions plus tard, et sera reposé à la vérification ; réussi à la vérification : acquis
+  P.n++;
+  if(!ok){P.errs[w.id]=(P.errs[w.id]||0)+1;P.aVerifier.add(w.id);P.rappels.push({w,apres:P.n+4});}
+  else if(P.mode==='verif')P.aVerifier.delete(w.id);
+  // bonne réponse : on enchaîne, sans message (ça fait perdre du temps)
+  if(ok){ask();return;}
+  i.disabled=true;i.classList.add('bad');
+  document.getElementById('fb').innerHTML=`<div class="fb bad"><p><b>Pas tout à fait.</b></p><p>Tu as écrit : <b>${esc(rep)}</b>. ${v.why}</p></div><div class="fb info">${q.explain}<p class="small">Cette notion reviendra un peu plus tard.</p></div>`;
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="ask" data-primary>Question suivante</button>`;
+}
+function final(){
+  S={screen:'final'};
+  const duree=Math.round((Date.now()-P.t0)/1000);
+  const dur=TOUS.filter(w=>P.errs[w.id]).sort((a,b)=>P.errs[b.id]-P.errs[a.id]);
+  const aSavoir=dur.length
+    ?`<h2 style="margin:16px 0 6px">Les notions qui t'ont résisté</h2><div class="rulebox"><p class="big-s" style="margin:0">${dur.map(w=>label(w)+(P.errs[w.id]>1?` (${P.errs[w.id]} fautes)`:'')).join(' · ')}</p></div>`
+    :`<p>Aucune faute du début à la fin : bravo !</p>`;
+  show(`${topbar('Bilan','home')}<main class="wrap">
+    <div class="card center"><div class="score">${TOUS.length}<span style="font-size:1.6rem;color:var(--muted)"> notions</span></div>
+      <p style="margin-top:10px"><b>Tu connais les ${TOUS.length} notions du chapitre.</b></p>
+      <p class="small">${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    ${aSavoir}
+    <div class="btns"><button class="btn primary" data-act="bilan" data-primary>Mon bilan</button><button class="btn" data-act="start">Recommencer</button><button class="btn ghost" data-act="home">Accueil</button></div></main>`);
+}
+
+/* ================= MOTEUR : signaler un problème ================= */
+// Bouton « Une erreur ? » : l'enfant confirme (Oui / Non), puis miniprof garde une copie de la question
+// (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
+function sigAsk(){
+  document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
+    <div class="btns"><button class="btn primary" data-act="sigyes">Oui, signaler</button><button class="btn" data-act="signo">Non</button></div></div>`;
+}
+function sigYes(){
+  const q=S.q||{},ch=q.choices||[],zone=document.getElementById('sig');
+  const lab=v=>{const c=ch.find(c=>c.v===v);return c?(txt(c.label)||'(image)'):'';};
+  const champ=document.getElementById('rep');
+  const att=q.write?String(q.write.ok[0]):(q.exp&&q.exp.c!==undefined?lab(q.exp.c):'');
+  const id=window.miniprof?window.miniprof.signaler({enonce:txt(q.prompt),choix:ch.map(c=>txt(c.label)||'(image)'),
+    attendue:att,reponse:champ?champ.value:(S.choice?lab(S.choice):'')}):null;
+  zone.innerHTML=id
+    ?`<div class="fb good"><p><b>Merci !</b> Un adulte va vérifier cette question.</p>
+      <div style="margin:10px 0"><input id="sigtxt" style="width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)" type="text" maxlength="300" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Tu veux dire pourquoi ?" placeholder="Tu veux dire pourquoi ? (facultatif)"></div>
+      <div class="btns"><button class="btn" data-act="sigsend" data-id="${esc(id)}">Envoyer</button></div></div>`
+    :`<div class="fb bad"><p>Le signalement n'a pas pu être enregistré.</p></div>`;
+}
+function sigSend(el){
+  const t=document.getElementById('sigtxt'),zone=document.getElementById('sig');
+  if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
+  zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
+}
+
+/* ================= MOTEUR : bilan (celui de miniprof) ================= */
+function bilan(){
+  const m=window.miniprof;
+  if(m)location.href=m.racine+'#/module/'+encodeURIComponent(m.module)+'/bilan';
+}
+
+/* ================= MOTEUR : actions ================= */
+function act(a,el){
+  switch(a){
+    case 'home':home();break;
+    case 'start':start();break;
+    case 'ask':ask();break;
+    case 'choose':if(S.done)break;S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));majValider();break;
+    case 'check':check();break;
+    case 'sig':sigAsk();break;
+    case 'signo':document.getElementById('sig').innerHTML='';break;
+    case 'sigyes':sigYes();break;
+    case 'sigsend':sigSend(el);break;
+    case 'bilan':bilan();break;
+    default:break;
+  }
+}
+app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
+// un mot tapé = une proposition : « Valider » apparaît
+app.addEventListener('input',e=>{if(e.target.id==='rep')majValider();});
+// touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
+
+// Pas de dictée vocale ni de collage : un mot s'écrit lettre par lettre. Une page web ne peut pas masquer la
+// touche micro du clavier ; on refuse donc ce qui arrive d'un coup (plusieurs lettres en une seule saisie,
+// collage, remplacement par suggestion) et on remet le champ comme il était (retour d'usage, 18 nov. 2026).
+(function(){
+  const champ=e=>e.target&&e.target.id==='rep';
+  const refuser=(i,avant)=>{
+    i.value=avant;
+    const fb=document.getElementById('fb');
+    if(fb)fb.innerHTML='<div class="fb hint"><p>Écris ta réponse toi-même, lettre par lettre : pas de micro ni de collage.</p></div>';
+  };
+  app.addEventListener('beforeinput',e=>{
+    if(!champ(e))return;
+    if(/FromPaste|FromDrop|FromYank|Dictation|Transcription|ReplacementText/.test(e.inputType||'')){e.preventDefault();refuser(e.target,e.target.value);return;}
+    e.target.dataset.avant=e.target.value;   // le champ juste avant cette saisie
+  },true);
+  app.addEventListener('input',e=>{
+    if(!champ(e))return;
+    const i=e.target,avant=i.dataset.avant;
+    delete i.dataset.avant;
+    if(avant!==undefined&&i.value.length-avant.length>1){e.stopImmediatePropagation();refuser(i,avant);}
+  },true);
+  app.addEventListener('paste',e=>{if(champ(e)){e.preventDefault();refuser(e.target,e.target.value);}},true);
+  app.addEventListener('drop',e=>{if(champ(e))e.preventDefault();},true);
+})();
+
+// Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
+// window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN:[],SKILLS,EVAL_SKILLS:[]});return;}
+home();
+
+})();
+</script>
+<script type="module" src="../js/suivi.js"></script>
+</body>
+</html>
