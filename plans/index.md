@@ -1,7 +1,7 @@
 # Index des plans
 
 Une ligne par plan : Claude cherche ici d'abord (par mot-clé), puis lit la seule fiche utile.
-Statuts : à mûrir, exécuté (feed-back possible 2 semaines), clos, abandonné. Les plans clos et
+Statuts : en cours (le plan ouvert), à mûrir, exécuté (feed-back possible 2 semaines), clos, abandonné. Les plans clos et
 abandonnés restent ici et dans leur fiche, pour ne pas reproposer une idée déjà écartée.
 L'historique d'avant le 12 oct. 2026 (comités, étapes 1 à 12) est dans Git.
 
@@ -12,7 +12,7 @@ L'historique d'avant le 12 oct. 2026 (comités, étapes 1 à 12) est dans Git.
 | P003 | 12 oct. 2026 | Signaler un problème, export à partager | exécuté (feed-back jusqu'au 25 oct.) | signaler, commentaire, signalements, flags, export, partage, analyse.py | Bouton « Signaler » avec commentaire (JSON et HTML) ; export via la feuille de partage iOS ; lecture dans `analyse.py` | `plans/P003-signaler-un-probleme.md` |
 | P004 | 6 oct. 2026 | Pipeline sans Claude Code | abandonné (14 oct. 2026) | API, coût, robot GitHub, Actions, LLM gratuit, abonnement | Options O0 à O4, SWOT, coûts ; recommandation : rester sur Claude Code, robot, POC API | `plans/P004-pipeline-sans-claude-code.md` |
 | P005 | 6 oct. 2026 | Fusion des sauvegardes | à mûrir (basse) | sauvegarde, restauration, plusieurs appareils, synchronisation | Restaurer sans écraser ; synchronisation en ligne écartée | `plans/P005-fusion-des-sauvegardes.md` |
-| P006 | 7 oct. 2026 | Dictée répétable | exécuté en partie (15 nov. 2026 : parcours QCM puis écriture) | dictée, liste de mots, couverture, skill | Fabriquer chaque dictée de façon fiable, couverture vérifiée par programme | `plans/P006-dictee-repetable.md` |
+| P006 | 7 oct. 2026 | Dictée répétable | exécuté en partie (15 nov. 2026 : parcours QCM puis écriture ; reste : refaire la Dictée 5 en parcours d'écriture) | dictée, liste de mots, couverture, skill | Fabriquer chaque dictée de façon fiable, couverture vérifiée par programme | `plans/P006-dictee-repetable.md` |
 | P008 | 11 oct. 2026 | « Qui utilise miniprof ? » après 30 min | exécuté (feed-back jusqu'au 26 oct.) | profil, choix du profil, délai, lien direct, mélange des données | Redemander le profil après 30 min sans utilisation, y compris par un lien de module | `plans/P008-qui-utilise-miniprof.md` |
 | P007 | 11 oct. 2026 | Évaluations rejouées en boucle | intégré dans P012 | évaluation, note, comportement, revue d'usage | Options (a) en parler, (b) inciter à s'entraîner, (c) limiter | `plans/P007-evaluations-rejouees.md` |
 | P009 | 11 oct. 2026 | Gamification : comportement et règles | à mûrir (intégré dans P012) | gamification, points, étoiles, maîtrise, régularité, mission, boucle facile, évaluation | Analyse de deux séances (6e, CM1) et 7 règles génériques calculées à partir des événements, sans nouveau stockage | `plans/P009-gamification.md` |
@@ -20,3 +20,14 @@ L'historique d'avant le 12 oct. 2026 (comités, étapes 1 à 12) est dans Git.
 | P011 | 12 oct. 2026 | Entraînement adaptatif | à mûrir (révisé dans P012) | entraînement, tirage, maîtrise, difficulté, conjugaison CM1, gabarit, repli | Le moteur choisit compétence et difficulté ; « Je choisis » discret ; départ en conjugaison CM1 + gabarit ; anciens modules en repli | `plans/P011-entrainement-adaptatif.md` |
 | P012 | 12 oct. 2026 | Engagement au service de la pédagogie | en cours (L0 POC et pilote Dictée 5 livrés le 12 oct. ; écran d'indice plein page le 13 oct.) | engagement, étoiles, défis, retry, indice, parcours, personnages, évaluation supprimée, état de l'art, mastery, espacement | Cadre commun de P009 et P011 : note d'état de l'art, moteur en deux boucles (cible groupée + rappel mélangé), 3 étoiles par module, défis du jour dimensionnés, retry payant, fusion leçon + entraînement sans évaluation, visuel à personnages ; 8 livraisons ; POC `poc/parcours/` ; pilote du parcours dans le module Dictée 5 (mode « r » au journal) | `plans/P012-engagement-au-service-de-la-pedagogie.md` |
 | P013 | 15 nov. 2026 | Pas de question répétée, passes invisibles | exécuté (feed-back jusqu'au 29 nov.) | répétition, rappel, passe, dictée, jauge, doublon, JSON supprimé | Jamais deux fois la même question ; une question ratée revient 4 questions plus tard sans passe visible ; modules JSON supprimés | `plans/P013-pas-de-repetition-rappels-invisibles.md` |
+
+## Idées (sans fiche)
+
+Sujets pas encore cadrés. Quand l'un d'eux est lancé, il devient un plan avec un numéro et une fiche.
+
+- **Revue d'usage n° 2** (depuis le 12 oct. 2026) : exports des deux enfants, effet de P001 sur
+  « son / sont », « Décrire » en 6e ; séparer par module les données déjà mélangées dans un
+  profil, si besoin. Attend les exports (`pilotage.md`). Revue n° 1 : historique Git de
+  `pilotage.md` (11 oct.).
+- **Limite de taille des modules** (depuis le 11 oct. 2026) : au-delà de 8 compétences, un
+  deuxième module (le circuit en a 10, 105 Ko).

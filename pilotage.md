@@ -1,61 +1,28 @@
-# Pilotage miniprof
+# Tâches du sponsor
 
-L'état du projet en un coup d'œil : le plan en cours, le backlog actif et les tâches du
-sponsor. Claude le tient à jour à la fin de chaque session. Les plans passés et à mûrir ont
-chacun leur fiche dans `plans/` (index : `plans/index.md`). La méthode de travail est dans
-`CLAUDE.md`, « Comment on travaille ».
+Ce qui attend le sponsor, et rien d'autre : 6 tâches au plus, chacune avec une échéance datée.
+En début de session, Claude signale chaque tâche échue (refaire, reporter ou abandonner ?) et
+retire une tâche dès qu'elle est faite ou abandonnée. Où en est le projet : `plans/index.md`.
 
----
-
-## Plan en cours
-
-**P012 — Engagement au service de la pédagogie** (`plans/P012-engagement-au-service-de-la-pedagogie.md`).
-L0 (POC visuel) et le **pilote du parcours dans le module Dictée 5** (carte, étoiles, série en
-jeu, choix adaptatif de l'étape) livrés le 12 oct. 2026 et publiés (fusion dans `main` le 13 oct.,
-sur décision du sponsor). Retours du 13 oct. : enchaînement après « Valider », puis écran d'indice plein page et correction des lettres perdues en deuxième chance (D8). Recette iPhone du pilote faite le 14 oct. 2026, sans défaut. En attente des premières données d'usage. Une autre session n'ouvre pas de nouveau plan (sauf un feed-back ou une session module).
-
----
-
-## Plans exécutés en attente de feed-back
-
-| Plan | Exécuté le | Feed-back possible jusqu'au |
-|---|---|---|
-| P001 Questions à écrire | 12 oct. 2026 | 26 oct. 2026 |
-| P002 Évaluation sans doublon | 12 oct. 2026 | 26 oct. 2026 |
-| P003 Signaler un problème, export à partager | 11 oct. 2026 | 25 oct. 2026 |
-| P008 « Qui utilise miniprof ? » après 30 min | 12 oct. 2026 | 26 oct. 2026 |
-| P010 Valider et Réessayer | 12 oct. 2026 | 26 oct. 2026 |
-| P013 Pas de question répétée, passes invisibles | 15 nov. 2026 | 29 nov. 2026 |
-
----
-
-## Backlog actif
-
-Au début d'une session, Claude propose un ou deux sujets, avec ses raisons ; le sponsor valide
-ou corrige. Les lignes avec une fiche sont des plans à mûrir ; les autres sont de simples idées.
-
-| Sujet | Depuis | Priorité proposée | Fiche ou note |
-|---|---|---|---|
-| Revue d'usage n° 2 (exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e ; séparer par module les données déjà mélangées dans un profil, si besoin) | 12 oct. 2026 | **haute**, vers le 26 oct. | revue d'usage n° 1 : historique Git de `pilotage.md` (11 oct.) |
-| **Engagement au service de la pédagogie** (cadre commun : étoiles, défis, retry payant, évaluation supprimée, visuel) ; **remplace** P009 et P011 comme sujet à lancer | 12 oct. 2026 | **en cours** (L0 et pilote Dictée 5 livrés ; réglages après les premières données) | `plans/P012-engagement-au-service-de-la-pedagogie.md` ; briques : `P009`, `P011` |
-| Dictée répétable (reste : refaire la Dictée 5 en parcours d’écriture) | 7 oct. 2026 | moyenne | `plans/P006-dictee-repetable.md` |
-| Limite de taille des modules : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko) | 11 oct. 2026 | moyenne | idée |
-| Fusion des sauvegardes | 6 oct. 2026 | basse | `plans/P005-fusion-des-sauvegardes.md` |
-
----
-
-## Tâches du sponsor
-
-| Tâche | Échéance |
-|---|---|
-| Sur l'appareil du CM1 : créer un profil « Test » pour tes essais ; l'enfant garde le profil actuel (son historique y est) | avant ton prochain essai de module |
-| Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement, dans Zootopia | cette semaine |
-| Ouvrir l'accès réseau de l'environnement cloud pour que Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la session, Edit, Network access. Mode d'emploi : https://code.claude.com/docs/en/cloud-environments#network-access | avant la prochaine dictée |
-| Autoriser les notifications de l'app Claude sur l'iPhone (pour être prévenu de la fin d'une exécution ; à vérifier à la première tâche lourde) | avant le prochain plan exécuté |
-| Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche) | cette semaine |
-| Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » : champ vide, « Valider » disparu, clavier ouvert | cette semaine |
-| Laisser le CM1 (et la 6e) jouer le parcours de Dictée 5 sur leur profil : la recette iPhone est faite (14 oct.) | jusqu'au 19 oct. |
-| Exporter les données des deux profils et les joindre à une conversation Claude Code (réglages de la jauge, de la série, du choix des étapes ; il faut une dizaine de deuxièmes chances par profil après D8) | le 19 oct. |
-| Ajouter le programme de sciences et technologie du cycle 3 (PDF scanné sans texte) : copier le texte avec Aperçu et l'enregistrer en `.md` ; mode d'emploi dans `programmes/README.md`, « Sciences et technologie » (**priorité basse**) | quand tu veux |
-| Relire le `README.md` : t'y retrouves-tu ? | quand tu veux |
-| Exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux fichiers à la conversation Claude Code de la revue d'usage n° 2 | vers le 26 oct. |
+- **19 oct. 2026** — Laisser les deux enfants jouer le parcours de Dictée 5 sur leur profil, puis
+  exporter les données des deux appareils (Sauvegarde > Exporter et partager) et joindre les deux
+  fichiers à une session Claude Code. **Bloque P012** (réglages de la jauge, de la série, du choix
+  des étapes ; il faut une dizaine de deuxièmes chances par profil) et sert à la revue d'usage n° 2.
+- **18 oct. 2026** — Recette P008 sur l'iPhone : le choix du profil réapparaît une fois, puis
+  après 30 min sans utilisation, y compris par un lien de module (4 étapes dans la fiche).
+- **18 oct. 2026** — Recette P010 sur l'iPhone : dans une dictée, taper un mot faux, « Réessayer » :
+  champ vide, « Valider » disparu, clavier ouvert.
+- **18 oct. 2026** — Proposer à la 6e 10 questions « S'entraîner > Décrire », niveau Échauffement,
+  dans Zootopia.
+- **Avant la prochaine dictée** (passée) — Ouvrir l'accès réseau de l'environnement cloud pour que
+  Claude lise des ressources de référence (Eduscol…) : menu de l'environnement dans le titre de la
+  session, Edit, Network access. Mode d'emploi :
+  https://code.claude.com/docs/en/cloud-environments#network-access
+- **Avant le prochain plan exécuté** (passé) — Autoriser les notifications de l'app Claude sur
+  l'iPhone, pour être prévenu de la fin d'une exécution.
+- **Avant ton prochain essai de module** — Sur l'appareil du CM1 : créer un profil « Test » pour
+  tes essais ; l'enfant garde le profil actuel (son historique y est).
+- **Quand tu veux** (basse) — Ajouter le programme de sciences et technologie du cycle 3 (PDF
+  scanné sans texte) : copier le texte avec Aperçu et l'enregistrer en `.md` ; mode d'emploi dans
+  `programmes/README.md`, « Sciences et technologie ».
+- **Quand tu veux** — Relire le `README.md` : t'y retrouves-tu ?

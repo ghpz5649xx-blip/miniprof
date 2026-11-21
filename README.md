@@ -7,7 +7,8 @@ du cahier ou du manuel.
 
 - **Site** : https://ghpz5649xx-blip.github.io/miniprof/ (un push sur `main` le met à jour en
   une minute environ).
-- **Où en est le projet, ce qui est décidé, ce qui reste à faire** : `pilotage.md`.
+- **Où en est le projet, ce qui est décidé** : `plans/index.md` ; **ce qui attend le sponsor** :
+  `pilotage.md`.
 - **Règles de travail pour Claude** : `CLAUDE.md`.
 
 Ce README sert à **reprendre le projet** : il explique comment tout fonctionne à quelqu'un qui
@@ -107,22 +108,22 @@ leçon en module. Aujourd'hui :
 - **Claude Code est aussi le mainteneur de l'app** : il code, teste, documente et pilote le
   projet (voir « Gouvernance »).
 - **Sans Claude Code** : un pipeline de modules HTML sans Claude Code a été étudié (robot de contrôle
-  GitHub, puis API Claude payée à l'usage, environ 1 $ par module) ; il est au backlog de
-  `pilotage.md`.
+  GitHub, puis API Claude payée à l'usage, environ 1 $ par module) ; il a été abandonné le
+  14 oct. 2026 (plan P004).
 
 ### La gouvernance
 
 Deux acteurs. **Claude** est chef de projet, architecte, développeur, testeur, responsable de
 production et support. **Le parent** est sponsor et client : il décide.
 
-- **Une session = un sujet, un plan.** Claude propose un ou deux sujets du backlog ; un atelier
+- **Une session = un sujet, un plan.** Claude propose un ou deux sujets de l'index des plans ; un atelier
   court cadre le besoin ; le plan finit **abandonné**, **à mûrir** (au backlog) ou **exécuté** sur
   le go du sponsor. Un seul plan ouvert à la fois.
-- `pilotage.md` montre le plan en cours, le backlog et les tâches du sponsor ; `plans/` garde une
-  fiche par plan (besoin, décisions, livré, vérifié, feed-back), avec un index.
+- `plans/` garde une fiche par plan (besoin, décisions, livré, vérifié, feed-back) et un index,
+  qui montre aussi le plan en cours et les idées ; `pilotage.md` ne liste que les tâches du sponsor.
 - Créer ou corriger un module est une session courte : les photos servent de plan, Claude
   exécute avec `/nouveau-module`, le sponsor relit puis valide.
-- Le détail est dans `CLAUDE.md`, « Comment on travaille ».
+- Le détail est dans `CLAUDE.md`.
 
 ---
 
@@ -229,7 +230,7 @@ pas lire les fichiers de modules.
 
 | Chemin | Contenu |
 |---|---|
-| `pilotage.md` | plan en cours, backlog, tâches du sponsor |
+| `pilotage.md` | les tâches du sponsor |
 | `plans/` | une fiche par plan et un index (`plans/index.md`) |
 | `CLAUDE.md` | règles du dépôt pour Claude : méthode de travail, contraintes, commandes |
 | `index.html`, `css/`, `js/` | l'app |
@@ -252,8 +253,7 @@ pas lire les fichiers de modules.
 | `docs/risques.md` | les risques du projet et leurs parades |
 | `docs/besoins.md`, `docs/ux.md` | les besoins et l'interface de la première version (figés) |
 
-Le **pourquoi** d'une décision se trouve, par ordre : dans le relevé des décisions de
-`pilotage.md`, dans le plan, dans `docs/risques.md`, dans les commentaires du code, enfin dans
+Le **pourquoi** d'une décision se trouve, par ordre : dans la fiche du plan, dans `docs/risques.md`, dans les commentaires du code, enfin dans
 l'historique Git (les plans finis y restent lisibles).
 
 ### Points de vigilance

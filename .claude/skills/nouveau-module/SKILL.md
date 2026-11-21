@@ -126,13 +126,12 @@ explique au parent ce qui bloque.
 
 ## 5. Publier
 ```bash
-git add modules/<id>.html modules/index.json modules/brouillons.json pilotage.md
+git add modules/<id>.html modules/index.json modules/brouillons.json
 git commit -m "Module : <titre> (<niveau>)"
 git push
 ```
-- Avant : ajoute aux « Tâches du sponsor » de `pilotage.md` la relecture du module (« relire puis
-  valider <titre> »). Une session module n'a pas de fiche de plan (voir `CLAUDE.md`,
-  « Gouvernance ») : le commit et cette ligne suffisent.
+- Une session module n'a pas de fiche de plan : le commit suffit. Le module à valider se voit
+  dans `modules/brouillons.json`, que Claude lit en début de session.
 - Ne committe que ces fichiers (jamais de photo, d'export, de fichier de travail).
 - Si la session travaille sur une branche (session web ou mobile) : pousse la branche, ouvre une
   PR vers `main` si tu le peux (`gh pr create`), sinon donne le lien
@@ -161,9 +160,9 @@ mêmes compétences, refais les contrôles et republie.
    arrête-toi).
 2. `python tools/build_index.py` (le module n'a plus `"brouillon": true`), puis
    `python -m unittest discover tools/tests`.
-3. Retire la ligne « relire puis valider <titre> » des « Tâches du sponsor » de `pilotage.md`, puis :
+3. Publie :
    ```bash
-   git add modules/brouillons.json modules/index.json pilotage.md
+   git add modules/brouillons.json modules/index.json
    git commit -m "Validation : <titre> (<niveau>)"
    git push
    ```

@@ -4,8 +4,13 @@ App web de révision pour 2 enfants, en français. **Année 2026-2027 : le fils 
 en 6e** (niveau par défaut d'un module). Comment tout marche : `README.md`.
 
 ## Particularités de l'organisation
-- Fichier de pilotage : `pilotage.md` (plan en cours, backlog, tâches du sponsor). Fiches des
-  plans : `plans/`, index dans `plans/index.md`.
+- **Début de session** : lire `pilotage.md` (les tâches du sponsor) et `modules/brouillons.json`.
+  Signaler au sponsor chaque tâche échue (refaire, reporter ou abandonner ?) et chaque module en
+  brouillon qui attend sa validation.
+- `pilotage.md` ne contient que les tâches du sponsor : 6 au plus, chacune avec une échéance
+  datée. Retirer une tâche dès qu'elle est faite ou abandonnée.
+- Plans : une fiche par sujet dans `plans/`, index dans `plans/index.md`. Le plan en cours est
+  celui au statut « en cours » de l'index ; les idées sans fiche sont en bas de l'index.
 - **Exception au « go avant de coder » : la session module.** Photos + demande : suivre
   `.claude/skills/nouveau-module/SKILL.md`, sans fiche.
 - Ce qui demande l'iPhone devient une tâche du sponsor.
