@@ -102,8 +102,26 @@ class TestLectureEcriture(unittest.TestCase):
             admin.lignes_idees([{"titre": "x", "depuis": "y", "priorite": "urgente", "description": "z"}])
 
     def test_plans_lus(self):
-        self.assertEqual(admin.lire_plans(INDEX),
-                         [{"id": "P001", "date": "12 oct. 2026", "titre": "Questions à écrire", "statut": "exécuté"}])
+        self.assertEqual(admin.lire_plans(INDEX, AUJOURDHUI),
+                         [{"id": "P001", "date": "12 oct. 2026", "titre": "Questions à écrire", "statut": "exécuté",
+                           "archive": False}])
+
+    def test_plans_archives(self):
+        # Fini, ou exécuté et délai de feed-back passé ; « exécuté en partie » reste actif.
+        cas = [("clos", "6 oct. 2026", True),
+               ("abandonné (14 oct. 2026)", "6 oct. 2026", True),
+               ("archivé (21 nov. 2026 : fusionné dans P012)", "11 oct. 2026", True),
+               ("intégré dans P012", "11 oct. 2026", True),
+               ("exécuté (feed-back jusqu'au 26 oct.)", "12 oct. 2026", True),
+               ("exécuté (feed-back jusqu'au 29 nov.)", "15 nov. 2026", False),
+               ("exécuté en partie (15 nov. 2026)", "7 oct. 2026", False),
+               ("à mûrir (basse)", "6 oct. 2026", False),
+               ("en cours", "12 oct. 2026", False)]
+        for statut, date_plan, attendu in cas:
+            self.assertEqual(admin.est_archive(statut, date_plan, AUJOURDHUI), attendu, statut)
+        # Délai qui passe le 31 décembre : l'année suivante.
+        self.assertFalse(admin.est_archive("exécuté (feed-back jusqu'au 5 janv.)", "22 déc. 2026",
+                                           datetime.date(2027, 1, 2)))
 
     def test_ligne_ecrite_a_la_main_illisible_bloque_l_ecriture(self):
         # Sinon l'écran, qui ne l'a pas affichée, l'effacerait sans prévenir.

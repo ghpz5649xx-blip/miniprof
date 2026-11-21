@@ -1,6 +1,6 @@
 # P007 — Évaluations rejouées en boucle
 
-- **Statut** : intégré dans P012 le 14 oct. 2026 (tri du backlog) : sans objet si L6 supprime l'évaluation.
+- **Statut** : **archivé le 21 nov. 2026 (fusionné dans P012)**. Avant : intégré dans P012 le 14 oct. 2026 (tri du backlog) : sans objet si L6 supprime l'évaluation.
 - **Origine** : revue d'usage n° 1 (11 oct. 2026) : en 6e, 8 évaluations Zootopia en 11 minutes,
   4 à 9 secondes par question ; l'enfant rejoue pour la note plutôt que pour réviser.
 
@@ -15,4 +15,4 @@
 Reprendre à la prochaine revue d'usage : si le comportement continue, cadrer (b).
 
 ## Feed-back
-(sans objet)
+- **21 nov. 2026 (sponsor, écran d'admin)** : « à supprimer car fusionné dans P012 ». Archivé plutôt que supprimé : la fiche reste pour ne pas reproposer l'idée.

@@ -9,7 +9,8 @@ en 6e** (niveau par défaut d'un module). Comment tout marche : `README.md`.
   abandonner ?), chaque consigne en attente et chaque module en brouillon à valider.
 - `pilotage.md` : les tâches du sponsor (6 au plus, chacune avec une échéance) et ses consignes
   pour Claude. Retirer une tâche dès qu'elle est faite ou abandonnée ; une consigne traitée, dans
-  le commit du travail fait, en le disant au sponsor. Garder le format d'une ligne par élément :
+  le commit du travail fait, en le disant au sponsor. Un « Feed-back Pxxx » traité est recopié,
+  daté, dans la section « Feed-back » de la fiche du plan (l'écran d'admin l'y affiche). Garder le format d'une ligne par élément :
   l'écran d'admin refuse d'écrire s'il ne le reconnaît pas.
 - Plans : une fiche par sujet dans `plans/`, index dans `plans/index.md`. Le plan en cours est
   celui au statut « en cours » de l'index. Les idées sans fiche sont en bas de l'index, dans

@@ -1,6 +1,6 @@
 # P011 — Entraînement adaptatif : le moteur choisit la compétence et la difficulté
 
-- **Statut** : cadrage terminé le 12 oct. 2026 ; **à mûrir**, **révisé dans P012** le 12 oct. 2026
+- **Statut** : **archivé le 21 nov. 2026 (fusionné dans P012)**. Avant : cadrage terminé le 12 oct. 2026 ; **à mûrir**, **révisé dans P012** le 12 oct. 2026
   (une compétence cible par séance, pratique groupée puis rappel mélangé ; D2 « rien de visible »
   modifié ; voir `plans/P012-engagement-au-service-de-la-pedagogie.md`, §3). Ne plus l'exécuter seul.
 - **Origine** : sponsor, 12 oct. 2026. Le tirage se répète (« est » une fois sur deux en Être
@@ -60,3 +60,6 @@
 ## À l'exécution (rappel)
 Contrat modifié → plan avec go ; recette navigateur verte avant le push (module en production
 chez le CM1) ; recette iPhone en tâche du sponsor ; `README.md` et `plans/index.md` à jour.
+
+## Feed-back
+- **21 nov. 2026 (sponsor, écran d'admin)** : « à supprimer car fusionné dans P012 ». Archivé plutôt que supprimé : la fiche reste pour ne pas reproposer l'idée.

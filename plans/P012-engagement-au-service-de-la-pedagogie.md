@@ -1,6 +1,6 @@
 # P012 — Engagement au service de la pédagogie (cadre commun de P009 et P011)
 
-- **Statut** : cadrage ouvert le 12 oct. 2026 ; **plan en cours** : L0 (POC visuel) et le pilote
+- **Statut** : **archivé le 21 nov. 2026 (trop complexe pour l'immédiat, à reprendre plus tard)**. Avant : cadrage ouvert le 12 oct. 2026 ; **plan en cours** : L0 (POC visuel) et le pilote
   du parcours dans le module Dictée 5 exécutés le 12 oct. 2026 sur le go du sponsor ; le reste
   (autres modules, défis du jour, carnet, fusion leçon + entraînement) reste à mûrir.
 - **Origine** : sponsor, 12 oct. 2026. Demande de revoir P009 (gamification) et P011
@@ -442,6 +442,7 @@ qu'une étoile est gagnée, on continue sur une autre compétence. »
 - **Conséquence sur le plan** : §6 (retry payant) remplacé par cette règle ; la question
   voisine reposée plus tard (§6, point 3) est conservée. Les étoiles de module (§5) restent des
   jalons de maîtrise ; l'étoile de jauge s'y ajoute (lien entre les deux : à trancher en L1).
+- **21 nov. 2026 (sponsor, écran d'admin)** : « plan à supprimer à ce stade ou à garder en archive pour plus tard, car trop complexe à mettre en œuvre dans l'immédiat ». Archivé. Le pilote reste dans la Dictée 5 ; l'export qui devait le régler a été abandonné le même jour (trop ancien, moteur changé par P013).
 
 ## Retour du sponsor, 13 oct. 2026 — (I) enchaînement après « Valider »
 - **Demande** : après « Valider », passer directement à la question suivante ; pour une question à

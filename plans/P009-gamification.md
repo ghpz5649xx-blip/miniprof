@@ -1,6 +1,6 @@
 # P009 — Gamification : étude du comportement et règles génériques
 
-- **Statut** : plan d'étude terminé le 11 oct. 2026 ; **à mûrir**, **intégré dans P012** le 12 oct. 2026
+- **Statut** : **archivé le 21 nov. 2026 (fusionné dans P012)**. Avant : plan d'étude terminé le 11 oct. 2026 ; **à mûrir**, **intégré dans P012** le 12 oct. 2026
   (l'évaluation est supprimée, R4 devient « Réparé » à l'échelle de la question ; voir
   `plans/P012-engagement-au-service-de-la-pedagogie.md`). Ne plus l'exécuter seul.
 - **Origine** : sponsor, 11 oct. 2026. Question : quelles règles de jeu pour pousser les enfants
@@ -76,3 +76,4 @@ R3 + R7 (rythme et carnet) → R4 (« Réparé »). Une seule à la fois, recett
 
 ## Feed-back
 (sans objet)
+- **21 nov. 2026 (sponsor, écran d'admin)** : « à supprimer car fusionné dans P012 ». Archivé plutôt que supprimé : la fiche reste pour ne pas reproposer l'idée.

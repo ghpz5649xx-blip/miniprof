@@ -142,13 +142,41 @@ def lire_idees(texte):
             for t, d, p, desc in analyser(elements, RE_IDEE, SECTION_IDEES)]
 
 
-def lire_plans(texte):
-    """Le tableau de l'index, en lecture seule : n°, date, titre, statut."""
+STATUTS_ARCHIVES = ("clos", "abandonné", "archivé", "intégré")
+
+
+def est_archive(statut, date_plan, aujourdhui):
+    """Un plan rangé dans l'onglet « Archivés » : fini, ou exécuté et sans feed-back possible.
+
+    Pourquoi calculé ici : le délai de feed-back (2 semaines) expire sans que personne ne touche
+    l'index ; l'écran doit quand même épurer la liste (demande du sponsor, 21 nov. 2026).
+    « exécuté en partie » reste visible : il reste du travail.
+    """
+    statut = statut.lower()
+    if statut.startswith(STATUTS_ARCHIVES):
+        return True
+    if not statut.startswith("exécuté ("):
+        return False
+    # « exécuté (feed-back jusqu'au 26 oct.) » : l'année est celle de la date du plan, ou la
+    # suivante si le délai passe le 31 décembre.
+    m = re.search(r"jusqu['’]au (\d{1,2} [^\s)]+)", statut)
+    debut = lire_date_fr(date_plan)
+    if not m or debut is None:
+        return False
+    fin = lire_date_fr(f"{m.group(1)} {debut.year}")
+    if fin is not None and fin < debut:
+        fin = fin.replace(year=debut.year + 1)
+    return fin is not None and fin < aujourdhui
+
+
+def lire_plans(texte, aujourdhui):
+    """Le tableau de l'index, en lecture seule : n°, date, titre, statut, archivé ou non."""
     plans = []
     for ligne in texte.split("\n"):
         cellules = [c.strip() for c in ligne.strip().strip("|").split("|")]
         if len(cellules) >= 4 and re.fullmatch(r"P\d{3}", cellules[0]):
-            plans.append({"id": cellules[0], "date": cellules[1], "titre": cellules[2], "statut": cellules[3]})
+            plans.append({"id": cellules[0], "date": cellules[1], "titre": cellules[2], "statut": cellules[3],
+                          "archive": est_archive(cellules[3], cellules[1], aujourdhui)})
     return plans
 
 
@@ -181,7 +209,7 @@ def etat(racine, aujourdhui=None):
         "taches": lire_taches(pilotage, aujourdhui),
         "consignes": lire_consignes(pilotage),
         "idees": lire_idees(index),
-        "plans": lire_plans(index),
+        "plans": lire_plans(index, aujourdhui),
     }
 
 

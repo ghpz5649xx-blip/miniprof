@@ -51,3 +51,12 @@ Gérer ses tâches, les idées et leurs priorités, des consignes à l'agent et 
   « Pilotage : … » sur GitHub.
 - Sur l'iPhone : https://ghpz5649xx-blip.github.io/miniprof/tools/admin/page.html n'affiche que
   le message « ne marche que sur le Mac », sans débordement.
+
+## Feed-back
+- **21 nov. 2026 (sponsor, écran d'admin)** : « afficher le feed-back en temps réel dans
+  l'interface, avec sa date ». Fait : sous la fiche ouverte, les feed-backs envoyés et pas encore
+  traités, avec leur date, dès l'envoi ; une fois traité, Claude l'écrit ici, dans la fiche.
+- **21 nov. 2026 (sponsor, écran d'admin)** : « masquer les plans exécutés depuis au moins
+  2 semaines dans un onglet Plans archivés ». Fait : onglets « Actifs » et « Archivés » ; un plan
+  clos, abandonné, archivé, intégré, ou exécuté dont le délai de feed-back est passé, est archivé
+  (calculé par `est_archive()` à chaque affichage).

@@ -43,6 +43,7 @@
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   td, th { text-align: left; padding: 6px 8px; border-top: 1px solid var(--ligne); vertical-align: top; }
   tr.plan { cursor: pointer; }
+  tr.plan td:first-child { white-space: nowrap; }  /* « P005 » jamais coupé en deux */
   tr.plan:hover { background: #f1efeb; }
   /* La fiche d'un plan, rendue depuis son Markdown. */
   .md { border-top: 1px solid var(--ligne); margin-top: 14px; padding-top: 6px; line-height: 1.6; }
@@ -71,6 +72,9 @@
   #bandeau.ok { display: block; background: #e7f2e9; color: var(--vert); }
   #bandeau.erreur { display: block; background: var(--rouge-fond); color: var(--rouge); }
   .note { font-size: 13px; color: var(--doux); }
+  .onglets { display: flex; gap: 6px; margin-bottom: 8px; }
+  #feedbacks-en-attente { margin-top: 16px; }
+  #feedbacks-en-attente h3 { font-size: 16px; margin: 0 0 6px; }
   code { background: #f1efeb; padding: 0 4px; border-radius: 4px; font: 13px ui-monospace, monospace; }
 </style>
 </head>
@@ -122,12 +126,17 @@
 
     <section>
       <h2>Plans</h2>
+      <div class="onglets">
+        <button type="button" id="onglet-actifs" class="principal">Actifs</button>
+        <button type="button" id="onglet-archives">Archivés</button>
+      </div>
       <table>
         <thead><tr><th>N°</th><th>Titre</th><th>Statut</th></tr></thead>
         <tbody id="plans"></tbody>
       </table>
       <div id="fiche" hidden>
         <div id="fiche-texte" class="md"></div>
+        <div id="feedbacks-en-attente"></div>
         <form id="form-feedback">
           <textarea name="texte" placeholder="Ton feed-back sur ce plan" required></textarea>
           <button class="principal">Envoyer le feed-back à l'agent</button>
@@ -143,6 +152,7 @@ import { afficherMarkdown } from "./markdown.js";
 
 let etat = null;
 let planOuvert = null;
+let ongletArchives = false;
 
 const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin",
               "juil.", "août", "sept.", "oct.", "nov.", "déc."];
@@ -345,12 +355,46 @@ function deplacerIdee(i, sens) {
 function afficherPlans() {
   const tbody = document.getElementById("plans");
   tbody.replaceChildren();
-  for (const p of etat.plans) {
+  const archives = etat.plans.filter(p => p.archive);
+  document.getElementById("onglet-actifs").textContent = `Actifs (${etat.plans.length - archives.length})`;
+  document.getElementById("onglet-archives").textContent = `Archivés (${archives.length})`;
+  document.getElementById("onglet-actifs").className = ongletArchives ? "" : "principal";
+  document.getElementById("onglet-archives").className = ongletArchives ? "principal" : "";
+  for (const p of etat.plans.filter(p => p.archive === ongletArchives)) {
     const tr = element("tr", undefined, "plan");
     tr.append(element("td", p.id), element("td", p.titre), element("td", p.statut));
     tr.addEventListener("click", () => ouvrirFiche(p));
     tbody.append(tr);
   }
+  afficherFeedbacksEnAttente();
+}
+
+for (const [id, archives] of [["onglet-actifs", false], ["onglet-archives", true]]) {
+  document.getElementById(id).addEventListener("click", () => {
+    ongletArchives = archives;
+    afficherPlans();
+  });
+}
+
+// Les feed-backs envoyés sur le plan ouvert et pas encore traités par Claude (ce sont des
+// consignes). Une fois traité, Claude l'écrit dans la section « Feed-back » de la fiche.
+function afficherFeedbacksEnAttente() {
+  const bloc = document.getElementById("feedbacks-en-attente");
+  bloc.replaceChildren();
+  if (!planOuvert) return;
+  const prefixe = `Feed-back ${planOuvert.id} : `;
+  const enAttente = etat.consignes.filter(c => c.texte.startsWith(prefixe));
+  if (enAttente.length === 0) return;
+  bloc.append(element("h3", "Feed-back envoyé, pas encore traité par Claude"));
+  const ul = element("ul");
+  for (const c of enAttente) {
+    const li = element("li");
+    const corps = element("div", undefined, "corps");
+    corps.append(element("div", c.date, "etiquette"), texteRiche(c.texte.slice(prefixe.length)));
+    li.append(corps);
+    ul.append(li);
+  }
+  bloc.append(ul);
 }
 
 async function ouvrirFiche(plan) {
@@ -359,6 +403,7 @@ async function ouvrirFiche(plan) {
   if (!reponse.ok) return bandeau(false, donnees.erreur);
   planOuvert = plan;
   afficherMarkdown(donnees.texte, document.getElementById("fiche-texte"));
+  afficherFeedbacksEnAttente();
   document.getElementById("fiche").hidden = false;
   document.getElementById("fiche").scrollIntoView({ behavior: "smooth" });
 }
