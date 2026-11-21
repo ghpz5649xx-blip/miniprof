@@ -44,8 +44,28 @@
   td, th { text-align: left; padding: 6px 8px; border-top: 1px solid var(--ligne); vertical-align: top; }
   tr.plan { cursor: pointer; }
   tr.plan:hover { background: #f1efeb; }
+  /* La fiche d'un plan, rendue depuis son Markdown. */
+  .md { border-top: 1px solid var(--ligne); margin-top: 14px; padding-top: 6px; line-height: 1.6; }
+  .md h1 { font-size: 24px; margin: 14px 0 8px; }
+  .md h2 { font-size: 19px; margin: 22px 0 6px; color: var(--accent); }
+  .md h3 { font-size: 16px; margin: 18px 0 4px; }
+  .md p { margin: 8px 0; }
+  .md ul, .md ol { margin: 6px 0; padding-left: 24px; }
+  .md ul { list-style: disc; }
+  .md li { display: list-item; border: none; padding: 2px 0; }
+  .md li > ul, .md li > ol { margin: 2px 0; }
+  .md blockquote { margin: 10px 0; padding: 4px 14px; border-left: 4px solid var(--ligne);
+                   color: var(--doux); background: #faf9f7; }
+  .md .cadre-tableau { overflow-x: auto; margin: 10px 0; }
+  .md table { font-size: 14px; }
+  .md th { background: #f1efeb; }
+  .md td, .md th { border: 1px solid var(--ligne); }
+  .md img { max-width: 100%; height: auto; border-radius: 6px; }
+  .md hr { border: none; border-top: 1px solid var(--ligne); margin: 18px 0; }
+  .md a { color: var(--accent); }
   pre { white-space: pre-wrap; background: #f1efeb; border-radius: 6px; padding: 12px;
-        font: 13px/1.5 ui-monospace, monospace; max-height: 420px; overflow: auto; }
+        font: 13px/1.5 ui-monospace, monospace; overflow: auto; }
+  pre code { background: none; padding: 0; }
   #bandeau { position: sticky; top: 0; padding: 8px 12px; border-radius: 6px; margin-bottom: 14px;
              display: none; font-size: 14px; }
   #bandeau.ok { display: block; background: #e7f2e9; color: var(--vert); }
@@ -107,8 +127,7 @@
         <tbody id="plans"></tbody>
       </table>
       <div id="fiche" hidden>
-        <h2 id="fiche-titre"></h2>
-        <pre id="fiche-texte"></pre>
+        <div id="fiche-texte" class="md"></div>
         <form id="form-feedback">
           <textarea name="texte" placeholder="Ton feed-back sur ce plan" required></textarea>
           <button class="principal">Envoyer le feed-back à l'agent</button>
@@ -120,6 +139,8 @@
 
 <script type="module">
 // Le texte vient des fichiers du dépôt : il est toujours posé avec textContent, jamais innerHTML.
+import { afficherMarkdown } from "./markdown.js";
+
 let etat = null;
 let planOuvert = null;
 
@@ -337,8 +358,7 @@ async function ouvrirFiche(plan) {
   const donnees = await reponse.json();
   if (!reponse.ok) return bandeau(false, donnees.erreur);
   planOuvert = plan;
-  document.getElementById("fiche-titre").textContent = `${plan.id} — ${plan.titre}`;
-  document.getElementById("fiche-texte").textContent = donnees.texte;
+  afficherMarkdown(donnees.texte, document.getElementById("fiche-texte"));
   document.getElementById("fiche").hidden = false;
   document.getElementById("fiche").scrollIntoView({ behavior: "smooth" });
 }

@@ -20,11 +20,13 @@ import json
 import re
 import subprocess
 import sys
+import urllib.parse
 import webbrowser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGE = Path(__file__).resolve().parent / "admin" / "page.html"
+DOSSIER_PAGE = Path(__file__).resolve().parent / "admin"
+PAGE = DOSSIER_PAGE / "page.html"
 PORT = 8642  # fixe, pour pouvoir mettre l'écran en favori
 
 PILOTAGE = "pilotage.md"
@@ -40,6 +42,11 @@ MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin",
 # Une ligne par élément : c'est ce format que l'agent lit et que le sponsor peut corriger à la main.
 RE_TACHE = re.compile(r"^- \*\*(.+?)\*\* — (.+)$")
 RE_IDEE = re.compile(r"^- \*\*(.+?)\*\* \(depuis le (.+?), priorité (haute|moyenne|basse)\) : (.+)$")
+
+
+# Les images qu'une fiche peut montrer : des fichiers du dépôt, rien d'autre.
+TYPES_IMAGE = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".gif": "image/gif",
+               ".webp": "image/webp", ".svg": "image/svg+xml"}
 
 
 class ErreurFormat(Exception):
@@ -152,6 +159,19 @@ def lire_fiche(racine, ident):
     return fiches[0].read_text(encoding="utf-8") if fiches else None
 
 
+def chemin_image(racine, relatif):
+    """Le fichier image demandé par une fiche, s'il est bien dans le dépôt ; sinon None.
+
+    Pourquoi tant de précautions : sans elles, « /fichier/../../.ssh/… » servirait n'importe quel
+    fichier du Mac. On n'accepte qu'une image, une fois le chemin résolu, sous la racine du dépôt.
+    """
+    racine = racine.resolve()
+    chemin = (racine / urllib.parse.unquote(relatif)).resolve()
+    if not chemin.is_relative_to(racine) or chemin.suffix.lower() not in TYPES_IMAGE or not chemin.is_file():
+        return None
+    return chemin
+
+
 def etat(racine, aujourdhui=None):
     aujourdhui = aujourdhui or datetime.date.today()
     pilotage = (racine / PILOTAGE).read_text(encoding="utf-8")
@@ -260,7 +280,7 @@ def creer_serveur(racine=ROOT, port=PORT):
         def repondre(self, code, corps, type_="application/json; charset=utf-8"):
             if isinstance(corps, (dict, list)):
                 corps = json.dumps(corps, ensure_ascii=False)
-            donnees = corps.encode("utf-8")
+            donnees = corps if isinstance(corps, bytes) else corps.encode("utf-8")
             self.send_response(code)
             self.send_header("Content-Type", type_)
             self.send_header("Content-Length", str(len(donnees)))
@@ -274,6 +294,14 @@ def creer_serveur(racine=ROOT, port=PORT):
             chemin, _, requete = self.path.partition("?")
             if chemin == "/":
                 return self.repondre(200, PAGE.read_text(encoding="utf-8"), "text/html; charset=utf-8")
+            if chemin == "/markdown.js":
+                return self.repondre(200, (DOSSIER_PAGE / "markdown.js").read_text(encoding="utf-8"),
+                                     "text/javascript; charset=utf-8")
+            if chemin.startswith("/fichier/"):
+                image = chemin_image(racine, chemin.removeprefix("/fichier/"))
+                if image is None:
+                    return self.repondre(404, {"erreur": "image introuvable"})
+                return self.repondre(200, image.read_bytes(), TYPES_IMAGE[image.suffix.lower()])
             if chemin == "/api/etat":
                 try:
                     return self.repondre(200, etat(racine))

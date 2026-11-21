@@ -30,6 +30,10 @@ Gérer ses tâches, les idées et leurs priorités, des consignes à l'agent et 
   consignes, idées (priorité, ordre, ajout, suppression), plans (fiche en lecture, feed-back qui
   devient une consigne). Publiée sur Pages avec le dépôt, elle y affiche seulement « ne marche
   que sur le Mac ».
+- 21 nov. 2026, sur demande du sponsor : la fiche d'un plan s'affiche mise en forme (titres,
+  gras, italique, listes, tableaux, citations, code, liens, images du dépôt) par
+  `tools/admin/markdown.js`, un petit lecteur sans bibliothèque qui construit chaque élément
+  nœud par nœud ; le serveur sert les seules images du dépôt (`/fichier/…`).
 - `CLAUDE.md` : lecture des consignes en début de session, prochain sujet = haut des idées.
 
 ## Vérifié
@@ -37,6 +41,9 @@ Gérer ses tâches, les idées et leurs priorités, des consignes à l'agent et 
   ajout/retrait/report, ordre et priorité des idées, échéance échue, ligne illisible qui bloque,
   synchro sur un dépôt temporaire (seuls les fichiers du pilotage committés, branche autre que
   main, origin injoignable), hôte étranger et POST non JSON refusés.
+- Usage réel le 21 nov. : 12 enregistrements du sponsor poussés, dont certains après les commits
+  d'une session module iPhone (rebase sans conflit).
+- Rendu Markdown vu dans Chromium sur une fiche d'essai (toutes les formes) et sur P012.
 - Captures de l'écran dans Chromium (lecture seule) ; page hors serveur : message attendu.
 
 ## À vérifier à la main (tâche du sponsor)

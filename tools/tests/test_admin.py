@@ -126,6 +126,28 @@ class TestLectureEcriture(unittest.TestCase):
         self.assertEqual(admin.date_fr(datetime.date(2026, 8, 3)), "3 août 2026")
 
 
+class TestImages(unittest.TestCase):
+    def test_chemin_image(self):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp)
+        (tmp / "plans" / "images").mkdir(parents=True)
+        (tmp / "plans" / "images" / "schema.png").write_bytes(b"png")
+        (tmp / "secret.txt").write_text("non", encoding="utf-8")
+        self.assertEqual(admin.chemin_image(tmp, "plans/images/schema.png"),
+                         (tmp / "plans" / "images" / "schema.png").resolve())
+        self.assertIsNone(admin.chemin_image(tmp, "secret.txt"))
+        self.assertIsNone(admin.chemin_image(tmp, "plans/../../schema.png"))
+
+
+class TestSansInnerHTML(unittest.TestCase):
+    def test_ecran_d_admin_sans_html_injecte(self):
+        # Les fiches et le pilotage sont affichés nœud par nœud, comme le texte des modules dans l'app.
+        interdit = ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write")
+        for p in (TESTS.parent / "admin").iterdir():
+            code = "\n".join(ligne.split("//")[0] for ligne in p.read_text(encoding="utf-8").splitlines())
+            self.assertFalse([m for m in interdit if m in code], p.name)
+
+
 class TestSynchro(unittest.TestCase):
     """Sur un vrai dépôt temporaire, avec un dépôt nu comme origin."""
 
@@ -212,6 +234,17 @@ class TestServeur(unittest.TestCase):
         self.assertEqual(self.requete("GET", "/api/etat", hote="pirate.example:80")[0], 403)
         self.assertEqual(self.requete("POST", "/api/taches", hote="pirate.example:80",
                                       corps="{}", type_="application/json")[0], 403)
+
+    def test_lecteur_markdown_servi(self):
+        statut, corps = self.requete("GET", "/markdown.js")
+        self.assertEqual(statut, 200)
+        self.assertIn("export function afficherMarkdown", corps)
+
+    def test_images_du_depot_seulement(self):
+        # Ni sortie du dépôt, ni fichier qui ne soit pas une image.
+        for chemin in ["/fichier/../../../../etc/passwd", "/fichier/%2e%2e/%2e%2e/etc/passwd",
+                       "/fichier/pilotage.md", "/fichier/plans/absente.png"]:
+            self.assertEqual(self.requete("GET", chemin)[0], 404, chemin)
 
     def test_post_sans_json_refuse(self):
         # Un formulaire d'un autre site ne peut envoyer que du texte ou un formulaire, pas du JSON.
