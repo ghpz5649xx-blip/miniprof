@@ -11,7 +11,6 @@ veux »). En début de session, Claude signale chaque tâche échue (refaire, re
 abandonner ?) et retire une tâche dès qu'elle est faite ou abandonnée.
 
 - **28 nov. 2026** — Autoriser les notifications de l'app Claude sur l'iPhone, pour être prévenu de la fin d'une exécution.
-- **Quand tu veux (basse)** — Ajouter le programme de sciences et technologie du cycle 3 (PDF scanné sans texte) : copier le texte avec Aperçu et l'enregistrer en `.md` ; mode d'emploi dans `programmes/README.md`, « Sciences et technologie ».
 - **Quand tu veux** — Relire le `README.md` : t'y retrouves-tu ?
 
 ## Consignes pour Claude
