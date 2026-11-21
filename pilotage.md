@@ -11,7 +11,6 @@ veux »). En début de session, Claude signale chaque tâche échue (refaire, re
 abandonner ?) et retire une tâche dès qu'elle est faite ou abandonnée.
 
 - **28 nov. 2026** — Autoriser les notifications de l'app Claude sur l'iPhone, pour être prévenu de la fin d'une exécution.
-- **Quand tu veux** — Relire le `README.md` : t'y retrouves-tu ?
 
 ## Consignes pour Claude
 
