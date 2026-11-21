@@ -125,6 +125,30 @@
       ]
     },
     {
+      "id": "francais-cm1-dictee-8-sans-famille",
+      "kind": "html",
+      "file": "francais-cm1-dictee-8-sans-famille.html",
+      "title": "Dictée 8 : Sans famille (3)",
+      "subject": "francais",
+      "level": "CM1",
+      "description": "Les mots de la dictée 8 (Sans famille) : à partir de chaque devinette, écris le mot sans aide.",
+      "skills": [
+        {
+          "id": "noms",
+          "label": "Écrire les noms"
+        },
+        {
+          "id": "verbes",
+          "label": "Écrire les verbes"
+        },
+        {
+          "id": "mots",
+          "label": "Écrire les adjectifs et les petits mots"
+        }
+      ],
+      "brouillon": true
+    },
+    {
       "id": "francais-cm1-verbes-2e-groupe-present",
       "kind": "html",
       "file": "francais-cm1-verbes-2e-groupe-present.html",
