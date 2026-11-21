@@ -26,5 +26,3 @@ L'historique d'avant le 12 oct. 2026 (comités, étapes 1 à 12) est dans Git.
 
 Sujets pas encore cadrés, dans l'ordre choisi par le sponsor : Claude propose le prochain sujet en
 partant du haut. Quand l'un d'eux est lancé, il devient un plan avec un numéro et une fiche.
-
-- **Limite de taille des modules** (depuis le 11 oct. 2026, priorité moyenne) : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko).
