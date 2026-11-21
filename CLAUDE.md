@@ -4,13 +4,19 @@ App web de révision pour 2 enfants, en français. **Année 2026-2027 : le fils 
 en 6e** (niveau par défaut d'un module). Comment tout marche : `README.md`.
 
 ## Particularités de l'organisation
-- **Début de session** : lire `pilotage.md` (les tâches du sponsor) et `modules/brouillons.json`.
-  Signaler au sponsor chaque tâche échue (refaire, reporter ou abandonner ?) et chaque module en
-  brouillon qui attend sa validation.
-- `pilotage.md` ne contient que les tâches du sponsor : 6 au plus, chacune avec une échéance
-  datée. Retirer une tâche dès qu'elle est faite ou abandonnée.
+- **Début de session** : lire `pilotage.md` (tâches du sponsor et consignes pour Claude) et
+  `modules/brouillons.json`. Signaler au sponsor chaque tâche échue (refaire, reporter ou
+  abandonner ?), chaque consigne en attente et chaque module en brouillon à valider.
+- `pilotage.md` : les tâches du sponsor (6 au plus, chacune avec une échéance) et ses consignes
+  pour Claude. Retirer une tâche dès qu'elle est faite ou abandonnée ; une consigne traitée, dans
+  le commit du travail fait, en le disant au sponsor. Garder le format d'une ligne par élément :
+  l'écran d'admin refuse d'écrire s'il ne le reconnaît pas.
 - Plans : une fiche par sujet dans `plans/`, index dans `plans/index.md`. Le plan en cours est
-  celui au statut « en cours » de l'index ; les idées sans fiche sont en bas de l'index.
+  celui au statut « en cours » de l'index. Les idées sans fiche sont en bas de l'index, dans
+  l'ordre du sponsor : proposer le prochain sujet en partant du haut.
+- **Écran d'admin** (Mac seulement) : `python3 tools/admin.py`. Le sponsor y gère tâches,
+  consignes et idées ; chaque enregistrement committe et pousse `pilotage.md` ou
+  `plans/index.md` (commits « Pilotage : … »). Faire un `git pull` avant de modifier ces fichiers.
 - **Exception au « go avant de coder » : la session module.** Photos + demande : suivre
   `.claude/skills/nouveau-module/SKILL.md`, sans fiche.
 - Ce qui demande l'iPhone devient une tâche du sponsor.
@@ -18,7 +24,9 @@ en 6e** (niveau par défaut d'un module). Comment tout marche : `README.md`.
 ## Contraintes (non négociables)
 - 100 % statique (GitHub Pages) : HTML + CSS + JS vanilla en modules ES. Pas de framework, de
   build, de npm, de serveur, de PWA, de worker ni d'IndexedDB ; polices système. Asynchrone
-  seulement pour lire des fichiers et partager (`js/loader.js`, `js/partage.js`).
+  seulement pour lire des fichiers et partager (`js/loader.js`, `js/partage.js`). Hors app :
+  `tools/admin.py` est un serveur local du Mac, pour le sponsor seulement, jamais utilisé par
+  les enfants.
 - **Sécurité** : jamais d'`innerHTML` avec du texte de module (`richText()` / `textContent`).
   Un module HTML doit passer `tools/check_html.py` (contrat : `docs/module-html.md`).
 - Aucune requête vers un tiers, aucun compte, aucun suivi.
@@ -39,6 +47,7 @@ python tools/couverture_dictee.py modules/<id>.html "mot1,mot2"   # une dictée 
 python tools/build_index.py                   # régénère modules/index.json
 python -m unittest discover tools/tests -v    # tests (dont la synchro Python ≡ JS)
 python tools/recette_navigateur.py            # recette auto de l'app
+python tools/admin.py                         # écran d'admin du projet (Mac seulement)
 ```
 `python` introuvable : `python3`. Site : https://ghpz5649xx-blip.github.io/miniprof/ (un push
 sur `main` publie en une minute).

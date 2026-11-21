@@ -20,14 +20,12 @@ L'historique d'avant le 12 oct. 2026 (comités, étapes 1 à 12) est dans Git.
 | P011 | 12 oct. 2026 | Entraînement adaptatif | à mûrir (révisé dans P012) | entraînement, tirage, maîtrise, difficulté, conjugaison CM1, gabarit, repli | Le moteur choisit compétence et difficulté ; « Je choisis » discret ; départ en conjugaison CM1 + gabarit ; anciens modules en repli | `plans/P011-entrainement-adaptatif.md` |
 | P012 | 12 oct. 2026 | Engagement au service de la pédagogie | en cours (L0 POC et pilote Dictée 5 livrés le 12 oct. ; écran d'indice plein page le 13 oct.) | engagement, étoiles, défis, retry, indice, parcours, personnages, évaluation supprimée, état de l'art, mastery, espacement | Cadre commun de P009 et P011 : note d'état de l'art, moteur en deux boucles (cible groupée + rappel mélangé), 3 étoiles par module, défis du jour dimensionnés, retry payant, fusion leçon + entraînement sans évaluation, visuel à personnages ; 8 livraisons ; POC `poc/parcours/` ; pilote du parcours dans le module Dictée 5 (mode « r » au journal) | `plans/P012-engagement-au-service-de-la-pedagogie.md` |
 | P013 | 15 nov. 2026 | Pas de question répétée, passes invisibles | exécuté (feed-back jusqu'au 29 nov.) | répétition, rappel, passe, dictée, jauge, doublon, JSON supprimé | Jamais deux fois la même question ; une question ratée revient 4 questions plus tard sans passe visible ; modules JSON supprimés | `plans/P013-pas-de-repetition-rappels-invisibles.md` |
+| P014 | 21 nov. 2026 | Écran d'admin du projet (Mac) | exécuté (feed-back jusqu'au 5 déc.) | admin, pilotage, tâches, consignes, idées, priorités, serveur local, Mac | `python3 tools/admin.py` : tâches, consignes à Claude, idées et plans gérés dans un écran local qui réécrit `pilotage.md` et `plans/index.md`, puis committe et pousse | `plans/P014-ecran-admin.md` |
 
 ## Idées (sans fiche)
 
-Sujets pas encore cadrés. Quand l'un d'eux est lancé, il devient un plan avec un numéro et une fiche.
+Sujets pas encore cadrés, dans l'ordre choisi par le sponsor : Claude propose le prochain sujet en
+partant du haut. Quand l'un d'eux est lancé, il devient un plan avec un numéro et une fiche.
 
-- **Revue d'usage n° 2** (depuis le 12 oct. 2026) : exports des deux enfants, effet de P001 sur
-  « son / sont », « Décrire » en 6e ; séparer par module les données déjà mélangées dans un
-  profil, si besoin. Attend les exports (`pilotage.md`). Revue n° 1 : historique Git de
-  `pilotage.md` (11 oct.).
-- **Limite de taille des modules** (depuis le 11 oct. 2026) : au-delà de 8 compétences, un
-  deuxième module (le circuit en a 10, 105 Ko).
+- **Revue d'usage n° 2** (depuis le 12 oct. 2026, priorité haute) : exports des deux enfants, effet de P001 sur « son / sont », « Décrire » en 6e ; séparer par module les données déjà mélangées dans un profil, si besoin. Attend les exports (`pilotage.md`). Revue n° 1 : historique Git de `pilotage.md` (11 oct.).
+- **Limite de taille des modules** (depuis le 11 oct. 2026, priorité moyenne) : au-delà de 8 compétences, un deuxième module (le circuit en a 10, 105 Ko).

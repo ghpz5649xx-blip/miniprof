@@ -120,7 +120,8 @@ production et support. **Le parent** est sponsor et client : il décide.
   court cadre le besoin ; le plan finit **abandonné**, **à mûrir** (au backlog) ou **exécuté** sur
   le go du sponsor. Un seul plan ouvert à la fois.
 - `plans/` garde une fiche par plan (besoin, décisions, livré, vérifié, feed-back) et un index,
-  qui montre aussi le plan en cours et les idées ; `pilotage.md` ne liste que les tâches du sponsor.
+  qui montre aussi le plan en cours et les idées ; `pilotage.md` liste les tâches du sponsor et ses
+  consignes pour Claude. Sur le Mac, `python3 tools/admin.py` ouvre un écran pour les gérer.
 - Créer ou corriger un module est une session courte : les photos servent de plan, Claude
   exécute avec `/nouveau-module`, le sponsor relit puis valide.
 - Le détail est dans `CLAUDE.md`.
@@ -236,6 +237,7 @@ pas lire les fichiers de modules.
 | `index.html`, `css/`, `js/` | l'app |
 | `modules/` | les modules, `index.json` (généré), `brouillons.json` |
 | `tools/` | outils Python : contrôle, tirage, couverture des dictées, index, analyse, recette ; `tools/tests/` |
+| `tools/admin.py`, `tools/admin/` | écran d'admin du projet, sur le Mac seulement : tâches, consignes à Claude, idées, plans |
 | `.claude/` | le skill `/nouveau-module` et le hook qui met la session à jour au démarrage |
 | `programmes/` | les programmes officiels du cycle 3 (CM1, CM2, 6e), en PDF et en texte ; sciences à ajouter |
 | `docs/` | annexes, voir ci-dessous |

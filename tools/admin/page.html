@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin miniprof</title>
+<!-- Écran d'admin du projet (plan P014), servi par tools/admin.py sur le Mac seulement.
+     Publié sur GitHub Pages avec le reste du dépôt, il n'y fait rien : sans le serveur local,
+     il n'a aucune donnée et ne peut rien écrire. -->
+<style>
+  :root {
+    --fond: #f7f6f3; --carte: #ffffff; --texte: #1f1f1f; --doux: #6f6a64; --ligne: #e3dfd8;
+    --accent: #2f5f8a; --rouge: #b3261e; --rouge-fond: #fbeceb; --vert: #2e6b3a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--texte); overflow-wrap: anywhere;
+         font: 16px/1.5 -apple-system, system-ui, sans-serif; }
+  main { max-width: 920px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sous-titre { color: var(--doux); margin: 0 0 20px; font-size: 14px; }
+  section { background: var(--carte); border: 1px solid var(--ligne); border-radius: 10px;
+            padding: 16px 18px; margin-bottom: 18px; }
+  h2 { font-size: 19px; margin: 0 0 10px; }
+  ul { list-style: none; margin: 0 0 12px; padding: 0; }
+  li { border-top: 1px solid var(--ligne); padding: 10px 0; display: flex; gap: 10px;
+       align-items: flex-start; flex-wrap: wrap; }
+  li:first-child { border-top: none; }
+  .corps { flex: 1 1 380px; min-width: 0; }
+  .etiquette { font-weight: 600; font-size: 14px; color: var(--doux); }
+  .echue { background: var(--rouge-fond); border-radius: 6px; padding: 10px; }
+  .echue .etiquette { color: var(--rouge); }
+  .actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  button { font: inherit; font-size: 14px; padding: 4px 10px; border-radius: 6px;
+           border: 1px solid var(--ligne); background: #f1efeb; color: var(--texte); cursor: pointer; }
+  button.principal { background: var(--accent); border-color: var(--accent); color: #fff; }
+  input, select, textarea { font: inherit; font-size: 15px; padding: 5px 8px;
+                            border: 1px solid var(--ligne); border-radius: 6px; background: #fff; }
+  textarea { width: 100%; min-height: 60px; }
+  form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+  form .large { flex: 1 1 320px; }
+  .vide { color: var(--doux); font-style: italic; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  td, th { text-align: left; padding: 6px 8px; border-top: 1px solid var(--ligne); vertical-align: top; }
+  tr.plan { cursor: pointer; }
+  tr.plan:hover { background: #f1efeb; }
+  pre { white-space: pre-wrap; background: #f1efeb; border-radius: 6px; padding: 12px;
+        font: 13px/1.5 ui-monospace, monospace; max-height: 420px; overflow: auto; }
+  #bandeau { position: sticky; top: 0; padding: 8px 12px; border-radius: 6px; margin-bottom: 14px;
+             display: none; font-size: 14px; }
+  #bandeau.ok { display: block; background: #e7f2e9; color: var(--vert); }
+  #bandeau.erreur { display: block; background: var(--rouge-fond); color: var(--rouge); }
+  .note { font-size: 13px; color: var(--doux); }
+  code { background: #f1efeb; padding: 0 4px; border-radius: 4px; font: 13px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Admin miniprof</h1>
+  <p class="sous-titre" id="sous-titre">Chargement…</p>
+  <div id="bandeau"></div>
+
+  <div id="contenu" hidden>
+    <p class="note">Dépôt public : chaque enregistrement part sur GitHub. Jamais de prénom ni de
+      donnée des enfants.</p>
+
+    <section>
+      <h2>Mes tâches</h2>
+      <ul id="taches"></ul>
+      <form id="form-tache">
+        <input class="large" name="texte" placeholder="Nouvelle tâche" required>
+        <input type="date" name="date">
+        <label><input type="checkbox" name="sans-date"> sans date</label>
+        <button class="principal">Ajouter</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Consignes à l'agent</h2>
+      <ul id="consignes"></ul>
+      <form id="form-consigne">
+        <textarea name="texte" placeholder="Une demande ou un retour pour Claude" required></textarea>
+        <button class="principal">Ajouter</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Idées</h2>
+      <p class="note">Le haut de la liste est le prochain sujet que Claude proposera.</p>
+      <ul id="idees"></ul>
+      <form id="form-idee">
+        <input class="large" name="titre" placeholder="Titre de l'idée" required>
+        <select name="priorite">
+          <option value="haute">haute</option>
+          <option value="moyenne" selected>moyenne</option>
+          <option value="basse">basse</option>
+        </select>
+        <input class="large" name="description" placeholder="En une phrase" required>
+        <button class="principal">Ajouter</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Plans</h2>
+      <table>
+        <thead><tr><th>N°</th><th>Titre</th><th>Statut</th></tr></thead>
+        <tbody id="plans"></tbody>
+      </table>
+      <div id="fiche" hidden>
+        <h2 id="fiche-titre"></h2>
+        <pre id="fiche-texte"></pre>
+        <form id="form-feedback">
+          <textarea name="texte" placeholder="Ton feed-back sur ce plan" required></textarea>
+          <button class="principal">Envoyer le feed-back à l'agent</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+// Le texte vient des fichiers du dépôt : il est toujours posé avec textContent, jamais innerHTML.
+let etat = null;
+let planOuvert = null;
+
+const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin",
+              "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+
+// « 2026-11-21 » (champ date) → « 21 nov. 2026 », le format des fichiers.
+function dateFr(iso) {
+  const [annee, mois, jour] = iso.split("-").map(Number);
+  return `${jour} ${MOIS[mois - 1]} ${annee}`;
+}
+
+function element(balise, texte, classe) {
+  const e = document.createElement(balise);
+  if (texte !== undefined) e.textContent = texte;
+  if (classe) e.className = classe;
+  return e;
+}
+
+// Le gras (**…**) et le code (`…`) des fichiers, rendus sans innerHTML : chaque morceau devient
+// un nœud texte, un <strong> ou un <code>.
+function texteRiche(texte) {
+  const div = element("div");
+  for (const morceau of texte.split(/(\*\*[^*]+\*\*|`[^`]+`)/)) {
+    if (morceau.startsWith("**") && morceau.endsWith("**") && morceau.length > 4) {
+      div.append(element("strong", morceau.slice(2, -2)));
+    } else if (morceau.startsWith("`") && morceau.endsWith("`") && morceau.length > 2) {
+      div.append(element("code", morceau.slice(1, -1)));
+    } else {
+      div.append(morceau);
+    }
+  }
+  return div;
+}
+
+function bouton(texte, action) {
+  const b = element("button", texte);
+  b.type = "button";
+  b.addEventListener("click", action);
+  return b;
+}
+
+function bandeau(ok, message) {
+  const b = document.getElementById("bandeau");
+  b.className = ok ? "ok" : "erreur";
+  b.textContent = message;
+}
+
+async function charger() {
+  try {
+    const reponse = await fetch("/api/etat");
+    const donnees = await reponse.json();
+    if (!reponse.ok) throw new Error(donnees.erreur);
+    etat = donnees;
+  } catch (e) {
+    // Hors du Mac (GitHub Pages, iPhone), il n'y a pas de serveur : c'est le cas normal.
+    const surLeMac = ["127.0.0.1", "localhost"].includes(location.hostname);
+    document.getElementById("sous-titre").textContent = surLeMac
+      ? "Erreur : " + e.message
+      : "Cet écran ne marche que sur le Mac : lance python3 tools/admin.py dans le dossier miniprof.";
+    return;
+  }
+  document.getElementById("contenu").hidden = false;
+  afficher();
+}
+
+// Envoie la liste complète d'une section ; le serveur réécrit le fichier, committe et pousse.
+async function enregistrer(route, liste, action) {
+  bandeau(true, "Enregistrement…");
+  try {
+    const reponse = await fetch(route, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ liste, action }),
+    });
+    const donnees = await reponse.json();
+    if (!reponse.ok) return bandeau(false, donnees.erreur);
+    etat = donnees.etat;
+    bandeau(donnees.ok, donnees.message);
+    afficher();
+  } catch (e) {
+    bandeau(false, "Le serveur ne répond plus : relance python3 tools/admin.py. (" + e.message + ")");
+  }
+}
+
+function extrait(texte) {
+  return texte.length > 50 ? texte.slice(0, 50) + "…" : texte;
+}
+
+function afficher() {
+  document.getElementById("sous-titre").textContent =
+    `Aujourd'hui : ${etat.aujourdhui}.`;
+  afficherTaches();
+  afficherConsignes();
+  afficherIdees();
+  afficherPlans();
+}
+
+function afficherTaches() {
+  const ul = document.getElementById("taches");
+  ul.replaceChildren();
+  // Les tâches échues d'abord ; on garde l'indice d'origine pour modifier la bonne ligne.
+  const ordre = etat.taches.map((t, i) => ({ ...t, i }))
+    .sort((a, b) => Number(b.echue) - Number(a.echue));
+  if (ordre.length === 0) ul.append(element("li", "Aucune tâche.", "vide"));
+  for (const t of ordre) {
+    const li = element("li", undefined, t.echue ? "echue" : "");
+    const corps = element("div", undefined, "corps");
+    corps.append(element("div", t.echue ? `Échue : ${t.echeance}` : t.echeance, "etiquette"),
+                 texteRiche(t.texte));
+    const nouvelleDate = element("input");
+    nouvelleDate.type = "date";
+    const actions = element("div", undefined, "actions");
+    actions.append(
+      bouton("Fait", () => retirerTache(t.i, "tâche faite")),
+      bouton("Abandonner", () => retirerTache(t.i, "tâche abandonnée")),
+      nouvelleDate,
+      bouton("Reporter", () => {
+        if (!nouvelleDate.value) return bandeau(false, "Choisis d'abord la nouvelle date.");
+        const taches = etat.taches.map(x => ({ echeance: x.echeance, texte: x.texte }));
+        taches[t.i].echeance = dateFr(nouvelleDate.value);
+        enregistrer("/api/taches", taches, `tâche reportée : ${extrait(t.texte)}`);
+      }),
+    );
+    li.append(corps, actions);
+    ul.append(li);
+  }
+}
+
+function retirerTache(indice, quoi) {
+  const t = etat.taches[indice];
+  const taches = etat.taches.filter((_, i) => i !== indice)
+    .map(x => ({ echeance: x.echeance, texte: x.texte }));
+  enregistrer("/api/taches", taches, `${quoi} : ${extrait(t.texte)}`);
+}
+
+function afficherConsignes() {
+  const ul = document.getElementById("consignes");
+  ul.replaceChildren();
+  if (etat.consignes.length === 0) ul.append(element("li", "Aucune consigne en attente.", "vide"));
+  etat.consignes.forEach((c, i) => {
+    const li = element("li");
+    const corps = element("div", undefined, "corps");
+    corps.append(element("div", c.date, "etiquette"), texteRiche(c.texte));
+    li.append(corps, bouton("Retirer", () => {
+      const consignes = etat.consignes.filter((_, j) => j !== i);
+      enregistrer("/api/consignes", consignes, `consigne retirée : ${extrait(c.texte)}`);
+    }));
+    ul.append(li);
+  });
+}
+
+function ajouterConsigne(texte, action) {
+  const consignes = [...etat.consignes, { date: etat.aujourdhui, texte }];
+  enregistrer("/api/consignes", consignes, action);
+}
+
+function afficherIdees() {
+  const ul = document.getElementById("idees");
+  ul.replaceChildren();
+  if (etat.idees.length === 0) ul.append(element("li", "Aucune idée.", "vide"));
+  etat.idees.forEach((idee, i) => {
+    const li = element("li");
+    const corps = element("div", undefined, "corps");
+    corps.append(element("div", `${i + 1}. ${idee.titre} — depuis le ${idee.depuis}`, "etiquette"),
+                 texteRiche(idee.description));
+    const priorite = element("select");
+    for (const p of ["haute", "moyenne", "basse"]) {
+      const option = element("option", p);
+      option.value = p;
+      option.selected = p === idee.priorite;
+      priorite.append(option);
+    }
+    priorite.addEventListener("change", () => {
+      const idees = etat.idees.map(x => ({ ...x }));
+      idees[i].priorite = priorite.value;
+      enregistrer("/api/idees", idees, `priorité ${priorite.value} : ${extrait(idee.titre)}`);
+    });
+    const actions = element("div", undefined, "actions");
+    actions.append(
+      priorite,
+      bouton("↑", () => deplacerIdee(i, -1)),
+      bouton("↓", () => deplacerIdee(i, 1)),
+      bouton("Supprimer", () => {
+        const idees = etat.idees.filter((_, j) => j !== i);
+        enregistrer("/api/idees", idees, `idée supprimée : ${extrait(idee.titre)}`);
+      }),
+    );
+    li.append(corps, actions);
+    ul.append(li);
+  });
+}
+
+function deplacerIdee(i, sens) {
+  const j = i + sens;
+  if (j < 0 || j >= etat.idees.length) return;
+  const idees = etat.idees.map(x => ({ ...x }));
+  [idees[i], idees[j]] = [idees[j], idees[i]];
+  enregistrer("/api/idees", idees, `idées réordonnées : ${extrait(idees[0].titre)} en tête`);
+}
+
+function afficherPlans() {
+  const tbody = document.getElementById("plans");
+  tbody.replaceChildren();
+  for (const p of etat.plans) {
+    const tr = element("tr", undefined, "plan");
+    tr.append(element("td", p.id), element("td", p.titre), element("td", p.statut));
+    tr.addEventListener("click", () => ouvrirFiche(p));
+    tbody.append(tr);
+  }
+}
+
+async function ouvrirFiche(plan) {
+  const reponse = await fetch("/api/fiche?id=" + encodeURIComponent(plan.id));
+  const donnees = await reponse.json();
+  if (!reponse.ok) return bandeau(false, donnees.erreur);
+  planOuvert = plan;
+  document.getElementById("fiche-titre").textContent = `${plan.id} — ${plan.titre}`;
+  document.getElementById("fiche-texte").textContent = donnees.texte;
+  document.getElementById("fiche").hidden = false;
+  document.getElementById("fiche").scrollIntoView({ behavior: "smooth" });
+}
+
+document.getElementById("form-tache").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const f = e.target;
+  let echeance;
+  if (f["sans-date"].checked) echeance = "Quand tu veux";
+  else if (f.date.value) echeance = dateFr(f.date.value);
+  else return bandeau(false, "Choisis une échéance, ou coche « sans date ».");
+  const taches = [...etat.taches.map(x => ({ echeance: x.echeance, texte: x.texte })),
+                  { echeance, texte: f.texte.value }];
+  enregistrer("/api/taches", taches, `tâche ajoutée : ${extrait(f.texte.value)}`);
+  f.reset();
+});
+
+document.getElementById("form-consigne").addEventListener("submit", (e) => {
+  e.preventDefault();
+  ajouterConsigne(e.target.texte.value, `consigne ajoutée : ${extrait(e.target.texte.value)}`);
+  e.target.reset();
+});
+
+document.getElementById("form-idee").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const idees = [...etat.idees, {
+    titre: f.titre.value, depuis: etat.aujourdhui, priorite: f.priorite.value, description: f.description.value,
+  }];
+  enregistrer("/api/idees", idees, `idée ajoutée : ${extrait(f.titre.value)}`);
+  f.reset();
+});
+
+document.getElementById("form-feedback").addEventListener("submit", (e) => {
+  e.preventDefault();
+  ajouterConsigne(`Feed-back ${planOuvert.id} : ${e.target.texte.value}`, `feed-back ${planOuvert.id}`);
+  e.target.reset();
+});
+
+charger();
+</script>
+</body>
+</html>
