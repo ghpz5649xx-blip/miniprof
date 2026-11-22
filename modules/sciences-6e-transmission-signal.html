@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Transmission d’un signal – Écrire les notions</title>
+<title>Transmission d’un signal – Réviser, s'entraîner, s'évaluer</title>
 <script type="application/json" id="miniprof-module">
 {
   "id": "sciences-6e-transmission-signal",
   "title": "Transmission d’un signal",
   "subject": "sciences",
   "level": "6e",
-  "description": "Physique-chimie, chapitre 2 : toutes les notions du cours (signal, chaîne d’information, sons, lumière, radio, codage), à écrire sans aide.",
+  "description": "Physique-chimie, chapitre 2 : signal, chaîne d’information, sons, lumière, radio, codage. Fiches, entraînement en QCM et évaluation.",
   "skills": [
     {"id": "signal", "label": "Signal et chaîne d’information"},
     {"id": "sonores", "label": "Les signaux sonores"},
@@ -135,8 +135,6 @@ details.rev.okk{border-color:var(--good)}details.rev.koo{border-color:var(--bad)
 .ans{font-weight:800;border-radius:12px;padding:6px 10px;background:var(--bg)}
 .ans.good{background:var(--soft-good)}
 /* question à écrire : grand champ, lisible au doigt */
-.blank{display:inline-block;min-width:4em;border-bottom:3px solid var(--pitch);color:transparent}
-.big-s{font-size:1.25rem;font-weight:700}
 .write{margin:14px 0 4px}
 .write input{width:100%;font:inherit;font-size:1.3rem;font-weight:700;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface);color:var(--ink);min-height:52px}
 .write input:focus{border-color:var(--pitch);outline:none}
@@ -158,14 +156,20 @@ const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const pick=arr=>arr[R(0,arr.length-1)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=R(0,i);[a[i],a[j]]=[a[j],a[i]];}return a;}
+// n éléments distincts de la liste, sans celui à exclure
 function others(list,not,n){return shuffle(list.filter(x=>x!==not)).slice(0,n);}
-// Une question à choix : choices = liste de C(valeur, libellé, pourquoi c'est faux) ; correct = la valeur juste.
+// Une question : prompt et libellés en HTML écrit dans ce script (sinon passer par esc()).
+// choices : liste de C(valeur, libellé, pourquoi c'est faux) ; correct : la valeur juste.
 function Q(skill,level,prompt,choices,correct,hint,explain){
   return {skill,level,prompt,choices:shuffle(choices.slice()),exp:{c:correct},hint,explain};
 }
 const C=(v,label,why)=>({v:String(v),label,why:why||''});
-// Une question « à écrire » (décision D15). Correction stricte sur les lettres et les accents,
-// souple sur les majuscules, les espaces en trop et la forme de l'apostrophe.
+// Une question « à écrire » (décision D15) : l'enfant tape sa réponse au lieu de la choisir.
+// Pourquoi : pour l'orthographe et la conjugaison, reconnaître le bon mot parmi des choix ne
+// suffit pas, il faut l'écrire (« son » au lieu de « sont » a résisté à un module en QCM).
+// ok : réponses acceptées (la première est montrée en correction) ; erreurs : {faute prévue : pourquoi}.
+// Correction stricte sur les lettres, les accents, le trait d'union ; souple sur les majuscules,
+// les espaces en trop et la forme de l'apostrophe (’ ou ').
 const norm=s=>String(s).normalize('NFC').replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
 function W(skill,level,prompt,ok,erreurs,hint,explain){
   return {skill,level,prompt,choices:[],write:{ok:ok.map(String),erreurs:erreurs||{}},exp:{c:String(ok[0])},hint,explain};
@@ -174,280 +178,357 @@ function judgeWrite(q,rep){
   const r=norm(rep);
   if(q.write.ok.some(x=>norm(x)===r))return {ok:true};
   for(const k in q.write.erreurs)if(norm(k)===r)return {ok:false,why:q.write.erreurs[k]};
-  const sans=x=>x.normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
   if(q.write.ok.some(x=>sans(norm(x))===sans(r)))return {ok:false,why:'Les lettres sont bonnes : regarde bien les <b>accents</b>.'};
-  return {ok:false,why:'Ce n’est pas la réponse attendue.'};
+  return {ok:false,why:'Ce n’est pas la bonne orthographe. Relis ton mot lettre par lettre.'};
 }
 
-/* ================= CONTENU : les notions du chapitre 2 ================= */
-// Physique-chimie 6e, chapitre 2 « Transmission d'un signal » : chaque notion du cours est une question à écrire,
-// posée une fois (aucun tirage au sort), puis reposée plus tard si elle a été ratée (même moteur que les dictées).
-/*DATA*/
-// Une notion = une question à écrire. N(id, titre court, question, réponses acceptées, explication (après une faute), fautes prévues [réponse, pourquoi]).
-// Les accents ne sont pas exigés (le moteur accepte aussi la réponse sans accent) : c'est de la physique, pas de l'orthographe.
-const N=(id,t,q,ok,tip,faux)=>({id,t,q,ok,tip,faux:faux||[]});
-const SIGNAL=[
-  N('role','à quoi sert un signal',"À quoi sert un signal ? Il sert à transporter une … codée.",['information','une information','information codée','une information codée'],
-    "Un signal sert à transporter une <b>information</b> codée (un son, de la lumière…).",[]),
-  N('emetteur','l’émetteur',"Un signal part de sa source vers son destinataire. Comment s'appelle la source qui envoie le signal ? (l'…)",['émetteur','l\'émetteur','un émetteur'],
-    "La source du signal s'appelle l'<b>émetteur</b>.",[['récepteur',"Le récepteur, c'est celui qui <b>reçoit</b> le signal. La source qui l'envoie est l'<b>émetteur</b>."],['destinataire',"Le destinataire reçoit le signal : on l'appelle le récepteur. La source est l'<b>émetteur</b>."]]),
-  N('recepteur','le récepteur',"Celui qui reçoit le signal (son destinataire) s'appelle le …",['récepteur','le récepteur','un récepteur'],
-    "Le destinataire du signal s'appelle le <b>récepteur</b>.",[['émetteur',"L'émetteur, c'est la source qui <b>envoie</b>. Celui qui reçoit est le <b>récepteur</b>."]]),
-  N('code','l’information codée',"L'information transportée par un signal est … : le récepteur doit être capable de la décoder.",['codée','codé','est codée'],
-    "L'information est <b>codée</b>. Le récepteur doit pouvoir la <b>décoder</b> pour la comprendre.",[['décodée',"C'est le récepteur qui <b>décode</b>. L'information qui voyage est <b>codée</b>."],['décodé',"C'est le récepteur qui <b>décode</b>. L'information qui voyage est <b>codée</b>."]]),
-  N('decode','décoder un son',"Avec quelle partie du corps l'Homme décode-t-il (perçoit-il) un son ?",['oreilles','les oreilles','oreille','l\'oreille','nos oreilles','ses oreilles'],
-    "Un son est décodé par les <b>oreilles</b>.",[['yeux',"Les yeux perçoivent la lumière. Un son se perçoit avec les <b>oreilles</b>."],['cerveau',"Le cerveau comprend ensuite l'information, mais ce sont les <b>oreilles</b> qui reçoivent et décodent le son."]]),
-  N('nombre','3 éléments',"Combien d'éléments la chaîne d'information comporte-t-elle ? (écris un nombre)",['3','trois'],
-    "La chaîne d'information comporte <b>3</b> éléments : l'émetteur, le milieu de propagation et le récepteur.",[['2',"Il y en a un de plus : l'émetteur, le <b>milieu de propagation</b> et le récepteur, donc <b>3</b>."],['deux',"Il y en a un de plus : l'émetteur, le <b>milieu de propagation</b> et le récepteur, donc <b>3</b>."],['4',"Il y en a seulement <b>3</b> : émetteur, milieu de propagation, récepteur."],['quatre',"Il y en a seulement <b>3</b> : émetteur, milieu de propagation, récepteur."]]),
-  N('milieu','le milieu de propagation',"Une chaîne d'information s'écrit : émetteur → … → récepteur. Comment s'appelle ce qui est entre les deux ? (le … de propagation)",['milieu de propagation','le milieu de propagation','milieu','le milieu','milieu propagation'],
-    "Entre l'émetteur et le récepteur, il y a le <b>milieu de propagation</b> (air, espace…).",[['propagation',"Il manque le premier mot : le <b>milieu</b> de propagation."]]),
-  N('cordes','l’émetteur des élèves qui bavardent',"Des élèves bavardent en classe. Quel est l'émetteur du son ? (les … des élèves : deux mots)",['cordes vocales','les cordes vocales'],
-    "Quand on parle, ce sont les <b>cordes vocales</b> qui produisent le son : elles sont l'émetteur.",[['bouche',"La bouche laisse passer le son, mais c'est dans la gorge que les <b>cordes vocales</b> le produisent."],['voix',"La voix, c'est le son lui-même. Ce qui l'émet, ce sont les <b>cordes vocales</b>."],['gorge',"Dans la gorge, ce sont plus précisément les <b>cordes vocales</b> qui émettent le son."]]),
-  N('air','le milieu du son en classe',"Des élèves bavardent en classe. Dans quel milieu le son se propage-t-il jusqu'aux oreilles du professeur ?",['air','l\'air'],
-    "En classe, le son se propage dans l'<b>air</b> (de la matière).",[['vide',"Le son ne se propage <b>pas</b> dans le vide. En classe, il voyage dans l'<b>air</b>."],['le vide',"Le son ne se propage <b>pas</b> dans le vide. En classe, il voyage dans l'<b>air</b>."],['espace',"Le son ne se propage <b>pas</b> dans l'espace. En classe, il voyage dans l'<b>air</b>."]]),
-  N('yeux','le récepteur du professeur qui observe',"Le professeur observe que des élèves n'écrivent pas. Quel est le récepteur ? (une partie de son corps)",['yeux','les yeux','ses yeux','œil','oeil','l\'œil','l\'oeil'],
-    "Le professeur observe : la lumière arrive à ses <b>yeux</b>, qui sont le récepteur.",[['oreilles',"Les oreilles reçoivent les sons. Ici, il <b>observe</b> : c'est avec les <b>yeux</b>."],['cerveau',"Le cerveau comprend ensuite, mais le récepteur qui reçoit la lumière, ce sont les <b>yeux</b>."]]),
-  N('soleil','le milieu entre le Soleil et la Terre',"Dehors, le Soleil brille. Dans quel milieu les rayons du Soleil voyagent-ils entre le Soleil et la Terre ?",['espace','l\'espace','vide','le vide','l\'espace vide'],
-    "Entre le Soleil et la Terre, il y a l'<b>espace</b> (le vide). La lumière peut s'y propager.",[['air',"L'air n'entoure que la Terre. Entre le Soleil et la Terre, il y a l'<b>espace</b> (le vide)."]])
-];
-const SONORES=[
-  N('mecanique','ondes mécaniques',"Les signaux sonores sont des ondes … (un adjectif qui commence par « m »).",['mécaniques','mécanique'],
-    "Les signaux sonores sont des ondes <b>mécaniques</b>.",[['électromagnétiques',"Les ondes électromagnétiques sont les signaux <b>lumineux</b> et <b>radio</b>. Les sons sont des ondes <b>mécaniques</b>."],['electromagnetiques',"Les ondes électromagnétiques sont les signaux <b>lumineux</b> et <b>radio</b>. Les sons sont des ondes <b>mécaniques</b>."]]),
-  N('audibles','sons audibles',"Les sons que l'Homme perçoit grâce à l'ouïe sont des sons … .",['audibles','audible'],
-    "Les sons que l'on perçoit avec l'ouïe sont <b>audibles</b>.",[['inaudibles',"Inaudibles veut dire « qu'on n'entend pas ». Les sons perçus par l'ouïe sont <b>audibles</b>."]]),
-  N('inaudibles','sons inaudibles',"Les ultrasons et les infrasons ne sont pas perçus par l'Homme : ce sont des sons … .",['inaudibles','inaudible'],
-    "Les ultrasons et les infrasons sont des sons <b>inaudibles</b> : l'Homme ne les entend pas.",[['audibles',"Audibles, ce sont ceux qu'on entend. Les ultrasons et infrasons sont <b>inaudibles</b>."]]),
-  N('infrasons','les infrasons',"Parmi les sons inaudibles, il y a les ultrasons et les … .",['infrasons','infrason','les infrasons'],
-    "Les sons inaudibles sont les ultrasons et les <b>infrasons</b>.",[]),
-  N('chauve','l’animal aux ultrasons',"Quel petit animal volant utilise les ultrasons pour se repérer dans l'espace et repérer sa proie ?",['chauve-souris','la chauve-souris','une chauve-souris','chauve souris','la chauve souris','une chauve souris','chauves-souris','les chauves-souris','dauphin','le dauphin','dauphins'],
-    "C'est la <b>chauve-souris</b> (exemple du cours) : elle émet des ultrasons qui reviennent quand ils rencontrent un obstacle ou une proie.",[['oiseau',"Un oiseau ne se repère pas avec des ultrasons. L'animal du cours est la <b>chauve-souris</b>."],['hibou',"Le hibou se repère surtout avec la vue et l'ouïe. L'animal du cours est la <b>chauve-souris</b>."]]),
-  N('retour','le son au retour',"Une chauve-souris envoie un son qui rebondit sur sa proie. Le son fait un aller, puis un … .",['retour','un retour','le retour'],
-    "Le son fait un aller puis un <b>retour</b> : la chauve-souris reçoit le son qui revient et sait où est sa proie.",[]),
-  N('vide-son','le son et le vide',"Un signal sonore peut-il se propager dans le vide, comme dans l'espace ? (oui ou non)",['non'],
-    "<b>Non</b> : les signaux sonores ne peuvent pas se propager dans le vide.",[['oui',"Dans l'espace, il n'y a pas de matière : le son ne s'y propage <b>pas</b>."]]),
-  N('matiere','besoin de matière',"Un son ne se propage pas dans le vide : il a besoin de … pour se propager. (un seul mot)",['matière','de la matière','la matière','matiere'],
-    "Les signaux sonores ont besoin de <b>matière</b> pour se propager (air, eau, solides).",[['air',"L'air est une matière, mais l'eau aussi : le mot du cours est <b>matière</b>."],['eau',"L'eau est une matière, mais l'air aussi : le mot du cours est <b>matière</b>."]])
-];
-const LUMINEUX=[
-  N('electromag','ondes électromagnétiques',"Les signaux lumineux sont des signaux … (un adjectif long qui commence par « é »).",['électromagnétiques','électromagnétique'],
-    "Les signaux lumineux sont des signaux <b>électromagnétiques</b>.",[['mécaniques',"Les ondes mécaniques sont les signaux <b>sonores</b>. La lumière est <b>électromagnétique</b>."]]),
-  N('visibles','ondes visibles',"Les ondes lumineuses que l'on voit, comme le rouge, le jaune ou le bleu, sont des ondes … .",['visibles','visible'],
-    "Le rouge, l'orange, le jaune, le vert, le bleu, l'indigo et le violet sont des ondes lumineuses <b>visibles</b>.",[['invisibles',"Invisibles veut dire « qu'on ne voit pas ». Les couleurs sont <b>visibles</b>."]]),
-  N('invisibles','ondes invisibles',"Les ultraviolets et les infrarouges sont des ondes lumineuses que l'on ne voit pas : elles sont … .",['invisibles','invisible'],
-    "Les ultraviolets et les infrarouges sont des ondes lumineuses <b>invisibles</b>.",[['visibles',"Visibles, ce sont celles qu'on voit. Les UV et les infrarouges sont <b>invisibles</b>."]]),
-  N('uv','les ultraviolets (UV)',"Dans le spectre, avant le violet, il y a des ondes lumineuses invisibles : les … (leur sigle : UV).",['ultraviolets','ultraviolet','ultra violets','ultra-violets','ultra violet','ultra-violet','les ultraviolets','uv'],
-    "UV veut dire <b>ultraviolets</b>.",[]),
-  N('ir','les infrarouges',"Dans le spectre, après le rouge, il y a des ondes lumineuses invisibles : les … .",['infrarouges','infrarouge','infra rouges','infra-rouges','infra rouge','infra-rouge','les infrarouges'],
-    "Les ondes invisibles sont les ultraviolets et les <b>infrarouges</b>.",[]),
-  N('violet','le violet',"Dans le spectre de la lumière blanche, quelle couleur est juste à côté des ultraviolets ?",['violet','le violet'],
-    "Le spectre va des ultraviolets aux infrarouges : <b>violet</b>, indigo, bleu, vert, jaune, orange, rouge.",[['indigo',"L'indigo vient juste après le violet. Le violet touche les ultraviolets."],['rouge',"Le rouge est de l'autre côté, près des infrarouges. À côté des ultraviolets, c'est le <b>violet</b>."]]),
-  N('rouge','le rouge',"Dans le spectre de la lumière blanche, quelle couleur est juste à côté des infrarouges ?",['rouge','le rouge'],
-    "Le spectre va des ultraviolets aux infrarouges : violet, indigo, bleu, vert, jaune, orange, <b>rouge</b>.",[['violet',"Le violet est de l'autre côté, près des ultraviolets. À côté des infrarouges, c'est le <b>rouge</b>."],['orange',"L'orange vient juste avant le rouge. Le rouge touche les infrarouges."]]),
-  N('indigo','l’indigo',"Les couleurs visibles sont : rouge, orange, jaune, vert, bleu, … , violet. Quelle couleur manque ?",['indigo','l\'indigo'],
-    "L'ordre est : rouge, orange, jaune, vert, bleu, <b>indigo</b>, violet.",[]),
-  N('compo','les spectres d’émission',"Les spectres d'émission permettent de connaître la … chimique d'une étoile ou de l'atmosphère d'une planète. (un mot)",['composition','la composition'],
-    "Les spectres permettent de connaître la <b>composition</b> chimique d'une étoile ou de l'atmosphère d'une planète.",[]),
-  N('sodium','le sodium (Na)',"Sur la figure du cours, quel élément chimique a pour symbole Na ?",['sodium','le sodium'],
-    "Na est le symbole du <b>sodium</b>.",[]),
-  N('mercure','le mercure (Hg)',"Sur la figure du cours, quel élément chimique a pour symbole Hg ?",['mercure','le mercure'],
-    "Hg est le symbole du <b>mercure</b>.",[]),
-  N('lithium','le lithium (Li)',"Sur la figure du cours, quel élément chimique a pour symbole Li ?",['lithium','le lithium'],
-    "Li est le symbole du <b>lithium</b>.",[]),
-  N('thermo','la couleur violette (thermographie)',"Sur la thermographie d'un immeuble, le jaune représente de grandes pertes de chaleur. La couleur violette représente de … pertes de chaleur.",['petites','de petites','petite','faibles','de faibles','faible'],
-    "Violet : de <b>petites</b> pertes de chaleur. Jaune : de grandes pertes de chaleur.",[['grandes',"Les grandes pertes de chaleur sont en <b>jaune</b>. Le violet représente de <b>petites</b> pertes."],['grande',"Les grandes pertes de chaleur sont en <b>jaune</b>. Le violet représente de <b>petites</b> pertes."]]),
-  N('isole','un immeuble bien isolé',"Sur la thermographie, un immeuble surtout violet a de petites pertes de chaleur. Il est plutôt bien … . (un mot)",['isolé','bien isolé','plutôt bien isolé','isolée'],
-    "Peu de pertes de chaleur : l'immeuble est plutôt bien <b>isolé</b>.",[['chauffé',"Peu de pertes de chaleur ne dit pas qu'il est chauffé : cela montre qu'il est bien <b>isolé</b>."]])
-];
-const RADIO=[
-  N('radio-type','ondes radio',"Les signaux radio sont des ondes … (comme la lumière).",['électromagnétiques','électromagnétique'],
-    "Les signaux radio sont des ondes <b>électromagnétiques</b>.",[['mécaniques',"Les ondes mécaniques sont les sons. Les ondes radio sont <b>électromagnétiques</b>."]]),
-  N('antennes','les antennes',"Avec quoi détecte-t-on les signaux radio ? (des …)",['antennes','des antennes','antenne','une antenne','une antennes'],
-    "Les signaux radio sont détectés par des <b>antennes</b>.",[['oreilles',"Les oreilles détectent les sons. Les signaux radio sont détectés par des <b>antennes</b>."]]),
-  N('vide-radio','la radio et le vide',"Un signal radio peut-il se propager dans le vide ? (oui ou non)",['oui'],
-    "<b>Oui</b> : les ondes radio se propagent aussi bien dans la matière que dans le vide.",[['non',"C'est le <b>son</b> qui ne se propage pas dans le vide. Les ondes radio, elles, s'y propagent."]]),
-  N('vitesse','vitesse de la lumière',"Les ondes radio se propagent à la vitesse de la lumière. Combien de kilomètres par seconde ? (écris le nombre avec ses chiffres)",['300000','300 000','300000 km/s','300 000 km/s','300000km/s','300 000km/s','300000 kilomètres par seconde','300 000 kilomètres par seconde'],
-    "La vitesse de la lumière est de <b>300 000 km/s</b>.",[['300',"Ce n'est pas assez : trois cent <b>mille</b>, soit 300 000 km/s."],['3000',"Ce n'est pas assez : 300 000 km/s."],['30000',"Ce n'est pas assez : 300 000 km/s."]])
-];
-const CODAGE=[
-  N('obstacles','pourquoi coder',"La lumière et les sons rencontrent des … : c'est pour cela qu'il faut coder l'information. (un mot au pluriel)",['obstacles','des obstacles'],
-    "Il y a des <b>obstacles</b> : il faut coder l'information pour les contourner.",[]),
-  N('distances','coder pour aller loin',"Coder l'information permet de contourner les obstacles et de parcourir de longues … . (un mot)",['distances','de longues distances'],
-    "Coder permet de parcourir de longues <b>distances</b>.",[]),
-  N('vue','la vue',"Les informations véhiculées par la lumière sont perçues grâce à quel sens ? (la …)",['vue','la vue','vision','la vision'],
-    "La lumière est perçue grâce à la <b>vue</b> (la vision).",[['ouïe',"L'ouïe sert à percevoir les sons. Pour la lumière, c'est la <b>vue</b>."],['ouie',"L'ouïe sert à percevoir les sons. Pour la lumière, c'est la <b>vue</b>."]]),
-  N('ouie','l’ouïe',"Les sons sont perçus grâce à quel sens ? (l'…)",['ouïe','l\'ouïe'],
-    "Les sons sont perçus grâce à l'<b>ouïe</b>.",[['vue',"La vue sert à percevoir la lumière. Pour les sons, c'est l'<b>ouïe</b>."]]),
-  N('binaire','le codage binaire',"Le codage le plus simple est le codage … : le signal peut prendre seulement deux valeurs, 0 et 1.",['binaire','le codage binaire','codage binaire'],
-    "Le codage <b>binaire</b> : le signal ne peut prendre que deux valeurs, 0 et 1.",[]),
-  N('deux','deux valeurs',"Dans le codage binaire, le signal peut prendre seulement combien de valeurs ? (écris un nombre)",['2','deux'],
-    "Le codage binaire : seulement <b>deux</b> valeurs, 0 et 1.",[['3',"Il n'y en a que <b>deux</b> : 0 et 1."],['trois',"Il n'y en a que <b>deux</b> : 0 et 1."]]),
-  N('morse1','le morse : la valeur 1',"Dans l'exemple du morse, on attribue la valeur 1 à une lampe … (allumée ou éteinte ?)",['allumée','lampe allumée','une lampe allumée','allumé'],
-    "En morse, la valeur 1 correspond à une lampe <b>allumée</b>.",[['éteinte',"La lampe éteinte correspond à la valeur <b>0</b>. Le 1 correspond à une lampe <b>allumée</b>."]]),
-  N('morse0','le morse : la valeur 0',"Dans l'exemple du morse, on attribue la valeur 0 à une lampe … (allumée ou éteinte ?)",['éteinte','lampe éteinte','une lampe éteinte','éteint'],
-    "En morse, la valeur 0 correspond à une lampe <b>éteinte</b>.",[['allumée',"La lampe allumée correspond à la valeur <b>1</b>. Le 0 correspond à une lampe <b>éteinte</b>."]]),
-  N('tel-radio','coder la voix en signal radio',"Pour une conversation téléphonique entre deux personnes éloignées, les sons émis sont codés en signaux … .",['radio','signaux radio','des signaux radio'],
-    "Le téléphone transforme (code) les sons en signaux <b>radio</b>, qui parcourent plusieurs kilomètres.",[['lumineux',"Au téléphone, les sons sont codés en signaux <b>radio</b>."],['électriques',"Il y a bien un signal électrique dans le téléphone, mais celui qui voyage entre les antennes est le signal <b>radio</b>."]]),
-  N('micro','le micro',"Dans la chaîne du téléphone, qu'est-ce qui reçoit la voix et la transforme en signal électrique ? (un seul mot)",['micro','le micro','microphone','le microphone'],
-    "Le <b>micro</b> du téléphone transforme le signal sonore en signal électrique.",[['haut-parleur',"Le haut-parleur fait l'inverse, côté récepteur. Celui qui capte la voix est le <b>micro</b>."]]),
-  N('hp','le haut-parleur',"Dans le téléphone de la personne qui écoute, qu'est-ce qui transforme le signal électrique en signal sonore ?",['haut-parleur','haut parleur','le haut-parleur','le haut parleur','hautparleur','haut-parleurs'],
-    "Le <b>haut-parleur</b> transforme le signal électrique en signal sonore.",[['micro',"Le micro fait l'inverse, côté émetteur. Celui qui produit le son est le <b>haut-parleur</b>."]]),
-  N('tel-vide','le milieu du signal radio',"Entre l'antenne d'un téléphone et celle du satellite, dans quel milieu le signal radio se propage-t-il ?",['vide','le vide','espace','l\'espace'],
-    "Le signal radio se propage dans le <b>vide</b> (il n'a pas besoin de matière).",[['air',"Les ondes radio n'ont pas besoin de matière : sur le schéma du cours, elles voyagent dans le <b>vide</b>."]]),
-  N('satellite','le satellite',"Le signal radio d'un téléphone passe par l'antenne du réseau ou par un … . (un mot)",['satellite','un satellite'],
-    "Le signal passe par l'antenne du réseau ou par un <b>satellite</b>.",[]),
-  N('tel-decode','décoder le signal radio',"À la fin, le téléphone décode les signaux radio en signaux … .",['sonores','sonore','signaux sonores','des signaux sonores'],
-    "Le téléphone décode les signaux radio en signaux <b>sonores</b>, pour que la personne entende.",[['lumineux',"Pour entendre, il faut des signaux <b>sonores</b>."],['électriques',"Il y a bien un signal électrique dans le téléphone, mais ce que la personne entend est un signal <b>sonore</b>."]])
-];
-/*FIN DATA*/
-SIGNAL.forEach(w=>{w.skill='signal';});
-SONORES.forEach(w=>{w.skill='sonores';});
-LUMINEUX.forEach(w=>{w.skill='lumineux';});
-RADIO.forEach(w=>{w.skill='radio';});
-CODAGE.forEach(w=>{w.skill='codage';});
-const POOL={signal:SIGNAL,sonores:SONORES,lumineux:LUMINEUX,radio:RADIO,codage:CODAGE};
-const TOUS=SIGNAL.concat(SONORES,LUMINEUX,RADIO,CODAGE);   // chaque notion est posée une fois, puis reposée si elle a été ratée
-const label=w=>w.t;
-const fautesMot=w=>{const e={};w.faux.forEach(f=>{e[f[0]]=f[1];});return e;};
-const correction=w=>`<p>Réponse : <b class="big-s">${w.ok[0]}</b></p><p>${w.tip}</p>`;
+/* ================= CONTENU : les banques de questions ================= */
+// Physique-chimie 6e, chapitre 2 « Transmission d'un signal ». Toutes les questions sont à choix (QCM).
+// Une banque par compétence et par niveau : I(énoncé, bonne réponse, [[mauvais choix, pourquoi], …], explication, indice).
+// Le générateur tire une question de la banque, garde 3 mauvais choix au hasard, et mélange. (Pas de nombre
+// à tirer : les notions du cours sont des faits ; le moteur évite de reposer la même question.)
+const I=(p,g,b,e,h)=>({p,g,b,e,h});
 
-/* ================= CONTENU : la question ================= */
-// Une devinette, l'enfant écrit le mot sans aide. (Le QCM « relier la devinette au mot » a été supprimé
-// le 17 nov. 2026 : il ne servait à rien, et la bonne réponse ne montre plus de message.)
-function variantes(l){   // chaque réponse acceptée existe aussi sans accent (c'est de la physique, pas de l'orthographe)
-  const sans=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/œ/g,'oe');
-  const o=[];l.forEach(x=>{[x,sans(x)].forEach(y=>{if(o.indexOf(y)<0)o.push(y);});});return o;
-}
-function mkEcrire(w){
-  return W(w.skill,2,`<p class="q-prompt">${w.q}</p><p class="small">Écris ta réponse sans aide.</p>`,variantes(w.ok),fautesMot(w),'<p>Écris ta réponse sans aide.</p>',correction(w));
+// Morse (exemple du cours) : 1 = lampe allumée, 0 = lampe éteinte. Suite tirée au hasard, 4 valeurs, avec
+// au moins un 0 et un 1. Les 3 faux choix : tout inversé, ou une seule valeur changée (à deux endroits
+// différents) : ils sont tous différents de la bonne suite et entre eux.
+function morse(versNombres){
+  return function(){
+    let s;do{s=[R(0,1),R(0,1),R(0,1),R(0,1)];}while(s.indexOf(0)<0||s.indexOf(1)<0);
+    const lamp=a=>a.map(v=>v?'allumée':'éteinte').join(' – '),nb=a=>a.join(' ');
+    const fmt=versNombres?nb:lamp,src=versNombres?lamp:nb;
+    const p=shuffle([0,1,2,3]),chg=k=>s.map((v,i)=>i===k?1-v:v);
+    const inv=[fmt(s.map(v=>1-v)),"Tu as échangé les deux valeurs : 1 est une lampe <b>allumée</b>, 0 une lampe <b>éteinte</b>."];
+    const f=k=>[fmt(chg(k)),"Compare les valeurs une par une : la valeur n° "+(k+1)+" ne correspond pas."];
+    return I(versNombres
+        ?"Dans l'exemple du cours (le morse), 1 est une lampe allumée et 0 une lampe éteinte. La lampe est : <b>"+src(s)+"</b>. Quelle suite de 0 et de 1 code ce signal ?"
+        :"Dans l'exemple du cours (le morse), 1 est une lampe allumée et 0 une lampe éteinte. Le signal est : <b>"+src(s)+"</b>. Que fait la lampe ?",
+      fmt(s),[inv,f(p[0]),f(p[1])],
+      "Valeur par valeur : "+s.map(v=>v?'1 = allumée':'0 = éteinte').join(' ; ')+".",
+      "<p>1 : lampe allumée. 0 : lampe éteinte. Avance valeur par valeur.</p>");
+  };
 }
 
-// Clés = ids des compétences de la fiche. Un générateur par compétence (pour le tirage automatique
-// de tools/tirage.py) ; le parcours, lui, pose chaque mot de la liste.
+const BANQUE={
+signal:{
+1:[
+ I("Un signal sert à transporter :","une information codée",[["un objet","Un signal ne déplace pas d'objet : il transporte une information."],["de la matière","Un signal ne transporte pas de matière : il transporte une information."],["un son seulement","Un son est un exemple de signal, mais la lumière et les ondes radio en sont aussi."]],"Un signal (un son, de la lumière…) transporte une <b>information</b> codée."),
+ I("Comment s'appelle la source qui envoie le signal ?","l'émetteur",[["le récepteur","Le récepteur <b>reçoit</b> le signal."],["le milieu de propagation","Le milieu de propagation, c'est ce que le signal traverse, entre l'émetteur et le récepteur."],["le code","Le code est la façon d'écrire l'information, pas la source du signal."]],"La source du signal s'appelle l'<b>émetteur</b>."),
+ I("Comment s'appelle celui qui reçoit le signal (son destinataire) ?","le récepteur",[["l'émetteur","L'émetteur est la source qui <b>envoie</b> le signal."],["le milieu de propagation","Le milieu de propagation, c'est ce que le signal traverse."],["le signal","Le signal est ce qui voyage de l'émetteur au récepteur."]],"Le destinataire du signal s'appelle le <b>récepteur</b>."),
+ I("Que trouve-t-on entre l'émetteur et le récepteur ?","le milieu de propagation",[["un second émetteur","La chaîne d'information du cours n'a qu'un émetteur."],["un second récepteur","La chaîne d'information du cours n'a qu'un récepteur."],["la source du signal","La source du signal, c'est l'émetteur, au début de la chaîne."]],"La chaîne d'information est : émetteur → <b>milieu de propagation</b> → récepteur."),
+ I("Combien d'éléments la chaîne d'information comporte-t-elle ?","3 éléments",[["2 éléments","Il y en a un de plus : l'émetteur, le <b>milieu de propagation</b> et le récepteur."],["4 éléments","Il y en a seulement trois : émetteur, milieu de propagation, récepteur."],["5 éléments","Il y en a seulement trois : émetteur, milieu de propagation, récepteur."]],"Émetteur, milieu de propagation, récepteur : <b>3</b> éléments."),
+ I("Quelle chaîne d'information est dans le bon ordre ?","émetteur → milieu de propagation → récepteur",[["récepteur → milieu de propagation → émetteur","Le sens est inversé : le signal part de l'émetteur et arrive au récepteur."],["milieu de propagation → émetteur → récepteur","L'émetteur est au début de la chaîne, le milieu est entre l'émetteur et le récepteur."],["émetteur → récepteur → milieu de propagation","Le milieu de propagation est entre l'émetteur et le récepteur, pas après."]],"Le signal part de l'émetteur, traverse le milieu de propagation, arrive au récepteur."),
+ I("Pour comprendre l'information d'un signal, le récepteur doit pouvoir la :","décoder",[["coder","Coder, c'est ce que fait l'émetteur avant d'envoyer le signal."],["effacer","Effacer l'information ne permet pas de la comprendre."],["transporter","Transporter l'information, c'est le travail du signal."]],"L'information est codée ; le récepteur la <b>décode</b>.")
+],
+2:[
+ I("Un élève lève la main et le professeur le voit. Quel est le récepteur ?","les yeux du professeur",[["l'élève qui lève la main","L'élève est la source du signal : c'est l'émetteur."],["les oreilles du professeur","Le professeur <b>voit</b> : ce sont ses yeux qui reçoivent la lumière, pas ses oreilles."],["l'air de la classe","L'air est le milieu de propagation, entre l'émetteur et le récepteur."]],"Le professeur voit : le récepteur est ses <b>yeux</b>."),
+ I("Dans la chaîne d'information, le signal va :","de l'émetteur vers le récepteur",[["du récepteur vers l'émetteur","Le signal part de l'émetteur (la source) et arrive au récepteur."],["du milieu de propagation vers l'émetteur","Le signal part de l'émetteur, il ne revient pas vers lui."],["du récepteur vers le milieu de propagation","Le récepteur est à la fin de la chaîne : il reçoit le signal."]],"Le signal va de l'<b>émetteur</b> au <b>récepteur</b>."),
+ I("Un élève parle à son voisin. Quel élément est le milieu de propagation ?","l'air",[["les cordes vocales de l'élève","Les cordes vocales produisent le son : elles sont l'émetteur."],["les oreilles du voisin","Les oreilles reçoivent le son : elles sont le récepteur."],["le mot prononcé","Le mot est l'information, pas le milieu qui la transporte."]],"Le son voyage dans l'<b>air</b>, entre l'émetteur et le récepteur."),
+ I("Quelle phrase est juste ?","Le récepteur décode l'information.",[["L'émetteur décode l'information.","L'émetteur <b>code</b> l'information ; c'est le récepteur qui la décode."],["Le milieu de propagation décode l'information.","Le milieu de propagation laisse passer le signal ; il ne décode rien."],["Le récepteur code l'information.","C'est l'émetteur qui code l'information et le récepteur qui la décode."]],"L'information est codée au départ ; le <b>récepteur</b> la décode."),
+ I("Quel est le point commun d'un son, d'une lumière et d'une onde radio ?","Ce sont des signaux qui transportent une information.",[["Ils se propagent tous dans le vide.","Le son ne se propage pas dans le vide."],["Ce sont tous des ondes mécaniques.","Seuls les sons sont des ondes mécaniques ; la lumière et les ondes radio sont électromagnétiques."],["On les perçoit tous avec les oreilles.","Les oreilles perçoivent les sons ; la lumière se perçoit avec la vue."]],"Un son, de la lumière, une onde radio : ce sont tous des <b>signaux</b> qui transportent une information.")
+],
+3:[
+ I("Des élèves bavardent en classe. Quel est l'émetteur du son ?","les cordes vocales des élèves",[["les oreilles du professeur","Les oreilles du professeur reçoivent le son : ce sont le récepteur."],["l'air de la classe","L'air est le milieu de propagation."],["les yeux du professeur","Les yeux reçoivent la lumière ; ici, c'est un son."]],"Quand on parle, les <b>cordes vocales</b> produisent le son : elles sont l'émetteur."),
+ I("Le professeur entend des élèves bavarder. Quelle chaîne d'information est juste ?","cordes vocales → air → oreilles",[["oreilles → air → cordes vocales","Le sens est inversé : le son part des cordes vocales (émetteur) vers les oreilles (récepteur)."],["cordes vocales → vide → oreilles","En classe, le son se propage dans l'air, et un son ne se propage pas dans le vide."],["cordes vocales → air → yeux","Un son se reçoit avec les oreilles, pas avec les yeux."]],"Émetteur : cordes vocales. Milieu : air. Récepteur : oreilles."),
+ I("Le professeur voit que des élèves n'écrivent pas. Quelle chaîne d'information est juste ?","élèves → air → yeux du professeur",[["élèves → air → oreilles du professeur","Il <b>observe</b> : l'information arrive par la lumière, reçue par les yeux."],["yeux du professeur → air → élèves","Le sens est inversé : l'émetteur est du côté des élèves, le récepteur est le professeur."],["élèves → vide → yeux du professeur","En classe, le milieu de propagation est l'air, pas le vide."]],"Il observe : le récepteur est ses <b>yeux</b>, et le milieu est l'<b>air</b>."),
+ I("Dehors, la lumière du Soleil arrive jusqu'à la Terre. Quel est le milieu de propagation entre le Soleil et la Terre ?","l'espace (le vide)",[["l'air","L'air n'entoure que la Terre. Entre le Soleil et la Terre, il y a l'espace."],["l'eau","Il n'y a pas d'eau entre le Soleil et la Terre."],["un solide","Il n'y a pas de solide entre le Soleil et la Terre."]],"Entre le Soleil et la Terre, il y a l'<b>espace</b> (le vide) : la lumière peut s'y propager."),
+ I("La lumière du Soleil arrive aux yeux d'un élève. Quel est l'émetteur ?","le Soleil",[["l'espace","L'espace est le milieu de propagation."],["les yeux de l'élève","Les yeux sont le récepteur."],["la Terre","La Terre n'est pas la source de cette lumière : la source est le Soleil."]],"Le Soleil envoie la lumière : c'est l'<b>émetteur</b>.")
+]},
+sonores:{
+1:[
+ I("Les signaux sonores sont des ondes :","mécaniques",[["électromagnétiques","Les ondes électromagnétiques sont les signaux <b>lumineux</b> et <b>radio</b>."],["lumineuses","Les ondes lumineuses sont des signaux lumineux, pas des sons."],["radio","Les ondes radio sont électromagnétiques ; les sons sont des ondes mécaniques."]],"Les signaux sonores sont des ondes <b>mécaniques</b>."),
+ I("Avec quoi l'Homme perçoit-il les sons ?","les oreilles (l'ouïe)",[["les yeux (la vue)","Les yeux perçoivent la lumière, pas les sons."],["les antennes","Les antennes détectent les ondes radio, pas les sons."],["le nez (l'odorat)","Le nez sent les odeurs ; les sons se perçoivent avec les oreilles."]],"Un son est perçu avec les <b>oreilles</b>, grâce à l'ouïe."),
+ I("Un son que l'Homme entend est un son :","audible",[["inaudible","Inaudible veut dire « qu'on n'entend pas »."],["invisible","Invisible se dit de ce qu'on ne voit pas."],["silencieux","Un son silencieux, ça n'existe pas : le silence, c'est l'absence de son."]],"Un son perçu avec l'ouïe est <b>audible</b>."),
+ I("Les ultrasons et les infrasons sont des sons :","inaudibles",[["audibles","Audibles, ce sont ceux qu'on entend. Les ultrasons et infrasons sont <b>inaudibles</b>."],["visibles","Un son ne se voit pas : on parle de sons audibles ou inaudibles."],["lumineux","Un son n'est pas lumineux : c'est une onde mécanique."]],"L'Homme n'entend ni les ultrasons ni les infrasons : ils sont <b>inaudibles</b>."),
+ I("Quels sons inaudibles y a-t-il, en plus des ultrasons ?","les infrasons",[["les ultraviolets","Les ultraviolets sont de la lumière, pas des sons."],["les infrarouges","Les infrarouges sont de la lumière, pas des sons."],["les ondes radio","Les ondes radio sont des signaux radio, pas des sons."]],"Les sons inaudibles sont les ultrasons et les <b>infrasons</b>."),
+ I("Pour se propager, un signal sonore a besoin :","de matière",[["de vide","Le son ne se propage <b>pas</b> dans le vide."],["d'antennes","Les antennes servent à détecter les ondes radio."],["de lumière","Un son n'a pas besoin de lumière pour se propager."]],"Un signal sonore a besoin de <b>matière</b> (air, eau, solides) pour se propager."),
+ I("Quel animal utilise les ultrasons pour se repérer et repérer sa proie ?","la chauve-souris",[["le hibou","Le hibou se repère surtout avec la vue et l'ouïe. L'animal du cours est la <b>chauve-souris</b>."],["le chat","Le chat n'utilise pas d'ultrasons pour se repérer. L'animal du cours est la <b>chauve-souris</b>."],["l'écureuil","L'écureuil n'utilise pas d'ultrasons pour se repérer. L'animal du cours est la <b>chauve-souris</b>."]],"La <b>chauve-souris</b> émet des ultrasons qui reviennent quand ils rencontrent un obstacle ou une proie.")
+],
+2:[
+ I("Un son peut-il se propager dans l'espace, où il y a du vide ?","Non : il lui faut de la matière.",[["Oui, comme la lumière.","La lumière se propage dans le vide, mais pas le son."],["Oui, mais moins vite.","Dans le vide, le son ne se propage pas du tout."],["Oui, s'il est très fort.","Même un son très fort ne se propage pas dans le vide."]],"<b>Non</b> : les signaux sonores ne se propagent pas dans le vide."),
+ I("Dans quels milieux un son peut-il se propager ?","l'air, l'eau et les solides (de la matière)",[["seulement dans l'air","L'air est une matière, mais l'eau et les solides aussi."],["seulement dans le vide","Le son ne se propage pas dans le vide."],["dans l'air et dans le vide","Le son ne se propage pas dans le vide."]],"Le son se propage dans toute <b>matière</b> : air, eau, solides."),
+ I("Quelle est la différence entre un son audible et un son inaudible ?","L'Homme entend le premier, pas le second.",[["Le second ne se propage pas.","Un son inaudible se propage aussi, mais l'Homme ne l'entend pas."],["Le premier est mécanique, pas le second.","Tous les sons sont des ondes mécaniques, audibles ou non."],["Le premier se voit, pas le second.","Un son ne se voit pas : on l'entend (ou pas)."]],"Un son audible est perçu par l'ouïe, un son inaudible non."),
+ I("Laquelle de ces ondes est une onde mécanique ?","le son d'une voix",[["la lumière d'une lampe","La lumière est une onde électromagnétique."],["un signal radio","Un signal radio est une onde électromagnétique."],["la lumière rouge","La lumière rouge est une onde électromagnétique."]],"Les sons sont des ondes <b>mécaniques</b>."),
+ I("Une chauve-souris envoie un ultrason. Qu'est-ce qui lui permet de repérer sa proie ?","le son qui revient après avoir rebondi",[["le son qui part, sans retour","C'est le <b>retour</b> du son qui lui apprend où est la proie."],["la lumière envoyée par la proie","Elle se repère avec des ultrasons, pas avec de la lumière."],["un signal radio","Elle utilise des ultrasons, qui sont des sons, pas des ondes radio."]],"Le son fait un aller, puis un <b>retour</b> : la chauve-souris reçoit le son qui revient.")
+],
+3:[
+ I("Dans l'espace, il y a du vide. Un astronaute peut-il entendre le bruit d'une explosion à l'extérieur de son vaisseau ?","Non, car le son ne se propage pas dans le vide.",[["Oui, car le son se propage partout.","Le son ne se propage pas dans le vide."],["Oui, mais très faiblement.","Dans le vide, il n'y a pas de son qui se propage, même faible."],["Non, car une explosion est silencieuse.","Une explosion produit un son ; mais dans le vide, ce son ne se propage pas."]],"Le son a besoin de <b>matière</b> : dans le vide, il ne se propage pas."),
+ I("Le cri d'une chauve-souris fait un aller, puis un retour. Que montre le retour ?","Que le son a rencontré un obstacle ou une proie.",[["Que le son est audible pour l'Homme.","Les ultrasons sont inaudibles pour l'Homme ; ce n'est pas ce que montre le retour."],["Que la proie a envoyé un signal radio.","La chauve-souris utilise des ultrasons, pas des ondes radio."],["Que le son s'est propagé dans le vide.","Le son ne se propage pas dans le vide."]],"Le son rebondit sur un obstacle ou sur une proie, puis <b>revient</b>."),
+ I("Un élève tape contre un mur. Un camarade colle son oreille de l'autre côté du mur et entend. Dans quel milieu le son s'est-il propagé ?","dans un solide",[["dans le vide","Le son ne se propage pas dans le vide."],["dans la lumière","La lumière n'est pas un milieu de propagation du son."],["dans l'espace","Il n'y a pas d'espace entre les deux élèves, et un son ne s'y propagerait pas."]],"Un solide est de la <b>matière</b> : le son peut s'y propager."),
+ I("Quelle phrase est juste pour un ultrason ?","C'est un son inaudible qui se propage dans la matière.",[["C'est une lumière invisible qui se propage dans le vide.","Un ultrason est un son, pas de la lumière."],["C'est un son audible qui se propage dans le vide.","Un ultrason est inaudible, et un son ne se propage pas dans le vide."],["C'est une onde radio qu'on détecte avec une antenne.","Un ultrason est un son, pas une onde radio."]],"Un ultrason est un <b>son inaudible</b> : il se propage dans la matière."),
+ I("Un plongeur entend, sous l'eau, le bruit d'un bateau. Pourquoi est-ce possible ?","Parce que l'eau est de la matière, où le son se propage.",[["Parce que l'eau est du vide.","L'eau est de la matière, pas du vide."],["Parce que le son est une onde radio.","Le son est une onde mécanique, pas une onde radio."],["Parce que le son se propage seulement dans l'air.","Le son se propage aussi dans l'eau et dans les solides."]],"Le son se propage dans la <b>matière</b> : air, eau, solides.")
+]},
+lumineux:{
+1:[
+ I("Les signaux lumineux sont des ondes :","électromagnétiques",[["mécaniques","Les ondes mécaniques sont les signaux <b>sonores</b>."],["sonores","Les ondes sonores sont des sons, pas de la lumière."],["audibles","Audible se dit d'un son qu'on entend, pas d'une lumière."]],"Les signaux lumineux sont des signaux <b>électromagnétiques</b>."),
+ I("Quelles ondes lumineuses l'Homme voit-il ?","les ondes visibles (rouge, jaune, bleu…)",[["les ultraviolets","Les ultraviolets sont des ondes lumineuses invisibles."],["les infrarouges","Les infrarouges sont des ondes lumineuses invisibles."],["toutes les ondes lumineuses","Les ultraviolets et les infrarouges sont des ondes lumineuses qu'on ne voit pas."]],"L'Homme voit les ondes lumineuses <b>visibles</b> : rouge, orange, jaune, vert, bleu, indigo, violet."),
+ I("Les ultraviolets et les infrarouges sont des ondes lumineuses :","invisibles",[["visibles","Visibles, ce sont celles qu'on voit. Les UV et les infrarouges sont <b>invisibles</b>."],["audibles","Audible se dit d'un son, pas d'une lumière."],["mécaniques","Les ondes lumineuses sont électromagnétiques, pas mécaniques."]],"Les ultraviolets et les infrarouges sont des ondes lumineuses <b>invisibles</b>."),
+ I("Que veut dire « UV » ?","ultraviolets",[["ultrasons","Les ultrasons sont des sons ; UV veut dire ultraviolets."],["infrarouges","Les infrarouges s'écrivent IR ; UV veut dire ultraviolets."],["ultravisibles","Ce mot n'existe pas : UV veut dire ultraviolets."]],"UV veut dire <b>ultraviolets</b>."),
+ I("Les couleurs visibles sont : rouge, orange, jaune, vert, bleu, …, violet. Quelle couleur manque ?","indigo",[["rose","Le rose ne fait pas partie des couleurs du spectre de la lumière blanche."],["marron","Le marron ne fait pas partie des couleurs du spectre de la lumière blanche."],["blanc","Le blanc n'est pas une couleur du spectre : la lumière blanche les contient toutes."]],"L'ordre est : rouge, orange, jaune, vert, bleu, <b>indigo</b>, violet."),
+ I("Les informations de la lumière sont perçues grâce à quel sens ?","la vue",[["l'ouïe","L'ouïe sert à percevoir les sons."],["le toucher","Le toucher ne permet pas de percevoir la lumière."],["l'odorat","L'odorat ne permet pas de percevoir la lumière."]],"La lumière est perçue grâce à la <b>vue</b>."),
+ I("Sur la figure du cours, quel élément chimique a pour symbole Na ?","le sodium",[["le mercure","Le symbole du mercure est Hg."],["le lithium","Le symbole du lithium est Li."],["le néon","Le symbole du néon est Ne."]],"Na est le symbole du <b>sodium</b>.")
+],
+2:[
+ I("Dans le spectre de la lumière blanche, quelle couleur est juste à côté des ultraviolets ?","le violet",[["l'indigo","L'indigo vient juste après le violet. Le violet touche les ultraviolets."],["le rouge","Le rouge est de l'autre côté, près des infrarouges."],["le vert","Le vert est au milieu du spectre."]],"Le spectre va des ultraviolets aux infrarouges : <b>violet</b>, indigo, bleu, vert, jaune, orange, rouge."),
+ I("Dans le spectre de la lumière blanche, quelle couleur est juste à côté des infrarouges ?","le rouge",[["le violet","Le violet est de l'autre côté, près des ultraviolets."],["l'orange","L'orange vient juste avant le rouge. Le rouge touche les infrarouges."],["le bleu","Le bleu est vers les ultraviolets, pas près des infrarouges."]],"Le spectre va des ultraviolets aux infrarouges : violet, indigo, bleu, vert, jaune, orange, <b>rouge</b>."),
+ I("Quel est l'ordre juste des couleurs de la lumière visible ?","rouge, orange, jaune, vert, bleu, indigo, violet",[["rouge, jaune, orange, vert, bleu, indigo, violet","L'orange est entre le rouge et le jaune."],["rouge, orange, jaune, bleu, vert, indigo, violet","Le vert est entre le jaune et le bleu."],["rouge, orange, jaune, vert, indigo, bleu, violet","Le bleu est avant l'indigo (dans le sens du rouge vers le violet)."]],"L'ordre est : rouge, orange, jaune, vert, bleu, indigo, violet (ou l'inverse)."),
+ I("Que sont les infrarouges ?","des ondes lumineuses invisibles, juste après le rouge",[["des sons qu'on n'entend pas","Les sons inaudibles sont les ultrasons et les infrasons, pas les infrarouges."],["des ondes lumineuses visibles, avant le violet","Les ondes lumineuses visibles vont du rouge au violet, et les infrarouges sont invisibles."],["des ondes lumineuses invisibles, avant le violet","Avant le violet, ce sont les <b>ultraviolets</b>. Les infrarouges sont après le rouge."]],"Les <b>infrarouges</b> sont des ondes lumineuses invisibles, après le rouge."),
+ I("Que permet de connaître le spectre d'émission d'une étoile ?","sa composition chimique",[["sa distance à la Terre","Le spectre ne donne pas la distance, mais la composition chimique."],["le son qu'elle émet","Une étoile ne se reconnaît pas à un son : on étudie sa lumière."],["sa taille","Le spectre ne donne pas la taille, mais la composition chimique."]],"Les spectres d'émission permettent de connaître la <b>composition chimique</b> d'une étoile ou de l'atmosphère d'une planète."),
+ I("Sur la figure du cours, quel élément chimique a pour symbole Hg ?","le mercure",[["le sodium","Le symbole du sodium est Na."],["le lithium","Le symbole du lithium est Li."],["le néon","Le symbole du néon est Ne."]],"Hg est le symbole du <b>mercure</b>."),
+ I("Sur la figure du cours, quel élément chimique a pour symbole Li ?","le lithium",[["le sodium","Le symbole du sodium est Na."],["le mercure","Le symbole du mercure est Hg."],["le néon","Le symbole du néon est Ne."]],"Li est le symbole du <b>lithium</b>.")
+],
+3:[
+ I("Sur la thermographie d'un immeuble, une grande zone est violette. Que peut-on dire de l'immeuble ?","Il perd peu de chaleur : il est plutôt bien isolé.",[["Il perd beaucoup de chaleur.","Les grandes pertes de chaleur sont en <b>jaune</b>. Le violet représente de petites pertes."],["Il est très chauffé.","Une thermographie montre les pertes de chaleur, pas le chauffage."],["Il n'est pas isolé.","Peu de pertes de chaleur, c'est le contraire : l'immeuble est plutôt bien isolé."]],"Violet : de <b>petites</b> pertes de chaleur. Jaune : de grandes pertes de chaleur."),
+ I("Sur la thermographie d'un immeuble, quelle couleur montre de grandes pertes de chaleur ?","le jaune",[["le violet","Le violet représente de petites pertes de chaleur."],["le vert","Dans le cours, les grandes pertes de chaleur sont en jaune."],["le bleu","Dans le cours, les grandes pertes de chaleur sont en jaune."]],"Jaune : de grandes pertes de chaleur. Violet : de petites pertes."),
+ I("Quelle phrase est juste pour un signal lumineux ?","Il est électromagnétique et se propage dans le vide.",[["Il est mécanique et se propage dans le vide.","Un signal lumineux est électromagnétique, pas mécanique."],["Il est électromagnétique et ne se propage pas dans le vide.","Un signal lumineux se propage dans le vide : c'est ainsi que la lumière du Soleil arrive sur la Terre."],["Il est mécanique et ne se propage pas dans le vide.","C'est la description d'un son. Un signal lumineux est électromagnétique et se propage dans le vide."]],"La lumière est <b>électromagnétique</b> et se propage <b>dans le vide</b>."),
+ I("Dans quel ordre trouve-t-on ces ondes, des ultraviolets vers les infrarouges ?","ultraviolets, violet, vert, rouge, infrarouges",[["ultraviolets, rouge, vert, violet, infrarouges","Les ultraviolets sont à côté du violet, et les infrarouges à côté du rouge."],["ultraviolets, vert, violet, rouge, infrarouges","Le violet est juste à côté des ultraviolets, avant le vert."],["ultraviolets, violet, rouge, vert, infrarouges","Le rouge est juste à côté des infrarouges, après le vert."]],"Du côté des ultraviolets : violet, puis vert, puis rouge, puis les infrarouges."),
+ I("On veut connaître la composition chimique d'une étoile. Que regarde-t-on ?","son spectre d'émission",[["sa thermographie","La thermographie montre des pertes de chaleur, pas la composition chimique."],["son ombre","L'ombre ne dit rien de la composition chimique."],["son bruit","Une étoile ne se reconnaît pas à un son (le son ne se propage pas dans le vide)."]],"Le <b>spectre d'émission</b> donne la composition chimique.")
+]},
+radio:{
+1:[
+ I("Les signaux radio sont des ondes :","électromagnétiques",[["mécaniques","Les ondes mécaniques sont les sons. Les ondes radio sont <b>électromagnétiques</b>."],["sonores","Les ondes sonores sont des sons, pas des signaux radio."],["chimiques","Il n'y a pas d'ondes « chimiques » dans le cours : les signaux radio sont électromagnétiques."]],"Les signaux radio sont des ondes <b>électromagnétiques</b>."),
+ I("Avec quoi détecte-t-on les signaux radio ?","des antennes",[["des oreilles","Les oreilles détectent les sons."],["des yeux","Les yeux détectent la lumière visible."],["des micros","Un micro transforme un son en signal électrique, il ne détecte pas les ondes radio."]],"Les signaux radio sont détectés par des <b>antennes</b>."),
+ I("À quelle vitesse les ondes radio se propagent-elles ?","300 000 km/s (la vitesse de la lumière)",[["300 km/s","Trop lent : la vitesse de la lumière est de trois cent <b>mille</b> kilomètres par seconde."],["3 000 km/s","Trop lent : la vitesse de la lumière est de 300 000 km/s."],["30 000 km/s","Trop lent : la vitesse de la lumière est de 300 000 km/s."]],"Les ondes radio se propagent à la vitesse de la lumière : <b>300 000 km/s</b>."),
+ I("À quoi sert une antenne ?","à détecter des signaux radio",[["à produire des sons","Produire des sons, c'est le rôle d'un haut-parleur."],["à voir la lumière","La lumière se voit avec les yeux."],["à enregistrer la voix","Enregistrer la voix, c'est le rôle d'un micro."]],"Une <b>antenne</b> détecte les signaux radio."),
+ I("Les ondes radio se propagent à la même vitesse que :","la lumière",[["un avion","Un avion est beaucoup plus lent que les ondes radio."],["un train","Un train est beaucoup plus lent que les ondes radio."],["le vent","Le vent est beaucoup plus lent que les ondes radio."]],"Les ondes radio se propagent à la vitesse de la <b>lumière</b>.")
+],
+2:[
+ I("Un signal radio peut-il se propager dans le vide ?","Oui, comme la lumière.",[["Non, comme le son.","C'est le <b>son</b> qui ne se propage pas dans le vide. Les ondes radio s'y propagent."],["Non, il lui faut de la matière.","Les ondes radio se propagent aussi bien dans la matière que dans le vide."],["Oui, mais seulement dans les solides.","Les ondes radio se propagent dans le vide, sans besoin de matière."]],"<b>Oui</b> : les ondes radio se propagent dans la matière et dans le vide."),
+ I("Quelle ressemblance y a-t-il entre les ondes radio et la lumière ?","Ce sont toutes deux des ondes électromagnétiques.",[["Ce sont toutes deux des ondes mécaniques.","Les ondes mécaniques sont les sons."],["On les perçoit toutes deux avec les oreilles.","Les oreilles perçoivent les sons ; la lumière, c'est avec les yeux."],["Toutes deux ont besoin de matière pour se propager.","Ni la lumière ni les ondes radio n'ont besoin de matière : elles se propagent dans le vide."]],"Les ondes radio et la lumière sont des ondes <b>électromagnétiques</b>."),
+ I("Quelle différence y a-t-il entre un son et une onde radio ?","Le son a besoin de matière, pas l'onde radio.",[["L'onde radio a besoin de matière, pas le son.","C'est l'inverse : le son a besoin de matière, l'onde radio s'en passe."],["Le son est électromagnétique, pas l'onde radio.","C'est l'inverse : l'onde radio est électromagnétique, le son est mécanique."],["Seule l'onde radio est perçue par l'ouïe.","L'ouïe perçoit les sons, pas les ondes radio."]],"Le <b>son</b> a besoin de matière ; l'<b>onde radio</b> se propage aussi dans le vide."),
+ I("Quel signal peut se propager dans le vide ?","l'onde radio",[["le son d'une voix","Le son ne se propage pas dans le vide."],["le cri d'une chauve-souris","Ce cri est un ultrason, un son : il ne se propage pas dans le vide."],["le bruit d'un klaxon","Un bruit est un son : il ne se propage pas dans le vide."]],"Une <b>onde radio</b> se propage dans le vide (comme la lumière)."),
+ I("Quel signal détecte une antenne ?","un signal radio",[["un son","Un son se détecte avec les oreilles (ou un micro)."],["la lumière rouge","La lumière rouge se détecte avec les yeux."],["un ultrason","Un ultrason est un son : une antenne ne le détecte pas."]],"Une antenne détecte les <b>signaux radio</b>.")
+],
+3:[
+ I("Un satellite envoie un signal radio vers la Terre à travers l'espace. Dans quel milieu se propage-t-il ?","le vide",[["l'air","L'air entoure seulement la Terre : dans l'espace, il y a le vide."],["l'eau","Il n'y a pas d'eau dans l'espace."],["un solide","Il n'y a pas de solide dans l'espace."]],"Dans l'espace, il y a le <b>vide</b> : les ondes radio s'y propagent."),
+ I("Un satellite émet un signal radio. Quel élément le détecte sur Terre ?","une antenne",[["un micro","Un micro capte les sons, pas les ondes radio."],["un haut-parleur","Un haut-parleur produit des sons, il ne détecte pas les ondes radio."],["un œil","L'œil capte la lumière visible, pas les ondes radio."]],"Les signaux radio sont détectés par des <b>antennes</b>."),
+ I("Un signal lumineux et un signal radio partent en même temps. Lequel arrive le premier ?","Ils arrivent en même temps.",[["La lumière, car elle est plus rapide.","Les ondes radio se propagent à la même vitesse que la lumière."],["Le signal radio, car il est plus rapide.","Les ondes radio se propagent à la même vitesse que la lumière."],["Ça dépend de la couleur.","Le signal radio n'a pas de couleur : il se propage, comme la lumière, à 300 000 km/s."]],"Ondes radio et lumière : même vitesse, <b>300 000 km/s</b>."),
+ I("Deux astronautes dans l'espace, hors de leur vaisseau, ne s'entendent pas. Peuvent-ils communiquer par radio ?","Oui, car les ondes radio se propagent dans le vide.",[["Non, car les ondes radio ont besoin d'air.","Les ondes radio n'ont pas besoin d'air : elles se propagent dans le vide."],["Non, car les ondes radio sont mécaniques.","Les ondes radio sont électromagnétiques, pas mécaniques."],["Oui, car les ondes radio sont des sons.","Les ondes radio ne sont pas des sons : ce sont des ondes électromagnétiques."]],"Dans le vide, le son ne passe pas, mais les <b>ondes radio</b> oui.")
+]},
+codage:{
+1:[
+ I("Pourquoi code-t-on l'information ?","pour contourner les obstacles et parcourir de longues distances",[["pour que le signal aille moins vite","Le codage ne sert pas à ralentir le signal."],["pour supprimer le récepteur","Il faut toujours un récepteur, qui décode l'information."],["pour que personne ne puisse la comprendre","Le récepteur doit pouvoir décoder l'information : le codage ne sert pas à la cacher."]],"La lumière et les sons rencontrent des <b>obstacles</b> : coder l'information permet de les contourner et d'aller loin."),
+ I("Le codage le plus simple utilise combien de valeurs ?","2 valeurs : 0 et 1",[["1 valeur","Avec une seule valeur, le signal ne pourrait rien transporter : il en faut deux, 0 et 1."],["3 valeurs","Le codage le plus simple n'a que deux valeurs : 0 et 1."],["10 valeurs","Dix valeurs (de 0 à 9), c'est plus que le codage le plus simple : 0 et 1 seulement."]],"Dans le codage binaire, le signal prend seulement <b>deux</b> valeurs, 0 et 1."),
+ I("Comment s'appelle le codage où le signal ne prend que deux valeurs, 0 et 1 ?","le codage binaire",[["le codage décimal","Le codage décimal utilise dix chiffres, de 0 à 9."],["le codage lumineux","Lumineux décrit un signal de lumière, pas un codage à deux valeurs."],["le codage sonore","Sonore décrit un signal de son, pas un codage à deux valeurs."]],"Le codage <b>binaire</b> : deux valeurs, 0 et 1."),
+ I("Dans l'exemple du morse, que veut dire la valeur 1 ?","une lampe allumée",[["une lampe éteinte","La lampe éteinte correspond à la valeur <b>0</b>."],["une lampe qui clignote","Dans l'exemple du cours, 1 est une lampe allumée, tout simplement."],["une lampe rouge","La couleur n'a pas d'importance : 1, c'est une lampe allumée."]],"En morse, la valeur 1 est une lampe <b>allumée</b>."),
+ I("Dans l'exemple du morse, que veut dire la valeur 0 ?","une lampe éteinte",[["une lampe allumée","La lampe allumée correspond à la valeur <b>1</b>."],["une lampe qui clignote","Dans l'exemple du cours, 0 est une lampe éteinte, tout simplement."],["une lampe rouge","La couleur n'a pas d'importance : 0, c'est une lampe éteinte."]],"En morse, la valeur 0 est une lampe <b>éteinte</b>."),
+ I("Au téléphone, les sons sont codés en signaux :","radio",[["lumineux","Le téléphone ne code pas les sons en lumière : ce sont des signaux <b>radio</b>."],["mécaniques","Les signaux mécaniques sont les sons : au téléphone, le signal qui voyage est un signal radio."],["ultrasonores","Un ultrason est un son : le signal qui voyage est un signal radio."]],"Le téléphone code les sons en signaux <b>radio</b>, qui parcourent plusieurs kilomètres.")
+],
+2:[
+ I("Dans un téléphone, qu'est-ce qui reçoit la voix et la transforme en signal électrique ?","le micro",[["le haut-parleur","Le haut-parleur fait l'inverse, côté récepteur."],["l'antenne","L'antenne envoie et détecte les signaux radio."],["le satellite","Le satellite relaie le signal radio."]],"Le <b>micro</b> transforme le signal sonore en signal électrique."),
+ I("Dans un téléphone, qu'est-ce qui transforme le signal électrique en signal sonore ?","le haut-parleur",[["le micro","Le micro fait l'inverse, côté émetteur."],["l'antenne","L'antenne détecte les signaux radio."],["le satellite","Le satellite relaie le signal radio."]],"Le <b>haut-parleur</b> transforme le signal électrique en signal sonore."),
+ I("Le signal radio d'un téléphone passe par :","l'antenne du réseau ou un satellite",[["un micro seulement","Le micro capte la voix, il ne relaie pas le signal radio."],["un haut-parleur seulement","Le haut-parleur produit le son à l'arrivée."],["une loupe","Une loupe n'a rien à voir avec un signal radio."]],"Le signal radio passe par l'antenne du réseau ou par un <b>satellite</b>."),
+ I("À la fin de la chaîne, le téléphone décode les signaux radio en signaux :","sonores",[["lumineux","Pour entendre, il faut des signaux <b>sonores</b>."],["infrarouges","Pour entendre, il faut des signaux <b>sonores</b>."],["ultraviolets","Pour entendre, il faut des signaux <b>sonores</b>."]],"Le téléphone décode les signaux radio en signaux <b>sonores</b>, pour que la personne entende."),
+ I("Pourquoi le morse est-il un codage binaire ?","Parce que la lampe n'a que deux états : allumée ou éteinte.",[["Parce qu'il utilise deux lampes.","Il n'y a pas besoin de deux lampes : c'est le nombre de valeurs, deux, qui compte."],["Parce qu'il a deux émetteurs.","Il n'y a qu'un émetteur : c'est le nombre de valeurs, deux, qui compte."],["Parce qu'il utilise des sons.","Dans l'exemple du cours, on utilise une lampe, pas des sons."]],"Deux valeurs possibles : 1 (lampe allumée) et 0 (lampe éteinte)."),
+ morse(false)
+],
+3:[
+ I("Quelle chaîne est juste pour une conversation téléphonique ?","micro → signal radio → haut-parleur",[["haut-parleur → signal radio → micro","Le sens est inversé : la voix entre dans le micro et sort du haut-parleur."],["micro → haut-parleur → signal radio","Le signal radio voyage entre le micro et le haut-parleur."],["signal radio → micro → haut-parleur","Le micro est au début de la chaîne : il capte la voix avant le signal radio."]],"La voix est captée par le micro, voyage en signal radio, puis sort du haut-parleur."),
+ I("Une information est codée en 0 et en 1. Qui doit la décoder ?","le récepteur",[["l'émetteur","L'émetteur <b>code</b> l'information."],["le milieu de propagation","Le milieu de propagation laisse passer le signal."],["la lampe","Dans l'exemple du cours, la lampe est le signal, elle ne décode rien."]],"Le <b>récepteur</b> décode l'information."),
+ I("Pourquoi un signal radio permet-il de téléphoner à des kilomètres ?","Parce qu'une onde radio parcourt de longues distances à 300 000 km/s.",[["Parce qu'une onde radio est un son très fort.","Une onde radio n'est pas un son : c'est une onde électromagnétique."],["Parce qu'une onde radio a besoin d'air pour avancer.","Une onde radio n'a pas besoin d'air : elle se propage aussi dans le vide."],["Parce qu'une onde radio se voit de loin.","Une onde radio est invisible : c'est une antenne qui la détecte."]],"Le signal radio parcourt plusieurs kilomètres à la vitesse de la lumière."),
+ morse(true),
+ morse(false)
+]}
+};
+const INDICE={
+  signal:"<p>Pense à la chaîne : émetteur → milieu de propagation → récepteur.</p>",
+  sonores:"<p>Un son est une onde mécanique : il a besoin de matière pour se propager.</p>",
+  lumineux:"<p>Le spectre : ultraviolets, violet, indigo, bleu, vert, jaune, orange, rouge, infrarouges.</p>",
+  radio:"<p>Une onde radio est électromagnétique, comme la lumière : elle se propage dans le vide.</p>",
+  codage:"<p>Pense à la chaîne du téléphone : micro → signal radio → haut-parleur.</p>"
+};
+
+/* ================= CONTENU : un générateur par compétence ================= */
+// Règles (docs/module-html.md) : une seule bonne réponse, pas de choix en double, un « pourquoi »
+// pour chaque mauvais choix, une correction qui dit la réponse ET pourquoi.
+function genBanque(skill){
+  return function(level){
+    const lv=BANQUE[skill][level]?level:1;
+    let it=pick(BANQUE[skill][lv]);if(typeof it==='function')it=it();
+    const mauvais=shuffle(it.b.slice()).slice(0,3);
+    return Q(skill,level,`<p>${it.p}</p>`,
+      [C(it.g,it.g)].concat(mauvais.map(m=>C(m[0],m[0],m[1]))),it.g,
+      it.h&&it.h.charAt(0)==='<'?it.h:INDICE[skill],
+      `<p>Bonne réponse : <b>${it.g}</b>.</p><p>${it.e}</p>`);
+  };
+}
+// Clés = ids des compétences de la fiche (mêmes ids que la première version du module).
 const SKILLS={signal:{label:'Signal et chaîne d’information'},sonores:{label:'Les signaux sonores'},lumineux:{label:'Les signaux lumineux'},radio:{label:'Les signaux radio'},codage:{label:'Coder et transporter l’information'}};
-const GEN={};Object.keys(POOL).forEach(k=>{GEN[k]=()=>mkEcrire(pick(POOL[k]));});
-const LEVELS={2:{t:'Écrire',d:'écrire la réponse sans aide'}};
+const GEN={};Object.keys(SKILLS).forEach(k=>{GEN[k]=genBanque(k);});
+// 3 niveaux, de 1 à 3.
+const LEVELS={1:{t:'Les mots du cours',d:'reconnaître les notions'},2:{t:'Bien distinguer',d:'ne pas confondre'},3:{t:'Situations',d:'appliquer le cours à des cas concrets'}};
+// 10 questions : chaque compétence deux fois.
+const EVAL_SKILLS=['signal','signal','sonores','sonores','lumineux','lumineux','radio','radio','codage','codage'];
+const CHEER=['Bravo !','Bien joué !','Exact !','Parfait !'];
+
+/* ================= CONTENU : fiches Apprendre ================= */
+// Une fiche par compétence, avec un exemple et une petite question de vérification.
+const spectre=()=>{
+  const c=[['ultraviolets (invisibles)','#6f7590','#fff'],['violet','#7a3cc4','#fff'],['indigo','#3f3fb5','#fff'],['bleu','#2f6fd6','#fff'],['vert','#23813f','#fff'],['jaune','#f2c500','#18233a'],['orange','#f08a00','#18233a'],['rouge','#d93a30','#fff'],['infrarouges (invisibles)','#6f7590','#fff']];
+  return '<div style="margin:10px 0;border-radius:10px;overflow:hidden">'+c.map(x=>`<div style="padding:5px 12px;font-weight:800;font-size:.9rem;background:${x[1]};color:${x[2]}">${x[0]}</div>`).join('')+'</div>';
+};
+const LEARN=[
+  {t:'Signal et chaîne d’information',body:()=>`<p>Un <b>signal</b> transporte une <b>information</b>. L'émetteur la <b>code</b>, le récepteur la <b>décode</b>.</p>
+    <div class="rulebox"><b>La chaîne d'information a 3 éléments</b><br>émetteur → milieu de propagation → récepteur</div>
+    <p>Exemple : des élèves bavardent. Cordes vocales → air → oreilles du professeur.</p>`,
+   q:{p:'Dans l\'exemple, qui est le récepteur ?',c:[C('les oreilles du professeur','les oreilles du professeur'),C('les cordes vocales','les cordes vocales',"Les cordes vocales produisent le son : c'est l'émetteur."),C('l\'air','l\'air',"L'air est le milieu de propagation.")],ok:'les oreilles du professeur'}},
+  {t:'Les signaux sonores',body:()=>`<p>Les signaux sonores sont des ondes <b>mécaniques</b> : elles ont besoin de <b>matière</b> (air, eau, solides) et ne se propagent <b>pas dans le vide</b>.</p>
+    <div class="rulebox">Sons <b>audibles</b> : perçus avec l'ouïe (les oreilles).<br>Sons <b>inaudibles</b> : les ultrasons et les infrasons.</div>
+    <p>La chauve-souris envoie des ultrasons : ils font un aller, puis un retour quand ils rencontrent une proie.</p>`,
+   q:{p:'Un son peut-il se propager dans le vide ?',c:[C('non','Non'),C('oui','Oui',"Le son a besoin de matière : dans le vide, il ne se propage pas."),C('fort','Oui, s\'il est très fort',"Même un son très fort ne se propage pas dans le vide.")],ok:'non'}},
+  {t:'Les signaux lumineux',body:()=>`<p>Les signaux lumineux sont des signaux <b>électromagnétiques</b>. Ils se perçoivent avec la <b>vue</b>.</p>
+    <p>Le spectre de la lumière blanche, des ultraviolets aux infrarouges :</p>${spectre()}
+    <div class="rulebox"><b>Visibles</b> : du violet au rouge.<br><b>Invisibles</b> : les ultraviolets (UV) et les infrarouges.</div>
+    <p>Un <b>spectre d'émission</b> donne la composition chimique d'une étoile (Na : sodium, Hg : mercure, Li : lithium). Sur une <b>thermographie</b>, le jaune montre de grandes pertes de chaleur, le violet de petites.</p>`,
+   q:{p:'Quelle couleur est juste à côté des infrarouges ?',c:[C('rouge','le rouge'),C('violet','le violet',"Le violet est de l'autre côté, près des ultraviolets."),C('bleu','le bleu',"Le bleu est vers les ultraviolets, pas près des infrarouges.")],ok:'rouge'}},
+  {t:'Les signaux radio',body:()=>`<p>Les signaux radio sont des ondes <b>électromagnétiques</b>, comme la lumière. On les détecte avec des <b>antennes</b>.</p>
+    <div class="rulebox">Elles se propagent dans la matière <b>et dans le vide</b>, à la vitesse de la lumière : <b>300 000 km/s</b>.</div>`,
+   q:{p:'À quelle vitesse les ondes radio se propagent-elles ?',c:[C('300000','300 000 km/s'),C('300','300 km/s',"Trop lent : trois cent <b>mille</b> kilomètres par seconde."),C('3000','3 000 km/s',"Trop lent : la vitesse de la lumière est de 300 000 km/s.")],ok:'300000'}},
+  {t:'Coder et transporter l’information',body:()=>`<p>La lumière et les sons rencontrent des <b>obstacles</b> : on <b>code</b> l'information pour les contourner et aller loin.</p>
+    <div class="rulebox"><b>Codage binaire</b> : seulement deux valeurs, 0 et 1.<br>Morse : 1 = lampe <b>allumée</b>, 0 = lampe <b>éteinte</b>.</div>
+    <p>Au téléphone : voix → <b>micro</b> (signal électrique) → signal <b>radio</b> (antenne ou satellite) → <b>haut-parleur</b> (son).</p>`,
+   q:{p:'En morse, que veut dire la valeur 1 ?',c:[C('allumee','une lampe allumée'),C('eteinte','une lampe éteinte',"La lampe éteinte correspond à la valeur 0."),C('deux','deux lampes',"Le 1 est une valeur : lampe allumée.")],ok:'allumee'}},
+  {t:'À retenir',recap:true,body:()=>`<p>• Chaîne d'information : émetteur → milieu de propagation → récepteur.</p>
+    <p>• Son : onde mécanique, a besoin de matière, pas de vide. Ultrasons et infrasons : inaudibles.</p>
+    <p>• Lumière et ondes radio : électromagnétiques, se propagent dans le vide. Radio : antennes, 300 000 km/s.</p>
+    <p>• Spectre : ultraviolets, violet, indigo, bleu, vert, jaune, orange, rouge, infrarouges.</p>
+    <p>• Codage binaire : 0 et 1 (morse : éteinte / allumée).</p>`}
+];
+const LEARN_COUNT=LEARN.length-1;
+
+/* ================= CONTENU : accueil ================= */
+function home(){
+  S={screen:'home'};
+  show(`<section class="hero"><div class="hero-in">
+      <h1>Transmission d’un signal</h1>
+      <p>Physique-chimie : révise le chapitre, puis teste-toi.</p>
+    </div></section>
+    <main class="wrap">
+      <div class="menu">
+        <button class="mbtn m1" data-act="learn"><strong>Apprendre</strong><span>Le chapitre en ${LEARN_COUNT} fiche${LEARN_COUNT>1?'s':''} courte${LEARN_COUNT>1?'s':''}, avec une question à chaque fois</span></button>
+        <button class="mbtn m2" data-act="trainSetup"><strong>S'entraîner</strong><span>Des questions à volonté, avec indices et corrections</span></button>
+        <button class="mbtn m3" data-act="evalSetup"><strong>Évaluation</strong><span>${EVAL_SKILLS.length} questions, sans aide, avec une note à la fin</span></button>
+        <button class="mbtn m4" data-act="bilan"><strong>Mon bilan</strong><span>Dans miniprof : ce qui est réussi, ce qu'il reste à travailler</span></button>
+      </div>
+    </main>`);
+}
 
 /* ================= MOTEUR : suivi miniprof (à garder tel quel) ================= */
 const app=document.getElementById('app');
 /* Les réponses vont dans le journal de l'enfant par ../js/suivi.js ; le bilan est celui de miniprof.
    Sans miniprof (page ouverte ailleurs), on révise sans rien garder. */
 const secs=q=>q.t0?Math.round((Date.now()-q.t0)/1000):0;
-// Chaque réponse est un premier essai : il n'y a pas de deuxième essai dans ce parcours (un mot raté revient plus tard).
-// question = « ecrit-<mot> » (ex. « ecrit-singe »), difficulté 2 (comme avant la suppression du QCM).
-function record(q,ok,rep,w){
-  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:'ecrit-'+w.id,reponse:rep==null?null:rep,duree:secs(q)});
+function record(q,ok,rep){
+  // Rappel invisible (plan P013) : une question ratée du premier coup revient 4 questions plus tard,
+  // sous une autre forme (même compétence, même niveau). L'enfant ne voit aucune « passe ».
+  if(!ok&&S&&S.mode==='train'&&S.rappels)S.rappels.push({skill:q.skill,level:q.level,apres:S.tried+4});
+  if(window.miniprof)window.miniprof.reponse({competence:q.skill,juste:ok,mode:'e',difficulte:q.level,question:q.skill,reponse:rep==null?null:rep,duree:secs(q)});
 }
-let S={screen:'home'};      // écran courant (question en cours, choix, mot tapé)
-let P=null;                 // le parcours : mots à poser, rappels, fautes
+function genQuestion(skill,level){
+  if(!skill||skill==='all')skill=pick(Object.keys(GEN));
+  return GEN[skill](level);
+}
+// Jamais deux fois la même question dans une séance d'entraînement : on retire (jusqu'à 40 essais, au
+// cas où la compétence aurait peu de questions : elle peut alors revenir, mais en dernier recours).
+// Même question = même énoncé et même réponse (un énoncé comme « Lequel est l'intrus ? » revient
+// légitimement, avec une autre réponse ; des choix différents autour de la même question ne comptent pas).
+const cleQuestion=q=>String(q.prompt)+'|'+String(q.exp&&q.exp.c);
+function questionNeuve(skill,level){
+  let q,n=0;
+  do{q=genQuestion(skill,level);n++;}while(S.vus&&S.vus.has(cleQuestion(q))&&n<40);
+  if(S.vus)S.vus.add(cleQuestion(q));
+  return q;
+}
+const LVL=Object.keys(LEVELS).map(Number);
+const MAXL=LVL[LVL.length-1];
+
+let S={screen:'home'};
 function show(html){app.innerHTML=html;window.scrollTo(0,0);}
 function topbar(title,backAct){
-  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Quitter</button><span class="ttl">${title}</span></div></div>`;
+  return `<div class="topbar"><div class="topbar-in"><button class="back" data-act="${backAct||'home'}">← Retour</button><span class="ttl">${title}</span></div></div>`;
 }
 
-/* ================= MOTEUR : le parcours (écrire les mots, rappels invisibles) ================= */
-// Chaque mot est posé une fois, dans le désordre : une devinette, l'enfant écrit le mot. Une bonne
-// réponse enchaîne tout de suite sur le mot suivant (aucun message). Un mot raté montre sa correction,
-// puis revient 4 questions plus tard (rappel), sans que l'enfant voie de « passe » : une jauge montre
-// les mots acquis et un compteur les bonnes réponses. Quand tous les mots ont été posés, les mots qui ont eu une faute sont
-// reposés une dernière fois (vérification cachée), jusqu'à une vérification sans faute. Alors : bilan.
-// Un mot réussi du premier coup n'est jamais reposé (plan P013, règle des dictées).
-function home(){
-  S={screen:'home'};P=null;
-  show(`<section class="hero"><div class="hero-in">
-      <h1>Transmission d’un signal</h1>
-      <p>Physique-chimie 6e : les ${TOUS.length} notions du chapitre 2.</p>
-    </div></section>
-    <main class="wrap">
-      <div class="card">
-        <p>Une question à la fois : tu écris la réponse toi-même.</p>
-        <p class="small">Les notions ratées reviennent un peu plus tard, jusqu'à ce que tu les saches.</p>
-      </div>
-      <div class="btns"><button class="btn primary" data-act="start" data-primary>Commencer</button></div>
-    </main>`);
-}
-// P.queue : les mots (puis, en vérification, ceux à reposer) ; P.rappels : mots ratés qui reviennent ;
-// P.aVerifier : ids des mots ratés pas encore revalidés à la vérification ; P.n : réponses données
-// (sert à espacer les rappels).
-function start(){
-  P={bonnes:0,plus:false,errs:{},t0:Date.now(),mode:'principal',queue:shuffle(TOUS.slice()),i:0,rappels:[],aVerifier:new Set(),n:0};
-  ask();
-}
-// Le mot suivant : un rappel échu, sinon la suite, sinon les rappels restants, sinon une vérification
-// des mots ratés ; null quand tout est fini.
-function prochainMot(){
-  const k=P.rappels.findIndex(r=>r.apres<=P.n);
-  if(k>=0)return P.rappels.splice(k,1)[0].w;
-  if(P.i<P.queue.length)return P.queue[P.i++];
-  if(P.rappels.length)return P.rappels.shift().w;
-  if(P.aVerifier.size>0){
-    P.mode='verif';P.queue=shuffle(TOUS.filter(w=>P.aVerifier.has(w.id)));P.i=0;
-    return P.queue[P.i++];
+/* ================= MOTEUR : Apprendre ================= */
+function learn(step){S={screen:'learn',ls:step||0};renderLearn();}
+function renderLearn(){
+  const st=LEARN[S.ls];let body;
+  if(st.recap){
+    body=`<div class="card">${st.body()}</div>
+      <div class="btns"><button class="btn primary" data-act="trainSetup" data-primary>Je m'entraîne</button><button class="btn" data-act="home">Accueil</button></div>`;
+  }else{
+    const q=st.q;
+    body=`${st.body()}<div class="card"><p class="q-prompt"><b>À toi :</b> ${q.p}</p>
+      <div class="choices">${shuffle(q.c.slice()).map(c=>`<button class="choice" data-act="lchoose" data-v="${esc(c.v)}">${c.label}</button>`).join('')}</div><div id="lfb"></div></div>
+      <div class="btns" id="lacts"></div>`;
   }
-  return null;
+  show(`${topbar('Apprendre')}<main class="wrap"><p class="small">Fiche ${S.ls+1} sur ${LEARN.length}</p><div class="dots" aria-hidden="true">${LEARN.map((x,i)=>`<i class="${i<S.ls?'done':i===S.ls?'cur':''}"></i>`).join('')}</div><h2>${st.t}</h2><div style="margin-top:8px">${body}</div></main>`);
 }
-function ask(){
-  const w=prochainMot();
-  if(w===null){final();return;}
-  const q=mkEcrire(w);
-  S={screen:'q',q,w,done:false};
-  // compteur : il monte à chaque bonne réponse, même sur un mot raté plus tôt (sponsor, 21/11/2026)
-  const plus=P.plus;P.plus=false;
-  // jauge : les mots pas encore posés ou pas encore revalidés ne sont pas « acquis »
-  const attente=(P.mode==='principal'?P.queue.length-P.i:0)+P.aVerifier.size+(P.aVerifier.has(w.id)?0:1);
-  const acquis=Math.max(0,TOUS.length-attente),pc=Math.round(100*acquis/TOUS.length);
-  show(`${topbar('Écrire les notions')}<main class="wrap qwrap">
-    <div class="bar" aria-hidden="true"><i style="width:${pc}%"></i></div>
-    <p class="small"><b class="compteur">${P.bonnes} bonne${P.bonnes>1?'s':''} réponse${P.bonnes>1?'s':''}</b>${plus?'<span class="plus">+1</span>':''}</p>
-    <div class="card"><div class="q-prompt">${q.prompt}</div>
-      <div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Ta réponse"></div></div>
-    <div id="fb"></div>
-    <div class="btns"><span id="acts" class="acts"><button class="btn primary" id="ok" data-act="check" data-primary hidden>Valider</button></span></div>
-    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
-  q.t0=Date.now();
-  const champ=document.getElementById('rep');
-  if(champ)champ.focus();   // le clavier reste ouvert d'un mot au suivant
-}
-function aReponse(){
-  const i=document.getElementById('rep');
-  return !!(i&&norm(i.value));
-}
-function majValider(){const b=document.getElementById('ok');if(b&&!S.done)b.hidden=!aReponse();}
-function check(){
-  if(S.done)return;
-  const q=S.q,w=S.w;
-  const i=document.getElementById('rep'),rep=i?i.value.slice(0,60):'';
-  if(!norm(rep)){document.getElementById('fb').innerHTML='<div class="fb hint">Écris ta réponse.</div>';return;}
-  const v=judgeWrite(q,rep),ok=v.ok;
-  S.done=true;
-  record(q,ok,rep,w);
-  // un mot raté revient 4 questions plus tard, et sera reposé à la vérification ; réussi à la vérification : acquis
-  P.n++;
-  if(!ok){P.errs[w.id]=(P.errs[w.id]||0)+1;P.aVerifier.add(w.id);P.rappels.push({w,apres:P.n+4});}
-  else if(P.mode==='verif')P.aVerifier.delete(w.id);
-  // bonne réponse : on enchaîne, sans message (ça fait perdre du temps)
-  if(ok){P.bonnes++;P.plus=true;ask();return;}
-  i.disabled=true;i.classList.add('bad');
-  document.getElementById('fb').innerHTML=`<div class="fb bad"><p><b>Pas tout à fait.</b></p><p>Tu as écrit : <b>${esc(rep)}</b>. ${v.why}</p></div><div class="fb info">${q.explain}<p class="small">Cette notion reviendra un peu plus tard.</p></div>`;
-  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="ask" data-primary>Question suivante</button>`;
-}
-function final(){
-  S={screen:'final'};
-  const duree=Math.round((Date.now()-P.t0)/1000);
-  const dur=TOUS.filter(w=>P.errs[w.id]).sort((a,b)=>P.errs[b.id]-P.errs[a.id]);
-  const aSavoir=dur.length
-    ?`<h2 style="margin:16px 0 6px">Les notions qui t'ont résisté</h2><div class="rulebox"><p class="big-s" style="margin:0">${dur.map(w=>label(w)+(P.errs[w.id]>1?` (${P.errs[w.id]} fautes)`:'')).join(' · ')}</p></div>`
-    :`<p>Aucune faute du début à la fin : bravo !</p>`;
-  show(`${topbar('Bilan','home')}<main class="wrap">
-    <div class="card center"><div class="score">${TOUS.length}<span style="font-size:1.6rem;color:var(--muted)"> notions</span></div>
-      <p style="margin-top:10px"><b>Tu connais les ${TOUS.length} notions du chapitre.</b></p>
-      <p class="small">${Math.floor(duree/60)} min ${duree%60} s</p></div>
-    ${aSavoir}
-    <div class="btns"><button class="btn primary" data-act="bilan" data-primary>Mon bilan</button><button class="btn" data-act="start">Recommencer</button><button class="btn ghost" data-act="home">Accueil</button></div></main>`);
+function learnChoose(el){
+  const q=LEARN[S.ls].q,v=el.dataset.v,fb=document.getElementById('lfb');
+  if(v===q.ok){
+    app.querySelectorAll('.choice').forEach(c=>{c.disabled=true;c.classList.add('locked');});
+    el.classList.add('good');
+    fb.innerHTML=`<div class="fb good"><p><b>${pick(CHEER)}</b></p></div>`;
+    document.getElementById('lacts').innerHTML=`<button class="btn primary" data-act="lnext" data-primary>${S.ls<LEARN.length-2?'Fiche suivante':'Terminer'}</button>`;
+  }else{
+    el.classList.add('bad');el.disabled=true;
+    fb.innerHTML=`<div class="fb hint"><p><b>Pas tout à fait.</b> ${q.c.find(c=>c.v===v).why}</p></div>`;
+  }
 }
 
+/* ================= MOTEUR : entraînement / évaluation ================= */
+function levelChips(sel,mix){
+  let s='<div class="chips">';
+  if(mix)s+=`<button class="chip ${sel===0?'on':''}" data-act="lvl" data-v="0">Mixte<small>un peu de tout</small></button>`;
+  for(const i of LVL)s+=`<button class="chip ${sel===i?'on':''}" data-act="lvl" data-v="${i}">${LEVELS[i].t}<small>${LEVELS[i].d}</small></button>`;
+  return s+'</div>';
+}
+function skillChips(sel){
+  let s=`<div class="chips"><button class="chip ${sel==='all'?'on':''}" data-act="sk" data-v="all">Tout mélangé</button>`;
+  for(const k in SKILLS)s+=`<button class="chip ${sel===k?'on':''}" data-act="sk" data-v="${k}">${SKILLS[k].label}</button>`;
+  return s+'</div>';
+}
+function trainSetup(keep){
+  if(!keep||S.screen!=='trainSetup')S={screen:'trainSetup',level:S.level||1,skill:S.skillPref||'all'};
+  show(`${topbar("S'entraîner")}<main class="wrap">
+    <h2>Choisis ton niveau</h2>${levelChips(S.level,false)}
+    <h2>Que veux-tu travailler ?</h2>${skillChips(S.skill)}
+    <div class="btns"><button class="btn primary" data-act="trainStart" data-primary>Commencer</button></div></main>`);
+}
+function evalSetup(keep){
+  if(!keep||S.screen!=='evalSetup')S={screen:'evalSetup',level:S.evalLevel===undefined?0:S.evalLevel};
+  show(`${topbar('Évaluation')}<main class="wrap">
+    <h2>On passe à l'évaluation ?</h2>
+    <p>${EVAL_SKILLS.length} questions sur toute la leçon, sans indice. Tu vois les corrections à la fin.</p>
+    <h2 style="margin-top:14px">Niveau</h2>${levelChips(S.level,true)}
+    <div class="btns"><button class="btn primary" data-act="evalStart" data-primary>Lancer l'évaluation</button></div></main>`);
+}
+const hasPic=q=>q.choices.some(c=>String(c.label).indexOf('<svg')>=0);
+function qScreen(){
+  const q=S.q,ev=S.mode==='eval';
+  let head;
+  if(ev){let d='';for(let i=0;i<S.total;i++)d+=`<i class="${i<S.i?'done':i===S.i?'cur':''}"></i>`;
+    head=`<div class="dots" aria-hidden="true">${d}</div><p class="small">Question ${S.i+1} sur ${S.total} : ${SKILLS[q.skill].label.toLowerCase()}</p>`;}
+  else{const nb=S.bonnes||0;head=`<p class="small">${SKILLS[q.skill].label}. <b class="compteur">${nb} bonne${nb>1?'s':''} réponse${nb>1?'s':''}</b>${S.plus?'<span class="plus">+1</span>':''}</p>`;S.plus=false;}
+  show(`${topbar(ev?'Évaluation':"S'entraîner",ev?'quitEval':'trainSetup')}<main class="wrap qwrap">
+    ${head}
+    <div class="card"><div class="q-prompt">${q.prompt}</div>
+      ${q.write
+        // clavier de l'iPhone sans suggestions ni correction automatique : l'enfant écrit seul
+        ?`<div class="write"><input id="rep" type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" aria-label="Ta réponse" placeholder="Écris ta réponse"></div>`
+        :`<div class="choices ${hasPic(q)?'pics':''}">${q.choices.map((c,i)=>`<button class="choice" data-act="choose" data-v="${esc(c.v)}">${hasPic(q)?`<span class="pl">${'ABCDEF'[i]}</span>`:''}${c.label}</button>`).join('')}</div>`}</div>
+    <div id="hint"></div><div id="fb"></div>
+    <div class="btns"><span id="acts" class="acts"></span></div>
+    <div class="sigbar"><div id="sig"></div><button class="btn sigbtn" data-act="sig">⚑ Une erreur ?</button></div></main>`);
+  S.choice=null;S.attempts=0;S.retry=false;q.t0=Date.now();boutons();
+  const champ=document.getElementById('rep');
+  if(champ)champ.focus();   // le clavier reste ouvert d'une question à écrire à la suivante
+}
 /* ================= MOTEUR : signaler un problème ================= */
-// Bouton « Une erreur ? » : l'enfant confirme (Oui / Non), puis miniprof garde une copie de la question
-// (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+// Bouton « Une erreur ? » à côté de « Valider » : l'enfant confirme (Oui / Non), puis miniprof garde une
+// copie de la question (énoncé, choix, réponse attendue, réponse donnée) avec un commentaire facultatif.
+// Pourquoi une copie : les questions sont tirées au hasard, sans identifiant à retrouver ensuite.
 const txt=h=>{const d=document.createElement('div');d.innerHTML=h==null?'':h;return d.textContent.replace(/\s+/g,' ').trim();};
 function sigAsk(){
   document.getElementById('sig').innerHTML=`<div class="fb info"><p><b>Tu penses qu'il y a une erreur dans cette question ?</b></p>
@@ -471,6 +552,139 @@ function sigSend(el){
   if(t&&t.value.trim()&&window.miniprof)window.miniprof.commenter(el.dataset.id,t.value);
   zone.innerHTML='<div class="fb good"><p>Merci, c\'est noté.</p></div>';
 }
+// Boutons de la question (P010, 12/10/2026). « Valider » n'apparaît que lorsque l'élève a proposé
+// une réponse (mot tapé, choix, dessin non vide). Après une erreur, « Réessayer » efface sa
+// proposition ; « Valider » revient (caché) tant qu'il n'a rien reproposé.
+function aReponse(){
+  if(S.q&&S.q.draw)return Object.keys(S.grid||{}).length>0;
+  const i=document.getElementById('rep');
+  return i?!!norm(i.value):!!S.choice;
+}
+function majValider(){const b=document.getElementById('ok');if(b)b.hidden=!aReponse();}
+function boutons(){
+  const ev=S.mode==='eval',last=ev&&S.i===S.total-1;
+  const aide=ev?'':'<button class="btn ghost" data-act="hint">Un indice</button>'+(S.attempts>0?'<button class="btn ghost" data-act="reveal">Voir la correction</button>':'');
+  const principal=S.retry
+    ?'<button class="btn primary" data-act="retry" data-primary>Réessayer</button>'
+    :`<button class="btn primary" id="ok" data-act="check" data-primary hidden>${ev?(last?'Valider et terminer':'Valider et continuer'):'Valider'}</button>`;
+  document.getElementById('acts').innerHTML=principal+aide;
+  majValider();
+}
+// L'élève propose (ou modifie) une réponse : si « Réessayer » attendait, « Valider » reprend sa place.
+function surProposition(){if(S.retry){S.retry=false;boutons();}else majValider();}
+function reessayer(){
+  S.retry=false;S.choice=null;
+  const i=document.getElementById('rep');
+  if(i){i.value='';i.focus();}
+  // QCM : la réponse fausse repasse en neutre (elle était rouge et grisée)
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.remove('sel','bad');c.disabled=false;});
+  boutons();
+}
+function setFb(html){document.getElementById('fb').innerHTML=html;}
+function lockChoices(){
+  const inp=document.getElementById('rep');
+  if(inp){inp.disabled=true;inp.classList.add(S.q.write&&judgeWrite(S.q,inp.value).ok?'good':'bad');}
+  app.querySelectorAll('.choice').forEach(c=>{c.classList.add('locked');c.disabled=true;
+    if(c.dataset.v===S.q.exp.c)c.classList.add('good');else if(c.dataset.v===S.choice)c.classList.add('bad');});
+}
+// la réponse tapée (question à écrire), coupée à 60 caractères pour le journal
+function lireEcrit(){const i=document.getElementById('rep');return i?i.value.slice(0,60):'';}
+function checkTrain(){
+  let v=null;
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse.</div>');return;}v=judgeWrite(S.q,S.choice);}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse.</div>');return;}
+  const q=S.q;S.attempts++;
+  const ok=v?v.ok:S.choice===q.exp.c;
+  // seul le premier essai compte dans le journal (sinon cliquer au hasard gonfle la réussite)
+  if(S.attempts===1){S.tried++;if(ok){S.okCount++;S.streak++;}else S.streak=0;record(q,ok,S.choice);}
+  if(ok){
+    lockChoices();
+    // le compteur monte à chaque bonne réponse, même au deuxième essai (sponsor, 21/11/2026)
+    S.bonnes=(S.bonnes||0)+1;S.plus=true;
+    let extra='';
+    if(S.streak===5&&S.attempts===1&&S.level<MAXL)extra=`<p>${S.streak} réussites d'affilée : tu peux passer au niveau ${LEVELS[S.level+1].t}.</p>`;
+    // bonne réponse : question suivante tout de suite, sans « Bravo » (sponsor, 21/11/2026)
+    if(!extra){nextTrain();return;}
+    setFb(`<div class="fb good"><p><b>${pick(CHEER)}</b>${S.attempts>1?' Tu as trouvé au deuxième essai.':''}</p>${q.explain}${extra}</div>`);
+    document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>${extra?`<button class="btn" data-act="levelup">Niveau ${LEVELS[S.level+1].t}</button>`:''}`;
+  }else if(S.attempts===1||(v&&S.attempts<3)){
+    // une question à écrire laisse 3 essais : l'enfant corrige son mot lui-même
+    const c=v?null:q.choices.find(c=>c.v===S.choice);
+    const why=v?v.why+'<br><span class="small">Appuie sur « Réessayer » ou touche le champ, puis écris ta réponse à nouveau.</span>':(c&&c.why?c.why:'Relis la question et réessaie.');
+    setFb(`<div class="fb bad"><p><b>Pas tout à fait.</b> ${why}</p></div>`);
+    if(!v)app.querySelectorAll('.choice').forEach(b=>{if(b.dataset.v===S.choice){b.classList.remove('sel');b.classList.add('bad');b.disabled=true;}});
+    S.choice=null;
+    S.retry=true;boutons();
+  }else revealTrain();
+}
+function revealTrain(){
+  if(S.attempts===0){S.attempts=1;S.tried++;S.streak=0;record(S.q,false,null);}
+  lockChoices();
+  setFb(`<div class="fb info"><p><b>Correction</b></p>${S.q.explain}</div>`);
+  document.getElementById('acts').innerHTML=`<button class="btn primary" data-act="next" data-primary>Question suivante</button>`;
+}
+function nextTrain(){
+  const i=S.rappels?S.rappels.findIndex(r=>r.apres<=S.tried):-1;
+  if(i>=0){const r=S.rappels.splice(i,1)[0];S.q=questionNeuve(r.skill,r.level);}
+  else S.q=questionNeuve(S.skill,S.level);
+  qScreen();
+}
+
+// Une évaluation ne pose jamais deux fois la même question : on retire une question déjà
+// sortie (jusqu'à 30 essais, au cas où une compétence aurait peu de questions).
+// Signalé par le sponsor le 12/10/2026 (la même question deux fois dans une évaluation).
+function tirerSansDoublon(skills,niveau){
+  const vus=new Set();
+  // même question = même énoncé ET mêmes choix (un énoncé comme « Lequel est l'intrus ? » revient
+  // légitimement avec d'autres mots)
+  const cle=q=>q.prompt+'|'+(q.choices||[]).map(c=>c.v).sort().join(',')+'|'+q.exp.c;
+  return skills.map((s,i)=>{let q,n=0;do{q=genQuestion(s,niveau(i));n++;}while(vus.has(cle(q))&&n<30);vus.add(cle(q));return q;});
+}
+function evalStart(){
+  const lvl=S.level;
+  // Mixte (0) : les niveaux tournent, pour que chacun soit représenté
+  const qs=tirerSansDoublon(shuffle(EVAL_SKILLS.slice()),i=>lvl===0?LVL[i%LVL.length]:lvl);
+  S={screen:'eval',mode:'eval',evalLevel:lvl,level:lvl,qs,i:0,total:qs.length,results:[],t0:Date.now(),
+    cle:window.miniprof?window.miniprof.debutEvaluation(lvl):null};
+  S.q=qs[0];qScreen();
+}
+function checkEval(){
+  if(S.q.write){S.choice=lireEcrit();if(!norm(S.choice)){setFb('<div class="fb hint">Écris ta réponse avant de continuer.</div>');return;}}
+  else if(!S.choice){setFb('<div class="fb hint">Choisis une réponse avant de continuer.</div>');return;}
+  S.results.push({q:S.q,ans:S.choice,ok:S.q.write?judgeWrite(S.q,S.choice).ok:S.choice===S.q.exp.c,duree:secs(S.q)});
+  S.i++;
+  if(S.i>=S.total){evalEnd();return;}
+  S.q=S.qs[S.i];qScreen();
+}
+const lblOf=(q,v)=>{if(q.write)return esc(v);const c=q.choices.find(c=>c.v===v);return c?c.label:'';};
+function evalEnd(){
+  const res=S.results,score=res.filter(r=>r.ok).length,total=res.length;
+  const duree=Math.round((Date.now()-S.t0)/1000);
+  const sk={};
+  res.forEach(r=>{const s=sk[r.q.skill]||(sk[r.q.skill]=[0,0]);s[1]++;if(r.ok)s[0]++;});
+  // l'évaluation est enregistrée d'un bloc à la fin : abandonnée au milieu, elle ne compte pas
+  if(window.miniprof)window.miniprof.reponse(res.map(r=>({competence:r.q.skill,juste:r.ok,mode:'v',difficulte:r.q.level,
+    question:r.q.skill,reponse:r.ans,duree:r.duree,evaluation:S.cle})));
+  let weakest=null,wp=2;for(const k in sk){const p=sk[k][0]/sk[k][1];if(p<wp){wp=p;weakest=k;}}
+  const pc=score/total;
+  const msg=pc>=.9?"Excellent ! Tu maîtrises ta leçon.":pc>=.7?"Très bien ! Il ne reste que quelques détails à revoir.":pc>=.5?"Bon début. Regarde les corrections, puis entraîne-toi encore un peu.":"Pas de panique : relis les fiches Apprendre, puis entraîne-toi.";
+  const bars=Object.keys(sk).map(k=>{const p=Math.round(100*sk[k][0]/sk[k][1]);return `<div><div class="row" style="justify-content:space-between"><span>${SKILLS[k].label}</span><b>${sk[k][0]}/${sk[k][1]}</b></div><div class="bar"><i class="${p<50?'low':p<80?'mid':''}" style="width:${p}%"></i></div></div>`;}).join('');
+  const rev=res.map((r,i)=>`<details class="rev ${r.ok?'okk':'koo'}"><summary>${r.ok?'✓':'✗'} Question ${i+1} : ${SKILLS[r.q.skill].label}</summary>
+    <div class="q-prompt">${r.q.prompt}</div>
+    <p>Ta réponse :</p><div class="ans">${lblOf(r.q,r.ans)}</div>
+    ${r.ok?'':`<p>Bonne réponse :</p><div class="ans good">${lblOf(r.q,r.q.exp.c)}</div>`}
+    <div class="fb info">${r.q.explain}</div></details>`).join('');
+  S.screen='result';S.weakest=weakest;
+  show(`${topbar('Résultat','home')}<main class="wrap">
+    <div class="card center"><div class="score">${score}<span style="font-size:1.6rem;color:var(--muted)"> / ${total}</span></div>
+      <p style="margin-top:10px">${msg}</p><p class="small">Temps : ${Math.floor(duree/60)} min ${duree%60} s</p></div>
+    <h2>Par compétence</h2><div style="margin-top:10px">${bars}</div>
+    <h2 style="margin:16px 0 6px">Les corrections</h2>${rev}
+    <div class="btns">
+      ${weakest&&wp<1?`<button class="btn primary" data-act="trainWeak" data-primary>Travailler : ${SKILLS[weakest].label}</button>`:''}
+      <button class="btn" data-act="evalSetup">Recommencer</button><button class="btn" data-act="bilan">Mon bilan</button><button class="btn ghost" data-act="home">Accueil</button>
+    </div></main>`);
+}
 
 /* ================= MOTEUR : bilan (celui de miniprof) ================= */
 function bilan(){
@@ -479,24 +693,44 @@ function bilan(){
 }
 
 /* ================= MOTEUR : actions ================= */
+// Ajouter ici les actions propres au module (ex. un labo) avant « default ».
 function act(a,el){
   switch(a){
     case 'home':home();break;
-    case 'start':start();break;
-    case 'ask':ask();break;
-    case 'choose':if(S.done)break;S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));majValider();break;
-    case 'check':check();break;
+    case 'learn':learn(0);break;
+    case 'lchoose':learnChoose(el);break;
+    case 'lnext':if(S.ls<LEARN.length-1){S.ls++;renderLearn();}break;
+    case 'trainSetup':trainSetup(false);break;
+    case 'lvl':S.level=Number(el.dataset.v);if(S.screen==='trainSetup')trainSetup(true);else evalSetup(true);break;
+    case 'sk':S.skill=el.dataset.v;S.skillPref=S.skill;trainSetup(true);break;
+    case 'trainStart':S={screen:'train',mode:'train',level:S.level,skill:S.skill,skillPref:S.skill,tried:0,okCount:0,streak:0,vus:new Set(),rappels:[]};nextTrain();break;
+    case 'trainWeak':S={screen:'train',mode:'train',level:1,skill:S.weakest,skillPref:S.weakest,tried:0,okCount:0,streak:0,vus:new Set(),rappels:[]};nextTrain();break;
+    case 'levelup':S.level=Math.min(S.level+1,MAXL);S.streak=0;nextTrain();break;
+    case 'evalSetup':evalSetup(false);break;
+    case 'evalStart':evalStart();break;
+    case 'quitEval':evalSetup(false);break;
+    case 'choose':S.choice=el.dataset.v;app.querySelectorAll('.choice').forEach(c=>c.classList.toggle('sel',c===el));surProposition();break;
+    case 'retry':reessayer();break;
+    case 'check':S.mode==='eval'?checkEval():checkTrain();break;
+    case 'hint':document.getElementById('hint').innerHTML=`<div class="fb hint"><p><b>Indice</b></p>${S.q.hint}</div>`;break;
+    case 'reveal':revealTrain();break;
     case 'sig':sigAsk();break;
     case 'signo':document.getElementById('sig').innerHTML='';break;
     case 'sigyes':sigYes();break;
     case 'sigsend':sigSend(el);break;
+    case 'next':nextTrain();break;
     case 'bilan':bilan();break;
     default:break;
   }
 }
 app.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(t&&!t.disabled)act(t.dataset.act,t);});
 // un mot tapé = une proposition : « Valider » apparaît
-app.addEventListener('input',e=>{if(e.target.id==='rep')majValider();});
+app.addEventListener('input',e=>{if(e.target.id==='rep')surProposition();});
+// Après une erreur, toucher le champ ou y taper efface l'ancien mot, comme « Réessayer » (P010, retour du 12/10).
+const effacerSiReessai=e=>{if(S.retry&&e.target.id==='rep')reessayer();};
+app.addEventListener('pointerdown',effacerSiReessai);
+app.addEventListener('focusin',effacerSiReessai);
+app.addEventListener('beforeinput',effacerSiReessai);
 // touche Entrée (« OK » du clavier de l'iPhone) dans le champ de réponse = bouton principal
 app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.preventDefault();const b=app.querySelector('[data-primary]');if(b&&!b.hidden)b.click();}});
 
@@ -508,7 +742,7 @@ app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.pr
   const refuser=(i,avant)=>{
     i.value=avant;
     const fb=document.getElementById('fb');
-    if(fb)fb.innerHTML='<div class="fb hint"><p>Écris ta réponse toi-même, lettre par lettre : pas de micro ni de collage.</p></div>';
+    if(fb)fb.innerHTML='<div class="fb hint"><p>Écris le mot toi-même, lettre par lettre : pas de micro ni de collage.</p></div>';
   };
   app.addEventListener('beforeinput',e=>{
     if(!champ(e))return;
@@ -527,7 +761,7 @@ app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='rep'){e.pr
 
 // Tirage automatique (tools/tirage.py) : la page donne ses générateurs au lieu de s'afficher.
 // window.__miniprofTirage n'existe que dans l'outil, jamais dans un navigateur.
-if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN:[],SKILLS,EVAL_SKILLS:[]});return;}
+if(window.__miniprofTirage){window.__miniprofTirage({GEN,LEVELS,LEARN,SKILLS,EVAL_SKILLS});return;}
 home();
 
 })();
